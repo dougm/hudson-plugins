@@ -7,7 +7,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   
-  <artifactId>hello-world</artifactId>
+  <artifactId>promoted-builds</artifactId>
   <packaging>hpi</packaging>
-  <name>Hudson hello-world plugin</name>
+  <name>Hudson promoted builds testplugin</name>
 </project>

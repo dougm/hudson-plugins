@@ -8,7 +8,7 @@
   </parent>
   
   <groupId>org.jvnet.hudson.plugins</groupId>
-  <artifactId>pom</artifactId>
+  <artifactId>plugin</artifactId>
   <name>Hudson plugin POM</name>
   <packaging>pom</packaging>
   
@@ -41,5 +41,11 @@
   
   <modules>
     <module>hello-world</module>
+    <module>japex</module>
+    <module>javatest-report</module>
+    <module>javanet-uploader</module>
+    <module>jwsdp-sqe</module>
+    <module>jprt</module>
+    <module>promoted-builds</module>
   </modules>
 </project>

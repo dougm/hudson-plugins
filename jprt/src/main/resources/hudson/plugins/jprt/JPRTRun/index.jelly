@@ -1,0 +1,95 @@
+<!--
+  JPRT Job result top page
+-->
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+  <l:layout title="${it.parent.name} #${it.id}">
+    <st:include page="sidepanel.jelly" />
+    <l:main-panel>
+      <t:buildCaption>
+        JPRT Job: ${it.id}
+      </t:buildCaption>
+
+      <j:set var="status" value="${it.status}" />
+      <table>
+        <tr>
+          <td>Source input:</td>
+          <td>${status.sourceFiles}</td>
+        </tr>
+
+        <j:set var="primaryPath" value="${status.sourceFiles.primaryParentPath}"/>
+        <j:if test="${primaryPath!=null}">
+          <tr>
+            <td>Parent:</td>
+            <td>${primaryPath}</td>
+          </tr>
+        </j:if>
+
+        <tr>
+          <td>Job state:</td>
+          <td>${status.state}</td>
+        </tr>
+
+        <j:if test="${status.killComment!=null}">
+          <tr>
+            <td>Job fail/kill comment:</td>
+            <td>${status.killComment}</td>
+          </tr>
+        </j:if>
+
+        <!-- TODO: add more as you like -->
+      </table>
+
+
+
+      <h2>Builds</h2>
+      <j:set var="headingStatus" value="${status.buildTargetStatusList[0]}"/>
+      <j:if test="${headingStatus!=null}">
+        <p>
+          (Release: ${headingStatus.productRelease}, Boot: ${headingStatus.bootProduct}, Import: ${headingStatus.importProduct})
+        </p>
+      </j:if>
+      <table class="sortable" id="buildStatusSummaryReport">
+        <tr>
+          <th>Platform</th>
+          <th>Status</th>
+          <th>Duration</th>
+          <th>Log file</th>
+        </tr>
+        <j:forEach var="buildStatus" items="${status.buildTargetStatusList}">
+          <tr>
+            <td>${buildStatus}</td>
+            <td>
+              <img src="${rootURL}/images/16x16/${it._getStatusUrl(buildStatus.state)}"/>
+              ${buildStatus.state}
+            </td>
+            <td class='right'>${buildStatus.startTime.delta(buildStatus.finishTime)}</td>
+            <td>
+              <a href="${it.getBuildLogURL(buildStatus)}">
+                log file
+              </a>
+            </td>
+          </tr>
+        </j:forEach>
+      </table>
+
+
+      <j:if test="${!empty(status.testTargetStatusList)}">
+        <h2>Tests</h2>
+        <table class="sortable" id="testStatusSummaryReport">
+          <tr>
+            <th>Platform</th>
+            <th>Status</th>
+            <th>Duration</th>
+          </tr>
+          <j:forEach var="testStatus" items="${status.testTargetStatusList}">
+            <tr>
+              <td>${testStatus}</td>
+              <td><img src="${rootURL}/images/16x16/${it._getStatusUrl(testStatus.state)}"/> ${testStatus.state}</td>
+              <td class='right'>${testStatus.startTime.delta(testStatus.finishTime)}</td>
+            </tr>
+          </j:forEach>
+        </table>
+      </j:if>
+    </l:main-panel>
+  </l:layout>
+</j:jelly>

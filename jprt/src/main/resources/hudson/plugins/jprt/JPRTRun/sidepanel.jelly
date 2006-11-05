@@ -1,0 +1,42 @@
+<!--
+  Side panel for the JPRT  run.
+-->
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+  <l:header>
+    <!-- addtional CSS style for all the JPRTRun views -->
+    <style>
+      #buildStatusSummaryReport TD {
+        padding-left: 2em;
+        padding-right: 2em;
+      }
+      #buildStatusSummaryReport TD.right {
+        text-align:right;
+      }
+
+      #testStatusSummaryReport TD {
+        padding-left: 2em;
+        padding-right: 2em;
+      }
+      #testStatusSummaryReport TD.right {
+        text-align:right;
+      }
+    </style>
+  </l:header>
+  <l:side-panel>
+    <l:tasks>
+      <j:set var="buildUrl" value="${h.decompose(request)}" />
+      <l:task icon="images/24x24/up.gif" href="${rootURL}/${it.parent.url}" title="Back to JPRT" />
+      <l:task icon="images/24x24/search.gif" href="${buildUrl.baseUrl}/" title="Status" />
+      <j:if test="${it.hasArtifacts}">
+        <l:task icon="images/24x24/package.gif" href="artifacts-index" title="Artifacts" />
+      </j:if>
+      <st:include page="actions.jelly"/>
+      <j:if test="${it.previousBuild!=null}">
+        <l:task icon="images/24x24/previous.gif" href="${rootURL}/${it.previousBuild.url}" title="Previous Run" />
+      </j:if>
+      <j:if test="${it.nextBuild!=null}">
+        <l:task icon="images/24x24/next.gif" href="${rootURL}/${it.nextBuild.url}" title="Next Run" />
+      </j:if>
+    </l:tasks>
+  </l:side-panel>
+</j:jelly>

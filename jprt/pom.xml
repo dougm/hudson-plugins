@@ -1,0 +1,34 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.jvnet.hudson.plugins</groupId>
+    <artifactId>plugin</artifactId>
+    <version>1.0</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  
+  <artifactId>jprt</artifactId>
+  <packaging>hpi</packaging>
+  <name>Hudson JPRT plugin</name>
+  
+  <repositories>
+    <repository>
+      <id>jprt-libs</id>
+      <url>file:./lib</url>
+      <layout>legacy</layout>
+    </repository>
+  </repositories>
+  
+  <dependencies>
+    <dependency>
+      <groupId>jdom</groupId>
+      <artifactId>jdom</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jvnet.hudson.plugins.jprt</groupId>
+      <artifactId>jprt</artifactId>
+      <version>hudson-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+</project>
