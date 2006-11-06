@@ -5,6 +5,7 @@ import hudson.tasks.BuildStep;
 
 /**
  * @author Rama Pulavarthi
+ * @plugin
  */
 public class PluginImpl extends Plugin {
     public void start() throws Exception {
