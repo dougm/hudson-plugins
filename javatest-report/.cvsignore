@@ -1,2 +1,6 @@
 build
 target
+.classpath
+.project
+javatest-report.iml
+.settings
