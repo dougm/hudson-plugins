@@ -23,6 +23,11 @@
   
   <build>
     <!--
+      Since new versions need to overwrite old versions, it's better
+      not to have version number in the .hpi file name.
+    -->
+    <finalName>${project.artifactId}</finalName>
+    <!--
       I don't really understand how this works, but it makes Maven recognizes
       <packaging>hpi</packaging> defined in maven-hpi-plugin.
       
