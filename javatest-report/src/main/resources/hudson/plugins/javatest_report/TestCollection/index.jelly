@@ -11,6 +11,31 @@
       <j:set var="prev" value="${it.previousResult}" />
       <test:bar />
 
+      <j:if test="${it.failCount!=0}">
+          <h2>All Failed Tests</h2>
+          <table class="pane sortable">
+            <tr>
+              <td class="pane-header">Test Name</td>
+              <td class="pane-header" style="width:4em">Age</td>
+            </tr>
+            <j:forEach var="f" items="${it.failedTests}" varStatus="i">
+              <j:set var="childCount" value="${f.children.size()}"/>
+              <tr>
+                <j:if test="${childCount==0}">
+                    <j:set var="foo" value="../../artifact/java-test-work/${f.statusMessage}"/>
+                    <td class="pane"><a href="${foo}">${f.displayName}</a></td>
+                </j:if>
+                <j:if test="${childCount !=0}">
+                    <td class="pane"><a href="${f.id}/">${f.displayName}</a></td>
+                </j:if>
+                <td class="pane" style="text-align:right;">
+                  ${f.age}
+                </td>
+              </tr>
+            </j:forEach>
+          </table>
+        </j:if>
+
       <j:if test="${it.totalCount!=0}">
         <h2>All Tests</h2>
         <table class="pane sortable" id="testresult">
@@ -18,6 +43,7 @@
             <td class="pane-header">${it.childTitle}</td>
             <td class="pane-header" style="width:5em">Fail</td>
             <td class="pane-header" style="width:1em; font-size:smaller; white-space:nowrap;">(diff)</td>
+            <td class="pane-header" style="width:5em">Age</td>
             <td class="pane-header" style="width:5em">Total</td>
             <td class="pane-header" style="width:1em; font-size:smaller; white-space:nowrap;">(diff)</td>
           </tr>
@@ -37,6 +63,9 @@
                 <td class="pane" style="text-align:right">
                   ${h.getDiffString2(p.failCount-prev.failCount)}
                 </td>
+                <td class="pane" style="text-align:right;">
+                    ${p.age}
+                </td>                
                 <td class="pane" style="text-align:right">${p.totalCount}</td>
                 <td class="pane" style="text-align:right">
                   ${h.getDiffString2(p.totalCount-prev.totalCount)}

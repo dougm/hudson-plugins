@@ -26,12 +26,19 @@ public abstract class TestCollection<
      * All {@link Test}s keyed by their ID.
      */
     private final Map<String,C> tests = new TreeMap<String,C>();
-
+    /**
+     * All Failed Tests keyed by their ID.
+     */
+    private final Map<String,C> failedTests = new TreeMap<String,C>();
     private int totalCount;
     private int failCount;
 
     public Collection<C> getChildren() {
         return tests.values();
+    }
+
+    public Collection<C> getFailedTests() {
+        return failedTests.values();
     }
 
     public int getTotalCount() {
@@ -61,6 +68,8 @@ public abstract class TestCollection<
      */
     public void add(C t) {
         tests.put(t.getId(),t);
+        if(t.getStatus() != Status.PASS)
+            failedTests.put(t.getId(),t);
         totalCount += t.getTotalCount();
         failCount += t.getFailCount();
         t.parent = this;

@@ -70,6 +70,14 @@ public abstract class TestObject<S extends TestObject<S>>
     // set by the TestCollection when this is added to it.
     TestCollection parent;
 
+    /**
+     * This test has been failing since this build number (not id.)
+     * <p/>
+     * If {@link #getStatus()}  is {@link Status.PASS}}, this field is left unused to 0.
+     */
+    private /*final*/ int failedSince;
+
+
     /*package*/ TestObject() {
     }
 
@@ -98,14 +106,49 @@ public abstract class TestObject<S extends TestObject<S>>
     }
 
     public final String getDisplayName() {
-        if(name!=null)
+        if(name!=null) {
+            if(name.equals("unknown")) {
+                return id.substring(7);
+            }
             return name;
-        else
+        } else
             return id;
     }
 
     public Build getOwner() {
         return parent.getOwner();
+    }
+
+    /**
+     * If this test failed, then return the build number
+     * when this test started failing.
+     */
+    public int getFailedSince() {
+        // some old test data doesn't have failedSince value set, so for those compute them.
+        if (!isPassed() && failedSince == 0) {
+            TestObject prev = getPreviousResult();
+            if (prev != null && !prev.isPassed()) {
+                this.failedSince = prev.failedSince;
+                //   this.failedSince = prev.getFailedSince();
+            } else
+                this.failedSince = getOwner().getNumber();
+        }
+        return failedSince;
+    }
+
+    private boolean isPassed() {
+        return getStatus() == Status.PASS;
+    }
+
+    /**
+     * Gets the number of consecutive builds (including this)
+     * that this test case has been failing.
+     */
+    public int getAge() {
+        if (isPassed())
+            return 0;
+        else
+            return getOwner().getNumber() - failedSince + 1;
     }
 
     /**
