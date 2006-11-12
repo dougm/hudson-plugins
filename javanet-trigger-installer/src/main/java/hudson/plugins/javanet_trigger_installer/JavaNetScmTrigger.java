@@ -1,11 +1,8 @@
 package hudson.plugins.javanet_trigger_installer;
 
-import hudson.triggers.Trigger;
 import hudson.model.Descriptor;
-import hudson.model.Project;
+import hudson.triggers.Trigger;
 import org.kohsuke.stapler.StaplerRequest;
-import org.kohsuke.jnt.JavaNet;
-import org.kohsuke.jnt.ProcessingException;
 
 /**
  * {@link Trigger} for java.net CVS change notification e-mail.

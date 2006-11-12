@@ -1,14 +1,13 @@
 package hudson.plugins.javanet_trigger_installer;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.logging.Logger;
-import java.util.logging.Level;
-import java.io.IOException;
-
 import org.kohsuke.jnt.JavaNet;
 import org.kohsuke.jnt.ProcessingException;
-import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Does the actual job of subscribing/unsubscribing.
