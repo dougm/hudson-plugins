@@ -29,6 +29,10 @@ public class JavaNetScmTrigger extends Trigger {
             return "Monitor change in java.net CVS/SVN repository";
         }
 
+        public String getHelpFile() {
+            return "/plugin/javanet-trigger-installer/help.html";
+        }
+
         public Trigger newInstance(StaplerRequest staplerRequest) throws FormException {
             return new JavaNetScmTrigger();
         }
