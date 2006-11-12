@@ -37,7 +37,7 @@ public class JavaNetScmTrigger extends Trigger {
         }
 
         public String getDisplayName() {
-            return "Monitor change in java.net CVS/SVN repository";
+            return "Monitor changes in java.net CVS/SVN repository";
         }
 
         public String getHelpFile() {

@@ -21,17 +21,17 @@ public class PluginImpl extends Plugin {
 
     public void start() throws Exception {
         Triggers.TRIGGERS.add(JavaNetScmTrigger.DESCRIPTOR);
+
+        // start a thread that talks to java.net
         worker = new Worker();
         worker.start();
 
         // run resynchronization once a day
         long HOUR = 1000*60*60;
         long DAY = HOUR*24;
-
         sync = new SyncThread();
         Trigger.timer.scheduleAtFixedRate(sync,DAY,DAY);
     }
-
 
     public void stop() throws Exception {
         if(worker!=null)
@@ -42,6 +42,9 @@ public class PluginImpl extends Plugin {
 //
 // web methods
 //
+    /**
+     * Runs the synchronizer now.
+     */
     public void doSyncNow(StaplerRequest req, StaplerResponse rsp) throws IOException {
         sync.run();
         rsp.setStatus(HttpServletResponse.SC_OK);

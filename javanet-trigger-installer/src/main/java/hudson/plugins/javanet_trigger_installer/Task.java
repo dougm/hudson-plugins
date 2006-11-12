@@ -71,15 +71,14 @@ abstract class Task {
             if(adrs !=null) {
                 if(subscribe)
                     return; // already subscribed
-                LOGGER.info("Subscribing "+project.getName()+" to java.net SCM trigger");
-
-                list.massSubscribe("hudson-"+project.getName()+calcSuffix()+"@hudson.sfbay.sun.com",
-                    SubscriptionMode.NORMAL);
+                LOGGER.info("Unsubscribing "+project.getName()+" from java.net SCM trigger");
+                list.massUnsubscribe(Collections.singletonList(adrs), SubscriptionMode.NORMAL, null);
             } else {
                 if(!subscribe)
                     return; // already unsubscribed
-                LOGGER.info("Unsubscribing "+project.getName()+" from java.net SCM trigger");
-                list.massUnsubscribe(Collections.singletonList(adrs), SubscriptionMode.NORMAL, null);
+                LOGGER.info("Subscribing "+project.getName()+" to java.net SCM trigger");
+                list.massSubscribe("hudson-"+project.getName()+calcSuffix()+"@hudson.sfbay.sun.com",
+                    SubscriptionMode.NORMAL);
             }
         }
 
