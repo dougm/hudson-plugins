@@ -1,0 +1,51 @@
+package hudson.plugins.javanet_trigger_installer;
+
+import hudson.Plugin;
+import hudson.triggers.Trigger;
+import hudson.triggers.Triggers;
+import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerResponse;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ *
+ * @author Kohsuke Kawaguchi
+ * @plugin
+ */
+public class PluginImpl extends Plugin {
+
+    private Worker worker;
+    private SyncThread sync;
+
+    public void start() throws Exception {
+        Triggers.TRIGGERS.add(JavaNetScmTrigger.DESCRIPTOR);
+        worker = new Worker();
+        worker.start();
+
+        // run resynchronization once a day
+        long HOUR = 1000*60*60;
+        long DAY = HOUR*24;
+
+        sync = new SyncThread();
+        Trigger.timer.scheduleAtFixedRate(sync,DAY,DAY);
+    }
+
+
+    public void stop() throws Exception {
+        if(worker!=null)
+            worker.interrupt();
+        worker = null;
+    }
+
+//
+// web methods
+//
+    public void doSyncNow(StaplerRequest req, StaplerResponse rsp) throws IOException {
+        sync.run();
+        rsp.setStatus(HttpServletResponse.SC_OK);
+        rsp.setContentType("text/plain");
+        rsp.getWriter().println("started");
+    }
+}
