@@ -17,13 +17,13 @@
       <groupId>org.jvnet.hudson.main</groupId>
       <artifactId>hudson-war</artifactId>
       <type>war</type>
-      <version>1.60</version>
+      <version>1.61</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.jvnet.hudson.main</groupId>
       <artifactId>hudson-core</artifactId>
-      <version>1.60</version>
+      <version>1.61</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
@@ -46,7 +46,7 @@
       <plugin>
         <groupId>org.jvnet.hudson.tools</groupId>
         <artifactId>maven-hpi-plugin</artifactId>
-        <version>1.1</version>
+        <version>1.2</version>
         <extensions>true</extensions>
       </plugin>
     </plugins>
@@ -57,6 +57,7 @@
     <module>japex</module>
     <module>javatest-report</module>
     <module>javanet-uploader</module>
+    <module>javanet-trigger-installer</module>
     <module>jwsdp-sqe</module>
     <module>jprt</module>
     <module>promoted-builds</module>
