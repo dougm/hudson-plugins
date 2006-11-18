@@ -10,23 +10,9 @@
   <artifactId>javanet-uploader</artifactId>
   <packaging>hpi</packaging>
   <name>Hudson java.net uploader plugin</name>
+  <version>1.1-SNAPSHOT</version>
   
   <dependencies>
-    <!-- temp override -->
-    <dependency>
-      <groupId>org.jvnet.hudson.main</groupId>
-      <artifactId>hudson-war</artifactId>
-      <type>war</type>
-      <version>1.63-SNAPSHOT</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jvnet.hudson.main</groupId>
-      <artifactId>hudson-core</artifactId>
-      <version>1.63-SNAPSHOT</version>
-      <scope>provided</scope>
-    </dependency>
-    
     <dependency>
       <groupId>javanettasks</groupId>
       <artifactId>javanettasks</artifactId>
