@@ -3,3 +3,5 @@ build
 .project
 javanet-uploader.iml
 .settings
+work
+target
