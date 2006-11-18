@@ -1,6 +1,7 @@
 package hudson.plugins.javanet_uploader;
 
 import hudson.Launcher;
+import hudson.Util;
 import hudson.model.Action;
 import hudson.model.Build;
 import hudson.model.BuildListener;
@@ -18,6 +19,7 @@ import org.kohsuke.stapler.StaplerRequest;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * {@link Publisher} that uploads files to java.net documents and files section.
@@ -64,8 +66,10 @@ public class JNUploaderPublisher extends Publisher {
                 return true;
             }
 
+            Map<String,String> envVars = build.getEnvVars();
+
             for (Entry e : entries) {
-                String folderPath = e.getFilePath();
+                String folderPath = Util.replaceMacro(e.getFilePath(),envVars);
                 int idx = folderPath.lastIndexOf('/');
 
                 listener.getLogger().println("Uploading "+e.getSourceFile()+" to java.net");
@@ -80,7 +84,8 @@ public class JNUploaderPublisher extends Publisher {
                 if(folder==null)
                     throw new ProcessingException("No such folder "+folderPath+" on project "+this.project);
 
-                File local = new File(build.getProject().getWorkspace().getLocal(), e.getSourceFile());
+                File local = new File(build.getProject().getWorkspace().getLocal(),
+                    Util.replaceMacro(e.getSourceFile(),envVars));
                 if(!local.exists())
                     throw new ProcessingException("No such file exists locally: "+local);
 
@@ -89,7 +94,9 @@ public class JNUploaderPublisher extends Publisher {
                     file.delete();
                 }
 
-                folder.uploadFile(fileName,e.getDescription(),e.getStatus(),local);
+                folder.uploadFile(fileName,
+                    Util.replaceMacro(e.getDescription(),envVars),
+                    e.getStatus(),local);
             }
         } catch (ProcessingException e) {
             e.printStackTrace(listener.error("Failed to access java.net"));

@@ -1,0 +1,8 @@
+<div>
+  File to be uploaded. This is relative to <a href="ws">the workspace root</a>.
+  One file per entry (no wildcard.)
+  <br />
+  It can include
+  <a href="${request.contextPath}/env-vars.html">macro variables like '$BUILD_NUMBER'</a>,
+  which will be substituted by their actual values.
+</div>

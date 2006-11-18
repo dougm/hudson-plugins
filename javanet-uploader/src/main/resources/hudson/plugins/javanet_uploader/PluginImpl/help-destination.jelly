@@ -3,4 +3,8 @@
   including the file name. For example, <tt>/snapshot/hudson.war</tt>. Note that it starts
   with '/', and doesn't include the project name. If the file already exists, it will be
   overwritten.
+  <br />
+  It can include
+  <a href="${request.contextPath}/env-vars.html">macro variables like '$BUILD_NUMBER'</a>,
+  which will be substituted by their actual values.
 </div>
