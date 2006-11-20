@@ -61,5 +61,6 @@
     <module>jwsdp-sqe</module>
     <module>jprt</module>
     <module>promoted-builds</module>
+    <module>xvnc</module>
   </modules>
 </project>
