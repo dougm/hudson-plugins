@@ -3,3 +3,4 @@ build
 .classpath
 jwsdp-sqe.iml
 .settings
+target
