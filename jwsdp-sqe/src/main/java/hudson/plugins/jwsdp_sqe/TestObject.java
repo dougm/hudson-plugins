@@ -33,7 +33,7 @@ public abstract class TestObject<S extends TestObject<S>>
      */
     private String description;
 
-    private Status status;
+    protected Status status;
 
     /**
      * Optional message that complements status.

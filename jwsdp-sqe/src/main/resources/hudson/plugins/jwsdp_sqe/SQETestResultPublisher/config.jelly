@@ -9,4 +9,8 @@
     <input class="setting-input" name="sqetest_includes"
       type="text" value="${instance.includes}"/>
   </f:entry>
+  <f:entry title="Consider Test as executable Object"
+           description="Specify if Test should be considered as testcase when generating the report for total count.">
+    <f:checkbox name="sqetest_testobject" checked="${instance.considerTestAsTestObject}"/>    
+  </f:entry>
 </j:jelly>

@@ -10,15 +10,34 @@ package hudson.plugins.jwsdp_sqe;
  * @author Kohsuke Kawaguchi
  */
 public class Test extends TestCollection<Test,TestCase> {
+    boolean considerTestAsTestObject = false;
     public String getChildTitle() {
         return "Test Case";
     }
 
     public int getTotalCount() {
-        return super.getTotalCount()+1;
+        if(considerTestAsTestObject)
+            return super.getTotalCount()+1;
+        else {
+            if(super.getTotalCount() != 0)
+                return super.getTotalCount();
+            else
+                return 1;
+        }
     }
 
     public int getFailCount() {
-        return super.getFailCount() + (getStatus()==Status.PASS ? 0 : 1);
+        if(considerTestAsTestObject)
+            return super.getFailCount() + (getStatus()==Status.PASS ? 0 : 1);
+        else {
+            if (super.getTotalCount() != 0)
+                return super.getFailCount();
+            else
+                return (getStatus() == Status.PASS ? 0 : 1);
+        }
+    }
+
+    public void setconsiderTestAsTestObject() {
+        this.considerTestAsTestObject = true;
     }
 }

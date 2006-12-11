@@ -27,13 +27,13 @@ import java.util.logging.Logger;
  */
 public class SQETestAction extends AbstractTestResultAction<SQETestAction> implements StaplerProxy {
     private transient WeakReference<Report> result;
-
+    private boolean considerTestAsTestObject = false;
     private int failCount;
     private int totalCount;
 
-    SQETestAction(Build owner, DirectoryScanner results, BuildListener listener) {
+    SQETestAction(Build owner, DirectoryScanner results, BuildListener listener, boolean considerTestAsTestObject) {
         super(owner);
-
+        this.considerTestAsTestObject = considerTestAsTestObject;
         listener.getLogger().println("Collecting JWSDP SQE reports");
 
         int counter=0;
@@ -69,6 +69,9 @@ public class SQETestAction extends AbstractTestResultAction<SQETestAction> imple
         return new File(owner.getRootDir(), "sun-sqe-result");
     }
 
+    public boolean considerTestAsTestObject() {
+        return considerTestAsTestObject;
+    }
     public synchronized Report getResult() {
         if(result==null) {
             Report r = load(null);

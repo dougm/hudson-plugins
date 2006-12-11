@@ -54,6 +54,8 @@ public final class Report extends TestCollection<Report,Suite> {
         digester.addObjectCreate("*/testcase",TestCase.class);
         digester.addSetNext("*/testsuite","add");
         digester.addSetNext("*/test","add");
+        if(owner.considerTestAsTestObject())
+            digester.addCallMethod("*/test", "setconsiderTestAsTestObject");
         digester.addSetNext("*/testcase","add");
 
         // common properties applicable to more than one TestObjects.

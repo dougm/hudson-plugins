@@ -71,4 +71,16 @@ public abstract class TestCollection<
     public C getDynamic(String name, StaplerRequest req, StaplerResponse rsp) {
         return get(name);
     }
+
+    public Status getStatus() {
+        if (status == null && (tests.size() != 0)) {
+            for (TestObject to : tests.values()) {
+                if (to.getStatus() != Status.PASS) {
+                    return Status.FAIL;
+                }
+            }
+            return Status.PASS;
+        }
+        return status;
+    }
 }

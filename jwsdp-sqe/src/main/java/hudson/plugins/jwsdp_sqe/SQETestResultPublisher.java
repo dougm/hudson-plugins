@@ -20,9 +20,14 @@ import org.kohsuke.stapler.StaplerRequest;
 public class SQETestResultPublisher extends Publisher {
 
     private final String includes;
+    /**
+     * Flag to capture if test should be considered as executable TestObject
+     */
+    boolean considerTestAsTestObject = false;
 
-    public SQETestResultPublisher(String includes) {
+    public SQETestResultPublisher(String includes, boolean considerTestAsTestObject) {
         this.includes = includes;
+        this.considerTestAsTestObject = considerTestAsTestObject;
     }
 
     /**
@@ -32,6 +37,9 @@ public class SQETestResultPublisher extends Publisher {
         return includes;
     }
 
+    public boolean getConsiderTestAsTestObject() {
+        return considerTestAsTestObject;
+    }
     public boolean perform(Build build, Launcher launcher, BuildListener listener) {
         FileSet fs = new FileSet();
         org.apache.tools.ant.Project p = new org.apache.tools.ant.Project();
@@ -46,7 +54,7 @@ public class SQETestResultPublisher extends Publisher {
             build.setResult(Result.FAILURE);
         }
 
-        SQETestAction action = new SQETestAction(build, ds, listener);
+        SQETestAction action = new SQETestAction(build, ds, listener, considerTestAsTestObject);
         build.getActions().add(action);
 
         Report r = action.getResult();
@@ -77,7 +85,7 @@ public class SQETestResultPublisher extends Publisher {
         }
 
         public Publisher newInstance(StaplerRequest req) {
-            return new SQETestResultPublisher(req.getParameter("sqetest_includes"));
+            return new SQETestResultPublisher(req.getParameter("sqetest_includes"),(req.getParameter("sqetest_testobject")!=null));
         }
     };
 }
