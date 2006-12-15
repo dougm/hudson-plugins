@@ -55,6 +55,7 @@
   <modules>
     <module>build-timeout</module>
     <module>hello-world</module>
+    <module>ircbot</module>
     <module>japex</module>
     <module>javatest-report</module>
     <module>javanet-uploader</module>
