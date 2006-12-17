@@ -89,7 +89,6 @@ public class IrcPublisher extends Publisher {
     	transient volatile IrcBot bot;
     	
 		/**
-		 * @param clazz
 		 */
 		DescriptorImpl() {
 			super(IrcPublisher.class);
