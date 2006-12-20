@@ -26,7 +26,7 @@ public class PluginImpl extends Plugin {
         worker = new Worker();
         worker.start();
 
-        // run resynchronization once a day
+        // run re-synchronization once a day
         long HOUR = 1000*60*60;
         long DAY = HOUR*24;
         sync = new SyncThread();

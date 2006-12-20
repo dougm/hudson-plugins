@@ -13,7 +13,7 @@ public enum Status {
      */
     FAIL("result-failed","fail"),
     /**
-     * Test status ambiguos.
+     * Test status ambiguous.
      */
     AMBIGUOUS("result-failed","ambiguous"),
 

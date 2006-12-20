@@ -49,7 +49,7 @@ public class SQETestResultPublisher extends Publisher {
         DirectoryScanner ds = fs.getDirectoryScanner(p);
 
         if(ds.getIncludedFiles().length==0) {
-            listener.getLogger().println("No SQE test report files wer efound. Configuration error?");
+            listener.getLogger().println("No SQE test report files were found. Configuration error?");
             // no test result. Most likely a configuration error or fatal problem
             build.setResult(Result.FAILURE);
         }

@@ -1,5 +1,5 @@
 <div>
-  This description will apear along with the file name. It can be any text. It can include
+  This description will appear along with the file name. It can be any text. It can include
   <a href="${request.contextPath}/env-vars.html">macro variables like '$BUILD_NUMBER'</a>,
   which will be substituted by their actual values.
 </div>

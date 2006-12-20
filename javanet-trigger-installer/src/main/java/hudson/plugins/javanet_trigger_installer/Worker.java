@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  * Does the actual job of subscribing/unsubscribing.
  *
  * <p>
- * The programatic access to java.net often takes a long time
+ * The programmatic access to java.net often takes a long time
  * to run, so the actual work is done in a separate thread
  * asynchronously.
  *
