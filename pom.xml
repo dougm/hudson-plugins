@@ -60,6 +60,7 @@
     <module>javatest-report</module>
     <module>javanet-uploader</module>
     <module>javanet-trigger-installer</module>
+    <module>jmx</module>
     <module>jwsdp-sqe</module>
     <module>jprt</module>
     <module>promoted-builds</module>
