@@ -1,6 +1,7 @@
 package hudson.plugins.ircbot;
 
 import hudson.Plugin;
+import hudson.model.UserProperties;
 import hudson.tasks.Publisher;
 
 /**
@@ -15,6 +16,7 @@ public class PluginImpl extends Plugin {
         // plugins normally extend Hudson by providing custom implementations
         // of 'extension points'. In this case, we'll add one publisher.
         Publisher.PUBLISHERS.add(IrcPublisher.DESCRIPTOR);
+        UserProperties.LIST.add(IrcUserProperty.DESCRIPTOR);
     }
 
 	/**
