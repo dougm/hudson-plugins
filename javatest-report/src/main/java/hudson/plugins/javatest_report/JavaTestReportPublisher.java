@@ -19,25 +19,26 @@
  */
 package hudson.plugins.javatest_report;
 
+import hudson.FilePath;
+import hudson.FilePath.FileCallable;
 import hudson.Launcher;
-import hudson.model.Action;
+import hudson.remoting.VirtualChannel;
 import hudson.model.Build;
 import hudson.model.BuildListener;
 import hudson.model.Descriptor;
 import hudson.model.Project;
 import hudson.model.Result;
 import hudson.tasks.Publisher;
-import org.kohsuke.stapler.StaplerRequest;
+import hudson.util.IOException2;
 import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.DirectoryScanner;
-import org.apache.tools.ant.taskdefs.Copy;
+import org.kohsuke.stapler.StaplerRequest;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @author Rama Pulavarthi
  */
-
 public class JavaTestReportPublisher extends Publisher {
     private final String includes;
     private final String jtwork;
@@ -61,22 +62,71 @@ public class JavaTestReportPublisher extends Publisher {
         return jtwork;
     }
 
-    public boolean perform(Build build, Launcher launcher, BuildListener listener) {
-        archiveJTWork(build,listener);
-        FileSet fs = new FileSet();
-        org.apache.tools.ant.Project p = new org.apache.tools.ant.Project();
-        fs.setProject(p);
-        fs.setDir(build.getProject().getWorkspace().getLocal());
-        fs.setIncludes(includes);
-        DirectoryScanner ds = fs.getDirectoryScanner(p);
+    /**
+     * Indicates an orderly abortion of the processing.
+     */
+    private static final class AbortException extends IOException {
+        public AbortException(String s) {
+            super(s);
+        }
+    }
 
-        if(ds.getIncludedFiles().length==0) {
-            listener.getLogger().println("No Java test report files were found. Configuration error?");
-            // no test result. Most likely a configuration error or fatal problem
+    public boolean perform(Build build, Launcher launcher, final BuildListener listener) throws IOException, InterruptedException {
+        final long buildTime = build.getTimestamp().getTimeInMillis();
+
+        archiveJTWork(build,listener);
+
+        listener.getLogger().println("Collecting Java Test reports");
+
+        // target directory
+        File dataDir = JavaTestAction.getDataDir(build);
+        dataDir.mkdirs();
+        final FilePath target = new FilePath(dataDir);
+
+        try {
+            build.getProject().getWorkspace().act(new FileCallable<Void>() {
+                public Void invoke(File ws, VirtualChannel channel) throws IOException {
+                    FileSet fs = new FileSet();
+                    org.apache.tools.ant.Project p = new org.apache.tools.ant.Project();
+                    fs.setProject(p);
+                    fs.setDir(ws);
+                    fs.setIncludes(includes);
+                    String[] includedFiles = fs.getDirectoryScanner(p).getIncludedFiles();
+
+                    if(includedFiles.length==0)
+                        // no test result. Most likely a configuration error or fatal problem
+                        throw new AbortException("No Java test report files were found. Configuration error?");
+
+                    int counter=0;
+
+                    // archive report files.
+                    // this is not the most efficient way to do this,
+                    // but there usually aren't too many report files, so this works OK in practice.
+                    for (String file : includedFiles) {
+                        File src = new File(ws, file);
+
+                        if(src.lastModified()<buildTime) {
+                            listener.getLogger().println("Skipping "+src+" because it's not up to date");
+                            continue;       // not up to date.
+                        }
+
+                        try {
+                            new FilePath(src).copyTo(target.child("report"+(counter++)+".xml"));
+                        } catch (InterruptedException e) {
+                            throw new IOException2("aborted while copying "+src,e);
+                        }
+                    }
+                    return null;
+                }
+            });
+        } catch (AbortException e) {
+            listener.getLogger().println(e.getMessage());
             build.setResult(Result.FAILURE);
+            return true; /// but this is not a fatal error
         }
 
-        JavaTestAction action = new JavaTestAction(build, ds, listener);
+
+        JavaTestAction action = new JavaTestAction(build, listener);
         build.getActions().add(action);
 
         Report r = action.getResult();
@@ -93,28 +143,28 @@ public class JavaTestReportPublisher extends Publisher {
         return true;
      }
 
-    private void archiveJTWork(Build owner, BuildListener listener) {
+    private void archiveJTWork(Build owner, BuildListener listener) throws IOException, InterruptedException {
         if (jtwork == null || jtwork.equals("")) {
             listener.getLogger().println("Set Java Test Work directory for better reporting");
         } else {
-            hudson.model.Project p = owner.getProject();
-            Copy copyTask = new Copy();
-            copyTask.setProject(new org.apache.tools.ant.Project());
-            File dir = new File(owner.getArtifactsDir(), "java-test-work");
-            dir.mkdirs();
-            copyTask.setTodir(dir);
-            FileSet src = new FileSet();
-            src.setDir(new File(p.getWorkspace().getLocal(), jtwork));
-            copyTask.addFileset(src);
-            copyTask.execute();
+            Project p = owner.getProject();
+
+            p.getWorkspace().copyRecursiveTo(jtwork,
+                new FilePath(owner.getArtifactsDir()).child("java-test-work"));
         }
     }
 
     public Descriptor<Publisher> getDescriptor() {
-        return DESCRIPTOR;
+        return DescriptorImpl.DESCRIPTOR;
     }
 
-     public static final Descriptor<Publisher> DESCRIPTOR = new Descriptor<Publisher>(JavaTestReportPublisher.class) {
+    /*package*/ static class DescriptorImpl extends Descriptor<Publisher> {
+        public static final Descriptor<Publisher> DESCRIPTOR = new DescriptorImpl();
+
+        public DescriptorImpl() {
+            super(JavaTestReportPublisher.class);
+        }
+
         public String getDisplayName() {
             return "Publish JavaTest result report";
         }
@@ -126,5 +176,5 @@ public class JavaTestReportPublisher extends Publisher {
         public Publisher newInstance(StaplerRequest req) {
             return new JavaTestReportPublisher(req.getParameter("javatest_includes"), req.getParameter("javatest_jtwork"));
         }
-    };
+    }
 }

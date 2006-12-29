@@ -1,23 +1,28 @@
 package hudson.plugins.jwsdp_sqe;
 
+import hudson.FilePath;
+import hudson.FilePath.FileCallable;
 import hudson.Launcher;
-import hudson.model.Action;
+import hudson.remoting.VirtualChannel;
 import hudson.model.Build;
 import hudson.model.BuildListener;
 import hudson.model.Descriptor;
-import hudson.model.Project;
 import hudson.model.Result;
 import hudson.tasks.Publisher;
-import org.apache.tools.ant.DirectoryScanner;
+import hudson.util.IOException2;
 import org.apache.tools.ant.types.FileSet;
 import org.kohsuke.stapler.StaplerRequest;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * Collects SQE test reports and convert them into JUnit format.
  *
  * @author Kohsuke Kawaguchi
  */
-public class SQETestResultPublisher extends Publisher {
+public class SQETestResultPublisher extends Publisher implements Serializable {
 
     private final String includes;
     /**
@@ -40,21 +45,68 @@ public class SQETestResultPublisher extends Publisher {
     public boolean getConsiderTestAsTestObject() {
         return considerTestAsTestObject;
     }
-    public boolean perform(Build build, Launcher launcher, BuildListener listener) {
-        FileSet fs = new FileSet();
-        org.apache.tools.ant.Project p = new org.apache.tools.ant.Project();
-        fs.setProject(p);
-        fs.setDir(build.getProject().getWorkspace().getLocal());
-        fs.setIncludes(includes);
-        DirectoryScanner ds = fs.getDirectoryScanner(p);
 
-        if(ds.getIncludedFiles().length==0) {
-            listener.getLogger().println("No SQE test report files were found. Configuration error?");
-            // no test result. Most likely a configuration error or fatal problem
+    /**
+     * Indicates an orderly abortion of the processing.
+     */
+    private static final class AbortException extends IOException {
+        public AbortException(String s) {
+            super(s);
+        }
+    }
+
+    public boolean perform(Build build, Launcher launcher, final BuildListener listener) throws IOException, InterruptedException {
+        final long buildTime = build.getTimestamp().getTimeInMillis();
+
+        listener.getLogger().println("Collecting JWSDP SQE reports");
+
+        // target directory
+        File dataDir = SQETestAction.getDataDir(build);
+        dataDir.mkdirs();
+        final FilePath target = new FilePath(dataDir);
+
+        try {
+            build.getProject().getWorkspace().act(new FileCallable<Void>() {
+                public Void invoke(File ws, VirtualChannel channel) throws IOException {
+                    FileSet fs = new FileSet();
+                    org.apache.tools.ant.Project p = new org.apache.tools.ant.Project();
+                    fs.setProject(p);
+                    fs.setDir(ws);
+                    fs.setIncludes(includes);
+                    String[] includedFiles = fs.getDirectoryScanner(p).getIncludedFiles();
+
+                    if(includedFiles.length==0)
+                        // no test result. Most likely a configuration error or fatal problem
+                        throw new AbortException("No SQE test report files were found. Configuration error?");
+
+                    int counter=0;
+
+                    // archive report files
+                    for (String file : includedFiles) {
+                        File src = new File(ws, file);
+
+                        if(src.lastModified()<buildTime) {
+                            listener.getLogger().println("Skipping "+src+" because it's not up to date");
+                            continue;       // not up to date.
+                        }
+
+                        try {
+                            new FilePath(src).copyTo(target.child("report"+(counter++)+".xml"));
+                        } catch (InterruptedException e) {
+                            throw new IOException2("aborted while copying "+src,e);
+                        }
+                    }
+                    return null;
+                }
+            });
+        } catch (AbortException e) {
+            listener.getLogger().println(e.getMessage());
             build.setResult(Result.FAILURE);
+            return true; /// but this is not a fatal error
         }
 
-        SQETestAction action = new SQETestAction(build, ds, listener, considerTestAsTestObject);
+
+        SQETestAction action = new SQETestAction(build, listener, considerTestAsTestObject);
         build.getActions().add(action);
 
         Report r = action.getResult();
@@ -71,11 +123,19 @@ public class SQETestResultPublisher extends Publisher {
         return true;
     }
 
+    private static final long serialVersionUID = 1L;
+
     public Descriptor<Publisher> getDescriptor() {
-        return DESCRIPTOR;
+        return DescriptorImpl.DESCRIPTOR;
     }
 
-    public static final Descriptor<Publisher> DESCRIPTOR = new Descriptor<Publisher>(SQETestResultPublisher.class) {
+    /*package*/ static class DescriptorImpl extends Descriptor<Publisher> {
+        public static final Descriptor<Publisher> DESCRIPTOR = new DescriptorImpl();
+
+        public DescriptorImpl() {
+            super(SQETestResultPublisher.class);
+        }
+
         public String getDisplayName() {
             return "Publish SQE test result report";
         }
@@ -87,5 +147,5 @@ public class SQETestResultPublisher extends Publisher {
         public Publisher newInstance(StaplerRequest req) {
             return new SQETestResultPublisher(req.getParameter("sqetest_includes"),(req.getParameter("sqetest_testobject")!=null));
         }
-    };
+    }
 }

@@ -4,9 +4,6 @@ import hudson.model.Build;
 import hudson.model.BuildListener;
 import hudson.tasks.junit.TestResult;
 import hudson.tasks.test.AbstractTestResultAction;
-import org.apache.tools.ant.DirectoryScanner;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.taskdefs.Copy;
 import org.kohsuke.stapler.StaplerProxy;
 import org.xml.sax.SAXException;
 
@@ -31,32 +28,9 @@ public class SQETestAction extends AbstractTestResultAction<SQETestAction> imple
     private int failCount;
     private int totalCount;
 
-    SQETestAction(Build owner, DirectoryScanner results, BuildListener listener, boolean considerTestAsTestObject) {
+    SQETestAction(Build owner, BuildListener listener, boolean considerTestAsTestObject) {
         super(owner);
         this.considerTestAsTestObject = considerTestAsTestObject;
-        listener.getLogger().println("Collecting JWSDP SQE reports");
-
-        int counter=0;
-        File dataDir = getDataDir();
-        dataDir.mkdirs();
-
-        long buildTime = owner.getTimestamp().getTimeInMillis();
-
-        // archive report files
-        for (String file : results.getIncludedFiles()) {
-            File src = new File(results.getBasedir(), file);
-
-            if(src.lastModified()<buildTime) {
-                listener.getLogger().println("Skipping "+src+" because it's not up to date");
-                continue;       // not up to date.
-            }
-
-            Copy cp = new Copy();
-            cp.setProject(new Project());
-            cp.setFile(src);
-            cp.setTofile(new File(dataDir,"report"+(counter++)+".xml"));
-            cp.execute();
-        }
 
         Report r = load(listener);
         totalCount = r.getTotalCount();
@@ -65,8 +39,8 @@ public class SQETestAction extends AbstractTestResultAction<SQETestAction> imple
         result = new WeakReference<Report>(r);
     }
 
-    private File getDataDir() {
-        return new File(owner.getRootDir(), "sun-sqe-result");
+    /*package*/ static File getDataDir(Build build) {
+        return new File(build.getRootDir(), "sun-sqe-result");
     }
 
     public boolean considerTestAsTestObject() {
@@ -108,9 +82,9 @@ public class SQETestAction extends AbstractTestResultAction<SQETestAction> imple
      */
     private Report load(BuildListener listener) {
         Report r = new Report(this);
-        File[] files = getDataDir().listFiles();
+        File[] files = getDataDir(owner).listFiles();
         if(files==null) {
-            logger.log(Level.WARNING, "No test reports found in "+getDataDir());
+            logger.log(Level.WARNING, "No test reports found in "+getDataDir(owner));
             return r;
         }
 

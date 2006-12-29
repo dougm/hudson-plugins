@@ -50,32 +50,8 @@ public class JavaTestAction extends AbstractTestResultAction<JavaTestAction> imp
     private int failCount;
     private int totalCount;
 
-    JavaTestAction(Build owner, DirectoryScanner results, BuildListener listener) {
+    JavaTestAction(Build owner, BuildListener listener) {
         super(owner);
-
-        listener.getLogger().println("Collecting Java Test reports");
-
-        int counter=0;
-        File dataDir = getDataDir();
-        dataDir.mkdirs();
-
-        long buildTime = owner.getTimestamp().getTimeInMillis();
-
-        // archive report files
-        for (String file : results.getIncludedFiles()) {
-            File src = new File(results.getBasedir(), file);
-
-            if(src.lastModified()<buildTime) {
-                listener.getLogger().println("Skipping "+src+" because it's not up to date");
-                continue;       // not up to date.
-            }
-
-            Copy cp = new Copy();
-            cp.setProject(new Project());
-            cp.setFile(src);
-            cp.setTofile(new File(dataDir,"report"+(counter++)+".xml"));
-            cp.execute();
-        }
 
         Report r = load(listener);
         totalCount = r.getTotalCount();
@@ -84,8 +60,8 @@ public class JavaTestAction extends AbstractTestResultAction<JavaTestAction> imp
         result = new WeakReference<Report>(r);
     }
 
-    private File getDataDir() {
-        return new File(owner.getRootDir(), "java-test-result");
+    /*package*/ static  File getDataDir(Build build) {
+        return new File(build.getRootDir(), "java-test-result");
     }
 
     public synchronized Report getResult() {
@@ -124,9 +100,9 @@ public class JavaTestAction extends AbstractTestResultAction<JavaTestAction> imp
      */
     private Report load(BuildListener listener) {
         Report r = new Report(this);
-        File[] files = getDataDir().listFiles();
+        File[] files = getDataDir(owner).listFiles();
         if(files==null) {
-            JavaTestAction.logger.log(Level.WARNING, "No test reports found in "+getDataDir());
+            JavaTestAction.logger.log(Level.WARNING, "No test reports found in "+getDataDir(owner));
             return r;
         }
 

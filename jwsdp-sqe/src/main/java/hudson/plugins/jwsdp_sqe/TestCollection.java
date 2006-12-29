@@ -1,13 +1,11 @@
 package hudson.plugins.jwsdp_sqe;
 
-import hudson.tasks.junit.ClassResult;
+import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerResponse;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
-
-import org.kohsuke.stapler.StaplerRequest;
-import org.kohsuke.stapler.StaplerResponse;
 
 /**
  * {@link TestObject} that is a collection of other {@link TestObject}s.

@@ -2,11 +2,10 @@ package hudson.plugins.javanet_uploader;
 
 import hudson.Launcher;
 import hudson.Util;
-import hudson.model.Action;
+import hudson.FilePath;
 import hudson.model.Build;
 import hudson.model.BuildListener;
 import hudson.model.Descriptor;
-import hudson.model.Project;
 import hudson.model.Result;
 import hudson.tasks.Publisher;
 import org.kohsuke.jnt.JNFile;
@@ -14,12 +13,14 @@ import org.kohsuke.jnt.JNFileFolder;
 import org.kohsuke.jnt.JNProject;
 import org.kohsuke.jnt.JavaNet;
 import org.kohsuke.jnt.ProcessingException;
+import org.kohsuke.jnt.FileStatus;
 import org.kohsuke.stapler.StaplerRequest;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.io.InputStream;
+import java.io.IOException;
 
 /**
  * {@link Publisher} that uploads files to java.net documents and files section.
@@ -50,7 +51,7 @@ public class JNUploaderPublisher extends Publisher {
         return entries;
     }
 
-    public boolean perform(Build build, Launcher launcher, BuildListener listener) {
+    public boolean perform(Build build, Launcher launcher, BuildListener listener) throws InterruptedException {
         if(build.getResult()== Result.FAILURE) {
             // build failed. don't post
             return true;
@@ -84,22 +85,26 @@ public class JNUploaderPublisher extends Publisher {
                 if(folder==null)
                     throw new ProcessingException("No such folder "+folderPath+" on project "+this.project);
 
-                File local = new File(build.getProject().getWorkspace().getLocal(),
-                    Util.replaceMacro(e.getSourceFile(),envVars));
-                if(!local.exists())
-                    throw new ProcessingException("No such file exists locally: "+local);
+                FilePath src = build.getProject().getWorkspace().child(Util.replaceMacro(e.getSourceFile(),envVars));
+                if(!src.exists())
+                    throw new ProcessingException("No such file exists locally: "+ src);
 
                 JNFile file = folder.getFiles().get(fileName);
                 if( file!=null ) {
                     file.delete();
                 }
 
+                InputStream in = src.read();
                 folder.uploadFile(fileName,
                     Util.replaceMacro(e.getDescription(),envVars),
-                    e.getStatus(),local);
+                    FileStatus.parse(e.getStatus()), in, "application/octet-stream");
+                in.close();
             }
         } catch (ProcessingException e) {
             e.printStackTrace(listener.error("Failed to access java.net"));
+            build.setResult(Result.FAILURE);
+        } catch (IOException e) {
+            e.printStackTrace(listener.error("Failed to upload files"));
             build.setResult(Result.FAILURE);
         }
 
