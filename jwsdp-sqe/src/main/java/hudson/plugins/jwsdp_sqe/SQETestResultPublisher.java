@@ -8,7 +8,10 @@ import hudson.model.Build;
 import hudson.model.BuildListener;
 import hudson.model.Descriptor;
 import hudson.model.Result;
+import hudson.model.Action;
+import hudson.model.Project;
 import hudson.tasks.Publisher;
+import hudson.tasks.test.TestResultProjectAction;
 import hudson.util.IOException2;
 import org.apache.tools.ant.types.FileSet;
 import org.kohsuke.stapler.StaplerRequest;
@@ -44,6 +47,10 @@ public class SQETestResultPublisher extends Publisher implements Serializable {
 
     public boolean getConsiderTestAsTestObject() {
         return considerTestAsTestObject;
+    }
+
+    public Action getProjectAction(Project project) {
+        return new TestResultProjectAction(project);
     }
 
     /**

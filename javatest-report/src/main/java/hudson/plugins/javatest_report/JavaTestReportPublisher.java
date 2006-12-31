@@ -28,7 +28,9 @@ import hudson.model.BuildListener;
 import hudson.model.Descriptor;
 import hudson.model.Project;
 import hudson.model.Result;
+import hudson.model.Action;
 import hudson.tasks.Publisher;
+import hudson.tasks.test.TestResultProjectAction;
 import hudson.util.IOException2;
 import org.apache.tools.ant.types.FileSet;
 import org.kohsuke.stapler.StaplerRequest;
@@ -62,6 +64,10 @@ public class JavaTestReportPublisher extends Publisher {
         return jtwork;
     }
 
+    public Action getProjectAction(Project project) {
+        return new TestResultProjectAction(project);
+    }
+    
     /**
      * Indicates an orderly abortion of the processing.
      */
