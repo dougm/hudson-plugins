@@ -1,6 +1,7 @@
 package hudson.plugins.javanet_trigger_installer;
 
 import hudson.model.Project;
+import hudson.model.AbstractProject;
 import hudson.scm.CVSSCM;
 import hudson.scm.SCM;
 import hudson.scm.SubversionSCM;
@@ -25,10 +26,10 @@ import java.util.regex.Pattern;
  */
 abstract class Task {
 
-    final Project project;
+    final AbstractProject project;
 
 
-    public Task(Project project) {
+    public Task(AbstractProject project) {
         this.project = project;
     }
 
@@ -59,7 +60,7 @@ abstract class Task {
      * Updates java.net setting from the project configuration
      */
     static final class Update extends Task {
-        public Update(Project project) {
+        public Update(AbstractProject project) {
             super(project);
         }
 
