@@ -37,11 +37,12 @@ import org.kohsuke.stapler.StaplerRequest;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * @author Rama Pulavarthi
  */
-public class JavaTestReportPublisher extends Publisher {
+public class JavaTestReportPublisher extends Publisher implements Serializable {
     private final String includes;
     private final String jtwork;
 
@@ -183,4 +184,6 @@ public class JavaTestReportPublisher extends Publisher {
             return new JavaTestReportPublisher(req.getParameter("javatest_includes"), req.getParameter("javatest_jtwork"));
         }
     }
+
+    private static final long serialVersionUID = 1L;
 }
