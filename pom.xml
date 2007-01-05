@@ -12,6 +12,16 @@
   <name>Hudson plugin POM</name>
   <packaging>pom</packaging>
   
+  <!--
+    We need the following because the artifactId=plugin but directoryName=plugins, and
+    Maven infers the wrong value if I don't specify it explicitly.
+  -->
+  <scm>
+    <connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvs:hudson/hudson/plugins</connection>
+    <developerConnection>scm:cvs:pserver:${user.name}@cvs.dev.java.net:/cvs:hudson/hudson/plugins</developerConnection>
+    <url>https://hudson.dev.java.net/source/browse/hudson/hudson/plugins</url>
+  </scm>
+  
   <dependencies>
     <dependency>
       <groupId>org.jvnet.hudson.main</groupId>
