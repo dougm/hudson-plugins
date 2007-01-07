@@ -22,7 +22,7 @@ public class PluginImpl extends Plugin {
 	public void start() throws Exception {
 		MBeanServer server = ManagementFactory.getPlatformMBeanServer();
 		jjl = new JmxJobListener(server);
-		Hudson.getInstance().addListener(jjl);
+		Hudson.getInstance().getJobListeners().add(jjl);
     }
 
 	/**
@@ -30,7 +30,7 @@ public class PluginImpl extends Plugin {
 	 */
 	@Override
 	public void stop() throws Exception {
-		Hudson.getInstance().removeListener(jjl);
+		Hudson.getInstance().getJobListeners().remove(jjl);
 		jjl.unregister();
 		jjl = null;
 	}
