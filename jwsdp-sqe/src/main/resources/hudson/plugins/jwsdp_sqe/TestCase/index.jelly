@@ -6,6 +6,9 @@
       <h1 class="${st.cssClass}">
         ${st.message} : ${it.displayName}
       </h1>
+      <div align="center">
+        <img src="testTrendGraph" width="500" height="200"/>
+      </div>
       <!-- TODO: age support -->
       <div>
         ${it.statusMessage}

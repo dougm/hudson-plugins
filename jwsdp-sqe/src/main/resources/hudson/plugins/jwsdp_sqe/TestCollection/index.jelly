@@ -3,6 +3,9 @@
     <st:include it="${it.owner}" page="sidepanel.jelly" />
     <l:main-panel>
       <h1>${it.displayName}</h1>
+      <div align="center">
+        <img src="testTrendGraph" width="500" height="200"/>
+      </div>
 
       <div style="margin-top: 1em; margin-bottom: 1em;">
         ${it.description}
