@@ -10,7 +10,7 @@
   <artifactId>javanet-trigger-installer</artifactId>
   <packaging>hpi</packaging>
   <version>1.0</version>
-  <name>Hudson plugin to install a build trigger to java.net CVS/SVN</name>
+  <name>Hudson java.net CVS/SVN build trigger plugin</name>
   
   <dependencies>
     <!-- javanettasks dependency -->
