@@ -56,7 +56,7 @@ public class IrcPublisher extends IMPublisher<IrcPublisher> {
 	protected void reportFailure(Build build) {
 		String status = "failed";
 		String suspects = calculateSuspectsString(build.getChangeSet());
-		DESCRIPTOR.bot.sendNotice(channels.isEmpty()?DESCRIPTOR.channels:channels, build.getProject().getName() + " build " + status + " (" + Hudson.getInstance().getRootUrl() + build.getUrl() + ")" + (suspects == null ? "":suspects));
+		DESCRIPTOR.bot.sendNotice(channelList(), build.getProject().getName() + " build " + status + " (" + Hudson.getInstance().getRootUrl() + build.getUrl() + ")" + (suspects == null ? "":suspects));
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class IrcPublisher extends IMPublisher<IrcPublisher> {
 	@Override
 	protected void reportSuccess(Build build) {
 		String status = "fixed";
-		DESCRIPTOR.bot.sendNotice(channels.isEmpty()?DESCRIPTOR.channels:channels, build.getProject().getName() + " build " + status + " (" + Hudson.getInstance().getRootUrl() + build.getUrl() + ")");
+		DESCRIPTOR.bot.sendNotice(channelList(), build.getProject().getName() + " build " + status + " (" + Hudson.getInstance().getRootUrl() + build.getUrl() + ")");
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class IrcPublisher extends IMPublisher<IrcPublisher> {
 	protected void reportUnstability(Build build) {
 		String status = "unstable";
 		String suspects = calculateSuspectsString(build.getChangeSet());
-		DESCRIPTOR.bot.sendNotice(channels.isEmpty()?DESCRIPTOR.channels:channels, build.getProject().getName() + " build " + status + " (" + Hudson.getInstance().getRootUrl() + build.getUrl() + ")" + (suspects == null ? "":suspects));
+		DESCRIPTOR.bot.sendNotice(channelList(), build.getProject().getName() + " build " + status + " (" + Hudson.getInstance().getRootUrl() + build.getUrl() + ")" + (suspects == null ? "":suspects));
 	}
 	
 	private String calculateSuspectsString(ChangeLogSet<? extends Entry> cs){
@@ -91,7 +91,11 @@ public class IrcPublisher extends IMPublisher<IrcPublisher> {
 		}
 		return null;
 	}
-
+	
+	private List<String> channelList(){
+		return (channels == null || channels.isEmpty()) ? DESCRIPTOR.channels:channels;
+	}
+	
 	/**
 	 * For the UI redisplay
 	 * 
