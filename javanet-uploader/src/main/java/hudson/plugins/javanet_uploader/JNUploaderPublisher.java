@@ -30,7 +30,7 @@ import java.io.IOException;
 public class JNUploaderPublisher extends Publisher {
 
     /**
-     * Name of the java.net project to post a file to.
+     * PluginName of the java.net project to post a file to.
      */
     private String project;
 

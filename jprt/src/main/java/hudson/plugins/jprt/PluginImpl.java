@@ -2,8 +2,7 @@ package hudson.plugins.jprt;
 
 import hudson.Plugin;
 import hudson.model.Jobs;
-import hudson.model.Job;
-import hudson.tasks.BuildStep;
+import hudson.model.Items;
 
 /**
  * @author Kohsuke Kawaguchi
@@ -11,6 +10,6 @@ import hudson.tasks.BuildStep;
  */
 public class PluginImpl extends Plugin {
     public void start() throws Exception {
-        Jobs.JOBS.add(JPRTJob.DESCRIPTOR);
+        Items.LIST.add(JPRTJob.DESCRIPTOR);
     }
 }

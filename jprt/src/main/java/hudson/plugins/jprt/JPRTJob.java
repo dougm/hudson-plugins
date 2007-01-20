@@ -3,8 +3,10 @@ package hudson.plugins.jprt;
 import JPRT.shared.GlobalProperties;
 import hudson.model.Hudson;
 import hudson.model.Job;
-import hudson.model.JobDescriptor;
+import hudson.model.TopLevelItemDescriptor;
 import hudson.model.ViewJob;
+import hudson.model.TopLevelItem;
+import hudson.model.Items;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
@@ -24,7 +26,7 @@ import java.util.logging.Logger;
  *
  * @author Kohsuke Kawaguchi
  */
-public class JPRTJob extends ViewJob<JPRTJob,JPRTRun> {
+public class JPRTJob extends ViewJob<JPRTJob,JPRTRun> implements TopLevelItem {
 
     /**
      * Path to the JPRT archive root directory.
@@ -117,11 +119,11 @@ public class JPRTJob extends ViewJob<JPRTJob,JPRTRun> {
     }
 
 
-    public JobDescriptor<JPRTJob,JPRTRun> getDescriptor() {
+    public TopLevelItemDescriptor getDescriptor() {
         return DESCRIPTOR;
     }
 
-    static final JobDescriptor<JPRTJob,JPRTRun> DESCRIPTOR = new JobDescriptor<JPRTJob,JPRTRun>(JPRTJob.class) {
+    static final TopLevelItemDescriptor DESCRIPTOR = new TopLevelItemDescriptor(JPRTJob.class) {
         public String getDisplayName() {
             return "Monitoring a JPRT system";
         }
@@ -132,7 +134,7 @@ public class JPRTJob extends ViewJob<JPRTJob,JPRTRun> {
     };
 
     static {
-        Job.XSTREAM.alias("jprt",JPRTJob.class);
+        Items.XSTREAM.alias("jprt",JPRTJob.class);
     }
 
     private static final Logger logger = Logger.getLogger(JPRTJob.class.getName());
