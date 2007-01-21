@@ -2,11 +2,11 @@ package hudson.plugins.jprt;
 
 import JPRT.shared.GlobalProperties;
 import hudson.model.Hudson;
+import hudson.model.Items;
 import hudson.model.Job;
+import hudson.model.TopLevelItem;
 import hudson.model.TopLevelItemDescriptor;
 import hudson.model.ViewJob;
-import hudson.model.TopLevelItem;
-import hudson.model.Items;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
@@ -38,8 +38,13 @@ public class JPRTJob extends ViewJob<JPRTJob,JPRTRun> implements TopLevelItem {
      */
     private volatile String archiveUrl;
 
-    public JPRTJob(Hudson parent, String name) {
-        super(parent, name);
+    public JPRTJob(String name) {
+        super(Hudson.getInstance(), name);
+    }
+
+    @Override
+    public Hudson getParent() {
+        return (Hudson)super.getParent();
     }
 
     public File getArchiveRoot() {
@@ -129,7 +134,7 @@ public class JPRTJob extends ViewJob<JPRTJob,JPRTRun> implements TopLevelItem {
         }
 
         public JPRTJob newInstance(String name) {
-            return new JPRTJob(Hudson.getInstance(),name);
+            return new JPRTJob(name);
         }
     };
 
