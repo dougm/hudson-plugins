@@ -70,35 +70,40 @@ public class JNUploaderPublisher extends Publisher {
             Map<String,String> envVars = build.getEnvVars();
 
             for (Entry e : entries) {
-                String folderPath = Util.replaceMacro(e.filePath,envVars);
-                int idx = folderPath.lastIndexOf('/');
-
                 listener.getLogger().println("Uploading "+e.sourceFile+" to java.net");
 
-                if(idx<0) {
-                    throw new ProcessingException(folderPath+" doesn't have a file name");
+                String expanded = Util.replaceMacro(e.sourceFile, envVars);
+                FilePath[] src = build.getProject().getWorkspace().list(expanded);
+                if(src.length==0)
+                    throw new ProcessingException("No such file exists: "+ expanded);
+
+                if(src.length==1) {
+                    String folderPath = Util.replaceMacro(e.filePath,envVars);
+                    JNFileFolder folder = project.getFolder(folderPath);
+                    if(folder!=null) {
+                        // this looks like a valid folder name, so just upload into it
+                        upload(folder, src[0].getName(), src[0], e, envVars);
+                    } else {
+                        // assume that this is a full path name
+                        int idx = folderPath.lastIndexOf('/');
+
+                        if(idx<0)
+                            throw new ProcessingException(folderPath+" doesn't have a file name");
+
+                        String fileName = folderPath.substring(idx+1);
+                        folderPath = folderPath.substring(0,idx);
+
+                        folder = getFolder(project, folderPath);
+
+                        upload(folder, fileName, src[0], e, envVars);
+                    }
+                } else {
+                    String folderPath = Util.replaceMacro(e.filePath,envVars);
+                    JNFileFolder folder = getFolder(project,folderPath);
+
+                    for( FilePath s : src )
+                        upload(folder, s.getName(), s, e, envVars);
                 }
-                String fileName = folderPath.substring(idx+1);
-                folderPath = folderPath.substring(0,idx);
-
-                JNFileFolder folder = project.getFolder(folderPath);
-                if(folder==null)
-                    throw new ProcessingException("No such folder "+folderPath+" on project "+this.project);
-
-                FilePath src = build.getProject().getWorkspace().child(Util.replaceMacro(e.sourceFile,envVars));
-                if(!src.exists())
-                    throw new ProcessingException("No such file exists locally: "+ src);
-
-                JNFile file = folder.getFiles().get(fileName);
-                if( file!=null ) {
-                    file.delete();
-                }
-
-                InputStream in = src.read();
-                folder.uploadFile(fileName,
-                    Util.replaceMacro(e.description,envVars),
-                    FileStatus.parse(e.status), in, "application/octet-stream");
-                in.close();
             }
         } catch (ProcessingException e) {
             e.printStackTrace(listener.error("Failed to access java.net"));
@@ -109,6 +114,32 @@ public class JNUploaderPublisher extends Publisher {
         }
 
         return true;
+    }
+
+    private void upload(JNFileFolder folder, String fileName, FilePath src, Entry e, Map<String, String> envVars) throws ProcessingException, IOException {
+        JNFile file = folder.getFiles().get(fileName);
+        if( file!=null ) {
+            file.delete();
+        }
+
+        InputStream in = src.read();
+        try {
+            folder.uploadFile(fileName,
+                            Util.replaceMacro(e.description,envVars),
+                            FileStatus.parse(e.status), in, "application/octet-stream");
+        } finally {
+            in.close();
+        }
+    }
+
+    /**
+     * Gets the {@link JNFileFolder} and do the error checking.
+     */
+    private JNFileFolder getFolder(JNProject project, String folderPath) throws ProcessingException {
+        JNFileFolder folder = project.getFolder(folderPath);
+        if(folder==null)
+            throw new ProcessingException("No such folder "+folderPath+" on project "+this.project);
+        return folder;
     }
 
     public Descriptor<Publisher> getDescriptor() {

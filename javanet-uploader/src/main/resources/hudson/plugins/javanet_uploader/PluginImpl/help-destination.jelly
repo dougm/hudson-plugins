@@ -1,10 +1,21 @@
 <div>
-  Specifies the path in the remote documents&amp;files section to upload the file into,
-  including the file name. For example, <tt>/snapshot/hudson.war</tt>. Note that it starts
+  Specifies the path in the remote documents&amp;files section to upload the file into.
+  Note that it starts
   with '/', and doesn't include the project name. If the file already exists, it will be
   overwritten.
   <br />
-  It can include
+  The destination path is interpreted like that of <tt>cp</tt> command. That is,
+  if the source file matches only one file, then Hudson first checks if the destination
+  already exists as a directory, and if so, the file will be uploaded by preserving
+  the source file name. For example, <tt>target/hudson.war</tt> becomes <tt>/snapshot/hudson.war</tt>.
+  Otherwise the destination is interpreted as a file name. This allows you to upload
+  <tt>target/hudson.war</tt> into <tt>/snapshot/latest.bits</tt>, for example.
+  <br />
+  If the source file matches multiple files, then the destination is interpreted
+  as a directory name, and all files are uploaded into this directory by preserving
+  the file name portion.
+  <br />
+  The destination path can include
   <a href="${request.contextPath}/env-vars.html">macro variables like '$BUILD_NUMBER'</a>,
   which will be substituted by their actual values.
 </div>

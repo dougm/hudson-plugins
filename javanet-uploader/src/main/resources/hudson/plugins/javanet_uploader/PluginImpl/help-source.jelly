@@ -1,8 +1,7 @@
 <div>
-  File to be uploaded. This is relative to <a href="ws">the workspace root</a>.
-  One file per entry (no wildcard.)
+  File(s) to be uploaded. This is relative to <a href="ws">the workspace root</a>.
   <br />
   It can include
   <a href="${request.contextPath}/env-vars.html">macro variables like '$BUILD_NUMBER'</a>,
-  which will be substituted by their actual values.
+  which will be substituted by their actual values, and/or Ant-style wildcards like 'target/**/*.zip'
 </div>
