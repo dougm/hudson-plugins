@@ -30,7 +30,7 @@ import java.io.IOException;
 public class JNUploaderPublisher extends Publisher {
 
     /**
-     * PluginName of the java.net project to post a file to.
+     * Name of the java.net project to post a file to.
      */
     private String project;
 
@@ -70,10 +70,10 @@ public class JNUploaderPublisher extends Publisher {
             Map<String,String> envVars = build.getEnvVars();
 
             for (Entry e : entries) {
-                String folderPath = Util.replaceMacro(e.getFilePath(),envVars);
+                String folderPath = Util.replaceMacro(e.filePath,envVars);
                 int idx = folderPath.lastIndexOf('/');
 
-                listener.getLogger().println("Uploading "+e.getSourceFile()+" to java.net");
+                listener.getLogger().println("Uploading "+e.sourceFile+" to java.net");
 
                 if(idx<0) {
                     throw new ProcessingException(folderPath+" doesn't have a file name");
@@ -85,7 +85,7 @@ public class JNUploaderPublisher extends Publisher {
                 if(folder==null)
                     throw new ProcessingException("No such folder "+folderPath+" on project "+this.project);
 
-                FilePath src = build.getProject().getWorkspace().child(Util.replaceMacro(e.getSourceFile(),envVars));
+                FilePath src = build.getProject().getWorkspace().child(Util.replaceMacro(e.sourceFile,envVars));
                 if(!src.exists())
                     throw new ProcessingException("No such file exists locally: "+ src);
 
@@ -96,8 +96,8 @@ public class JNUploaderPublisher extends Publisher {
 
                 InputStream in = src.read();
                 folder.uploadFile(fileName,
-                    Util.replaceMacro(e.getDescription(),envVars),
-                    FileStatus.parse(e.getStatus()), in, "application/octet-stream");
+                    Util.replaceMacro(e.description,envVars),
+                    FileStatus.parse(e.status), in, "application/octet-stream");
                 in.close();
             }
         } catch (ProcessingException e) {
