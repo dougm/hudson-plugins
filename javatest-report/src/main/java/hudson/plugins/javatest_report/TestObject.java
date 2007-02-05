@@ -19,7 +19,7 @@
  */
 package hudson.plugins.javatest_report;
 
-import hudson.model.Build;
+import hudson.model.AbstractBuild;
 import hudson.model.ModelObject;
 
 import java.util.HashMap;
@@ -73,7 +73,7 @@ public abstract class TestObject<S extends TestObject<S>>
     /**
      * This test has been failing since this build number (not id.)
      * <p/>
-     * If {@link #getStatus()}  is {@link Status.PASS}}, this field is left unused to 0.
+     * If {@link #getStatus()}  is {@link Status#PASS}}, this field is left unused to 0.
      */
     private /*final*/ int failedSince;
 
@@ -115,7 +115,7 @@ public abstract class TestObject<S extends TestObject<S>>
             return id;
     }
 
-    public Build getOwner() {
+    public AbstractBuild getOwner() {
         return parent.getOwner();
     }
 

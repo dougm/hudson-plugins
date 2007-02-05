@@ -19,13 +19,11 @@
  */
 package hudson.plugins.javatest_report;
 
+import hudson.model.AbstractBuild;
 import hudson.model.Action;
 import hudson.model.Build;
 import hudson.model.BuildListener;
 import hudson.tasks.test.AbstractTestResultAction;
-import org.apache.tools.ant.DirectoryScanner;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.taskdefs.Copy;
 import org.kohsuke.stapler.StaplerProxy;
 import org.xml.sax.SAXException;
 
@@ -60,7 +58,7 @@ public class JavaTestAction extends AbstractTestResultAction<JavaTestAction> imp
         result = new WeakReference<Report>(r);
     }
 
-    /*package*/ static  File getDataDir(Build build) {
+    /*package*/ static  File getDataDir(AbstractBuild build) {
         return new File(build.getRootDir(), "java-test-result");
     }
 

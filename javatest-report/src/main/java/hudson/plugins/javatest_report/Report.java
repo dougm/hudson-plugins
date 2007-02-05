@@ -20,6 +20,7 @@
 package hudson.plugins.javatest_report;
 
 import hudson.model.Build;
+import hudson.model.AbstractBuild;
 import org.apache.commons.digester.Digester;
 import org.xml.sax.SAXException;
 
@@ -46,7 +47,7 @@ public final class Report extends TestCollection<Report,Suite> {
     }
 
     @Override
-    public Build getOwner() {
+    public AbstractBuild getOwner() {
         return owner.owner;
     }
 
