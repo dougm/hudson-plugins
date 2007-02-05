@@ -2,6 +2,7 @@ package hudson.plugins.jwsdp_sqe;
 
 import hudson.model.Build;
 import hudson.model.BuildListener;
+import hudson.model.AbstractBuild;
 import hudson.tasks.junit.TestResult;
 import hudson.tasks.test.AbstractTestResultAction;
 import org.kohsuke.stapler.StaplerProxy;
@@ -39,7 +40,7 @@ public class SQETestAction extends AbstractTestResultAction<SQETestAction> imple
         result = new WeakReference<Report>(r);
     }
 
-    /*package*/ static File getDataDir(Build build) {
+    /*package*/ static File getDataDir(AbstractBuild build) {
         return new File(build.getRootDir(), "sun-sqe-result");
     }
 

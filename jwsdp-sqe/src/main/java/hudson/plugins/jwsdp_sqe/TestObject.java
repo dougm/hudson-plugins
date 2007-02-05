@@ -2,6 +2,7 @@ package hudson.plugins.jwsdp_sqe;
 
 import hudson.model.Build;
 import hudson.model.ModelObject;
+import hudson.model.AbstractBuild;
 import hudson.util.ChartUtil;
 import hudson.util.DataSetBuilder;
 import hudson.util.ShiftedCategoryAxis;
@@ -96,7 +97,7 @@ public abstract class TestObject<S extends TestObject<S>>
             return id;
     }
 
-    public Build getOwner() {
+    public AbstractBuild getOwner() {
         return parent.getOwner();
     }
 
@@ -153,9 +154,9 @@ public abstract class TestObject<S extends TestObject<S>>
             return;
 
         class BuildLabel implements Comparable<BuildLabel> {
-            private final Build build;
+            private final AbstractBuild build;
 
-            public BuildLabel(Build build) {
+            public BuildLabel(AbstractBuild build) {
                 this.build = build;
             }
 
