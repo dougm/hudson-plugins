@@ -56,7 +56,7 @@ public class SQETestResultPublisher extends Publisher implements Serializable {
     /**
      * Indicates an orderly abortion of the processing.
      */
-    private static final class AbortException extends IOException {
+    private static final class AbortException extends RuntimeException {
         public AbortException(String s) {
             super(s);
         }
