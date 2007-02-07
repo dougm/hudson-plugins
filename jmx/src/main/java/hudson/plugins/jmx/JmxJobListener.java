@@ -36,8 +36,9 @@ public class JmxJobListener extends JobListener {
 	
 	public final static String JMX_NAME_PREFIX = "hudson:type=Job,name=";
 	protected MBeanServer server;
+    private boolean loaded;
 
-	/**
+    /**
 	 * @param server
 	 */
 	public JmxJobListener(MBeanServer server) {
@@ -93,10 +94,13 @@ public class JmxJobListener extends JobListener {
 		for(Job j : jobs){
 			onCreated(j);
 		}
-	}
+        loaded = true;
+    }
 	
 	public void unregister(){
-		List<Job> jobs = Hudson.getInstance().getAllItems(Job.class);
+        if(!loaded)
+            return; // early termination
+        List<Job> jobs = Hudson.getInstance().getAllItems(Job.class);
 		for(Job j : jobs){
 			onDeleted(j);
 		}
