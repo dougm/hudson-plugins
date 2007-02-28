@@ -198,7 +198,7 @@ abstract class Task {
      * Checks if the trigger e-mail address is already subscribed.
      */
     protected final String getSubscriptionAddress(JNMailingList list) throws ProcessingException {
-        Pattern triggerAddress = Pattern.compile("hudson-"+project.getName()+"(\\+.+)?@kohsuke2\\.sfbay\\.sun\\.com");
+        Pattern triggerAddress = Pattern.compile("hudson-"+project.getName()+"(\\+.+)?@(kohsuke|hudson)\\.sfbay\\.sun\\.com");
 
         for (String adrs : list.getSubscribers(SubscriptionMode.NORMAL)) {
             if(triggerAddress.matcher(adrs).matches())
