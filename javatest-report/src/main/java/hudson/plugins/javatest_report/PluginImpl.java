@@ -9,6 +9,6 @@ import hudson.tasks.BuildStep;
  */
 public class PluginImpl extends Plugin {
     public void start() throws Exception {
-        BuildStep.PUBLISHERS.add(0,JavaTestReportPublisher.DescriptorImpl.DESCRIPTOR);
+        BuildStep.PUBLISHERS.addRecorder(JavaTestReportPublisher.DescriptorImpl.DESCRIPTOR);
     }
 }

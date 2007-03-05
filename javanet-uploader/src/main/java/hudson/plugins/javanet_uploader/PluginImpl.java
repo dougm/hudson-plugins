@@ -9,6 +9,6 @@ import hudson.Plugin;
  */
 public class PluginImpl extends Plugin {
     public void start() throws Exception {
-        BuildStep.PUBLISHERS.add(JNUploaderPublisher.DESCRIPTOR);
+        BuildStep.PUBLISHERS.addRecorder(JNUploaderPublisher.DESCRIPTOR);
     }
 }

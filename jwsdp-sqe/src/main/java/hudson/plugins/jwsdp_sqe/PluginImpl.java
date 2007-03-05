@@ -10,6 +10,6 @@ import hudson.tasks.BuildStep;
 public class PluginImpl extends Plugin {
     public void start() throws Exception {
         // make sure it comes before the mailer 
-        BuildStep.PUBLISHERS.add(0,SQETestResultPublisher.DescriptorImpl.DESCRIPTOR);
+        BuildStep.PUBLISHERS.addRecorder(SQETestResultPublisher.DescriptorImpl.DESCRIPTOR);
     }
 }

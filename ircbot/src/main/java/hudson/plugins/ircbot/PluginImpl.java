@@ -15,7 +15,7 @@ public class PluginImpl extends Plugin {
     public void start() throws Exception {
         // plugins normally extend Hudson by providing custom implementations
         // of 'extension points'. In this case, we'll add one publisher.
-        Publisher.PUBLISHERS.add(IrcPublisher.DESCRIPTOR);
+        Publisher.PUBLISHERS.addNotifier(IrcPublisher.DESCRIPTOR);
         UserProperties.LIST.add(IrcUserProperty.DESCRIPTOR);
     }
 
