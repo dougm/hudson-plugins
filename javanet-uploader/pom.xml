@@ -10,7 +10,7 @@
   <artifactId>javanet-uploader</artifactId>
   <packaging>hpi</packaging>
   <name>Hudson java.net uploader plugin</name>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.5</version>
   
   <dependencies>
     <dependency>
@@ -39,4 +39,8 @@
       <version>2.2.1</version>
     </dependency>
   </dependencies>
+
+  <scm>
+    <tag>javanet-uploader-1_5</tag>
+  </scm>
 </project>
