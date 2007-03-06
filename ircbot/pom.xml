@@ -11,7 +11,7 @@
   <groupId>org.jvnet.hudson.plugins</groupId>
   <artifactId>ircbot</artifactId>
   <packaging>hpi</packaging>
-  <version>1.5</version>
+  <version>1.6-SNAPSHOT</version>
   <name>Hudson IRC Plugin</name>
   <description>A Build status publisher that notifies channels on a IRC server</description>
   <dependencies>
@@ -21,8 +21,4 @@
       <version>1.4.2</version>
     </dependency>
   </dependencies>
-
-  <scm>
-    <tag>ircbot-1_5</tag>
-  </scm>
 </project>
