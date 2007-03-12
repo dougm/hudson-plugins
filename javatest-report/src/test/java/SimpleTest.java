@@ -26,7 +26,7 @@ import java.io.File;
 public class SimpleTest extends TestCase {
     public void test1() throws Exception {
         Report r = new Report(null);
-        File file = new File(getClass().getResource("trial1.xml").getPath());
+        File file = new File(getClass().getResource("trial1.xml").toURI());
         System.out.println(file.length());
         r.add(file);
         System.out.println(r.getFailCount()+"/"+r.getTotalCount());
