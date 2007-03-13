@@ -71,6 +71,7 @@
     <module>javatest-report</module>
     <module>javanet-uploader</module>
     <module>javanet-trigger-installer</module>
+    <module>jira</module>
     <module>jmx</module>
     <module>jwsdp-sqe</module>
     <module>jprt</module>
