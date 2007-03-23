@@ -7,6 +7,7 @@ import hudson.model.Job;
 import hudson.model.TopLevelItem;
 import hudson.model.TopLevelItemDescriptor;
 import hudson.model.ViewJob;
+import hudson.model.Descriptor.FormException;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
@@ -109,18 +110,13 @@ public class JPRTJob extends ViewJob<JPRTJob,JPRTRun> implements TopLevelItem {
      * Accepts submission from the configuration page.
      */
     @Override
-    public void doConfigSubmit( StaplerRequest req, StaplerResponse rsp ) throws IOException, ServletException {
-        if(!Hudson.adminCheck(req,rsp))
-            return;
+    public void submit( StaplerRequest req, StaplerResponse rsp ) throws IOException, ServletException, FormException {
+        super.submit(req,rsp);
 
         archiveRoot = new File(req.getParameter("jprt.archiveRoot"));
-        if(!archiveRoot.isDirectory()) {
-            sendError(archiveRoot+" is not a directory",req,rsp);
-            return;
-        }
+        if(!archiveRoot.isDirectory())
+            throw new FormException(archiveRoot+" is not a directory",null);
         archiveUrl = req.getParameter("jprt.archiveUrl");
-
-        super.doConfigSubmit(req,rsp);
     }
 
 
