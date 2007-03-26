@@ -24,14 +24,14 @@ public abstract class IMPublisher<T extends IMPublisher<T>> extends Publisher {
 			BuildListener listener) {
 		if(build.getPreviousBuild() != null){
 			// only broadcast change of status
-			if(build.getResult() != build.getPreviousBuild().getResult()){
+			if(!build.getResult().toString().equals(build.getPreviousBuild().getResult().toString())){
 				publish(build);
 			}
 		} else {
 			// if first build, only broadcast failure/unstable
 			if(build.getResult() != Result.SUCCESS){
 				publish(build);
-			}
+                        }
 		}
 		return true;
 	}
