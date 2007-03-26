@@ -5,6 +5,7 @@ import hudson.model.AbstractProject;
 import hudson.scm.CVSSCM;
 import hudson.scm.SCM;
 import hudson.scm.SubversionSCM;
+import hudson.scm.SubversionSCM.ModuleLocation;
 import org.kohsuke.jnt.JNMailingList;
 import org.kohsuke.jnt.JNProject;
 import org.kohsuke.jnt.JavaNet;
@@ -152,13 +153,13 @@ abstract class Task {
 
         if (scm instanceof SubversionSCM) {
             SubversionSCM svn = (SubversionSCM)scm;
-            String m = svn.getModules();
+            ModuleLocation[] locs = svn.getLocations();
 
-            if(m.indexOf(" ")>=0)
+            if(locs.length==0)
                 return null;    // no support for multi-module for now.
 
             try {
-                URL url = new URL(m);
+                URL url = new URL(locs[0].remote);
 
                 Matcher matcher = SVN_PATH_PATTERN.matcher(url.getPath());
                 if(!matcher.matches())
@@ -166,7 +167,7 @@ abstract class Task {
                 return con.getProject(matcher.group(1));
             } catch (MalformedURLException e) {
                 // this shouldn't really happen
-                LOGGER.info("Failed to parse SVN URL "+m);
+                LOGGER.info("Failed to parse SVN URL "+locs[0].remote);
                 return null;
             }
 
