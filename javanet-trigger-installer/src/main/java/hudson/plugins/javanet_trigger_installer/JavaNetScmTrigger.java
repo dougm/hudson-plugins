@@ -19,13 +19,14 @@ public class JavaNetScmTrigger extends Trigger<SCMedItem> {
         return DESCRIPTOR;
     }
 
-
-    public void start(Project project, boolean newInstance) {
+    @Override
+    public void start(SCMedItem project, boolean newInstance) {
         super.start(project, newInstance);
         if(newInstance)
-            new Update(project).scheduleHighPriority();
+            new Update(project.asProject()).scheduleHighPriority();
     }
 
+    @Override
     public void stop() {
         super.stop();
         new Update(job.asProject()).scheduleHighPriority();
