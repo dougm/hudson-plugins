@@ -1,7 +1,6 @@
 package hudson.plugins.javanet_trigger_installer;
 
 import hudson.model.Item;
-import hudson.model.Project;
 import hudson.model.SCMedItem;
 import hudson.plugins.javanet_trigger_installer.Task.Update;
 import hudson.triggers.Trigger;
