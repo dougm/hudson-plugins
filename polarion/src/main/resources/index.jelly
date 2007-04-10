@@ -1,0 +1,4 @@
+<div>
+  This plugin integrates <a href="http://www.polarion.org">Polarion Web Client for Subversion</a> to Hudson. Entries in
+  change logs will by hyperlinked to the specified web client for subversion.
+</div>
