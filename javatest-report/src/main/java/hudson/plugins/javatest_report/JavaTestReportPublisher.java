@@ -125,6 +125,7 @@ public class JavaTestReportPublisher extends Publisher implements Serializable {
                     }
                     return null;
                 }
+                private static final long serialVersionUID = 1L;
             });
         } catch (AbortException e) {
             listener.getLogger().println(e.getMessage());
