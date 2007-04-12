@@ -81,6 +81,7 @@
     <module>jmx</module>
     <module>jwsdp-sqe</module>
     <module>jprt</module>
+    <module>polarion</module>
     <module>promoted-builds</module>
     <module>text-finder</module>
     <module>xvnc</module>
