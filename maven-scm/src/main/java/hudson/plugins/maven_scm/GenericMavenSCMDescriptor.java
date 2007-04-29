@@ -20,6 +20,6 @@ public class GenericMavenSCMDescriptor extends AbstractMavenSCMDescriptor {
     }
 
     public SCM newInstance(StaplerRequest req) throws FormException {
-        return req.bindParameters(MavenSCM.class,"mavenscm.");
+        return new MavenSCM(req.getParameter("mavenscm.url"));
     }
 }
