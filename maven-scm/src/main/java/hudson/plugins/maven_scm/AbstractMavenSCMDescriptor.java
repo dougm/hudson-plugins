@@ -7,6 +7,7 @@ import org.kohsuke.stapler.StaplerResponse;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author Kohsuke Kawaguchi
@@ -19,7 +20,15 @@ public abstract class AbstractMavenSCMDescriptor extends SCMDescriptor<MavenSCM>
     public void doUrlCheck(StaplerRequest req, StaplerResponse rsp) throws IOException, ServletException {
         new FormFieldValidator(req,rsp,false) {
             protected void check() throws IOException, ServletException {
-                ok();
+                List list = PluginImpl.MANAGER.validateScmRepository(request.getParameter("value"));
+                if(list.isEmpty())
+                    ok();
+                else {
+                    StringBuffer buf = new StringBuffer();
+                    for (Object o : list)
+                        buf.append(o).append("<br>");
+                    error(buf.toString());
+                }
             }
         }.check();
     }

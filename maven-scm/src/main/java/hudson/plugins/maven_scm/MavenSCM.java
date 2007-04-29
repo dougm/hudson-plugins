@@ -12,7 +12,6 @@ import hudson.scm.ChangeLogParser;
 import hudson.scm.SCM;
 import hudson.scm.SCMDescriptor;
 import hudson.scm.SCMS;
-import hudson.util.IOException2;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -23,16 +22,13 @@ import org.apache.maven.scm.manager.NoSuchScmProviderException;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
-import org.codehaus.plexus.PlexusContainerException;
-import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
-import org.codehaus.plexus.embed.Embedder;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Date;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Kohsuke Kawaguchi
@@ -48,13 +44,13 @@ public class MavenSCM extends SCM {
     }
 
     /**
-     * Gets the prefix of SCM URL that identifies the provider,
-     * such as "scm:bazaar"
+     * Gets the provider ID of SCM URL that identifies the provider,
+     * such as "bazaar"
      *
      * @return
      *      null if the prefix matching fails, which is most likely an operator error.
      */
-    public String getScmPrefix() {
+    public String getProvider() {
         Matcher m = PREFIX_PATTERN.matcher(scmUrl);
         if(m.find(0))
             return m.group(1);
@@ -86,7 +82,7 @@ public class MavenSCM extends SCM {
         return workspace.act(new FileCallable<Boolean>() {
             public Boolean invoke(File ws, VirtualChannel channel) throws IOException {
                 try {
-                    ScmManager scmManager = getScmManager();
+                    ScmManager scmManager = PluginImpl.MANAGER;
                     ScmRepository repo = getScmRepository(scmManager);
                     CheckOutScmResult result = scmManager.checkOut(repo, new ScmFileSet(ws) );
                     if(!result.isSuccess()) {
@@ -123,13 +119,13 @@ public class MavenSCM extends SCM {
      * Use the best descriptor depending on our URL.
      */
     public SCMDescriptor<?> getDescriptor() {
-        String prefix = getScmPrefix();
-        if(prefix==null)
+        String provider = getProvider();
+        if(provider==null)
             return GenericMavenSCMDescriptor.INSTANCE;
 
         for (SCMDescriptor<?> d : SCMS.SCMS) {
             if(d instanceof ProviderSpecificDescriptor
-            && ((ProviderSpecificDescriptor)d).getScmPrefix().equals(prefix))
+            && ((ProviderSpecificDescriptor)d).provider.equals(provider))
                 return d;
         }
 
@@ -155,18 +151,6 @@ public class MavenSCM extends SCM {
             throw new IOException("Could not find the SCM provider for "+scmUrl,ex);
         } catch (ScmRepositoryException ex) {
             throw new IOException("Error while connecting to "+scmUrl,ex);
-        }
-    }
-    
-    private ScmManager getScmManager() throws IOException {
-        try {
-            Embedder embedder = new Embedder();
-            embedder.start();
-            return (ScmManager) embedder.lookup( ScmManager.ROLE );
-        } catch (PlexusContainerException e) {
-            throw new IOException2("Failed to set up ScmManager",e);
-        } catch (ComponentLookupException e) {
-            throw new IOException2("Failed to set up ScmManager",e);
         }
     }
 }
