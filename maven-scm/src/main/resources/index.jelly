@@ -1,0 +1,4 @@
+<div>
+  This plugin uses <a href="http://maven.apache.org/scm/">Maven SCM</a> to allow Hudson
+  to drive various SCMs (at the expense of reduced user experience.)
+</div>
