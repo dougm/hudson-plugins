@@ -2,6 +2,7 @@ package hudson.plugins.maven_scm;
 
 import hudson.scm.SCMDescriptor;
 import hudson.util.FormFieldValidator;
+import hudson.Util;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
@@ -20,7 +21,12 @@ public abstract class AbstractMavenSCMDescriptor extends SCMDescriptor<MavenSCM>
     public void doUrlCheck(StaplerRequest req, StaplerResponse rsp) throws IOException, ServletException {
         new FormFieldValidator(req,rsp,false) {
             protected void check() throws IOException, ServletException {
-                List list = PluginImpl.MANAGER.validateScmRepository(request.getParameter("value"));
+                String v = Util.fixEmpty(request.getParameter("value"));
+                if(v==null) {
+                    ok();
+                    return; 
+                }
+                List list = PluginImpl.MANAGER.validateScmRepository(v);
                 if(list.isEmpty())
                     ok();
                 else {
