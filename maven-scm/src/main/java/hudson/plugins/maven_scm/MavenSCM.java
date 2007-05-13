@@ -138,6 +138,9 @@ public class MavenSCM extends SCM {
             logger.println("Provider message:");
             logger.println(result.getProviderMessage());
         }
+        if(result.getCommandLine()!=null) {
+            logger.println("Command line: "+result.getCommandLine());
+        }
         if(result.getCommandOutput()!=null) {
             logger.println("Command output:");
             logger.println(result.getCommandOutput());
