@@ -1,0 +1,13 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+<div style="float:right">
+ <form action="" method="get" style="text-size:smaller">
+       View Type <select NAME="ChartType">
+        <j:forEach var="c" items="${it.getChartConfOptions()}">
+               ${c} 
+        </j:forEach>
+          </select>       
+            <input type="submit" value="Show" />
+ </form><br/>
+  <img src="graph" width="400" height="400"/>
+</div>
+</j:jelly>

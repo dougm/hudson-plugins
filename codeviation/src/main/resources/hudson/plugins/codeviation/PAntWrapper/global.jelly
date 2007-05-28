@@ -1,0 +1,12 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <f:section title="Codeviation project">
+    <f:entry title="Codeviation libraries"
+      help="${rootURL}/plugin/codeviation/help-gc-pantLibsFolder.html">
+      <f:textbox name="codeviation.pantLibsFolder" value="${descriptor.pantLibsFolder}" />
+    </f:entry>
+    <f:entry title="Pant cache folder"
+      help="${rootURL}/plugin/codeviation/help-gc-pantCacheFolder.html">
+      <f:textbox name="codeviation.pantCacheFolder" value="${descriptor.pantCacheFolder}" />
+    </f:entry>
+  </f:section>
+</j:jelly>

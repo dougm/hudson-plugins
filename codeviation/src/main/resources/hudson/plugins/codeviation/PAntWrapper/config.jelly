@@ -1,0 +1,32 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <!--
+    This jelly script is used for per-project configuration.
+
+    See global.jelly for a general discussion about jelly script.
+  -->
+   <f:entry title="First tag's date" help="${rootURL}/plugin/codeviation/help-pc-startDate.html">
+      <f:textbox name="codeviation.startDate" 
+value="${instance.startDate}" />
+   </f:entry>
+
+<f:entry title="Last tag's date" help="${rootURL}/plugin/codeviation/help-pc-endDate.html">
+      <f:textbox name="codeviation.endDate" 
+        value="${instance.endDate}" />
+</f:entry>
+
+  <f:entry title="Step in days" help="${rootURL}/plugin/codeviation/help-pc-dayStep.html">
+<f:textbox name="codeviation.daysStep" value="${instance.daysStep}"
+         />
+   </f:entry>
+
+  <f:entry title="Repository mapping" help="${rootURL}/plugin/codeviation/help-pc-repMap.html">
+    <f:textbox name="codeviation.repositoryMapping" value="${instance.repositoryMapping}"
+         />
+   </f:entry>
+      
+  <f:entry title="ANT_OPTS" help="${rootURL}/plugin/codeviation/help-pc-antOpts.html"
+           description="ANT_OPTS environment variable for ant">
+    <textarea class="setting-input" name="codeviation.antOpts"
+      rows="5" style="width:100%">${instance.antOpts}</textarea>
+  </f:entry>
+</j:jelly>

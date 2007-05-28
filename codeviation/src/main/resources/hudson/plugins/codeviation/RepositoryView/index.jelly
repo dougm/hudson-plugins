@@ -1,0 +1,42 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <l:layout>
+   <st:include it="${it.project}" page="sidepanel.jelly" />
+    <l:main-panel>
+      <h1>Codeviation report for "${it.repository.getName()}"</h1>
+        <div style="float:right">
+          <h3>Modules compilation trend</h3> 
+          <img src="graph" width="400" height="200"/>
+        </div>
+
+
+<h2>Modules (Source Roots)</h2>      
+ <table class="sortable" border="1">
+    <tr> <th> Module name</th> </tr>
+    <j:forEach var="c" items="${it.getSourceRootViews()}">
+      <tr>
+        <td>
+           <a href= "${c.getUrl()}/" > ${c.getDisplayName()} </a>
+        </td>	      
+      </tr>
+    </j:forEach>
+  </table>
+
+<h2>Cvs Tags </h2>
+
+ <table class="sortable" border="1">
+    <tr> <th> Tag name </th> </tr>
+    <j:forEach var="c" items="${it.getTags()}">
+      <tr>
+        <td>${c}</td>	      
+      </tr>
+    </j:forEach>
+  </table>
+
+      <!-- TODO: how do I make this clickable? -->
+      <div>
+        <!--<img src="./graph?width=640&amp;height=480" width="640" height="480" /> -->
+        
+      </div>
+    </l:main-panel>
+  </l:layout>
+</j:jelly>
