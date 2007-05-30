@@ -70,6 +70,7 @@
   
   <modules>
     <module>build-timeout</module>
+    <module>codeviation</module>
     <module>emma</module>
     <module>hello-world</module>
     <module>ircbot</module>
