@@ -51,7 +51,7 @@ public class MetricsAction implements Action,StaplerProxy {
         return (PAntWrapper) prj.getBuildWrappers().get(hudson.plugins.codeviation.PAntWrapper.DESCRIPTOR);
     }
     public String getIconFileName() {
-        return "../../plugin/codeviation/images/24x24/codeviation.png";
+        return "/plugin/codeviation/images/24x24/codeviation.png";
     }
 
     public String getDisplayName() {
