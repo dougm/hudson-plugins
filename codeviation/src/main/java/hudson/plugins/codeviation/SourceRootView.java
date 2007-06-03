@@ -1,9 +1,5 @@
-
-/*
- * SourceRootView.java
- * 
- * Created on Apr 20, 2007, 2:53:01 PM
- * 
+/* Copyright (c) 2007, http://www.codeviation.org project 
+ * This program is made available under the terms of the MIT License. 
  */
 
 package hudson.plugins.codeviation;

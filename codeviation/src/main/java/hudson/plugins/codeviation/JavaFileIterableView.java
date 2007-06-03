@@ -1,8 +1,5 @@
-/*
- * JavaFileIterableView.java
- * 
- * Created on Apr 21, 2007, 5:02:20 PM
- * 
+/* Copyright (c) 2007, http://www.codeviation.org project 
+ * This program is made available under the terms of the MIT License. 
  */
 
 package hudson.plugins.codeviation;
