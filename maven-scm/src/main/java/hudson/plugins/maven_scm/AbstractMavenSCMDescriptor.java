@@ -33,7 +33,7 @@ public abstract class AbstractMavenSCMDescriptor extends SCMDescriptor<MavenSCM>
                     StringBuffer buf = new StringBuffer();
                     for (Object o : list)
                         buf.append(o).append("<br>");
-                    error(buf.toString());
+                    errorWithMarkup(buf.toString());
                 }
             }
         }.check();
