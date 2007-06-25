@@ -151,7 +151,7 @@ public class JavaTestReportPublisher extends Publisher implements Serializable {
         return true;
      }
 
-    private void archiveJTWork(Build owner, BuildListener listener) throws IOException, InterruptedException {
+    private void archiveJTWork(Build<?,?> owner, BuildListener listener) throws IOException, InterruptedException {
         if (jtwork == null || jtwork.equals("")) {
             listener.getLogger().println("Set Java Test Work directory for better reporting");
         } else {
