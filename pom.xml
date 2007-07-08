@@ -87,6 +87,7 @@
     <module>polarion</module>
     <module>promoted-builds</module>
     <module>text-finder</module>
+    <module>trac</module>
     <module>xvnc</module>
   </modules>
 </project>
