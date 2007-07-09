@@ -70,6 +70,7 @@
   
   <modules>
     <module>build-timeout</module>
+    <module>clover</module>
     <module>codeviation</module>
     <module>emma</module>
     <module>hello-world</module>
