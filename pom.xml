@@ -62,8 +62,15 @@
       <plugin>
         <groupId>org.jvnet.hudson.tools</groupId>
         <artifactId>maven-hpi-plugin</artifactId>
-        <version>1.8</version>
+        <version>1.9</version>
         <extensions>true</extensions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <!-- upload the plugin to java.net as well -->
+        <configuration>
+          <goals>hpi:upload deploy</goals>
+        </configuration>
       </plugin>
     </plugins>
   </build>
