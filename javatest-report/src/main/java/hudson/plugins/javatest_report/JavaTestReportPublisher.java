@@ -157,7 +157,7 @@ public class JavaTestReportPublisher extends Publisher implements Serializable {
         } else {
             Project p = owner.getProject();
 
-            p.getWorkspace().copyRecursiveTo(jtwork+'/',
+            p.getWorkspace().child(jtwork).copyRecursiveTo("**/*",
                 new FilePath(owner.getArtifactsDir()).child("java-test-work"));
         }
     }
