@@ -1,4 +1,4 @@
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.jvnet.hudson</groupId>
@@ -18,7 +18,7 @@
   -->
   <scm>
     <connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvs:hudson/hudson/plugins</connection>
-    <developerConnection>scm:cvs:pserver:${user.name}@cvs.dev.java.net:/cvs:hudson/hudson/plugins</developerConnection>
+    <developerConnection>scm:cvs:pserver:${java.net.id}@cvs.dev.java.net:/cvs:hudson/hudson/plugins</developerConnection>
     <url>https://hudson.dev.java.net/source/browse/hudson/hudson/plugins</url>
   </scm>
   
@@ -99,4 +99,9 @@
     <module>trac</module>
     <module>xvnc</module>
   </modules>
+
+  <properties>
+    <!-- if your java.net user name is different from local user name, specify it here -->
+    <java.net.id>${user.name}</java.net.id>
+  </properties>
 </project>
