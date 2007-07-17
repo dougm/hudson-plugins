@@ -8,11 +8,7 @@
   </parent>
   
   <artifactId>gant</artifactId>
-  <version>1.0</version>
+  <version>1.1-SNAPSHOT</version>
   <packaging>hpi</packaging>
   <name>Hudson Gant plugin</name>
-
-  <scm>
-    <tag>gant-1_0</tag>
-  </scm>
 </project>
