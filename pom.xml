@@ -80,6 +80,7 @@
     <module>clover</module>
     <module>codeviation</module>
     <module>emma</module>
+    <module>gant</module>
     <module>hello-world</module>
     <module>ircbot</module>
     <module>jabber</module>
