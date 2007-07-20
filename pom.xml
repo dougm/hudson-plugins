@@ -95,6 +95,7 @@
     <module>plot</module>
     <module>polarion</module>
     <module>promoted-builds</module>
+    <module>scp</module>
     <module>text-finder</module>
     <module>trac</module>
     <module>xvnc</module>
