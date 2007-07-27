@@ -68,9 +68,9 @@
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
         <!-- upload the plugin to java.net as well -->
-        <configuration>
+        <!--configuration>
           <goals>deploy hpi:upload</goals>
-        </configuration>
+        </configuration-->
       </plugin>
     </plugins>
   </build>
