@@ -3,9 +3,19 @@ package hudson.plugins.jmx;
 import hudson.Plugin;
 import hudson.model.Hudson;
 
-import java.lang.management.ManagementFactory;
-
 import javax.management.MBeanServer;
+import javax.management.remote.JMXConnectorServer;
+import javax.management.remote.JMXConnectorServerFactory;
+import javax.management.remote.JMXServiceURL;
+import java.io.IOException;
+import static java.lang.management.ManagementFactory.getPlatformMBeanServer;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.UnknownHostException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Entry point of the plugin. This is responsible for registering listeners
@@ -16,22 +26,51 @@ import javax.management.MBeanServer;
  * @plugin
  */
 public class PluginImpl extends Plugin {
-	
-	JmxJobListener jjl = null;
-	
-	public void start() throws Exception {
-		MBeanServer server = ManagementFactory.getPlatformMBeanServer();
-		jjl = new JmxJobListener(server);
-		Hudson.getInstance().addListener(jjl);
+    public static final int JMX_PORT = 9876;
+    private MBeanServer server;
+    JmxJobListener jjl = null;
+
+    public void start() throws Exception {
+        server = getJMXConnectorServer();
+        jjl = new JmxJobListener(server);
+        Hudson.getInstance().addListener(jjl);
     }
 
-	/**
-	 * @see hudson.Plugin#stop()
-	 */
-	@Override
-	public void stop() throws Exception {
-		Hudson.getInstance().removeListener(jjl);
-		jjl.unregister();
-		jjl = null;
-	}
+    /**
+     * @see hudson.Plugin#stop()
+     */
+    @Override
+    public void stop() throws Exception {
+        Hudson.getInstance().removeListener(jjl);
+        jjl.unregister();
+        jjl = null;
+    }
+
+    private MBeanServer getJMXConnectorServer() {
+        MBeanServer server = getPlatformMBeanServer();
+        try {
+            LocateRegistry.createRegistry(JMX_PORT);
+            JMXServiceURL url = new JMXServiceURL(
+                    "service:jmx:rmi:///jndi/rmi://" + getHostName() + ":" + JMX_PORT + "/hudson");
+            JMXConnectorServer connectorServer =  JMXConnectorServerFactory.newJMXConnectorServer(url, null, server);
+
+            connectorServer.start();
+            return connectorServer.getMBeanServer();
+        } catch (MalformedURLException ex) {
+            LOGGER.log(Level.SEVERE, "Failed to start RMI connector for JMX", ex);
+        } catch (RemoteException ex) {
+            LOGGER.log(Level.SEVERE, "Failed to start RMI connector for JMX", ex);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "Failed to start RMI connector for JMX", ex);
+        }
+        // fall back
+        return server;
+    }
+
+    private static String getHostName() throws UnknownHostException {
+        return InetAddress.getLocalHost().getHostName();
+    }
+
+    private static final Logger LOGGER = Logger.getLogger(PluginImpl.class.getName());
+
 }

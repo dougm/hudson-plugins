@@ -81,6 +81,7 @@
     <module>clover</module>
     <module>codeviation</module>
     <module>emma</module>
+    <module>findbugs</module>
     <module>gant</module>
     <module>gcal</module>
     <module>hello-world</module>
@@ -107,4 +108,18 @@
     <!-- if your java.net user name is different from local user name, specify it here -->
     <java.net.id>${user.name}</java.net.id>
   </properties>
+  
+  <repositories>
+    <repository>
+      <id>java.net2</id>
+      <url>http://download.java.net/maven/2/</url>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 </project>
