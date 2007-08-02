@@ -10,6 +10,7 @@
   <groupId>org.jvnet.hudson.plugins</groupId>
   <artifactId>plugin</artifactId>
   <name>Hudson plugin POM</name>
+  <version>1.124</version>
   <packaging>pom</packaging>
   
   <!--
@@ -27,13 +28,13 @@
       <groupId>org.jvnet.hudson.main</groupId>
       <artifactId>hudson-war</artifactId>
       <type>war</type>
-      <version>1.123</version>
+      <version>1.124</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.jvnet.hudson.main</groupId>
       <artifactId>hudson-core</artifactId>
-      <version>1.123</version>
+      <version>1.124</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -75,47 +76,34 @@
     </plugins>
   </build>
   
-  <profiles>
-    <profile>
-      <!-- during normal builds, define <module>s so that they get built -->
-      <id>debug</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <modules>
-        <module>batch-task</module>
-        <module>build-timeout</module>
-        <module>clover</module>
-        <module>codeviation</module>
-        <module>emma</module>
-        <module>findbugs</module>
-        <module>gant</module>
-        <module>gcal</module>
-        <module>hello-world</module>
-        <module>ircbot</module>
-        <module>jabber</module>
-        <module>japex</module>
-        <module>javatest-report</module>
-        <module>javanet-uploader</module>
-        <module>javanet-trigger-installer</module>
-        <module>jira</module>
-        <module>jmx</module>
-        <module>jwsdp-sqe</module>
-        <module>jprt</module>
-        <module>plot</module>
-        <module>polarion</module>
-        <module>promoted-builds</module>
-        <module>scp</module>
-        <module>text-finder</module>
-        <module>trac</module>
-        <module>xvnc</module>
-      </modules>
-    </profile>
-    <!-- but during release, don't define any <module>s so that we can release this POM alone non-recursively -->
-    <profile>
-      <id>release</id>
-    </profile>
-  </profiles>
+  <modules>
+    <module>batch-task</module>
+    <module>build-timeout</module>
+    <module>clover</module>
+    <module>codeviation</module>
+    <module>emma</module>
+    <module>findbugs</module>
+    <module>gant</module>
+    <module>gcal</module>
+    <module>hello-world</module>
+    <module>ircbot</module>
+    <module>jabber</module>
+    <module>japex</module>
+    <module>javatest-report</module>
+    <module>javanet-uploader</module>
+    <module>javanet-trigger-installer</module>
+    <module>jira</module>
+    <module>jmx</module>
+    <module>jwsdp-sqe</module>
+    <module>jprt</module>
+    <module>plot</module>
+    <module>polarion</module>
+    <module>promoted-builds</module>
+    <module>scp</module>
+    <module>text-finder</module>
+    <module>trac</module>
+    <module>xvnc</module>
+  </modules>
 
   <properties>
     <!-- if your java.net user name is different from local user name, specify it here -->
