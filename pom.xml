@@ -94,14 +94,17 @@
     <module>javanet-trigger-installer</module>
     <module>jira</module>
     <module>jmx</module>
-    <module>jwsdp-sqe</module>
     <module>jprt</module>
+    <module>jwsdp-sqe</module>
+    <module>mercurial</module>
     <module>plot</module>
     <module>polarion</module>
     <module>promoted-builds</module>
     <module>scp</module>
+    <module>svncompat13</module>
     <module>text-finder</module>
     <module>trac</module>
+    <module>violations</module>
     <module>xvnc</module>
   </modules>
 
