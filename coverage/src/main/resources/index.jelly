@@ -1,0 +1,4 @@
+<div>
+    This plugin integrates java code coverage tools such as <a href="http://www.cenqua.com/clover/">Clover</a>,
+    <a href="http://emma.sf.net">emma</a> and <a href="http://cobertura.sf.net">cobertura</a> to Hudson.
+</div>
