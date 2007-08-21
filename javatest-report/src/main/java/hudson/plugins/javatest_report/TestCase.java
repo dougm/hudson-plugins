@@ -32,4 +32,8 @@ public class TestCase extends TestObject<TestCase> {
     public int getFailCount() {
         return getStatus()==Status.PASS ? 0 : 1;
     }
+
+    public int getSkippedCount() {
+        return getStatus()==Status.SKIP ? 1 : 0;
+    }
 }
