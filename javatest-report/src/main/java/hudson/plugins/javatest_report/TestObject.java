@@ -176,6 +176,9 @@ public abstract class TestObject<S extends TestObject<S>>
         if(status.equalsIgnoreCase("did_not_run"))
             this.status = Status.SKIP;
         else
+        if(status.equalsIgnoreCase("error"))
+            this.status = Status.ERROR;
+        else
             this.status = Status.FAIL;
     }
 
@@ -193,4 +196,5 @@ public abstract class TestObject<S extends TestObject<S>>
 
     public abstract int getTotalCount();
     public abstract int getFailCount();
+    public abstract int getSkippedCount();
 }

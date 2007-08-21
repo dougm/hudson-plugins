@@ -17,6 +17,7 @@ import java.util.TreeMap;
  *
  * @author Kohsuke Kawaguchi
  * @author Rama Pulavarthi
+ * @author Vladimir Ralev
  */
 public abstract class TestCollection<
     S extends TestCollection<S,C>,
@@ -30,8 +31,11 @@ public abstract class TestCollection<
      * All Failed Tests keyed by their ID.
      */
     private final Map<String,C> failedTests = new TreeMap<String,C>();
+    private final Map<String,C> skippedTests = new TreeMap<String,C>();
+    
     private int totalCount;
     private int failCount;
+    private int skippedCount;
 
     public Collection<C> getChildren() {
         return tests.values();
@@ -39,6 +43,10 @@ public abstract class TestCollection<
 
     public Collection<C> getFailedTests() {
         return failedTests.values();
+    }
+    
+    public Collection<C> getSkippedTests() {
+        return skippedTests.values();
     }
 
     public int getTotalCount() {
@@ -48,7 +56,10 @@ public abstract class TestCollection<
     public int getFailCount() {
         return failCount;
     }
-
+    
+    public int getSkippedCount() {
+        return skippedCount;
+    }
     /**
      * Returns the caption of the children. Used in the view.
      */
@@ -68,10 +79,14 @@ public abstract class TestCollection<
      */
     public void add(C t) {
         tests.put(t.getId(),t);
-        if(t.getStatus() != Status.PASS)
-            failedTests.put(t.getId(),t);
-        totalCount += t.getTotalCount();
+        if(t.getStatus() == Status.SKIP)
+            skippedTests.put(t.getId(),t);
+        else if(t.getStatus() != Status.PASS)
+           failedTests.put(t.getId(),t);
+        if(t.getStatus() != Status.SKIP)
+           totalCount += t.getTotalCount();
         failCount += t.getFailCount();
+        skippedCount += t.getSkippedCount();
         t.parent = this;
     }
 

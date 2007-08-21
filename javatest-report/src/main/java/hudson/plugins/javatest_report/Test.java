@@ -43,6 +43,13 @@ public class Test extends TestCollection<Test,TestCase> {
         if(super.getTotalCount() != 0)
             return super.getFailCount();
         else
-            return (getStatus()==Status.PASS ? 0 : 1);
+            return ((getStatus()==Status.PASS || getStatus()==Status.SKIP) ? 0 : 1);
     }
+    
+    public int getSkippedCount() {
+       if(super.getTotalCount() != 0)
+           return super.getSkippedCount();
+       else
+           return (getStatus()==Status.SKIP ? 1 : 0);
+   }
 }

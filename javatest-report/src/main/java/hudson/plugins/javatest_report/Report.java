@@ -86,6 +86,7 @@ public final class Report extends TestCollection<Report,Suite> {
         digester.addCallParam("*/attribute/name", 0);
         digester.addCallParam("*/attribute/value", 1);
 
+        digester.setValidating(false);
         digester.parse(reportXml);
     }
 
