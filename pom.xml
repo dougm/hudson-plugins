@@ -98,6 +98,7 @@
     <module>jprt</module>
     <module>jwsdp-sqe</module>
     <module>mercurial</module>
+    <module>nant</module>
     <module>plot</module>
     <module>polarion</module>
     <module>promoted-builds</module>
