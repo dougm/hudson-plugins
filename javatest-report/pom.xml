@@ -9,10 +9,6 @@
   
   <artifactId>javatest-report</artifactId>
   <packaging>hpi</packaging>
-  <version>1.1</version>
+  <version>1.2-SNAPSHOT</version>
   <name>Hudson JavaTest report plugin</name>
-
-  <scm>
-    <tag>javatest-report-1_1</tag>
-  </scm>
 </project>
