@@ -99,7 +99,7 @@
     <module>jprt</module>
     <module>jwsdp-sqe</module>
     <module>mercurial</module>
-	<module>msbuild</module>
+    <module>msbuild</module>
     <module>nant</module>
     <module>plot</module>
     <module>polarion</module>
