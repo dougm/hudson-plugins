@@ -8,7 +8,7 @@
   </parent>
   
   <artifactId>maven1-snapshot-plugin</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.1</version>
   <packaging>hpi</packaging>
   <name>Maven 1.x snapshot trigger</name>
   <description>
@@ -24,11 +24,11 @@
   <developers>
     <developer>
       <id>wyla</id>
-      <name>Jarkko Viinam&#228;ki</name>
+      <name>Jarkko Viinamäki</name>
       <email>wyla@removethis.sci.fi</email>
       <url>http://www.iki.fi/wyla</url>
-      <organization></organization>
-      <organizationUrl></organizationUrl>
+      <organization />
+      <organizationUrl />
       <roles>
         <role>architect</role>
         <role>developer</role>
@@ -121,4 +121,8 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
+
+  <scm>
+    <tag>REL_0_1</tag>
+  </scm>
 </project>
