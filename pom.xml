@@ -101,6 +101,7 @@
     <module>mercurial</module>
     <module>msbuild</module>
     <module>nant</module>
+    <module>nunit</module>
     <module>plot</module>
     <module>polarion</module>
     <module>promoted-builds</module>
