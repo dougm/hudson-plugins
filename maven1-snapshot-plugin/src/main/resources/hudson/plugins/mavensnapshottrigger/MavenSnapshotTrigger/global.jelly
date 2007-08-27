@@ -1,0 +1,12 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <!--
+  <f:section title="Maven 1.x SNAPSHOT dependency trigger">
+    <f:entry title="Scan remote repositories"
+      description="Check if there are newer SNAPSHOT dependencies in remote repositories"
+      help="${rootURL}/plugin/maven-snapshot-plugin/help-remoteScanConfig.html">
+
+      <f:checkbox name="mavensnapshotplugin.scanRemoteRepositories" checked="${descriptor.scanRemoteRepositories()}" />
+    </f:entry>
+  </f:section>
+  -->
+</j:jelly>

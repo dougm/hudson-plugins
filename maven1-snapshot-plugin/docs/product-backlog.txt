@@ -1,0 +1,33 @@
+MUST
+--------------------------------------------------------------
+
+SHOULD
+--------------------------------------------------------------
+Send dependency changes to Hudson (SNAPSHOT changed).
+
+COULD
+--------------------------------------------------------------
+SAR and HAR support (JBoss package types)
+JAR overrides support to MavenSnapshotScanner
+Support for remote repository scanning
+  http://maven.apache.org/maven-1.x/using/repositories.html
+  default: http://repo1.maven.org/maven/
+  
+  - Maven supports protocols: http, https, file, sftp
+  - Needs to have timeout for scanning (1-2 secs per repo?)
+
+
+
+Done
+--------------------------------------------------------------
+Add support for global MAVEN_REPO setting
+Fix help-projectConfig.html in Descriptor
+Write meaningful stuff to help-globalConfig.html
+Write meaningful stuff to help-projectConfig.html
+Respect Maven's local repository (maven.repo.local) setting
+Remove global "local repository" setting
+Remove global "scan remote repositories" setting
+Confirm that /workplace/project.xml is always a valid path
+
+Won't
+--------------------------------------------------------------
