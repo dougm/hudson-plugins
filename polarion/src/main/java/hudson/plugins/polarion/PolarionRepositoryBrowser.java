@@ -8,6 +8,7 @@ import hudson.scm.SubversionChangeLogSet.LogEntry;
 import hudson.scm.SubversionChangeLogSet.Path;
 import hudson.scm.SubversionRepositoryBrowser;
 import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -21,11 +22,11 @@ import java.util.HashMap;
  * @author Jonny Wray
  */
 public class PolarionRepositoryBrowser extends SubversionRepositoryBrowser {
-	
-	private static final String CHANGE_SET_FORMAT = "revisionDetails.jsp?location=/&rev=%d";
-	private static final String DIFF_FORMAT = "changedResource.jsp?location=/&url=%s&rev=%d&action=%s";
-	private static final String FILE_FORMAT = "fileContent.jsp?location=/&url=%s";
-	
+
+	private static final String CHANGE_SET_FORMAT = "revisionDetails.jsp?location=%s&rev=%d";
+	private static final String DIFF_FORMAT = "changedResource.jsp?location=%s&url=%s&rev=%d&action=%s";
+	private static final String FILE_FORMAT = "fileContent.jsp?location=%s&url=%s";
+
 	private static final Map editTypeMap = new HashMap();
 	static{
 		editTypeMap.put(EditType.ADD, "add");
@@ -34,13 +35,18 @@ public class PolarionRepositoryBrowser extends SubversionRepositoryBrowser {
 		// no replace in EditType which polarion has an action=replace for.
 	};
 	public final URL url;
+	private final String location;
 
-	/**
-     * @stapler-constructor
-     */
-    public PolarionRepositoryBrowser(URL url) throws MalformedURLException {
+    @DataBoundConstructor
+    public PolarionRepositoryBrowser(URL url, String location) throws MalformedURLException {
 		this.url = normalizeToEndWithSlash(url);
+		this.location = location;
 	}
+
+    public String getLocation() {
+        if(location==null)  return "/";
+        return location;
+    }
 
     @Override
     public URL getDiffLink(Path path) throws IOException {
@@ -48,17 +54,17 @@ public class PolarionRepositoryBrowser extends SubversionRepositoryBrowser {
 			return null;
 		}
 		String editType = (String)editTypeMap.get(path.getEditType());
-		return new URL(url, String.format(DIFF_FORMAT, path.getValue(), path.getLogEntry().getRevision(), editType));
+		return new URL(url, String.format(DIFF_FORMAT, getLocation(), path.getValue(), path.getLogEntry().getRevision(), editType));
     }
 
     @Override
     public URL getFileLink(Path path) throws IOException {
-    	return new URL(url, String.format(FILE_FORMAT, path.getValue()));
+    	return new URL(url, String.format(FILE_FORMAT, getLocation(), path.getValue()));
     }
 
     @Override
     public URL getChangeSetLink(LogEntry changeSet) throws IOException {
-    	return new URL(url, String.format(CHANGE_SET_FORMAT, changeSet.getRevision()));
+    	return new URL(url, String.format(CHANGE_SET_FORMAT, getLocation(), changeSet.getRevision()));
     }
 
     public DescriptorImpl getDescriptor() {

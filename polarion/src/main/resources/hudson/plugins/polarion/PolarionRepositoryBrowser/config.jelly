@@ -2,4 +2,7 @@
   <f:entry title="URL" help="/plugin/polarion/help-url.html">
    <f:textbox name="polarion.url" value="${browser.url}"/>
   </f:entry>
+  <f:entry title="Location" help="/plugin/polarion/help-location.html">
+   <f:textbox name="polarion.location" value="${browser.location}"/>
+  </f:entry>
 </j:jelly>
