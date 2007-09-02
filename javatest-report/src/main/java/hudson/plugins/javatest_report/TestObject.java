@@ -189,7 +189,7 @@ public abstract class TestObject<S extends TestObject<S>>
         if(name.equals("logfile"))
             statusMessage = value;
     }
-
+    
     public String getStatusMessage() {
         return statusMessage;
     }

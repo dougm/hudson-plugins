@@ -5,6 +5,7 @@ import org.kohsuke.stapler.StaplerResponse;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -32,6 +33,8 @@ public abstract class TestCollection<
      */
     private final Map<String,C> failedTests = new TreeMap<String,C>();
     private final Map<String,C> skippedTests = new TreeMap<String,C>();
+    
+    private final Map<String,Package> packages = new TreeMap<String,Package>();
     
     private int totalCount;
     private int failCount;
@@ -88,6 +91,55 @@ public abstract class TestCollection<
         failCount += t.getFailCount();
         skippedCount += t.getSkippedCount();
         t.parent = this;
+        if( (t.getStatus() == Status.SKIP) ||
+        		!(this.getClass().isAssignableFrom(Suite.class))) return;
+        String fqcn = t.getName();
+        int packagePosition = fqcn.lastIndexOf("/");
+        if(packagePosition>0 && packagePosition<fqcn.length())
+        {
+        	Test test = new Test();
+        	test.setId(t.getId());
+        	test.setName(t.getName());
+        	test.setStatusString(t.getStatus().toString());
+        	test.setDescription(t.getDescription());
+        	test.addAttribute("logfile", t.getStatusMessage());
+        	String packageName = fqcn.substring(0, packagePosition).replaceAll("/",".");
+        	
+        	String testName = fqcn.substring(packagePosition + 1, fqcn.length());
+        	Package c = (Package) packages.get(packageName);
+        	if(c != null)
+        	{
+        		c.add(test);
+        	}
+        	else
+        	{
+        		Package newSuite = new Package();
+        		newSuite.setId(packageName);
+        		newSuite.setName(packageName);
+        		newSuite.add(test);
+        		newSuite.parent = this;
+        		packages.put(packageName, newSuite);
+        	}
+        }
+    }
+    
+    public String[] getPackages()
+    {
+    	if(packages == null) 
+    	{
+    		System.out.println("null"+this.getClass()+this.toString());
+    		return null;
+    	}
+    	Set<String> set = packages.keySet();
+    	String[] strs = new String[set.size()];
+    	strs = set.toArray(strs);
+    	return strs;
+    	
+    }
+    
+    public Package getPackageTests(String packageName)
+    {
+    	return packages.get(packageName);
     }
 
     // method for stapler

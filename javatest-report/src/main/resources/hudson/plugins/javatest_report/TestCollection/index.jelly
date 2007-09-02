@@ -12,9 +12,45 @@
       <test:bar />
 
       <j:if test="${it.skippedTests.size()!=0}">
-        <a href="skipped/"><h2>Skipped tests: ${it.skippedTests.size()}</h2></a>
+          <a href="skipped/"><h2>Skipped tests: ${it.skippedTests.size()}</h2></a>
       </j:if>
 
+<j:catch var="exception">
+	  <j:set var="size" value="${it.packages.size()}" />
+      <j:if test="${it.packages.size()!=0}">
+          <h2>Packages</h2>
+          <table class="pane sortable">
+ 		  <tr>
+            <td class="pane-header">${it.childTitle}</td>
+            <td class="pane-header" style="width:5em">Fail</td>
+            <td class="pane-header" style="width:1em; font-size:smaller; white-space:nowrap;">(diff)</td>
+            <td class="pane-header" style="width:5em">Age</td>
+            <td class="pane-header" style="width:5em">Total</td>
+            <td class="pane-header" style="width:1em; font-size:smaller; white-space:nowrap;">(diff)</td>
+          </tr>
+            <j:forEach var="f" items="${it.getPackages()}" varStatus="i">
+            <j:set var="prev" value="${it.getPackageTests(f).previousResult}" />
+            <j:set var="curr" value="${it.getPackageTests(f)}" />
+                <tr>
+                  <td class="pane"><a href="packageTests/${f}">${f}</a></td>
+                  <td class="pane" style="text-align:right">${curr.failCount}</td>
+                  <td class="pane" style="text-align:right">
+                    ${h.getDiffString2(curr.failCount-prev.failCount)}
+                  </td>
+                  <td class="pane" style="text-align:right;">
+                      ${curr.age}
+                  </td>
+                  <td class="pane" style="text-align:right">${curr.totalCount}</td>
+                  <td class="pane" style="text-align:right">
+                    ${h.getDiffString2(curr.totalCount-prev.totalCount)}
+                  </td>
+                </tr>
+            </j:forEach>
+          </table>
+        </j:if>
+</j:catch>    
+
+<j:if test="${it.packages.size()==0}">
       <j:if test="${it.failCount!=0}">
           <h2>All Failed Tests</h2>
           <table class="pane sortable">
@@ -83,6 +119,8 @@
           </tbody>
         </table>
         </j:if>
+</j:if>
+
     </l:main-panel>
   </l:layout>
 </j:jelly>

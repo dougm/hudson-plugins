@@ -3,7 +3,7 @@
     <st:include it="${it.owner}" page="sidepanel.jelly" />
     <l:main-panel>
       <j:if test="${it.skippedCount!=0}">
-          <h2>Skipped tests count ${it.skippedCount}</h2>
+          <h2>Skipped tests: ${it.skippedCount}</h2>
           <table class="pane sortable">
             <tr>
               <td class="pane-header">Test Name</td>
