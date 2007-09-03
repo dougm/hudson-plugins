@@ -108,9 +108,11 @@
     <module>promoted-builds</module>
     <module>scp</module>
     <module>svncompat13</module>
+    <module>tasks</module>
     <module>text-finder</module>
     <module>trac</module>
     <module>violations</module>
+    <module>vss</module>
     <module>xvnc</module>
   </modules>
 
