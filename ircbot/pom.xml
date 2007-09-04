@@ -14,6 +14,9 @@
   <version>1.8-SNAPSHOT</version>
   <name>Hudson IRC Plugin</name>
   <description>A Build status publisher that notifies channels on a IRC server</description>
+  <licenses>
+  	<license><name>MIT license</name><comments>All source code is under the MIT license.</comments></license>
+  </licenses>
   <dependencies>
     <dependency>
       <groupId>pircbot</groupId>
@@ -21,4 +24,13 @@
       <version>1.4.2</version>
     </dependency>
   </dependencies>
+  <developers>
+    <developer>
+      <id>bruyeron</id>
+      <name>Renaud Bruyeron</name>
+      <email>bruyeron@fullsix.com</email>
+      <organization>FullSIX France</organization>
+      <organizationUrl>http://www.fullsix.fr</organizationUrl>
+    </developer>
+  </developers>
 </project>
