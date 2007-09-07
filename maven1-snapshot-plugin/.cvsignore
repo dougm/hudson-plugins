@@ -5,3 +5,5 @@ nodebug.bat
 .settings
 release.bat
 release.properties
+.project
+.classpath
