@@ -41,7 +41,7 @@ public class MavenSnapshotTrigger extends Trigger<BuildableItem> {
         super(cronTabSpec);
     }
 
-    protected void run() {
+    public void run() {
         try {
             Project project = (Project)job;
         
