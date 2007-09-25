@@ -70,6 +70,11 @@ public class JNUploaderPublisher extends Publisher {
             Map<String,String> envVars = build.getEnvVars();
 
             for (Entry e : entries) {
+                if(e.sourceFile.trim().length()==0) {
+                    listener.getLogger().println("Configuration error: no file is specified for upload");
+                    build.setResult(Result.FAILURE);
+                    return true;
+                }
                 listener.getLogger().println("Uploading "+e.sourceFile+" to java.net");
 
                 String expanded = Util.replaceMacro(e.sourceFile, envVars);
