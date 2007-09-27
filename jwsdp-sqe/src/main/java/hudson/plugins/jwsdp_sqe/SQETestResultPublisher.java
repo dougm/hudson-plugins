@@ -108,6 +108,11 @@ public class SQETestResultPublisher extends Publisher implements Serializable {
                 private static final long serialVersionUID = 1L;
             });
         } catch (AbortException e) {
+            if(build.getResult()== Result.FAILURE)
+                // most likely a build failed before it gets to the test phase.
+                // don't report confusing error message.
+                return true;
+
             listener.getLogger().println(e.getMessage());
             build.setResult(Result.FAILURE);
             return true; /// but this is not a fatal error
