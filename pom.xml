@@ -106,6 +106,7 @@
     <module>nant</module>
     <module>nunit</module>
     <module>plot</module>
+    <module>perforce</module>
     <module>polarion</module>
     <module>promoted-builds</module>
     <module>scp</module>
