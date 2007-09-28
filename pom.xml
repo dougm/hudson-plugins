@@ -82,9 +82,9 @@
     <module>clearcase</module>
     <module>clover</module>
     <module>codeviation</module>
-    <module>cobertura</module><!-- not ready for release yet -->
+    <module>cobertura</module>
     <!--module>coverage</module--><!-- not ready for release yet -->
-	<module>email-ext</module>
+    <module>email-ext</module>
     <module>emma</module>
     <module>findbugs</module>
     <module>gant</module>
