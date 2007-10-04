@@ -19,28 +19,28 @@ import org.kohsuke.stapler.StaplerRequest;
 public class IrcUserProperty extends hudson.model.UserProperty {
     public static final DescriptorImpl DESCRIPTOR = new DescriptorImpl();
 
-	private final String nick;
-	
-	public IrcUserProperty(String nick){
-		this.nick = nick;
-	}
-	
-	public String getNick() {
-        if(nick!=null)
+    private final String nick;
+
+    public IrcUserProperty(String nick) {
+        this.nick = nick;
+    }
+
+    public String getNick() {
+        if (nick != null)
             return nick;
 
         return user.getId();
-        
-    }
-	
-    /**
-	 * @see hudson.model.Describable#getDescriptor()
-	 */
-	public Descriptor<UserProperty> getDescriptor() {
-		return DESCRIPTOR;
-	}
 
-	public static final class DescriptorImpl extends UserPropertyDescriptor {
+    }
+
+    /**
+     * @see hudson.model.Describable#getDescriptor()
+     */
+    public Descriptor<UserProperty> getDescriptor() {
+        return DESCRIPTOR;
+    }
+
+    public static final class DescriptorImpl extends UserPropertyDescriptor {
         public DescriptorImpl() {
             super(IrcUserProperty.class);
         }
@@ -53,7 +53,8 @@ public class IrcUserProperty extends hudson.model.UserProperty {
             return new IrcUserProperty(null);
         }
 
-        public IrcUserProperty newInstance(StaplerRequest req) throws FormException {
+        public IrcUserProperty newInstance(StaplerRequest req)
+                throws FormException {
             return new IrcUserProperty(req.getParameter("irc.nick"));
         }
     }
