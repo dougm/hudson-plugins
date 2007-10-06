@@ -73,26 +73,6 @@
           <goals>deploy hpi:upload</goals>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>display-info</goal>
-              <goal>enforce-once</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <!-- The bug in JDK 1.5's compiler should not affect plugins -->
-                <requireJavaVersion>
-                  <version>[1.5.0,]</version>
-                </requireJavaVersion>
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
 
