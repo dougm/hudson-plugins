@@ -54,7 +54,7 @@ public class IrcNotifier {
                 + status
                 + " ("
                 + Hudson.getInstance().getRootUrl()
-                + build.getUrl() + ")" + (suspects == null ? "" : suspects));
+                + build.getUrl() + "console)" + (suspects == null ? "" : suspects));
     }
 
     private static void reportSuccess(AbstractBuild build, List<String> channels) {
@@ -77,7 +77,7 @@ public class IrcNotifier {
                 + status
                 + " ("
                 + Hudson.getInstance().getRootUrl()
-                + build.getUrl() + ")" + (suspects == null ? "" : suspects));
+                + build.getUrl() + "testReport)" + (suspects == null ? "" : suspects));
     }
 
     private static <T extends Entry> String calculateSuspectsString(

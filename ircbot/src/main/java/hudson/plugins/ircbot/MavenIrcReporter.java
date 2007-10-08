@@ -91,6 +91,7 @@ public class MavenIrcReporter extends MavenReporter {
         public MavenIrcReporter newInstance(StaplerRequest req) throws FormException {
             MavenIrcReporter result = new MavenIrcReporter();
             String channelParam = req.getParameter("channels");
+            LOGGER.info("supplied channels: " + channelParam);
             if (channelParam != null) {
                 for (String c : Arrays.asList(channelParam.split(" "))) {
                     if (c.trim().length() > 0) {
