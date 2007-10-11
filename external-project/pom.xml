@@ -17,10 +17,11 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   
-  <groupId>org.jvnet.hudson.tools</groupId>
-  <artifactId>bootstrap</artifactId>
-  <packaging>pom</packaging>
+  <groupId>org.jvnet.hudson.plugins</groupId>
+  <artifactId>external-project</artifactId>
+  <packaging>hpi</packaging>
   <version>1.0</version>
+  <name>Hudson External-Project plugin</name>
   
   <build>
     <plugins>
