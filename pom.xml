@@ -79,6 +79,7 @@
   <modules>
     <module>accurev</module>
     <module>batch-task</module>
+    <module>build-publisher</module>
     <module>build-timeout</module>
     <module>clearcase</module>
     <module>clover</module>
@@ -87,6 +88,7 @@
     <!--module>coverage</module--><!-- not ready for release yet -->
     <module>email-ext</module>
     <module>emma</module>
+    <module>external-project</module>
     <module>findbugs</module>
     <module>gant</module>
     <module>gcal</module>
