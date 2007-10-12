@@ -8,8 +8,12 @@
   </parent>
   
   <artifactId>svncompat13</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>hpi</packaging>
   <name>Hudson SVN 1.3 Compatibility plugin</name>
   
+
+  <scm>
+    <tag>svncompat13-1_0</tag>
+  </scm>
 </project>
