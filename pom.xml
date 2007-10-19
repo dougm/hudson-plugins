@@ -104,7 +104,7 @@
     <module>jprt</module>
     <module>jwsdp-sqe</module>
     <module>maven1-snapshot-plugin</module>
-    <module>mercurial</module>
+    <!--module>mercurial</module-->
     <module>msbuild</module>
     <module>nant</module>
     <module>nunit</module>
