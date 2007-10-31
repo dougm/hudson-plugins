@@ -81,7 +81,7 @@
     <module>batch-task</module>
     <module>build-publisher</module>
     <module>build-timeout</module>
-    <module>clearcase</module>
+    <!--module>clearcase</module-->
     <module>clover</module>
     <module>codeviation</module>
     <module>cobertura</module>
