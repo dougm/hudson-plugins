@@ -63,14 +63,14 @@
       <plugin>
         <groupId>org.jvnet.hudson.tools</groupId>
         <artifactId>maven-hpi-plugin</artifactId>
-        <version>1.13</version>
+        <version>1.14</version>
         <extensions>true</extensions>
       </plugin>
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
-        <!-- upload the plugin to java.net as well -->
+        <!-- upload the plugin to java.net and make an announcement as well -->
         <configuration>
-          <goals>deploy hpi:upload</goals>
+          <goals>deploy hpi:upload hpi:announce</goals>
         </configuration>
       </plugin>
     </plugins>
