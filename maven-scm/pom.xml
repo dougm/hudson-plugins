@@ -10,7 +10,7 @@
   <artifactId>maven-scm</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>hpi</packaging>
-  <name>Hudson/MavnSCM bridge plugin</name>
+  <name>Hudson/MavenSCM bridge plugin</name>
   <description>Uses Maven SCM implementations from Hudson</description>
   
   <dependencies>

@@ -11,13 +11,5 @@
   <version>1.2-SNAPSHOT</version>
   <packaging>hpi</packaging>
   <name>Hudson plugin for "Polarion Webclient for SVN"</name>
-  
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+  <url>http://hudson.gotdns.com/wiki/display/HUDSON/Polarion+Plugin</url>
 </project>

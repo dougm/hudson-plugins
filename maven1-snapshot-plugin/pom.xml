@@ -16,11 +16,6 @@
     builds based on Maven 1.x snapshot dependency changes.
   </description>
   
-  <issueManagement>
-    <system>Bugzilla</system>
-    <url>https://hudson.dev.java.net/servlets/ProjectIssues</url>
-  </issueManagement>  
-
   <developers>
     <developer>
       <id>wyla</id>
