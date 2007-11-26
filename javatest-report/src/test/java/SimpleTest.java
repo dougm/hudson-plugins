@@ -19,7 +19,7 @@
  */
 
 import hudson.plugins.javatest_report.Report;
-import hudson.plugins.javatest_report.TestCase;
+import junit.framework.TestCase;
 
 import java.io.File;
 
