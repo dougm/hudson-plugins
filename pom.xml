@@ -48,6 +48,22 @@
       <version>4.3.1</version>
       <scope>test</scope>
     </dependency>
+    <!--
+      Maven is so brain-dead that when a dependency is like:
+      
+         plugin -(provided)-> hudson-core -(compile)-> stapler -(provied)-> servlet-api
+      
+      Artifacts beyond the provided/provided dependency will not be made available to the plugin.
+      See this in DefaultArtifactFactory.createArtifact() in the maven-artifact module.
+      
+      So for us to have servlet API in the classpath, we need to explicitly list servlet-api.
+    -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.3</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>
