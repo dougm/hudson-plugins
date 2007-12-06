@@ -51,7 +51,7 @@
     <!--
       Maven is so brain-dead that when a dependency is like:
       
-         plugin -(provided)-> hudson-core -(compile)-> stapler -(provied)-> servlet-api
+         plugin -(provided)-> hudson-core -(compile)-> stapler -(provided)-> servlet-api
       
       Artifacts beyond the provided/provided dependency will not be made available to the plugin.
       See this in DefaultArtifactFactory.createArtifact() in the maven-artifact module.
@@ -61,7 +61,7 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-      <version>2.3</version>
+      <version>2.4</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
