@@ -113,6 +113,7 @@
     <module>findbugs</module>
     <module>gant</module>
     <module>gcal</module>
+    <module>git</module>
     <module>hello-world</module>
     <module>ircbot</module>
     <module>ivy</module>
