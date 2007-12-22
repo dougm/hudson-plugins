@@ -34,7 +34,7 @@ public class CodeviationPublisher extends Publisher{
 
     
 
-        public Descriptor<Publisher> getDescriptor() {
+    public Descriptor<Publisher> getDescriptor() {
         return DESCRIPTOR;
     }
 
@@ -50,7 +50,7 @@ public class CodeviationPublisher extends Publisher{
         }
 
         public String getHelpFile() {
-            return "/plugin/emma/help.html";
+            return "/plugin/codeviation/help.html";
         }
 
         public Publisher newInstance(StaplerRequest req) throws FormException {
