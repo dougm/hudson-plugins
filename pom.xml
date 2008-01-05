@@ -97,6 +97,7 @@
       <plugin>
         <groupId>org.jvnet.localizer</groupId>
         <artifactId>maven-localizer-plugin</artifactId>
+        <artifactId>1.1</artifactId>
         <executions>
           <execution>
             <goals>
