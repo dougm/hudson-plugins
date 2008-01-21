@@ -154,6 +154,7 @@
     <module>polarion</module>
     <module>port-allocator</module>
     <!--module>promoted-builds</module-->
+    <module>sametime</module>
     <module>scp</module>
     <module>svncompat13</module>
     <module>tasks</module>
