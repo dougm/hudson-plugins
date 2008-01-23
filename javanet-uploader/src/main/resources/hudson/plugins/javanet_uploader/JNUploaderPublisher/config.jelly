@@ -3,23 +3,23 @@
   <j:invokeStatic var="status" className="org.kohsuke.jnt.FileStatus" method="values" />
   <j:set var="helpURL" value="/plugin/javanet-uploader" />
 
-  <f:entry title="java.net project name">
+  <f:entry title="${%java.net project name}">
     <input class="setting-input" name="jnuploader.project"
       type="text" value="${instance.project}" />
   </f:entry>
-  <f:entry title="Files to upload">
+  <f:entry title="${%Files to upload}">
     <f:repeatable var="e" items="${instance.entries}">
       <table width="100%">
-        <f:entry title="Source" help="${helpURL}/help-source">
+        <f:entry title="${%Source}" help="${helpURL}/help-source">
           <f:textbox name="jnuploader.entry.sourceFile" value="${e.sourceFile}" />
         </f:entry>
-        <f:entry title="Destination" help="${helpURL}/help-destination">
+        <f:entry title="${%Destination}" help="${helpURL}/help-destination">
           <f:textbox name="jnuploader.entry.filePath" value="${e.filePath}" />
         </f:entry>
-        <f:entry title="Description" help="${helpURL}/help-description">
+        <f:entry title="${%Description}" help="${helpURL}/help-description">
           <f:textbox name="jnuploader.entry.description" value="${e.description}" />
         </f:entry>
-        <f:entry title="Status" help="${helpURL}/help-status">
+        <f:entry title="${%Status}" help="${helpURL}/help-status">
           <select class="setting-input" name="jnuploader.entry.status">
             <j:forEach var="kind" items="${status}">
               <f:option selected="${e.status==kind}">${kind}</f:option>
