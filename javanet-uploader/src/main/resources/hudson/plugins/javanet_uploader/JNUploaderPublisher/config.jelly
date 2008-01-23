@@ -11,16 +11,13 @@
     <f:repeatable var="e" items="${instance.entries}">
       <table width="100%">
         <f:entry title="Source" help="${helpURL}/help-source">
-          <input class="setting-input" name="jnuploader.entry.sourceFile"
-            type="text" value="${e.sourceFile}" />
+          <f:textbox name="jnuploader.entry.sourceFile" value="${e.sourceFile}" />
         </f:entry>
         <f:entry title="Destination" help="${helpURL}/help-destination">
-          <input class="setting-input" name="jnuploader.entry.filePath"
-            type="text" value="${e.filePath}" />
+          <f:textbox name="jnuploader.entry.filePath" value="${e.filePath}" />
         </f:entry>
         <f:entry title="Description" help="${helpURL}/help-description">
-          <input class="setting-input" name="jnuploader.entry.description"
-            type="text" value="${e.description}" />
+          <f:textbox name="jnuploader.entry.description" value="${e.description}" />
         </f:entry>
         <f:entry title="Status" help="${helpURL}/help-status">
           <select class="setting-input" name="jnuploader.entry.status">
