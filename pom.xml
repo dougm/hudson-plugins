@@ -1,182 +1,185 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.jvnet.hudson</groupId>
-    <artifactId>hudson</artifactId>
-    <version>1.4</version>
-    <relativePath>../pom.xml</relativePath>
-  </parent>
-  
-  <groupId>org.jvnet.hudson.plugins</groupId>
-  <artifactId>plugin</artifactId>
-  <name>Hudson plugin POM</name>
-  <version>1.175</version>
-  <packaging>pom</packaging>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.jvnet.hudson</groupId>
+        <artifactId>hudson</artifactId>
+        <version>1.4</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 
-  <!--
-    We need the following because the artifactId=plugin but directoryName=plugins, and
-    Maven infers the wrong value if I don't specify it explicitly.
-  -->
-  <scm>
-    <connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvs:hudson/hudson/plugins</connection>
-    <developerConnection>scm:cvs:pserver:${java.net.id}@cvs.dev.java.net:/cvs:hudson/hudson/plugins</developerConnection>
-    <url>https://hudson.dev.java.net/source/browse/hudson/hudson/plugins</url>
-  </scm>
-  
-  <issueManagement>
-    <system>Bugzilla</system>
-    <url>https://hudson.dev.java.net/servlets/ProjectIssues</url>
-  </issueManagement>
-  
-  <dependencies>
-    <dependency>
-      <groupId>org.jvnet.hudson.main</groupId>
-      <artifactId>hudson-war</artifactId>
-      <type>war</type>
-      <version>1.175</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jvnet.hudson.main</groupId>
-      <artifactId>hudson-core</artifactId>
-      <version>1.175</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.3.1</version>
-      <scope>test</scope>
-    </dependency>
-    <!--
-      Maven is so brain-dead that when a dependency is like:
-      
-         plugin -(provided)-> hudson-core -(compile)-> stapler -(provided)-> servlet-api
-      
-      Artifacts beyond the provided/provided dependency will not be made available to the plugin.
-      See this in DefaultArtifactFactory.createArtifact() in the maven-artifact module.
-      
-      So for us to have servlet API in the classpath, we need to explicitly list servlet-api.
-    -->
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.4</version>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
+    <groupId>org.jvnet.hudson.plugins</groupId>
+    <artifactId>plugin</artifactId>
+    <name>Hudson plugin POM</name>
+    <version>1.175</version>
+    <packaging>pom</packaging>
 
-  <build>
     <!--
-      Since new versions need to overwrite old versions, it's better
-      not to have version number in the .hpi file name.
+      We need the following because the artifactId=plugin but directoryName=plugins, and
+      Maven infers the wrong value if I don't specify it explicitly.
     -->
-    <finalName>${project.artifactId}</finalName>
-    <!--
-      I don't really understand how this works, but it makes Maven recognizes
-      <packaging>hpi</packaging> defined in maven-hpi-plugin.
+    <scm>
+        <connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvs:hudson/hudson/plugins</connection>
+        <developerConnection>scm:cvs:pserver:${java.net.id}@cvs.dev.java.net:/cvs:hudson/hudson/plugins
+        </developerConnection>
+        <url>https://hudson.dev.java.net/source/browse/hudson/hudson/plugins</url>
+    </scm>
 
-      <extensions>true</extensions> is apparently needed to have Maven read
-      the plugin's Plexus component file.
-    -->
-    <defaultGoal>package</defaultGoal>
-    <plugins>
-      <plugin>
-        <groupId>org.jvnet.hudson.tools</groupId>
-        <artifactId>maven-hpi-plugin</artifactId>
-        <version>1.17</version>
-        <extensions>true</extensions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-release-plugin</artifactId>
-        <!-- upload the plugin to java.net and make an announcement as well -->
-        <configuration>
-          <goals>deploy hpi:upload hpi:announce</goals>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.jvnet.localizer</groupId>
-        <artifactId>maven-localizer-plugin</artifactId>
-        <version>1.1</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <fileMask>Messages.properties</fileMask>
-              <outputDirectory>target/generated-sources/localizer</outputDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
+    <issueManagement>
+        <system>Bugzilla</system>
+        <url>https://hudson.dev.java.net/servlets/ProjectIssues</url>
+    </issueManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jvnet.hudson.main</groupId>
+            <artifactId>hudson-war</artifactId>
+            <type>war</type>
+            <version>1.175</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jvnet.hudson.main</groupId>
+            <artifactId>hudson-core</artifactId>
+            <version>1.175</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.3.1</version>
+            <scope>test</scope>
+        </dependency>
         <!--
-          javadoc plugin 2.3 apparently interferes with the release process,
-          so sticking to 2.2 (http://www.nabble.com/description-setting-plugin-tp14846399p14950047.html)
+          Maven is so brain-dead that when a dependency is like:
+
+             plugin -(provided)-> hudson-core -(compile)-> stapler -(provided)-> servlet-api
+
+          Artifacts beyond the provided/provided dependency will not be made available to the plugin.
+          See this in DefaultArtifactFactory.createArtifact() in the maven-artifact module.
+
+          So for us to have servlet API in the classpath, we need to explicitly list servlet-api.
         -->
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.2</version>
-      </plugin>
-    </plugins>
-  </build>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
-  <modules>
-    <module>accurev</module>
-    <module>active-directory</module>
-    <module>batch-task</module>
-    <module>build-publisher</module>
-    <module>build-timeout</module>
-    <module>clearcase</module>
-    <module>clover</module>
-    <module>codeviation</module>
-    <module>cobertura</module>
-    <!--module>coverage</module--><!-- not ready for release yet -->
-    <module>email-ext</module>
-    <module>emma</module>
-    <module>external-project</module>
-    <module>findbugs</module>
-    <module>gant</module>
-    <module>gcal</module>
-    <module>git</module>
-    <module>hello-world</module>
-    <module>ircbot</module>
-    <module>ivy</module>
-    <module>jabber</module>
-    <module>japex</module>
-    <module>javatest-report</module>
-    <module>javanet-uploader</module>
-    <module>javanet-trigger-installer</module>
-    <module>jira</module>
-    <module>jmx</module>
-    <module>jprt</module>
-    <module>jwsdp-sqe</module>
-    <module>locks-and-latches</module>
-    <module>maven1-snapshot-plugin</module>
-    <module>mercurial</module>
-    <module>msbuild</module>
-    <module>nant</module>
-    <module>nunit</module>
-    <module>plot</module>
-    <module>perforce</module>
-    <module>polarion</module>
-    <module>port-allocator</module>
-    <!--module>promoted-builds</module-->
-    <module>sametime</module>
-    <module>scp</module>
-    <module>sfee</module>
-    <module>svncompat13</module>
-    <module>tasks</module>
-    <module>text-finder</module>
-    <module>trac</module>
-    <module>violations</module>
-    <module>vmware</module>
-    <module>vss</module>
-    <module>xvnc</module>
-  </modules>
+    <build>
+        <!--
+          Since new versions need to overwrite old versions, it's better
+          not to have version number in the .hpi file name.
+        -->
+        <finalName>${project.artifactId}</finalName>
+        <!--
+          I don't really understand how this works, but it makes Maven recognizes
+          <packaging>hpi</packaging> defined in maven-hpi-plugin.
 
-  <properties>
-    <!-- if your java.net user name is different from local user name, specify it here -->
-    <java.net.id>${user.name}</java.net.id>
-  </properties>
+          <extensions>true</extensions> is apparently needed to have Maven read
+          the plugin's Plexus component file.
+        -->
+        <defaultGoal>package</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.jvnet.hudson.tools</groupId>
+                <artifactId>maven-hpi-plugin</artifactId>
+                <version>1.17</version>
+                <extensions>true</extensions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <!-- upload the plugin to java.net and make an announcement as well -->
+                <configuration>
+                    <goals>deploy hpi:upload hpi:announce</goals>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jvnet.localizer</groupId>
+                <artifactId>maven-localizer-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <fileMask>Messages.properties</fileMask>
+                            <outputDirectory>target/generated-sources/localizer</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <!--
+                  javadoc plugin 2.3 apparently interferes with the release process,
+                  so sticking to 2.2 (http://www.nabble.com/description-setting-plugin-tp14846399p14950047.html)
+                -->
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.2</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <modules>
+        <module>accurev</module>
+        <module>active-directory</module>
+        <module>batch-task</module>
+        <module>build-publisher</module>
+        <module>build-timeout</module>
+        <module>clearcase</module>
+        <module>clover</module>
+        <module>codeviation</module>
+        <module>cobertura</module>
+        <!--module>coverage</module--><!-- not ready for release yet -->
+        <module>email-ext</module>
+        <module>emma</module>
+        <module>external-project</module>
+        <module>findbugs</module>
+        <module>gant</module>
+        <module>gcal</module>
+        <module>git</module>
+        <module>hello-world</module>
+        <module>ircbot</module>
+        <module>ivy</module>
+        <module>jabber</module>
+        <module>japex</module>
+        <module>javatest-report</module>
+        <module>javanet-uploader</module>
+        <module>javanet-trigger-installer</module>
+        <module>jira</module>
+        <module>jmx</module>
+        <module>jprt</module>
+        <module>jwsdp-sqe</module>
+        <module>locks-and-latches</module>
+        <module>maven1-snapshot-plugin</module>
+        <module>mercurial</module>
+        <module>msbuild</module>
+        <module>nant</module>
+        <module>nunit</module>
+        <module>plot</module>
+        <module>perforce</module>
+        <module>polarion</module>
+        <module>port-allocator</module>
+        <module>ruby</module>
+        <!--module>promoted-builds</module-->
+        <module>sametime</module>
+        <module>scp</module>
+        <module>sfee</module>
+        <module>svncompat13</module>
+        <module>tasks</module>
+        <module>text-finder</module>
+        <module>trac</module>
+        <module>violations</module>
+        <module>vmware</module>
+        <module>vss</module>
+        <module>xvnc</module>
+    </modules>
+
+    <properties>
+        <!-- if your java.net user name is different from local user name, specify it here -->
+        <java.net.id>${user.name}</java.net.id>
+    </properties>
 </project>
