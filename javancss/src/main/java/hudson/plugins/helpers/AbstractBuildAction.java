@@ -62,6 +62,15 @@ public abstract class AbstractBuildAction<BUILD extends AbstractBuild<?, ?>> imp
     }
 
     /**
+     * Override to define the graph name.
+     *
+     * @return The graph name.
+     */
+    public String getGraphName() {
+        return getDisplayName();
+    }
+
+    /**
      * Override to control the build summary detail.
      *
      * @return the summary string for the main build page.

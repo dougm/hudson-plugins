@@ -5,6 +5,7 @@
         <l:main-panel>
             <h1>${it.displayName}</h1>
             <j:if test="${it.graphActive}">
+                <h2>${it.graphName}</h2>
                 <st:include page="normalGraph.jelly"/>
             </j:if>
             <st:include page="reportDetail.jelly"/>

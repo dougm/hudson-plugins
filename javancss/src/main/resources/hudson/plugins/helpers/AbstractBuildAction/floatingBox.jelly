@@ -2,6 +2,10 @@
          xmlns:t="/lib/hudson" xmlns:f="/lib/form">
     <j:if test="${it.graphActive}">
         <div style="width:500px;">
+            <div class="test-trend-caption">
+                ${from.graphName}
+            </div>
+
             <st:include page="normalGraph.jelly"/>
 
             <div style="text-align:right">
