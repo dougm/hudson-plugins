@@ -4,6 +4,7 @@
         <st:include it="${it.build}" page="sidepanel.jelly"/>
         <l:main-panel>
             <j:if test="${it.graphActive}">
+                <h1>${it.graphName}</h1>
                 <st:include page="largeGraph.jelly"/>
             </j:if>
         </l:main-panel>

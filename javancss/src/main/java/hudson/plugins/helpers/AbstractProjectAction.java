@@ -43,4 +43,13 @@ abstract public class AbstractProjectAction<PROJECT extends AbstractProject<?, ?
         return false;
     }
 
+    /**
+     * Override to define the graph name.
+     *
+     * @return The graph name.
+     */
+    public String getGraphName() {
+        return getDisplayName();
+    }
+
 }
