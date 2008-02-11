@@ -51,4 +51,17 @@ public abstract class AbstractBuildAction<BUILD extends AbstractBuild<?, ?>> imp
     public boolean isFloatingBoxActive() {
         return true;
     }
+
+    public boolean isGraphActive() {
+        return false;
+    }
+
+    /**
+     * Override to control the build summary detail.
+     *
+     * @return the summary string for the main build page.
+     */
+    public String getSummary() {
+        return "";
+    }
 }
