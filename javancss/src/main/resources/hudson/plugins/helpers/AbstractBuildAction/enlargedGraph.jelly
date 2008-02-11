@@ -1,0 +1,11 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
+         xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <l:layout xmlns:plugin="/hudson/plugins/javancss/tags" css="/plugin/javancss/css/style.css">
+        <st:include it="${it.build}" page="sidepanel.jelly"/>
+        <l:main-panel>
+            <j:if test="${it.graphActive}">
+                <st:include page="largeGraph.jelly"/>
+            </j:if>
+        </l:main-panel>
+    </l:layout>
+</j:jelly>
