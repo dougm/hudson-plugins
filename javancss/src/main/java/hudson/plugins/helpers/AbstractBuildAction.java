@@ -42,4 +42,13 @@ public abstract class AbstractBuildAction<BUILD extends AbstractBuild<?, ?>> imp
             this.build = build;
         }
     }
+
+    /**
+     * Override to control when the floating box should be displayed.
+     *
+     * @return <code>true</code> if the floating box should be visible.
+     */
+    public boolean isFloatingBoxActive() {
+        return true;
+    }
 }
