@@ -4,17 +4,6 @@
         <st:include it="${it.build}" page="sidepanel.jelly"/>
         <l:main-panel>
             <h1>${it.displayName}</h1>
-            <j:if test="${it.graphAvailable}">
-                <h2>${it.graphName}</h2>
-
-                <div style="width:500px;">
-                    <img src="graph"/>
-
-                    <div style="text-align:right">
-                        <a href="enlargedGraph">enlarge</a>
-                    </div>
-                </div>
-            </j:if>
             <st:include page="reportDetail.jelly"/>
         </l:main-panel>
     </l:layout>
