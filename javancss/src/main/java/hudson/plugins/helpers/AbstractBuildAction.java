@@ -52,6 +52,11 @@ public abstract class AbstractBuildAction<BUILD extends AbstractBuild<?, ?>> imp
         return true;
     }
 
+    /**
+     * Override to control when the action displays a trend graph.
+     *
+     * @return <code>true</code> if the action should show a trend graph.
+     */
     public boolean isGraphActive() {
         return false;
     }
