@@ -4,12 +4,16 @@ import hudson.model.AbstractProject;
 import hudson.model.Actionable;
 
 /**
- * TODO javadoc.
+ * An action that is associated with a project.
  *
  * @author Stephen Connolly
+ * @param <PROJECT> the type of project that this action is associated with.
  * @since 04-Feb-2008 19:42:40
  */
 abstract public class AbstractProjectAction<PROJECT extends AbstractProject<?, ?>> extends Actionable {
+    /**
+     * The owner of this action.
+     */
     private final PROJECT project;
 
     protected AbstractProjectAction(PROJECT project) {

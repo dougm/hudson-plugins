@@ -4,9 +4,10 @@ import hudson.model.AbstractBuild;
 import hudson.model.HealthReportingAction;
 
 /**
- * TODO javadoc.
+ * An action that is associated with a build.
  *
  * @author Stephen Connolly
+ * @param <BUILD> the build class that the action is associated with.
  * @since 04-Feb-2008 19:41:25
  */
 public abstract class AbstractBuildAction<BUILD extends AbstractBuild<?, ?>> implements HealthReportingAction {
