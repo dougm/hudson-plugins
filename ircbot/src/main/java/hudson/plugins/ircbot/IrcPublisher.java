@@ -242,9 +242,6 @@ public class IrcPublisher extends Publisher {
                     }
                 }
             }
-            // dedup
-            result.channels.removeAll(channels);
-            LOGGER.info("project specific channel config: " + result.channels);
             return result;
         }
 
