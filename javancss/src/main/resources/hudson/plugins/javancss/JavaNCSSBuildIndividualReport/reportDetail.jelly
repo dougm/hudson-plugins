@@ -1,0 +1,33 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
+         xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <h1>Results</h1>
+
+    <table border="1px" class="pane sortable">
+        <thead>
+            <tr>
+                <th>Package</th>
+                <th>NCSS</th>
+                <th>Classes</th>
+                <th>Functions</th>
+                <th>Javadocs</th>
+                <th>Javadoc lines</th>
+                <th>Single comment lines</th>
+                <th>Multi comment lines</th>
+            </tr>
+        </thead>
+        <tbody>
+            <j:forEach var="r" items="${it.results}">
+                <tr>
+                    <th align="left">${r.name}</th>
+                    <td align="right">${r.ncss}</td>
+                    <td align="right">${r.classes}</td>
+                    <td align="right">${r.functions}</td>
+                    <td align="right">${r.javadocs}</td>
+                    <td align="right">${r.javadocLines}</td>
+                    <td align="right">${r.singleCommentLines}</td>
+                    <td align="right">${r.multiCommentLines}</td>
+                </tr>
+            </j:forEach>
+        </tbody>
+    </table>
+</j:jelly>

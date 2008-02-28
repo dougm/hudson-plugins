@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.apache.maven.project.MavenProject;
 
@@ -21,7 +22,7 @@ import org.apache.maven.project.MavenProject;
  * @author Stephen Connolly
  * @since 12-Jan-2008 12:08:32
  */
-public final class BuildProxy {
+public final class BuildProxy implements Serializable {
 // ------------------------------ FIELDS ------------------------------
 
     private final FilePath artifactsDir;
@@ -29,7 +30,8 @@ public final class BuildProxy {
     private final FilePath buildRootDir;
     private final FilePath executionRootDir;
     private final Calendar timestamp;
-    private final List<Action> actions = new ArrayList<Action>();
+    private final List<AbstractBuildAction<AbstractBuild<?,?>>> actions =
+            new ArrayList<AbstractBuildAction<AbstractBuild<?,?>>>();
     private Result result = null;
     private boolean continueBuild = true;
 
@@ -123,7 +125,9 @@ public final class BuildProxy {
      */
     public void updateBuild(AbstractBuild<?, ?> build) {
         // update the actions
-        build.getActions().addAll(actions);
+        for (AbstractBuildAction<AbstractBuild<?,?>> action: actions) {
+            action.setBuild(build);
+        }
 
         // update the result
         if (result != null && result.isWorseThan(build.getResult())) {
@@ -209,7 +213,7 @@ public final class BuildProxy {
      *
      * @return Value for property 'actions'.
      */
-    public List<Action> getActions() {
+    public List<AbstractBuildAction<AbstractBuild<?,?>>> getActions() {
         return actions;
     }
 
