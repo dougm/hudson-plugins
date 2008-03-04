@@ -1,0 +1,27 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <f:section title="Deploy to SJS Web Server 7">
+    <f:entry title="Web Server Installation Location" description="Directory where the web server software is installed.">
+        <f:textbox name="ws7.ws7Location" value="${descriptor.ws7Location}"/>
+    </f:entry>
+    <f:entry title="Default Admin User" description="Default Administrative User Name.">
+        <f:textbox name="ws7.defaultUser" value="${descriptor.defaultUser}"/>
+    </f:entry>
+    <f:entry title="Password File Location" description="Default password file location.">
+        <f:textbox name="ws7.defaultPwdLocation" value="${descriptor.defaultPwdLocation}"/>
+    </f:entry>
+    <f:advanced>
+        <f:entry title="Administrative Host" description="Default administrative host name.">
+            <f:textbox name="ws7.defaultAdminHost" value="${descriptor.defaultAdminHost}"/>
+        </f:entry>
+        <f:entry title="Administrative Port" description="Default administrative server port.">
+            <f:textbox name="ws7.defaultAdminPort" value="${descriptor.defaultAdminPort}"/>
+        </f:entry>
+        <f:entry title="Default WS Config" description="Default web server configuration.">
+            <f:textbox name="ws7.defaultConfig" value="${descriptor.defaultConfig}"/>
+        </f:entry>
+        <f:entry title="Default Virtual Server" description="Default web server virtual server.">
+            <f:textbox name="ws7.defaultVS" value="${descriptor.defaultVS}"/>
+        </f:entry>
+    </f:advanced>
+  </f:section>
+</j:jelly>

@@ -1,0 +1,31 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <f:entry title="File Name" description="Name and location of the file to deploy.">
+        <f:textbox name="ws7.warFile" value="${instance.warFile}" />
+    </f:entry>
+    <f:entry title="Application Context" description="The URI that the application is deployed under.">
+        <f:textbox name="ws7.appContext" value="${instance.appContext}" />
+    </f:entry>
+    <f:entry title="Application URL" description="Fully qualified URL to the application.">
+        <f:textbox name="ws7.urlToApplication" value="${instance.urlToApplication}" />
+    </f:entry>
+    <f:advanced>
+        <f:entry title="Admin User Name" description="Web Server Administrative User Name.">
+            <f:textbox name="ws7.user" value="${instance.user}" />
+        </f:entry>
+        <f:entry title="Password File Location" description="Path to the file that contains the administrative user's password.">
+            <f:textbox name="ws7.pwdLocation" value="${instance.pwdLocation}" />
+        </f:entry>
+        <f:entry title="Administrative Host" description="Hostname of the administrative console.">
+            <f:textbox name="ws7.adminHost" value="${instance.adminHost}" />
+        </f:entry>
+        <f:entry title="Administrative Port" description="Port number used to access the administrative console.">
+            <f:textbox name="ws7.adminPort" value="${instance.adminPort}" />
+        </f:entry>
+        <f:entry title="Configuration" description="The web server configuration that will be hosting the application.">
+            <f:textbox name="ws7.wsConfig" value="${instance.wsConfig}" />
+        </f:entry>
+        <f:entry title="Virtual Server" description="The virtual server hosting the application.">
+            <f:textbox name="ws7.virtualServer" value="${instance.virtualServer}" />
+        </f:entry>
+    </f:advanced>
+</j:jelly>
