@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.jvnet.hudson.plugins</groupId>
+    <artifactId>plugin</artifactId>
+    <version>1.187</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  
+  <artifactId>javanet</artifactId>
+  <packaging>hpi</packaging>
+  <name>Hudson java.net plugin</name>
+  <version>1.0-SNAPSHOT</version>
+  <url>http://hudson.gotdns.com/wiki/display/HUDSON/java.net+Plugin</url>
+  
+  <dependencies>
+    <dependency>
+      <groupId>javanettasks</groupId>
+      <artifactId>javanettasks</artifactId>
+      <version>1.0.14</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jvnet.its</groupId>
+      <artifactId>issuetracker-stats</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <!--
+      TODO: dependency resolution isn't working correctly.
+      I get copies of jars that are already in hudson-core.
+    -->
+  </dependencies>
+</project>
