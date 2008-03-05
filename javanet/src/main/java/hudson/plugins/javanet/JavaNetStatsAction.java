@@ -69,7 +69,7 @@ public class JavaNetStatsAction implements Action {
      * Serves static files in the report directory.
      */
     public void doDynamic(StaplerRequest req, StaplerResponse rsp) throws IOException, ServletException {
-        String path = req.getRestOfPath();
+        String path = req.getRestOfPath().substring(1);
 
         // make sure we are not serving anything strange
         if(!PATH.matcher(path).matches()) {
@@ -80,5 +80,5 @@ public class JavaNetStatsAction implements Action {
         rsp.serveFile(req,new File(getReportDirectory(),path).toURL());
     }
 
-    private static final Pattern PATH = Pattern.compile("[A-Za-z0-9\\-]+");
+    private static final Pattern PATH = Pattern.compile("[A-Za-z0-9\\-.]+");
 }
