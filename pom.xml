@@ -137,10 +137,11 @@
         <module>email-ext</module>
         <module>emma</module>
         <module>external-project</module>
-        <module>findbugs</module>
+        <!-- <module>findbugs</module> -->
         <module>gant</module>
         <module>gcal</module>
         <module>git</module>
+	<module>groovy</module>
         <module>hello-world</module>
         <module>ircbot</module>
         <module>ivy</module>
@@ -169,13 +170,13 @@
         <module>scp</module>
         <module>sfee</module>
         <module>svncompat13</module>
-        <module>tasks</module>
+<!--        <module>tasks</module> -->
         <module>text-finder</module>
         <module>trac</module>
         <module>violations</module>
         <module>vmware</module>
         <module>vss</module>
-		<module>ws7</module>
+		 <!-- <module>ws7</module> -->
         <module>xvnc</module>
     </modules>
 
