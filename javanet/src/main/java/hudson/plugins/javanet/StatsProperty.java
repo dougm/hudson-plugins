@@ -1,7 +1,6 @@
 package hudson.plugins.javanet;
 
 import hudson.model.AbstractProject;
-import hudson.model.Action;
 import hudson.model.Job;
 import hudson.model.JobProperty;
 import hudson.model.JobPropertyDescriptor;
@@ -24,11 +23,15 @@ public class StatsProperty extends JobProperty<AbstractProject<?,?>> {
         return DESCRIPTOR;
     }
 
-    public Action getJobAction(AbstractProject<?,?> job) {
-        String jnp = getJavaNetProject(job.getScm());
+    public JavaNetStatsAction getJobAction(AbstractProject<?,?> job) {
+        String jnp = getJavaNetProject(job);
         if(jnp==null)
             return null;
         return new JavaNetStatsAction(job,jnp);
+    }
+
+    private String getJavaNetProject(AbstractProject<?,?> job) {
+        return getJavaNetProject(job.getScm());
     }
 
     /**
@@ -71,7 +74,7 @@ public class StatsProperty extends JobProperty<AbstractProject<?,?>> {
         }
 
         public boolean isApplicable(Class<? extends Job> jobType) {
-            return true;
+            return AbstractProject.class.isAssignableFrom(jobType);
         }
 
         public String getDisplayName() {
