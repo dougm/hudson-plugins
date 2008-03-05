@@ -22,14 +22,20 @@ import java.util.Collection;
  */
 public abstract class AbstractBuildReport<T extends AbstractBuild<?, ?>> extends AbstractBuildAction<T> implements HealthReportingAction {
     private final Collection<Statistic> results;
+    private final Statistic totals;
 
     /** Constructs a new AbstractBuildReport. */
     public AbstractBuildReport(Collection<Statistic> results) {
         this.results = results;
+        this.totals = Statistic.total(results);
     }
 
     public Collection<Statistic> getResults() {
         return results;
+    }
+
+    public Statistic getTotals() {
+        return totals;
     }
 
     /**
@@ -114,7 +120,18 @@ public abstract class AbstractBuildReport<T extends AbstractBuild<?, ?>> extends
         return true;
     }
 
-    protected abstract void populateDataSetBuilder(DataSetBuilder<String, ChartUtil.NumberOnlyBuildLabel> dataset);
+    protected void populateDataSetBuilder(DataSetBuilder<String, ChartUtil.NumberOnlyBuildLabel> dataset) {
+        for (AbstractBuild<?, ?> build = getBuild(); build != null; build = build.getPreviousBuild()) {
+            ChartUtil.NumberOnlyBuildLabel label = new ChartUtil.NumberOnlyBuildLabel(build);
+            AbstractBuildReport action = build.getAction(getClass());
+            if (action != null) {
+                dataset.add(action.getTotals().getNcss(), "NCSS", label);
+                dataset.add(action.getTotals().getSingleCommentLines(), "Multi-line comment line count", label);
+                dataset.add(action.getTotals().getMultiCommentLines(), "Single line comment line count", label);
+                dataset.add(action.getTotals().getJavadocLines(), "Javadoc line count", label);
+            }
+        }
+    }
 
     /**
      * Getter for property 'graphWidth'.

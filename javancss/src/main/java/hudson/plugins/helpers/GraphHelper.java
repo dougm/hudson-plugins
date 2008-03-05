@@ -20,10 +20,7 @@ import java.util.Calendar;
 import java.util.Map;
 import java.awt.*;
 
-import hudson.util.ChartUtil;
-import hudson.util.DataSetBuilder;
-import hudson.util.ShiftedCategoryAxis;
-import hudson.util.ColorPalette;
+import hudson.util.*;
 
 /**
  * TODO javadoc.
@@ -57,7 +54,7 @@ public class GraphHelper {
         final JFreeChart chart = ChartFactory.createLineChart(
                 null,                   // chart title
                 null,                   // unused
-                "%",                    // range axis label
+                "line count",                    // range axis label
                 dataset,                  // data
                 PlotOrientation.VERTICAL, // orientation
                 true,                     // include legend
@@ -89,12 +86,13 @@ public class GraphHelper {
 
         final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-        rangeAxis.setUpperBound(100);
-        rangeAxis.setLowerBound(0);
+//        rangeAxis.setUpperBound(100);
+//        rangeAxis.setLowerBound(0);
 
-        final LineAndShapeRenderer renderer = (LineAndShapeRenderer) plot.getRenderer();
-        renderer.setStroke(new BasicStroke(2.0f));
-        ColorPalette.apply(renderer);
+        plot.setRenderer(new StackedAreaRenderer2());
+////        final LineAndShapeRenderer renderer = (LineAndShapeRenderer) plot.getRenderer();
+////        renderer.setStroke(new BasicStroke(2.0f));
+//        ColorPalette.apply(renderer);
 
         // crop extra space around the graph
         plot.setInsets(new RectangleInsets(5.0, 0, 0, 5.0));

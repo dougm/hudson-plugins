@@ -68,14 +68,4 @@ public class JavaNCSSBuildAggregatedReport extends AbstractBuildReport<MavenModu
         return buildHealth;
     }
 
-    protected void populateDataSetBuilder(DataSetBuilder<String, ChartUtil.NumberOnlyBuildLabel> dataset) {
-        for (MavenModuleSetBuild build = getBuild(); build != null; build = build.getPreviousBuild()) {
-            ChartUtil.NumberOnlyBuildLabel label = new ChartUtil.NumberOnlyBuildLabel(build);
-
-            JavaNCSSBuildAggregatedReport action = build.getAction(JavaNCSSBuildAggregatedReport.class);
-            if (action != null) {
-                dataset.add(Statistic.total(action.getResults()).getNcss(), "NCSS", label);
-            }
-        }
-    }
 }

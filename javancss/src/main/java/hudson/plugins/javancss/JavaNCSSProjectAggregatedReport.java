@@ -24,15 +24,4 @@ public class JavaNCSSProjectAggregatedReport extends AbstractProjectReport<Maven
     protected Class<? extends AbstractBuildReport> getBuildActionClass() {
         return JavaNCSSBuildAggregatedReport.class;
     }
-
-    protected void populateDataSetBuilder(DataSetBuilder<String, ChartUtil.NumberOnlyBuildLabel> dataset) {
-        for (MavenModuleSetBuild build : getProject().getBuilds()) {
-            ChartUtil.NumberOnlyBuildLabel label = new ChartUtil.NumberOnlyBuildLabel(build);
-
-            JavaNCSSBuildAggregatedReport action = build.getAction(JavaNCSSBuildAggregatedReport.class);
-            if (action != null) {
-                dataset.add(Statistic.total(action.getResults()).getNcss(), "NCSS", label);
-            }
-        }
-    }
 }

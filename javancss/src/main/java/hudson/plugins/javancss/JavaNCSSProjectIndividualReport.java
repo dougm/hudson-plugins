@@ -24,14 +24,4 @@ public class JavaNCSSProjectIndividualReport extends AbstractProjectReport<Abstr
     protected Class<? extends AbstractBuildReport> getBuildActionClass() {
         return JavaNCSSBuildIndividualReport.class;
     }
-
-    protected void populateDataSetBuilder(DataSetBuilder<String, ChartUtil.NumberOnlyBuildLabel> dataset) {
-        for (AbstractBuild<?, ?> build : getProject().getBuilds()) {
-            ChartUtil.NumberOnlyBuildLabel label = new ChartUtil.NumberOnlyBuildLabel(build);
-            JavaNCSSBuildIndividualReport action = build.getAction(JavaNCSSBuildIndividualReport.class);
-            if (action != null) {
-                dataset.add(Statistic.total(action.getResults()).getNcss(), "NCSS", label);
-            }
-        }
-    }
 }

@@ -106,7 +106,20 @@ public abstract class AbstractProjectReport<T extends AbstractProject<?, ?>> ext
 
     protected abstract Class<? extends AbstractBuildReport> getBuildActionClass();
 
-    protected abstract void populateDataSetBuilder(DataSetBuilder<String, ChartUtil.NumberOnlyBuildLabel> dataset);
+    protected void populateDataSetBuilder(DataSetBuilder<String, ChartUtil.NumberOnlyBuildLabel> dataset) {
+
+        for (AbstractBuild<?, ?> build = getProject().getLastBuild(); build != null; build = build.getPreviousBuild()) {
+            ChartUtil.NumberOnlyBuildLabel label = new ChartUtil.NumberOnlyBuildLabel(build);
+            AbstractBuildReport action = build.getAction(getBuildActionClass());
+            if (action != null) {
+                dataset.add(action.getTotals().getNcss(), "NCSS", label);
+                dataset.add(action.getTotals().getSingleCommentLines(), "Multi-line comment line count", label);
+                dataset.add(action.getTotals().getMultiCommentLines(), "Single line comment line count", label);
+                dataset.add(action.getTotals().getJavadocLines(), "Javadoc line count", label);
+            }
+        }
+
+    }
 
     /**
      * Getter for property 'graphWidth'.

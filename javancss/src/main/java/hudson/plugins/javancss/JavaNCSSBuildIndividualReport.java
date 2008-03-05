@@ -60,13 +60,4 @@ public class JavaNCSSBuildIndividualReport extends AbstractBuildReport<AbstractB
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    protected void populateDataSetBuilder(DataSetBuilder<String, ChartUtil.NumberOnlyBuildLabel> dataset) {
-        for (AbstractBuild<?, ?> build = getBuild(); build != null; build = build.getPreviousBuild()) {
-            ChartUtil.NumberOnlyBuildLabel label = new ChartUtil.NumberOnlyBuildLabel(build);
-            JavaNCSSBuildIndividualReport action = build.getAction(JavaNCSSBuildIndividualReport.class);
-            if (action != null) {
-                dataset.add(Statistic.total(action.getResults()).getNcss(), "NCSS", label);
-            }
-        }
-    }
 }
