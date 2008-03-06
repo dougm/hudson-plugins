@@ -1,0 +1,6 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <f:entry title="Google code website"
+    help="/plugin/googlecode/help-global.html">
+    <f:textbox name="googlecode.googlecodeWebsite" value="${instance.googlecodeWebsite}" />
+  </f:entry>
+</j:jelly>
