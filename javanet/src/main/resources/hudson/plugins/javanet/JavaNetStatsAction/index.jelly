@@ -2,15 +2,24 @@
     <st:include page="sidepanel.jelly" it="${it.project}" />
     <l:main-panel>
       <h1>Java.net stats</h1>
-      <style>
-        .issuetracker-stats HR {
-          display:none;
-        }
-        .issuetracker-stats H1 {
-          font-size: 1.5em;
-        }
-      </style>
-      <j:include uri="${it.issueStatsIndexHtml}"/>
+      <j:choose>
+        <j:when test="${it.isReportReady()}">
+          <style>
+            .issuetracker-stats HR {
+              display:none;
+            }
+            .issuetracker-stats H1 {
+              font-size: 1.5em;
+            }
+          </style>
+          <j:include uri="${it.issueStatsIndexHtml}"/>
+        </j:when>
+        <j:otherwise>
+          <p>
+            Report generation is in progress. Please check back later.
+          </p>
+        </j:otherwise>
+      </j:choose>
     </l:main-panel>
   </l:layout>
 </j:jelly>

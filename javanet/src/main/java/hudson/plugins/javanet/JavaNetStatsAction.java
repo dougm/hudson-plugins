@@ -28,17 +28,20 @@ public class JavaNetStatsAction implements Action {
      */
     private final String projectName;
 
+    private final File reportDir;
+
     public JavaNetStatsAction(AbstractProject<?, ?> project, String projectName) {
         this.project = project;
         this.projectName = projectName;
+        this.reportDir = getReportDirectory();
     }
 
     public void scheduleGeneration() {
-        new ReportGenerator(projectName,getReportDirectory()).schedule();
+        new ReportGenerator(projectName,reportDir).schedule();
     }
 
     public String getIconFileName() {
-        return "a.png";
+        return "graph.gif";
     }
 
     public String getDisplayName() {
@@ -49,11 +52,15 @@ public class JavaNetStatsAction implements Action {
         return "java.net-stats";
     }
 
+    public boolean isReportReady() {
+        return new File(reportDir,"index.html").exists();
+    }
+
     /**
      * Schedules the re-generation of the report if the report is too old.
      */
     public void upToDateCheck() {
-        File indexHtml = new File(getReportDirectory(),"index.html");
+        File indexHtml = new File(reportDir,"index.html");
         if(!indexHtml.exists() || (System.currentTimeMillis()-indexHtml.lastModified()>7*DAY)) {
             scheduleGeneration();
         }
@@ -82,7 +89,7 @@ public class JavaNetStatsAction implements Action {
             return;
         }
 
-        rsp.serveFile(req,new File(getReportDirectory(),path).toURL());
+        rsp.serveFile(req,new File(reportDir,path).toURL());
     }
 
     private static final Pattern PATH = Pattern.compile("[A-Za-z0-9\\-.]+");

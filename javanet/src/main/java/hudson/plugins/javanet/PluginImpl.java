@@ -21,14 +21,14 @@ public class PluginImpl extends Plugin {
                     protected void doRun() {
                         for(AbstractProject<?,?> j : Hudson.getInstance().getAllItems(AbstractProject.class)) {
                             StatsProperty p = j.getProperty(StatsProperty.class);
-                            if(p==null) continue;
+                            if(p==null) continue; // TODO: add this property after the fact
                             JavaNetStatsAction a = p.getJobAction(j);
                             if(a==null)  continue;
 
                             a.upToDateCheck();
                         }
                     }
-                },0*MINUTE,3*HOUR);
+                },10*MINUTE,3*HOUR);
             }
         });
     }
