@@ -141,13 +141,14 @@
         <module>gant</module>
         <module>gcal</module>
         <module>git</module>
-	<module>groovy</module>
+        <module>groovy</module>
         <module>hello-world</module>
         <module>ircbot</module>
         <module>ivy</module>
         <module>jabber</module>
         <module>japex</module>
         <module>javatest-report</module>
+        <module>javanet</module>
         <module>javanet-uploader</module>
         <module>javanet-trigger-installer</module>
         <module>jira</module>
