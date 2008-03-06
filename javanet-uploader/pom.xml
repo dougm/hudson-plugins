@@ -17,42 +17,7 @@
     <dependency>
       <groupId>javanettasks</groupId>
       <artifactId>javanettasks</artifactId>
-      <version>1.0.11</version>
-    </dependency>
-    <dependency>
-      <groupId>nekohtml</groupId>
-      <artifactId>nekohtml</artifactId>
-      <version>0.9.5</version>
-    </dependency>
-    <dependency>
-      <groupId>httpunit</groupId>
-      <artifactId>httpunit</artifactId>
-      <version>1.5.4</version>
-    </dependency>
-    <dependency>
-      <groupId>jtidy</groupId>
-      <artifactId>jtidy</artifactId>
-      <version>4aug2000r7-dev</version>
-    </dependency>
-    <dependency>
-      <groupId>xerces</groupId>
-      <artifactId>xerces</artifactId>
-      <version>2.2.1</version>
+      <version>1.0.14</version>
     </dependency>
   </dependencies>
-
-  <repositories>
-    <repository>
-      <id>java.net</id>
-      <url>http://download.java.net/maven/1/</url>
-      <layout>legacy</layout>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 </project>
