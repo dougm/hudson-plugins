@@ -2,21 +2,15 @@
     <st:include page="sidepanel.jelly" it="${it.project}" />
     <l:main-panel>
       <h1>Java.net stats</h1>
-      <div>
-        Main
-
-        <div align="center">
-          <img src="count.png" />
-        </div>
-
-        <div align="center">
-          <img src="created-vs-resolved.png" />
-        </div>
-
-        <div align="center">
-          <img src="life.png" />
-        </div>
-      </div>
+      <style>
+        .issuetracker-stats HR {
+          display:none;
+        }
+        .issuetracker-stats H1 {
+          font-size: 1.5em;
+        }
+      </style>
+      <j:include uri="${it.issueStatsIndexHtml}"/>
     </l:main-panel>
   </l:layout>
 </j:jelly>

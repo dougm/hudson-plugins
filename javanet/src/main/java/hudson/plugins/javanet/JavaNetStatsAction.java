@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Pattern;
+import java.net.URL;
 
 /**
  * @author Kohsuke Kawaguchi
@@ -56,6 +57,10 @@ public class JavaNetStatsAction implements Action {
         if(!indexHtml.exists() || (System.currentTimeMillis()-indexHtml.lastModified()>7*DAY)) {
             scheduleGeneration();
         }
+    }
+
+    public URL getIssueStatsIndexHtml() {
+        return getClass().getClassLoader().getResource("org/jvnet/its/index.html");
     }
 
     /**
