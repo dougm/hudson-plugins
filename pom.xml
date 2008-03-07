@@ -141,6 +141,7 @@
         <module>gant</module>
         <module>gcal</module>
         <module>git</module>
+        <module>googlecode</module>
         <module>groovy</module>
         <module>hello-world</module>
         <module>ircbot</module>
