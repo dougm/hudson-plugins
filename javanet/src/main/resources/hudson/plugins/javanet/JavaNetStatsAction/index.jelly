@@ -1,7 +1,15 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">  <l:layout title="Test">
     <st:include page="sidepanel.jelly" it="${it.project}" />
     <l:main-panel>
-      <h1>Java.net stats</h1>
+      <h1>Java.net stats of ${it.projectName}</h1>
+      <div align="right">
+        <l:expandButton title="But, this project uses a different issue tracker!">
+          <form method="post" action="changeProject">
+            Java.net project name: <input type="text" name="name" value="${it.projectName}" />
+            <input type="submit" value="Submit" class="submit-button"/>
+          </form>
+        </l:expandButton>
+      </div>
       <j:choose>
         <j:when test="${it.isReportReady()}">
           <style>

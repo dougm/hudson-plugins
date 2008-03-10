@@ -6,6 +6,8 @@ import hudson.model.Hudson;
 import static hudson.plugins.javanet.PluginImpl.DAY;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
+import org.kohsuke.stapler.QueryParameter;
+import org.apache.commons.io.FileUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
@@ -26,14 +28,18 @@ public class JavaNetStatsAction implements Action {
     /**
      * Java.net project name.
      */
-    private final String projectName;
+    private String projectName;
 
-    private final File reportDir;
+    private File reportDir;
 
     public JavaNetStatsAction(AbstractProject<?, ?> project, String projectName) {
         this.project = project;
         this.projectName = projectName;
         this.reportDir = getReportDirectory();
+    }
+
+    public String getProjectName() {
+        return projectName;
     }
 
     public void scheduleGeneration() {
@@ -90,6 +96,30 @@ public class JavaNetStatsAction implements Action {
         }
 
         rsp.serveFile(req,new File(reportDir,path).toURL());
+    }
+
+    public void doChangeProject(StaplerRequest req, StaplerResponse rsp,@QueryParameter("name") String name) throws IOException, ServletException {
+        projectName = name.trim();
+        reportDir = getReportDirectory();
+        FileUtils.writeStringToFile(getOverrideFile(),projectName,"UTF-8");
+
+        rsp.sendRedirect2(".");
+    }
+
+    /**
+     * File that stores the java.net project name, to manually override
+     * the default project name inference.
+     */
+    private File getOverrideFile() {
+        return new File(project.getRootDir(),"java.net.projectName");
+    }
+
+    /*package*/ static String readOverrideFile(AbstractProject<?,?> project) {
+        try {
+            return FileUtils.readFileToString(new File(project.getRootDir(),"java.net.projectName"),"UTF-8").trim();
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     private static final Pattern PATH = Pattern.compile("[A-Za-z0-9\\-.]+");

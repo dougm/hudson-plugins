@@ -31,6 +31,8 @@ public class StatsProperty extends JobProperty<AbstractProject<?,?>> {
     }
 
     private String getJavaNetProject(AbstractProject<?,?> job) {
+        String v = JavaNetStatsAction.readOverrideFile(job);
+        if(v!=null)     return v;
         return getJavaNetProject(job.getScm());
     }
 
