@@ -30,18 +30,10 @@ public class JavaNCSSBuildIndividualReport extends AbstractBuildReport<AbstractB
      */
     @Override
     public synchronized void setBuild(AbstractBuild<?, ?> build) {
-        // Ideally I'd prefer to use and AtomicReference... but I'm unsure how it would work with the serialization fun
-        if (this.getBuild() == null && this.getBuild() != build) {
-            if (this.getBuild() != null) {
-                // We should never need to handle this, but just in case
-                this.getBuild().getActions().remove(this);
-            }
-            super.setBuild(build);
-            if (this.getBuild() != null) {
-                this.getBuild().getActions().add(this);
-                for (Statistic r : getResults()) {
-                    r.setOwner(this.getBuild());
-                }
+        super.setBuild(build);
+        if (this.getBuild() != null) {
+            for (Statistic r : getResults()) {
+                r.setOwner(this.getBuild());
             }
         }
     }

@@ -30,8 +30,8 @@ public final class BuildProxy implements Serializable {
     private final FilePath buildRootDir;
     private final FilePath executionRootDir;
     private final Calendar timestamp;
-    private final List<AbstractBuildAction<AbstractBuild<?,?>>> actions =
-            new ArrayList<AbstractBuildAction<AbstractBuild<?,?>>>();
+    private final List<AbstractBuildAction<AbstractBuild<?, ?>>> actions =
+            new ArrayList<AbstractBuildAction<AbstractBuild<?, ?>>>();
     private Result result = null;
     private boolean continueBuild = true;
 
@@ -125,8 +125,11 @@ public final class BuildProxy implements Serializable {
      */
     public void updateBuild(AbstractBuild<?, ?> build) {
         // update the actions
-        for (AbstractBuildAction<AbstractBuild<?,?>> action: actions) {
-            action.setBuild(build);
+        for (AbstractBuildAction<AbstractBuild<?, ?>> action : actions) {
+            if (!build.getActions().contains(action)) {
+                action.setBuild(build);
+                build.getActions().add(action);
+            }
         }
 
         // update the result
@@ -213,7 +216,7 @@ public final class BuildProxy implements Serializable {
      *
      * @return Value for property 'actions'.
      */
-    public List<AbstractBuildAction<AbstractBuild<?,?>>> getActions() {
+    public List<AbstractBuildAction<AbstractBuild<?, ?>>> getActions() {
         return actions;
     }
 

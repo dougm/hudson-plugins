@@ -5,11 +5,14 @@ import hudson.util.ChartUtil;
 import hudson.util.DataSetBuilder;
 import hudson.plugins.helpers.GraphHelper;
 import hudson.plugins.helpers.AbstractProjectAction;
+import hudson.plugins.javancss.parser.Statistic;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * TODO javadoc.
@@ -104,6 +107,44 @@ public abstract class AbstractProjectReport<T extends AbstractProject<?, ?>> ext
         return true;
     }
 
+    /**
+     * Returns the latest results.
+     *
+     * @return Value for property 'graphAvailable'.
+     */
+    public Collection<Statistic> getResults() {
+        AbstractBuild<?, ?> build = getProject().getLastBuild();
+        while (true) {
+            if (build == null) {
+                break;
+            }
+            final AbstractBuildReport action = build.getAction(getBuildActionClass());
+            if (action != null) {
+                return action.getResults();
+            }
+        }
+        return Collections.emptySet();
+    }
+
+    /**
+     * Returns the latest totals.
+     *
+     * @return Value for property 'graphAvailable'.
+     */
+    public Statistic getTotals() {
+        AbstractBuild<?, ?> build = getProject().getLastBuild();
+        while (true) {
+            if (build == null) {
+                break;
+            }
+            final AbstractBuildReport action = build.getAction(getBuildActionClass());
+            if (action != null) {
+                return action.getTotals();
+            }
+        }
+        return null;
+    }
+
     protected abstract Class<? extends AbstractBuildReport> getBuildActionClass();
 
     protected void populateDataSetBuilder(DataSetBuilder<String, ChartUtil.NumberOnlyBuildLabel> dataset) {
@@ -113,9 +154,9 @@ public abstract class AbstractProjectReport<T extends AbstractProject<?, ?>> ext
             AbstractBuildReport action = build.getAction(getBuildActionClass());
             if (action != null) {
                 dataset.add(action.getTotals().getNcss(), "NCSS", label);
-                dataset.add(action.getTotals().getSingleCommentLines(), "Multi-line comment line count", label);
-                dataset.add(action.getTotals().getMultiCommentLines(), "Single line comment line count", label);
-                dataset.add(action.getTotals().getJavadocLines(), "Javadoc line count", label);
+                dataset.add(action.getTotals().getSingleCommentLines(), "Multi-line comments", label);
+                dataset.add(action.getTotals().getMultiCommentLines(), "Single line comments", label);
+                dataset.add(action.getTotals().getJavadocLines(), "Javadocs", label);
             }
         }
 

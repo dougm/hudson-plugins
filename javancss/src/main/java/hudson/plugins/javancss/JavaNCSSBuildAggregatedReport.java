@@ -43,6 +43,7 @@ public class JavaNCSSBuildAggregatedReport extends AbstractBuildReport<MavenModu
             Collection<Statistic> u = Statistic.merge(report.getResults(), getResults());
             getResults().clear();
             getResults().addAll(u);
+            getTotals().add(report.getTotals());
             buildHealth = HealthReport.min(buildHealth, report.getBuildHealth());
         }
     }
