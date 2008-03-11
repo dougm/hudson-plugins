@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <builders class="vector"/>
+  <publishers class="vector">
+    <hudson.tasks.BuildTrigger>
+      <childProjects>multi-m2-freestyle, multi-m2-m2, simple-ant, simple-m2-m2</childProjects>
+      <threshold>
+        <name>SUCCESS</name>
+        <ordinal>0</ordinal>
+        <color>BLUE</color>
+      </threshold>
+    </hudson.tasks.BuildTrigger>
+  </publishers>
+  <buildWrappers class="vector"/>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <triggers class="vector"/>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <description></description>
+  <actions class="vector"/>
+</project>
