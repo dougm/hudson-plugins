@@ -1,18 +1,16 @@
 package hudson.plugins.javancss;
 
 import hudson.FilePath;
-import hudson.plugins.helpers.Ghostwriter;
-import hudson.plugins.helpers.BuildProxy;
-import hudson.plugins.javancss.parser.Statistic;
-import hudson.model.BuildListener;
 import hudson.model.AbstractBuild;
-import hudson.model.Action;
-
-import java.io.IOException;
-import java.io.File;
-import java.util.Collection;
-
+import hudson.model.BuildListener;
+import hudson.plugins.helpers.BuildProxy;
+import hudson.plugins.helpers.Ghostwriter;
+import hudson.plugins.javancss.parser.Statistic;
 import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
 
 /**
  * TODO javadoc.
@@ -40,12 +38,17 @@ public class JavaNCSSGhostwriter
         Collection<Statistic> results = null;
         for (FilePath path : paths) {
             try {
-                Collection<Statistic> result = Statistic.parse(new File(path.getRemote()));
+                final File inFile = new File(path.getRemote());
+                listener.getLogger().println("Parsing " + inFile);
+                Collection<Statistic> result = Statistic.parse(inFile);
+                listener.getLogger().println("Pre Results = " + results);
+                listener.getLogger().println("Result = " + result);
                 if (results == null) {
                     results = result;
                 } else {
                     results = Statistic.merge(results, result);
                 }
+                listener.getLogger().println("Post Results = " + results);
             } catch (XmlPullParserException e) {
                 e.printStackTrace(listener.getLogger());
             }

@@ -21,11 +21,15 @@ public class JavaNCSSBuildAggregatedReport extends AbstractBuildReport<MavenModu
         setBuild(build);
         Map<MavenModule, List<MavenBuild>> processedModuleBuilds = new HashMap<MavenModule, List<MavenBuild>>();
         for (Map.Entry<MavenModule, List<MavenBuild>> childList : moduleBuilds.entrySet()) {
-            List<MavenBuild> processedChildren = new ArrayList<MavenBuild>();
-            processedModuleBuilds.put(childList.getKey(), processedChildren);
-            for (MavenBuild child : childList.getValue()) {
-                update(processedModuleBuilds, child);
-                processedChildren.add(child);
+            if (!processedModuleBuilds.containsKey(childList.getKey())) {
+                List<MavenBuild> processedChildren = new ArrayList<MavenBuild>();
+                for (MavenBuild child : childList.getValue()) {
+                    if (!processedChildren.contains(child)) {
+                        update(processedModuleBuilds, child);
+                        processedChildren.add(child);
+                    }
+                }
+                processedModuleBuilds.put(childList.getKey(), processedChildren);
             }
         }
     }
