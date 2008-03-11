@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson.maven.MavenModuleSet>
+  <rootModule>
+    <groupId>com.onedash.mvn.hudson</groupId>
+    <artifactId>SimpleM2Project</artifactId>
+  </rootModule>
+  <goals>javancss:report</goals>
+  <defaultGoals>package</defaultGoals>
+  <aggregatorStyleBuild>true</aggregatorStyleBuild>
+  <reporters/>
+  <publishers/>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <triggers class="vector"/>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <description></description>
+  <actions class="vector"/>
+</hudson.maven.MavenModuleSet>

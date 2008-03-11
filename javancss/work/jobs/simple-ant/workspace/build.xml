@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="SimpleAntProject" basedir="." default="dist">
+
+    <path id="javancss.ant.task">
+        <pathelement location="${basedir}/tools/javancss/ccl.jar"/>
+        <pathelement location="${basedir}/tools/javancss/javancss.jar"/>
+        <pathelement location="${basedir}/tools/javancss/jhbasic.jar"/>
+    </path>
+
+    <taskdef name="javancss"
+             classname="javancss.JavancssAntTask"
+             classpathref="javancss.ant.task"/>
+
+    <property name="src.dir" value="src"/>
+    <property name="java.dir" value="${src.dir}/main"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="docs.dir" value="docs"/>
+    <property name="src.junit" value="${src.dir}/test"/>
+    <property name="manifest" value="${src.dir}/etc/manifest"/>
+    <property name="resource.dir" value="${src.dir}/resources"/>
+
+    <property name="build.dir" value="build"/>
+    <property name="dist.dir" value="dist"/>
+    <property name="build.classes" value="${build.dir}/classes"/>
+    <property name="build.lib" value="${build.dir}/lib"/>
+    <property name="build.javadocs" value="${build.dir}/javadocs"/>
+    <property name="build.tests" value="${build.dir}/testcases"/>
+    <property name="build.junit.reports" location="${build.tests}/reports"/>
+    <property name="manifest.tmp" value="${build.dir}/optional.manifest"/>
+    <!-- the absolute path -->
+    <property name="build.tests.value" location="${build.tests}"/>
+
+    <property name="debug" value="true"/>
+    <property name="deprecation" value="false"/>
+    <property name="optimize" value="true"/>
+    <property name="javac.target" value="1.5"/>
+    <property name="javac.source" value="1.5"/>
+    <property name="junit.fork" value="false"/>
+    <property name="junit.filtertrace" value="off"/>
+    <property name="junit.summary" value="no"/>
+    <property name="test.haltonfailure" value="false"/>
+    <property name="junit.forkmode" value="once"/>
+
+    <path id="classpath">
+        <pathelement location="${lib.dir}"/>
+    </path>
+
+    <path id="tests-classpath">
+        <pathelement location="${build.classes}"/>
+        <pathelement location="${build.tests}"/>
+        <pathelement location="${src.junit}"/>
+        <pathelement location="${lib.dir}/junit.jar"/>
+        <path refid="classpath"/>
+    </path>
+
+    <!-- turn this path into a string which is passed to the tests -->
+    <property name="tests-classpath.value" refid="tests-classpath"/>
+
+    <target name="clean" description="Delete all generated files">
+        <delete dir="${build.dir}" failonerror="false"/>
+        <delete dir="${dist.dir}" failonerror="false"/>
+    </target>
+
+    <target name="compile" description="Compiles ${ant.project.name}">
+        <mkdir dir="${build.classes}"/>
+        <javac srcdir="${java.dir}"
+               destdir="${build.classes}"
+               debug="${debug}"
+               target="${javac.target}"
+               source="${javac.source}"
+               deprecation="${deprecation}">
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+
+    <target name="compile-tests" depends="compile">
+        <mkdir dir="${build.tests}"/>
+
+        <javac srcdir="${src.junit}"
+               destdir="${build.tests}"
+               debug="${debug}"
+               target="${javac.target}"
+               source="${javac.source}"
+               deprecation="${deprecation}">
+            <classpath refid="tests-classpath"/>
+        </javac>
+    </target>
+
+    <target name="test" depends="compile-tests">
+        <mkdir dir="${build.junit.reports}"/>
+        <junit>
+            <classpath refid="tests-classpath"/>
+            <formatter type="brief" usefile="false"/>
+            <batchtest fork="yes"
+                       todir="${build.junit.reports}"
+                       haltonerror="true"
+                       haltonfailure="true">
+                <fileset dir="${src.junit}">
+                    <include name="**/*Test*.java"/>
+                    <exclude name="**/AllTests.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="dist" description="JARs the Task" depends="compile, test, javancss">
+        <mkdir dir="${dist.dir}"/>
+        <jar destfile="${dist.dir}/${ant.project.name}.jar" basedir="${build.classes}"/>
+    </target>
+
+    <target name="javancss">
+        <javancss srcdir="${java.dir}"
+                generatereport="true"
+                outputfile="${build.dir}/javancss-report.xml"
+                format="xml"/>
+
+
+    </target>
+
+</project>

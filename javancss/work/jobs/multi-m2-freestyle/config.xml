@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <builders class="vector">
+    <hudson.tasks.Maven>
+      <targets>javancss:report</targets>
+    </hudson.tasks.Maven>
+  </builders>
+  <publishers class="vector"/>
+  <buildWrappers class="vector"/>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <triggers class="vector"/>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <description></description>
+  <actions class="vector"/>
+</project>
