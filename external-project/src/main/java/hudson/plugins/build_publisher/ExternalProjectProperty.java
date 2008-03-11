@@ -64,8 +64,7 @@ import hudson.util.DescribableList.Owner;
 public class ExternalProjectProperty extends JobProperty<Job<?, ?>> implements
         ProminentProjectAction {
 
-    private static final Logger LOGGER = Logger.getLogger(Hudson.class
-            .getName());
+    private static final Logger LOGGER = Logger.getLogger(ExternalProjectProperty.class.getName());
 
     private transient AbstractProject project;
 
