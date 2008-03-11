@@ -5,6 +5,8 @@
         <l:main-panel>
             <h1>${it.displayName}</h1>
             <j:if test="${it.graphActive}">
+                <j:set var="relativeUrlPath" value=""/>
+
                 <h2>${it.graphName}</h2>
                 <st:include page="normalGraph.jelly"/>
             </j:if>

@@ -6,10 +6,11 @@
                 ${from.graphName}
             </div>
 
+            <j:set var="relativeUrlPath" value="${from.urlName}/"/>
             <st:include it="${from}" page="normalGraph.jelly"/>
 
             <div style="text-align:right">
-                <a href="enlargedGraph">enlarge</a>
+                <a href="${relativeUrlPath}enlargedGraph">enlarge</a>
             </div>
         </div>
     </j:if>
