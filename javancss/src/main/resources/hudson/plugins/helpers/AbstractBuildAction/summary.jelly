@@ -4,7 +4,7 @@
         <a href="${it.urlName}">${it.displayName}</a>
         ${it.summary}
     </t:summary>
-    <j:if test="${it.floatingBoxVisible}}">
+    <j:if test="${it.floatingBoxActive}">
         <div style="float:right">
             <st:include page="floatingBox.jelly"/>
         </div>

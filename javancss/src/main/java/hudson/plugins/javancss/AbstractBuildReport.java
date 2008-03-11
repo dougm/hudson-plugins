@@ -1,12 +1,12 @@
 package hudson.plugins.javancss;
 
-import hudson.model.HealthReportingAction;
 import hudson.model.AbstractBuild;
+import hudson.model.HealthReportingAction;
+import hudson.plugins.helpers.AbstractBuildAction;
+import hudson.plugins.helpers.GraphHelper;
+import hudson.plugins.javancss.parser.Statistic;
 import hudson.util.ChartUtil;
 import hudson.util.DataSetBuilder;
-import hudson.plugins.helpers.GraphHelper;
-import hudson.plugins.helpers.AbstractBuildAction;
-import hudson.plugins.javancss.parser.Statistic;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
@@ -24,7 +24,9 @@ public abstract class AbstractBuildReport<T extends AbstractBuild<?, ?>> extends
     private final Collection<Statistic> results;
     private final Statistic totals;
 
-    /** Constructs a new AbstractBuildReport. */
+    /**
+     * Constructs a new AbstractBuildReport.
+     */
     public AbstractBuildReport(Collection<Statistic> results) {
         this.results = results;
         this.totals = Statistic.total(results);
@@ -40,11 +42,22 @@ public abstract class AbstractBuildReport<T extends AbstractBuild<?, ?>> extends
 
     /**
      * The summary of this build report for display on the build index page.
+     *
      * @return
      */
     public String getSummary() {
-        return "";
+        AbstractBuild<?, ?> prevBuild = getBuild().getPreviousBuild();
+        while (prevBuild != null && prevBuild.getAction(getClass()) == null) {
+            prevBuild = prevBuild.getPreviousBuild();
+        }
+        if (prevBuild == null) {
+            return totals.toSummary();
+        } else {
+            AbstractBuildReport action = prevBuild.getAction(getClass());
+            return totals.toSummary(action.getTotals());
+        }
     }
+
     /**
      * {@inheritDoc}
      */

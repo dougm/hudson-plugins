@@ -2,13 +2,12 @@ package hudson.plugins.javancss.parser;
 
 import hudson.model.AbstractBuild;
 import hudson.util.IOException2;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.*;
 import java.util.*;
-
-import org.xmlpull.v1.XmlPullParserFactory;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 
 /**
  * TODO javadoc.
@@ -307,5 +306,39 @@ public class Statistic implements Serializable {
                 ", singleCommentLines=" + singleCommentLines +
                 ", multiCommentLines=" + multiCommentLines +
                 '}';
+    }
+
+    public String toSummary() {
+        return "<ul>"
+                + diff(0, classes, "classes")
+                + diff(0, functions, "functions")
+                + diff(0, ncss, "ncss")
+                + diff(0, javadocs, "javadocs")
+                + diff(0, javadocLines, "javadoc lines")
+                + diff(0, singleCommentLines, "single line comments")
+                + diff(0, multiCommentLines, "multi-line comments")
+                + "</ul>";
+    }
+
+    private static String diff(long a, long b, String name) {
+        if (a == b) {
+            return "";
+        } else if (a < b) {
+            return "<li>" + name + " (+" + (b - a) + ")</li>";
+        } else { // if (a < b)
+            return "<li>" + name + " (-" + (a - b) + ")</li>";
+        }
+    }
+
+    public String toSummary(Statistic totals) {
+        return "<ul>"
+                + diff(totals.classes, classes, "classes")
+                + diff(totals.functions, functions, "functions")
+                + diff(totals.ncss, ncss, "ncss")
+                + diff(totals.javadocs, javadocs, "javadocs")
+                + diff(totals.javadocLines, javadocLines, "javadoc lines")
+                + diff(totals.singleCommentLines, singleCommentLines, "single line comments")
+                + diff(totals.multiCommentLines, multiCommentLines, "multi-line comments")
+                + "</ul>";
     }
 }
