@@ -23,6 +23,7 @@ import hudson.Launcher;
 import hudson.Proc;
 import hudson.Util;
 import hudson.XmlFile;
+import hudson.security.Permission;
 import hudson.maven.MavenBuild;
 import hudson.maven.MavenModule;
 import hudson.maven.MavenModuleSet;
@@ -84,9 +85,7 @@ public class ExternalProjectProperty extends JobProperty<Job<?, ?>> implements
      */
     public void doAcceptConfig(StaplerRequest req, StaplerResponse rsp)
             throws IOException {
-        if (!Hudson.adminCheck(req, rsp)) {
-            return;
-        }
+        project.checkPermission(Permission.CONFIGURE);
 
         // Partially taken from Hudson.doCreateItem(..)
         XmlFile configXmlFile = project.getConfigFile();
@@ -113,10 +112,7 @@ public class ExternalProjectProperty extends JobProperty<Job<?, ?>> implements
      */
     public void doAcceptMavenModule(StaplerRequest req, StaplerResponse rsp)
             throws IOException {
-        if (!Hudson.adminCheck(req, rsp)
-                || !(project instanceof MavenModuleSet)) {
-            return;
-        }
+        project.checkPermission(Permission.CONFIGURE);
 
         String name = req.getParameter("name").trim();
         File modulesDir = new File(project.getRootDir(), "modules");
@@ -150,9 +146,7 @@ public class ExternalProjectProperty extends JobProperty<Job<?, ?>> implements
      */
     public void doAcceptBuild(StaplerRequest req, StaplerResponse rsp)
             throws IOException {
-        if (!Hudson.adminCheck(req, rsp)) {
-            return;
-        }
+        project.checkPermission(Permission.CONFIGURE);
 
         // Don't send notifications for old builds
         Set<String> oldBuildIDs = new HashSet<String>();
