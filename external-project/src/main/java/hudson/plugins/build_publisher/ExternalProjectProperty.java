@@ -1,62 +1,36 @@
 package hudson.plugins.build_publisher;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Logger;
-
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.Untar;
-import org.apache.tools.ant.types.Resource;
-import org.kohsuke.stapler.StaplerRequest;
-import org.kohsuke.stapler.StaplerResponse;
-
-import hudson.FilePath;
-import hudson.Launcher;
-import hudson.Proc;
 import hudson.Util;
 import hudson.XmlFile;
-import hudson.security.Permission;
-import hudson.maven.MavenBuild;
 import hudson.maven.MavenModule;
-import hudson.maven.MavenModuleSet;
-import hudson.maven.MavenModuleSetBuild;
-import hudson.maven.MavenReporter;
-import hudson.maven.reporters.MavenMailer;
-import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
-import hudson.model.Action;
-import hudson.model.Actionable;
 import hudson.model.Build;
-import hudson.model.Hudson;
-import hudson.model.Items;
 import hudson.model.Job;
 import hudson.model.JobProperty;
 import hudson.model.JobPropertyDescriptor;
 import hudson.model.Project;
 import hudson.model.ProminentProjectAction;
 import hudson.model.Run;
-import hudson.model.StreamBuildListener;
-import hudson.model.TaskListener;
-import hudson.model.TopLevelItem;
-import hudson.model.Descriptor;
-import hudson.model.RunMap.Constructor;
-import hudson.remoting.Channel;
-import hudson.remoting.VirtualChannel;
+import hudson.security.Permission;
 import hudson.tasks.ArtifactArchiver;
-import hudson.tasks.Mailer;
-import hudson.tasks.Publisher;
 import hudson.util.IOException2;
 import hudson.util.TextFile;
-import hudson.util.DescribableList.Owner;
 import net.sf.json.JSONObject;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.taskdefs.Untar;
+import org.apache.tools.ant.types.Resource;
+import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerResponse;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * Recieves builds submitted remotely via HTTP.
