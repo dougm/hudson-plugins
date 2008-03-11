@@ -31,6 +31,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * Recieves builds submitted remotely via HTTP.
@@ -153,14 +154,13 @@ public class ExternalProjectProperty extends JobProperty<Job<?, ?>> implements
             try {
                 tidyUp();
             } catch (IOException e) {
-                LOGGER.warning("Cleaning project " + project.getName()
-                        + "failed: " + e.getMessage());
-                e.printStackTrace();
+                LOGGER.log(Level.WARNING, "Cleaning project " + project.getName()
+                        + "failed: " + e.getMessage(),e);
             }
 
         } catch (BuildException e) {
-            LOGGER.severe("Failed to read the remote stream "
-                    + project.getName() + e.getMessage());
+            LOGGER.log(Level.SEVERE, "Failed to read the remote stream "
+                    + project.getName() + e.getMessage(),e);
             throw new IOException2("Failed to read the remote stream "
                     + project.getName(), e);
         }
