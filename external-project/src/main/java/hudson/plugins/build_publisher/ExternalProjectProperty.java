@@ -46,6 +46,7 @@ import hudson.model.Run;
 import hudson.model.StreamBuildListener;
 import hudson.model.TaskListener;
 import hudson.model.TopLevelItem;
+import hudson.model.Descriptor;
 import hudson.model.RunMap.Constructor;
 import hudson.remoting.Channel;
 import hudson.remoting.VirtualChannel;
@@ -55,6 +56,7 @@ import hudson.tasks.Publisher;
 import hudson.util.IOException2;
 import hudson.util.TextFile;
 import hudson.util.DescribableList.Owner;
+import net.sf.json.JSONObject;
 
 /**
  * Recieves builds submitted remotely via HTTP.
@@ -280,8 +282,7 @@ public class ExternalProjectProperty extends JobProperty<Job<?, ?>> implements
         }
 
         @Override
-        public JobProperty<?> newInstance(StaplerRequest req)
-                throws hudson.model.Descriptor.FormException {
+        public JobProperty<?> newInstance(StaplerRequest req, JSONObject formData) throws FormException {
             return new ExternalProjectProperty();
         }
 
