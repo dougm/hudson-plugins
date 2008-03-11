@@ -13,7 +13,6 @@ import hudson.model.Jobs;
  * {@link Plugin} for more about what can be done on this class.
  *
  * @author Kohsuke Kawaguchi
- * @plugin
  */
 public class PluginImpl extends Plugin {
     public void start() throws Exception {
