@@ -4,7 +4,6 @@ import hudson.maven.*;
 import hudson.model.Action;
 import hudson.plugins.helpers.AbstractMavenReporterImpl;
 import hudson.plugins.helpers.Ghostwriter;
-
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.component.configurator.ComponentConfigurationException;
 
@@ -82,7 +81,12 @@ public class JavaNCSSMavenPublisher extends AbstractMavenReporterImpl {
     }
 
     public Action getProjectAction(MavenModule module) {
-        return new JavaNCSSProjectIndividualReport(module);
+        for (MavenBuild build : module.getBuilds()) {
+            if (build.getAction(JavaNCSSBuildIndividualReport.class) != null) {
+                return new JavaNCSSProjectIndividualReport(module);
+            }
+        }
+        return null;
     }
 
     public static final DescriptorImpl DESCRIPTOR = new DescriptorImpl();

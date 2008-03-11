@@ -2,11 +2,7 @@ package hudson.plugins.javancss;
 
 import hudson.maven.*;
 import hudson.model.Action;
-import hudson.model.HealthReportingAction;
 import hudson.model.HealthReport;
-import hudson.model.AbstractBuild;
-import hudson.util.ChartUtil;
-import hudson.util.DataSetBuilder;
 import hudson.plugins.javancss.parser.Statistic;
 
 import java.util.*;
@@ -59,7 +55,12 @@ public class JavaNCSSBuildAggregatedReport extends AbstractBuildReport<MavenModu
      * {@inheritDoc}
      */
     public Action getProjectAction(MavenModuleSet moduleSet) {
-        return new JavaNCSSProjectAggregatedReport(moduleSet);
+        for (MavenModuleSetBuild build : moduleSet.getBuilds()) {
+            if (build.getAction(JavaNCSSBuildAggregatedReport.class) != null) {
+                return new JavaNCSSProjectAggregatedReport(moduleSet);
+            }
+        }
+        return null;
     }
 
     /**
