@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson.maven.MavenModuleSet>
+  <goals>javancss:javancss</goals>
+  <aggregatorStyleBuild>true</aggregatorStyleBuild>
+  <reporters/>
+  <publishers/>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <triggers class="vector"/>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <description></description>
+  <actions class="vector"/>
+</hudson.maven.MavenModuleSet>
