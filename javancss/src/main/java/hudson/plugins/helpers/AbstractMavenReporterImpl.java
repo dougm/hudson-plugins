@@ -1,12 +1,10 @@
 package hudson.plugins.helpers;
 
+import hudson.maven.MavenBuildProxy;
 import hudson.maven.MavenReporter;
 import hudson.maven.MojoInfo;
-import hudson.maven.MavenBuildProxy;
 import hudson.model.BuildListener;
 import hudson.model.Result;
-import hudson.plugins.helpers.BuildProxy;
-import hudson.plugins.javancss.PluginImpl;
 import org.apache.maven.project.MavenProject;
 
 import java.io.IOException;
@@ -48,7 +46,11 @@ public abstract class AbstractMavenReporterImpl extends MavenReporter {
             return okToContinue;
         }
 
-        return BuildProxy.doPerform(newGhostwriter(pom, mojo), build, pom, listener);
+        if (BuildProxy.doPerform(newGhostwriter(pom, mojo), build, pom, listener)) {
+            build.registerAsProjectAction(this);
+            return true;
+        }
+        return false;
     }
 
     /**
