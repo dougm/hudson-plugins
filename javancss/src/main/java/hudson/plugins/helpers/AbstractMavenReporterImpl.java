@@ -46,11 +46,9 @@ public abstract class AbstractMavenReporterImpl extends MavenReporter {
             return okToContinue;
         }
 
-        if (BuildProxy.doPerform(newGhostwriter(pom, mojo), build, pom, listener)) {
-            build.registerAsProjectAction(this);
-            return true;
-        }
-        return false;
+        build.registerAsProjectAction(this);
+
+        return BuildProxy.doPerform(newGhostwriter(pom, mojo), build, pom, listener);
     }
 
     /**
