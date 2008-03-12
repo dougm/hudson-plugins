@@ -1,0 +1,33 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
+	xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
+	xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+
+	<h2>${it.title}</h2>
+	<table class="pane sortable" id="crap.methods">
+		<tr>
+			<td class="pane-header" style="width:2em">Method Name</td>
+			<td class="pane-header">Class Name</td>
+			<td class="pane-header">Package Name</td>
+			<td class="pane-header" style="width:1.5em">Crap Load</td>
+			<td class="pane-header" style="width:1.5em">Crap</td>
+			<td class="pane-header" style="width:1.5em">Coverage</td>
+			<td class="pane-header" style="width:1.5em">Complexity</td>
+			<td class="pane-header">Method Signature</td>
+		</tr>
+		<tbody>
+			<j:forEach var="method" items="${it.methods}">
+				<tr>
+					<td class="pane"><b>${method.methodName}</b></td>
+					<td class="pane">${method.className}</td>
+					<td class="pane">${method.packageName}</td>
+					<td class="pane"><b>${method.crapLoad}</b></td>
+					<td class="pane">${method.crap}</td>
+					<td class="pane">${method.coveragePercent}</td>
+					<td class="pane">${method.complexity}</td>
+					<td class="pane">${method.methodSignature}</td>
+				</tr>
+			</j:forEach>
+		</tbody>
+	</table>
+
+</j:jelly>

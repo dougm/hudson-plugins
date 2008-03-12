@@ -1,0 +1,29 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
+	xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
+	xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+	
+	<l:layout>
+		<st:include it="${it.owner}" page="sidepanel.jelly" />
+		
+		<l:main-panel>
+			<h1>Crap4J Result</h1>
+	        <st:include page="/methodTable.jelly" />
+	        <p/>
+	        <j:if test="${it.hasChangesAtCrappyMethods()}">
+	       	  <div style="border-bottom: 1px solid black; font-weight: bold; margin-bottom: 0.2em; margin-top: 0.4em;">
+			    Changes with this build
+			  </div>
+			  <div>
+			  	<ul>
+			  		<j:if test="${it.hasNewCrappyMethods()}">
+				  		<li><a href="new">New crappy methods in this build</a></li>
+				  	</j:if>
+			  		<j:if test="${it.hasFixedCrappyMethods()}">
+				  		<li><a href="fixed">Fixed crappy methods in this build</a></li>
+				  	</j:if>
+			  	</ul>
+			  </div>
+		    </j:if>
+		</l:main-panel>
+	</l:layout>
+</j:jelly>

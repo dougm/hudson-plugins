@@ -1,0 +1,11 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
+	xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
+	xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+	
+	<t:summary icon="/plugin/crap4j/icons/crap-48x48.gif">
+		${it.result.summary}
+		<ul>
+		${it.result.details}
+		</ul>
+	</t:summary>
+</j:jelly>

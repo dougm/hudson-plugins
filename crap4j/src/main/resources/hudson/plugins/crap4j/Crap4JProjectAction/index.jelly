@@ -1,0 +1,43 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local">
+
+    	<l:layout>
+		<st:include it="${it.owner}" page="sidepanel.jelly" />
+		
+		<l:main-panel>
+			<h1>Crap4J Full Trend Report</h1>
+		    <div>
+		      <p/>
+			  <div style="border-bottom: 1px solid black; font-weight: bold; margin-bottom: 0.2em; margin-top: 0.4em;">
+			    Crappyness Trend
+			  </div>
+			  <div>
+			    <img src="trend?data=crappyness" lazymap="trendMap?data=crappyness"/>
+			  </div>
+			  
+			  <p/>
+			  <div style="border-bottom: 1px solid black; font-weight: bold; margin-bottom: 0.2em; margin-top: 0.4em;">
+			    Crap Method Count Trend
+			  </div>
+			  <div>
+			    <img src="trend?data=crapMethodCount" lazymap="trendMap?data=crapMethodCount"/>
+			  </div>
+			  
+			  <p/>
+			  <div style="border-bottom: 1px solid black; font-weight: bold; margin-bottom: 0.2em; margin-top: 0.4em;">
+			    Crap Load Trend
+			  </div>
+			  <div>
+			    <img src="trend?data=crapLoad" lazymap="trendMap?data=crapLoad"/>
+			  </div>
+	
+			  <p/>
+			  <div style="border-bottom: 1px solid black; font-weight: bold; margin-bottom: 0.2em; margin-top: 0.4em;">
+			    Crap Trend
+			  </div>
+			  <div>
+			    <img src="trend?data=crap" lazymap="trendMap?data=crap"/>
+			  </div>
+		   	</div>
+		</l:main-panel>
+	</l:layout>
+</j:jelly>
