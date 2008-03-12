@@ -51,7 +51,7 @@ public class JavaNetStatsAction implements Action {
     }
 
     public String getDisplayName() {
-        return "java.net statistics";
+        return "Java.net Statistics";
     }
 
     public String getUrlName() {
