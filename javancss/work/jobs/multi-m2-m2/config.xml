@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <hudson.maven.MavenModuleSet>
+  <rootModule>
+    <groupId>com.onedash.mvn.hudson</groupId>
+    <artifactId>MultiM2Project</artifactId>
+  </rootModule>
   <goals>javancss:report</goals>
   <aggregatorStyleBuild>true</aggregatorStyleBuild>
   <reporters/>
@@ -8,6 +12,10 @@
   <canRoam>true</canRoam>
   <disabled>false</disabled>
   <triggers class="vector"/>
+  <logRotator>
+    <daysToKeep>-1</daysToKeep>
+    <numToKeep>5</numToKeep>
+  </logRotator>
   <keepDependencies>false</keepDependencies>
   <properties/>
   <description></description>
