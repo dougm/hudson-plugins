@@ -341,4 +341,15 @@ public class Statistic implements Serializable {
                 + diff(totals.multiCommentLines, multiCommentLines, "multi-line comments")
                 + "</ul>";
     }
+
+    public void set(Statistic that) {
+        this.name = that.name;
+        this.classes = that.classes;
+        this.functions = that.functions;
+        this.ncss = that.ncss;
+        this.javadocs = that.javadocs;
+        this.javadocLines = that.javadocLines;
+        this.singleCommentLines = that.singleCommentLines;
+        this.multiCommentLines = that.multiCommentLines;
+    }
 }

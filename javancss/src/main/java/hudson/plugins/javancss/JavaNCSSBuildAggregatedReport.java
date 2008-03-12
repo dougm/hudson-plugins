@@ -5,7 +5,10 @@ import hudson.model.Action;
 import hudson.model.HealthReport;
 import hudson.plugins.javancss.parser.Statistic;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * TODO javadoc.
@@ -19,17 +22,15 @@ public class JavaNCSSBuildAggregatedReport extends AbstractBuildReport<MavenModu
     public JavaNCSSBuildAggregatedReport(MavenModuleSetBuild build, Map<MavenModule, List<MavenBuild>> moduleBuilds) {
         super(new ArrayList<Statistic>());
         setBuild(build);
-        Map<MavenModule, List<MavenBuild>> processedModuleBuilds = new HashMap<MavenModule, List<MavenBuild>>();
+    }
+
+    private synchronized void calculateTotals(Map<MavenModule, List<MavenBuild>> moduleBuilds) {
+        getResults().clear();
+        getTotals().set(Statistic.total(getResults()));
         for (Map.Entry<MavenModule, List<MavenBuild>> childList : moduleBuilds.entrySet()) {
-            if (!processedModuleBuilds.containsKey(childList.getKey())) {
-                List<MavenBuild> processedChildren = new ArrayList<MavenBuild>();
-                for (MavenBuild child : childList.getValue()) {
-                    if (!processedChildren.contains(child)) {
-                        update(processedModuleBuilds, child);
-                        processedChildren.add(child);
-                    }
-                }
-                processedModuleBuilds.put(childList.getKey(), processedChildren);
+            MavenBuild child = childList.getValue().iterator().next();
+            if (child != null) {
+                update(moduleBuilds, child);
             }
         }
     }
@@ -37,7 +38,7 @@ public class JavaNCSSBuildAggregatedReport extends AbstractBuildReport<MavenModu
     /**
      * {@inheritDoc}
      */
-    public void update(Map<MavenModule, List<MavenBuild>> moduleBuilds, MavenBuild newBuild) {
+    public synchronized void update(Map<MavenModule, List<MavenBuild>> moduleBuilds, MavenBuild newBuild) {
         JavaNCSSBuildIndividualReport report = newBuild.getAction(JavaNCSSBuildIndividualReport.class);
         if (report != null) {
             Collection<Statistic> u = Statistic.merge(report.getResults(), getResults());
