@@ -1,16 +1,20 @@
 package hudson.plugins.javancss;
 
 import hudson.FilePath;
-import hudson.model.AbstractBuild;
-import hudson.model.BuildListener;
-import hudson.plugins.helpers.BuildProxy;
 import hudson.plugins.helpers.Ghostwriter;
+import hudson.plugins.helpers.BuildProxy;
 import hudson.plugins.javancss.parser.Statistic;
-import org.xmlpull.v1.XmlPullParserException;
+import hudson.model.BuildListener;
+import hudson.model.AbstractBuild;
+import hudson.model.Action;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.File;
 import java.util.Collection;
+import java.util.Set;
+import java.util.HashSet;
+
+import org.xmlpull.v1.XmlPullParserException;
 
 /**
  * TODO javadoc.
@@ -36,21 +40,21 @@ public class JavaNCSSGhostwriter
     public boolean performFromSlave(BuildProxy build, BuildListener listener) throws InterruptedException, IOException {
         FilePath[] paths = build.getExecutionRootDir().list(reportFilenamePattern);
         Collection<Statistic> results = null;
+        Set<String> parsedFiles = new HashSet<String>();
         for (FilePath path : paths) {
-            try {
-                final File inFile = new File(path.getRemote());
-                listener.getLogger().println("Parsing " + inFile);
-                Collection<Statistic> result = Statistic.parse(inFile);
-                listener.getLogger().println("Pre Results = " + results);
-                listener.getLogger().println("Result = " + result);
-                if (results == null) {
-                    results = result;
-                } else {
-                    results = Statistic.merge(results, result);
+            final String pathStr = path.getRemote();
+            if (!parsedFiles.contains(pathStr)) {
+                parsedFiles.add(pathStr);
+                try {
+                    Collection<Statistic> result = Statistic.parse(new File(pathStr));
+                    if (results == null) {
+                        results = result;
+                    } else {
+                        results = Statistic.merge(results, result);
+                    }
+                } catch (XmlPullParserException e) {
+                    e.printStackTrace(listener.getLogger());
                 }
-                listener.getLogger().println("Post Results = " + results);
-            } catch (XmlPullParserException e) {
-                e.printStackTrace(listener.getLogger());
             }
         }
         if (results != null) {
