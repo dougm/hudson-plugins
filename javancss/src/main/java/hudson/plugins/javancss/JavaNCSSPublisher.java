@@ -1,13 +1,14 @@
 package hudson.plugins.javancss;
 
-import hudson.tasks.Publisher;
-import hudson.model.*;
+import hudson.model.AbstractProject;
+import hudson.model.Action;
+import hudson.model.Descriptor;
 import hudson.plugins.helpers.AbstractPublisherImpl;
 import hudson.plugins.helpers.Ghostwriter;
-
-import org.kohsuke.stapler.StaplerRequest;
-import org.kohsuke.stapler.DataBoundConstructor;
+import hudson.tasks.Publisher;
 import net.sf.json.JSONObject;
+import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.StaplerRequest;
 
 /**
  * TODO javadoc.
@@ -21,6 +22,7 @@ public class JavaNCSSPublisher extends AbstractPublisherImpl {
 
     @DataBoundConstructor
     public JavaNCSSPublisher(String reportFilenamePattern) {
+        reportFilenamePattern.getClass();
         this.reportFilenamePattern = reportFilenamePattern;
     }
 
@@ -56,6 +58,7 @@ public class JavaNCSSPublisher extends AbstractPublisherImpl {
     }
 
     private static final class DescriptorImpl extends Descriptor<Publisher> {
+
         /**
          * Do not instantiate DescriptorImpl.
          */
