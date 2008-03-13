@@ -3,9 +3,14 @@
   <builders class="vector">
     <hudson.tasks.Maven>
       <targets>javancss:report</targets>
+      <mavenName>(Default)</mavenName>
     </hudson.tasks.Maven>
   </builders>
-  <publishers class="vector"/>
+  <publishers class="vector">
+    <hudson.plugins.javancss.JavaNCSSPublisher>
+      <reportFilenamePattern>**/target/javancss-raw-report.xml</reportFilenamePattern>
+    </hudson.plugins.javancss.JavaNCSSPublisher>
+  </publishers>
   <buildWrappers class="vector"/>
   <scm class="hudson.scm.NullSCM"/>
   <canRoam>true</canRoam>
