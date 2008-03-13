@@ -2,14 +2,16 @@
     <st:include page="sidepanel.jelly" it="${it.project}" />
     <l:main-panel>
       <h1>Java.net stats of ${it.projectName}</h1>
-      <div align="right">
-        <l:expandButton title="But, this project uses a different issue tracker!">
-          <form method="post" action="changeProject">
-            Java.net project name: <input type="text" name="name" value="${it.projectName}" />
-            <input type="submit" value="Submit" class="submit-button"/>
-          </form>
-        </l:expandButton>
-      </div>
+      <j:if test="${it.hasConfigurePermission()}">
+        <div align="right">
+          <l:expandButton title="But, this project uses a different issue tracker!">
+            <form method="post" action="changeProject">
+              Java.net project name: <input type="text" name="name" value="${it.projectName}" />
+              <input type="submit" value="Submit" class="submit-button"/>
+            </form>
+          </l:expandButton>
+        </div>
+      </j:if>
       <j:choose>
         <j:when test="${it.isReportReady()}">
           <style>

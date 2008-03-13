@@ -4,6 +4,7 @@ import hudson.model.AbstractProject;
 import hudson.model.Action;
 import hudson.model.Hudson;
 import static hudson.plugins.javanet.PluginImpl.DAY;
+import hudson.security.Permission;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 import org.kohsuke.stapler.QueryParameter;
@@ -99,11 +100,20 @@ public class JavaNetStatsAction implements Action {
     }
 
     public void doChangeProject(StaplerRequest req, StaplerResponse rsp,@QueryParameter("name") String name) throws IOException, ServletException {
+        project.checkPermission(CONFIGURE);
+
         projectName = name.trim();
         reportDir = getReportDirectory();
         FileUtils.writeStringToFile(getOverrideFile(),projectName,"UTF-8");
 
         rsp.sendRedirect2(".");
+    }
+
+    /**
+     * Returns true if the current user has a permission to reconfigure this action.
+     */
+    public boolean hasConfigurePermission() {
+        return project.hasPermission(CONFIGURE);
     }
 
     /**
@@ -123,4 +133,9 @@ public class JavaNetStatsAction implements Action {
     }
 
     private static final Pattern PATH = Pattern.compile("[A-Za-z0-9\\-.]+");
+
+    /**
+     * Permission to change project.
+     */
+    public static final Permission CONFIGURE = Permission.CONFIGURE;
 }
