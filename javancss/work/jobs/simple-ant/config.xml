@@ -1,23 +1,23 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
-  <builders class="vector">
-    <hudson.tasks.Ant>
-      <targets>javancss</targets>
-      <antName>(Default)</antName>
-    </hudson.tasks.Ant>
-  </builders>
-  <publishers class="vector">
-    <hudson.plugins.javancss.JavaNCSSPublisher>
-      <reportFilenamePattern>**/build/javancss-report.xml</reportFilenamePattern>
-    </hudson.plugins.javancss.JavaNCSSPublisher>
-  </publishers>
-  <buildWrappers class="vector"/>
-  <scm class="hudson.scm.NullSCM"/>
-  <canRoam>true</canRoam>
-  <disabled>false</disabled>
-  <triggers class="vector"/>
-  <keepDependencies>false</keepDependencies>
-  <properties/>
-  <description></description>
-  <actions class="vector"/>
+    <builders class="vector">
+        <hudson.tasks.Ant>
+            <targets>javancss</targets>
+            <antName>ant 1.7.0</antName>
+        </hudson.tasks.Ant>
+    </builders>
+    <publishers class="vector">
+        <hudson.plugins.javancss.JavaNCSSPublisher>
+            <reportFilenamePattern>**/build/javancss-report.xml</reportFilenamePattern>
+        </hudson.plugins.javancss.JavaNCSSPublisher>
+    </publishers>
+    <buildWrappers class="vector"/>
+    <scm class="hudson.scm.NullSCM"/>
+    <canRoam>true</canRoam>
+    <disabled>false</disabled>
+    <triggers class="vector"/>
+    <keepDependencies>false</keepDependencies>
+    <properties/>
+    <description></description>
+    <actions class="vector"/>
 </project>

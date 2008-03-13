@@ -1,10 +1,13 @@
 package hudson.plugins.javancss;
 
+import hudson.maven.MavenModule;
+import hudson.maven.MavenModuleSet;
 import hudson.model.AbstractProject;
 import hudson.model.Action;
 import hudson.model.Descriptor;
 import hudson.plugins.helpers.AbstractPublisherImpl;
 import hudson.plugins.helpers.Ghostwriter;
+import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Publisher;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -57,7 +60,7 @@ public class JavaNCSSPublisher extends AbstractPublisherImpl {
         return new JavaNCSSGhostwriter(reportFilenamePattern);
     }
 
-    private static final class DescriptorImpl extends Descriptor<Publisher> {
+    private static final class DescriptorImpl extends BuildStepDescriptor<Publisher> {
 
         /**
          * Do not instantiate DescriptorImpl.
@@ -75,6 +78,11 @@ public class JavaNCSSPublisher extends AbstractPublisherImpl {
 
         public Publisher newInstance(StaplerRequest req, JSONObject formData) throws FormException {
             return req.bindJSON(JavaNCSSPublisher.class, formData);
+        }
+
+        public boolean isApplicable(Class<? extends AbstractProject> aClass) {
+            return !MavenModuleSet.class.isAssignableFrom(aClass)
+                    && !MavenModule.class.isAssignableFrom(aClass);
         }
     }
 

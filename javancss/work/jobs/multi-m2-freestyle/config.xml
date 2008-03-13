@@ -1,23 +1,23 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
-  <builders class="vector">
-    <hudson.tasks.Maven>
-      <targets>javancss:report</targets>
-      <mavenName>(Default)</mavenName>
-    </hudson.tasks.Maven>
-  </builders>
-  <publishers class="vector">
-    <hudson.plugins.javancss.JavaNCSSPublisher>
-      <reportFilenamePattern>**/target/javancss-raw-report.xml</reportFilenamePattern>
-    </hudson.plugins.javancss.JavaNCSSPublisher>
-  </publishers>
-  <buildWrappers class="vector"/>
-  <scm class="hudson.scm.NullSCM"/>
-  <canRoam>true</canRoam>
-  <disabled>false</disabled>
-  <triggers class="vector"/>
-  <keepDependencies>false</keepDependencies>
-  <properties/>
-  <description></description>
-  <actions class="vector"/>
+    <builders class="vector">
+        <hudson.tasks.Maven>
+            <targets>org.codehaus.mojo:javancss-maven-plugin:report</targets>
+            <mavenName>(Default)</mavenName>
+        </hudson.tasks.Maven>
+    </builders>
+    <publishers class="vector">
+        <hudson.plugins.javancss.JavaNCSSPublisher>
+            <reportFilenamePattern>**/target/javancss-raw-report.xml</reportFilenamePattern>
+        </hudson.plugins.javancss.JavaNCSSPublisher>
+    </publishers>
+    <buildWrappers class="vector"/>
+    <scm class="hudson.scm.NullSCM"/>
+    <canRoam>true</canRoam>
+    <disabled>false</disabled>
+    <triggers class="vector"/>
+    <keepDependencies>false</keepDependencies>
+    <properties/>
+    <description></description>
+    <actions class="vector"/>
 </project>
