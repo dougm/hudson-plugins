@@ -6,6 +6,7 @@ import hudson.plugins.helpers.AbstractPublisherImpl;
 import hudson.plugins.helpers.Ghostwriter;
 
 import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.DataBoundConstructor;
 import net.sf.json.JSONObject;
 
 /**
@@ -15,6 +16,17 @@ import net.sf.json.JSONObject;
  * @since 08-Jan-2008 21:24:06
  */
 public class JavaNCSSPublisher extends AbstractPublisherImpl {
+
+    private String reportFilenamePattern;
+
+    @DataBoundConstructor
+    public JavaNCSSPublisher(String reportFilenamePattern) {
+        this.reportFilenamePattern = reportFilenamePattern;
+    }
+
+    public String getReportFilenamePattern() {
+        return reportFilenamePattern;
+    }
 
     /**
      * {@inheritDoc}
@@ -40,7 +52,7 @@ public class JavaNCSSPublisher extends AbstractPublisherImpl {
     }
 
     protected Ghostwriter newGhostwriter() {
-        return new JavaNCSSGhostwriter("");
+        return new JavaNCSSGhostwriter(reportFilenamePattern);
     }
 
     private static final class DescriptorImpl extends Descriptor<Publisher> {
@@ -59,7 +71,7 @@ public class JavaNCSSPublisher extends AbstractPublisherImpl {
         }
 
         public Publisher newInstance(StaplerRequest req, JSONObject formData) throws FormException {
-            return new JavaNCSSPublisher();
+            return req.bindJSON(JavaNCSSPublisher.class, formData);
         }
     }
 
