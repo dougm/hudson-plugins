@@ -109,6 +109,7 @@
     </target>
 
     <target name="javancss">
+        <mkdir dir="${build.dir}"/>
         <javancss srcdir="${java.dir}"
                 generatereport="true"
                 outputfile="${build.dir}/javancss-report.xml"
