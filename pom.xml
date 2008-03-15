@@ -167,7 +167,7 @@
         <module>polarion</module>
         <module>port-allocator</module>
         <module>ruby</module>
-        <!--module>promoted-builds</module-->
+        <module>promoted-builds</module>
         <module>sametime</module>
         <module>scp</module>
         <module>sfee</module>
