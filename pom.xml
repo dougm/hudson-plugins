@@ -178,7 +178,8 @@
         <module>violations</module>
         <module>vmware</module>
         <module>vss</module>
-		<module>ws7</module>
+        <module>webtestpresenter</module>
+        <module>ws7</module>
         <module>xvnc</module>
     </modules>
 
