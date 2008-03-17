@@ -2,11 +2,14 @@ package hudson.plugins.javancss;
 
 import hudson.maven.MavenModule;
 import hudson.maven.MavenModuleSet;
+import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.Action;
 import hudson.model.Descriptor;
 import hudson.plugins.helpers.AbstractPublisherImpl;
 import hudson.plugins.helpers.Ghostwriter;
+import hudson.plugins.helpers.health.HealthMetric;
+import hudson.plugins.helpers.health.HealthTarget;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Publisher;
 import net.sf.json.JSONObject;
@@ -22,15 +25,21 @@ import org.kohsuke.stapler.StaplerRequest;
 public class JavaNCSSPublisher extends AbstractPublisherImpl {
 
     private String reportFilenamePattern;
+    private HealthTarget[] targets;
 
     @DataBoundConstructor
-    public JavaNCSSPublisher(String reportFilenamePattern) {
+    public JavaNCSSPublisher(String reportFilenamePattern, HealthTarget[] targets) {
         reportFilenamePattern.getClass();
         this.reportFilenamePattern = reportFilenamePattern;
+        this.targets = targets;
     }
 
     public String getReportFilenamePattern() {
         return reportFilenamePattern;
+    }
+
+    public HealthTarget[] getTargets() {
+        return targets;
     }
 
     /**
@@ -83,6 +92,52 @@ public class JavaNCSSPublisher extends AbstractPublisherImpl {
         public boolean isApplicable(Class<? extends AbstractProject> aClass) {
             return !MavenModuleSet.class.isAssignableFrom(aClass)
                     && !MavenModule.class.isAssignableFrom(aClass);
+        }
+
+        public HealthTarget[] getTargets(JavaNCSSPublisher instance) {
+            if (instance == null) {
+                return new HealthTarget[0];
+            }
+            return instance.getTargets();
+        }
+
+        public HealthMetric[] getMetrics() {
+            return new HealthMetric[]{
+                    new HealthMetric() {
+                        public String getName() {
+                            return "Fancy";
+                        }
+
+                        public float measure(AbstractBuild<?, ?> build) {
+                            return 0;
+                        }
+
+                        public float getBest() {
+                            return 10;
+                        }
+
+                        public float getWorst() {
+                            return 0;
+                        }
+                    },
+                    new HealthMetric() {
+                        public String getName() {
+                            return "Simple";
+                        }
+
+                        public float measure(AbstractBuild<?, ?> build) {
+                            return 0;
+                        }
+
+                        public float getBest() {
+                            return 10;
+                        }
+
+                        public float getWorst() {
+                            return 0;
+                        }
+                    }
+            };
         }
     }
 
