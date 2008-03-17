@@ -1,4 +1,4 @@
-package hudson.plugins.tasks.util;
+package hudson.plugins.findbugs.util;
 
 import static org.junit.Assert.*;
 

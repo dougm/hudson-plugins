@@ -1,4 +1,4 @@
-package hudson.plugins.findbugs.util;
+package hudson.plugins.tasks.util;
 
 import static org.junit.Assert.*;
 import hudson.model.HealthReport;
