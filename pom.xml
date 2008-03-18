@@ -170,7 +170,7 @@
         <module>promoted-builds</module>
         <module>sametime</module>
         <module>scp</module>
-        <module>sfee</module>
+        <!-- module>sfee</module --> <!--  not compiling currently  -->
         <module>svncompat13</module>
         <module>tasks</module>
         <module>text-finder</module>
