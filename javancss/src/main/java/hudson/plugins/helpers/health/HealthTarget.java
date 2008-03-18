@@ -27,6 +27,9 @@ public final class HealthTarget {
     }
 
     private static Float safeParse(String value) {
+        if (value == null) {
+            return null;
+        }
         try {
             return Float.valueOf(value);
         } catch (NumberFormatException e) {
