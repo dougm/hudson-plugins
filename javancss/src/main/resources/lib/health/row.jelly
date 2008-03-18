@@ -26,7 +26,7 @@
                 <td>
                     <select class="setting-input" name="${attrs.name}.healthMetric">
                         <j:forEach var="i" items="${attrs.metrics}">
-                            <f:option selected="${i==attr.value.healthMetric}" value="${i}">${i.name}</f:option>
+                            <f:option selected="${i.toString()==attrs.value.healthMetric.toString()}" value="${i}">${i.name}</f:option>
                         </j:forEach>
                     </select>
                 </td>
