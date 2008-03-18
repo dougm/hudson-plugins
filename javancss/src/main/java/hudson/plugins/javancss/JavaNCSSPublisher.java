@@ -11,6 +11,7 @@ import hudson.plugins.helpers.health.HealthMetric;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Publisher;
 import net.sf.json.JSONObject;
+import org.apache.commons.beanutils.ConvertUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
 
@@ -85,6 +86,7 @@ public class JavaNCSSPublisher extends AbstractPublisherImpl {
         }
 
         public Publisher newInstance(StaplerRequest req, JSONObject formData) throws FormException {
+            ConvertUtils.register(JavaNCSSHealthMetrics.CONVERTER, JavaNCSSHealthMetrics.class);
             return req.bindJSON(JavaNCSSPublisher.class, formData);
         }
 
