@@ -29,9 +29,8 @@ public class JavaNCSSPublisher extends AbstractPublisherImpl {
     @DataBoundConstructor
     public JavaNCSSPublisher(String reportFilenamePattern, JavaNCSSHealthTarget[] targets) {
         reportFilenamePattern.getClass();
-        targets.getClass();
         this.reportFilenamePattern = reportFilenamePattern;
-        this.targets = targets;
+        this.targets = targets == null ? new JavaNCSSHealthTarget[0] : targets;
     }
 
     public String getReportFilenamePattern() {
@@ -66,7 +65,7 @@ public class JavaNCSSPublisher extends AbstractPublisherImpl {
     }
 
     protected Ghostwriter newGhostwriter() {
-        return new JavaNCSSGhostwriter(reportFilenamePattern);
+        return new JavaNCSSGhostwriter(reportFilenamePattern, targets);
     }
 
     public static final class DescriptorImpl extends BuildStepDescriptor<Publisher> {

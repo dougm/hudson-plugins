@@ -1,15 +1,17 @@
 package hudson.plugins.javancss;
 
-import hudson.maven.*;
-import hudson.model.AbstractBuild;
-import hudson.model.HealthReport;
-import hudson.util.ChartUtil;
-import hudson.util.DataSetBuilder;
-import hudson.plugins.javancss.parser.Statistic;
-
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Collection;
+
+import hudson.maven.AggregatableAction;
+import hudson.maven.MavenAggregatedReport;
+import hudson.maven.MavenBuild;
+import hudson.maven.MavenModule;
+import hudson.maven.MavenModuleSetBuild;
+import hudson.model.AbstractBuild;
+import hudson.model.HealthReport;
+import hudson.plugins.javancss.parser.Statistic;
 
 /**
  * TODO javadoc.
@@ -17,7 +19,10 @@ import java.util.Collection;
  * @author Stephen Connolly
  * @since 08-Jan-2008 21:15:05
  */
-public class JavaNCSSBuildIndividualReport extends AbstractBuildReport<AbstractBuild<?, ?>> implements AggregatableAction {
+public class JavaNCSSBuildIndividualReport extends AbstractBuildReport<AbstractBuild<?, ?>>
+        implements AggregatableAction {
+
+    private HealthReport healthReport;
 
     public JavaNCSSBuildIndividualReport(Collection<Statistic> results) {
         super(results);
@@ -41,7 +46,8 @@ public class JavaNCSSBuildIndividualReport extends AbstractBuildReport<AbstractB
     /**
      * {@inheritDoc}
      */
-    public MavenAggregatedReport createAggregatedAction(MavenModuleSetBuild build, Map<MavenModule, List<MavenBuild>> moduleBuilds) {
+    public MavenAggregatedReport createAggregatedAction(MavenModuleSetBuild build,
+                                                        Map<MavenModule, List<MavenBuild>> moduleBuilds) {
         return new JavaNCSSBuildAggregatedReport(build, moduleBuilds);
     }
 
@@ -49,7 +55,10 @@ public class JavaNCSSBuildIndividualReport extends AbstractBuildReport<AbstractB
      * {@inheritDoc}
      */
     public HealthReport getBuildHealth() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return healthReport;
     }
 
+    public void setBuildHealth(HealthReport healthReport) {
+        this.healthReport = healthReport;
+    }
 }

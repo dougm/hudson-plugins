@@ -1,19 +1,18 @@
 package hudson.plugins.javancss;
 
-import hudson.FilePath;
-import hudson.plugins.helpers.Ghostwriter;
-import hudson.plugins.helpers.BuildProxy;
-import hudson.plugins.javancss.parser.Statistic;
-import hudson.model.BuildListener;
-import hudson.model.AbstractBuild;
-import hudson.model.Action;
-
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
+import hudson.FilePath;
+import hudson.model.AbstractBuild;
+import hudson.model.BuildListener;
+import hudson.model.HealthReport;
+import hudson.plugins.helpers.BuildProxy;
+import hudson.plugins.helpers.Ghostwriter;
+import hudson.plugins.javancss.parser.Statistic;
 import org.xmlpull.v1.XmlPullParserException;
 
 /**
@@ -29,11 +28,15 @@ public class JavaNCSSGhostwriter
 
     private final String reportFilenamePattern;
 
-    public JavaNCSSGhostwriter(String reportFilenamePattern) {
+    private final JavaNCSSHealthTarget[] targets;
+
+    public JavaNCSSGhostwriter(String reportFilenamePattern, JavaNCSSHealthTarget... targets) {
         this.reportFilenamePattern = reportFilenamePattern;
+        this.targets = targets;
     }
 
-    public boolean performFromMaster(AbstractBuild<?, ?> build, FilePath executionRoot, BuildListener listener) throws InterruptedException, IOException {
+    public boolean performFromMaster(AbstractBuild<?, ?> build, FilePath executionRoot, BuildListener listener)
+            throws InterruptedException, IOException {
         return true;
     }
 
@@ -59,6 +62,13 @@ public class JavaNCSSGhostwriter
         }
         if (results != null) {
             JavaNCSSBuildIndividualReport action = new JavaNCSSBuildIndividualReport(results);
+            if (targets != null && targets.length > 0) {
+                HealthReport r = null;
+                for (JavaNCSSHealthTarget target : targets) {
+                    r = HealthReport.min(r, target.evaluateHealth(action));
+                }
+                action.setBuildHealth(r);
+            }
             build.getActions().add(action);
         }
         return true;
