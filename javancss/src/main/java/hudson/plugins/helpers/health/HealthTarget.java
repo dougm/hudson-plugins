@@ -6,21 +6,19 @@ import hudson.model.Result;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
- * Created by IntelliJ IDEA.
- * User: stephen
- * Date: 17-Mar-2008
- * Time: 12:44:28
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: stephen Date: 17-Mar-2008 Time: 12:44:28 To change this template use File | Settings
+ * | File Templates.
  */
 public abstract class HealthTarget<M extends HealthMetric> {
-    private final M healthMetric;
+
+    private final M metric;
     private final Float healthy;
     private final Float unhealthy;
     private final Float unstable;
 
     @DataBoundConstructor
-    public HealthTarget(M healthMetric, String healthy, String unhealthy, String unstable) {
-        this.healthMetric = healthMetric;
+    public HealthTarget(M metric, String healthy, String unhealthy, String unstable) {
+        this.metric = metric;
         this.healthy = safeParse(healthy);
         this.unhealthy = safeParse(unhealthy);
         this.unstable = safeParse(unstable);
@@ -39,7 +37,7 @@ public abstract class HealthTarget<M extends HealthMetric> {
     }
 
     public M getMetric() {
-        return healthMetric;
+        return metric;
     }
 
     public Float getHealthy() {
@@ -55,9 +53,9 @@ public abstract class HealthTarget<M extends HealthMetric> {
     }
 
     public HealthReport evaluate(AbstractBuild<?, ?> build) {
-        float result = healthMetric.measure(build);
-        float healthy = this.healthy == null ? healthMetric.getBest() : this.healthy;
-        float unhealthy = this.unhealthy == null ? healthMetric.getWorst() : this.unhealthy;
+        float result = metric.measure(build);
+        float healthy = this.healthy == null ? metric.getBest() : this.healthy;
+        float unhealthy = this.unhealthy == null ? metric.getWorst() : this.unhealthy;
         if (unstable != null) {
             if ((healthy > unhealthy && result < unstable) || (healthy < unhealthy && result > unstable)) {
                 if (Result.UNSTABLE.isWorseThan(build.getResult())) {
@@ -65,6 +63,6 @@ public abstract class HealthTarget<M extends HealthMetric> {
                 }
             }
         }
-        return new HealthReport((int) ((result - unhealthy) / (healthy - unhealthy) * 100), healthMetric.getName());
+        return new HealthReport((int) ((result - unhealthy) / (healthy - unhealthy) * 100), metric.getName());
     }
 }
