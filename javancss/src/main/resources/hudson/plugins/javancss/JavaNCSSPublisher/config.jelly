@@ -20,11 +20,9 @@
              &lt;img src='${rootURL}/images/16x16/yellow.gif' alt='0%'&gt; rows, leave blank to
              use the default values (i.e. 0).
     ">
-        <f:repeatable var="inst" varStatus="instStatus" items="${descriptor.getTargets(instance)}">
-            <bh:row name="javancss.health" value="inst" metrics="${descriptor.metrics}" firstRow="${loopStatus.first}"
+        <f:repeatable var="targets" varStatus="instStatus" items="${instance.targets}">
+            <bh:row name="javancss.targets" value="${targets}" metrics="${descriptor.metrics}" firstRow="false"
                     healthyDescription="hi" unhealthyDescription="ho"/>
         </f:repeatable>
-
-        <p><j:for var="i" values="descriptor.metrics">i=${i.name} </j:for></p>
     </f:entry>
 </j:jelly>
