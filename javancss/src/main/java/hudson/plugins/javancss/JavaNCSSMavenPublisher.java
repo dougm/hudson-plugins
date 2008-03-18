@@ -4,8 +4,13 @@ import hudson.maven.*;
 import hudson.model.Action;
 import hudson.plugins.helpers.AbstractMavenReporterImpl;
 import hudson.plugins.helpers.Ghostwriter;
+import hudson.plugins.helpers.health.HealthMetric;
+import net.sf.json.JSONObject;
+import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.component.configurator.ComponentConfigurationException;
+import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.StaplerRequest;
 
 import java.io.File;
 
@@ -16,6 +21,13 @@ import java.io.File;
  * @since 08-Jan-2008 21:26:06
  */
 public class JavaNCSSMavenPublisher extends AbstractMavenReporterImpl {
+    private JavaNCSSHealthTarget[] targets;
+
+    @DataBoundConstructor
+    public JavaNCSSMavenPublisher(JavaNCSSHealthTarget... targets) {
+        this.targets = targets == null ? new JavaNCSSHealthTarget[0] : targets;
+    }
+
     /**
      * The groupId of the Maven plugin that provides the functionality we want to report on.
      */
@@ -66,7 +78,7 @@ public class JavaNCSSMavenPublisher extends AbstractMavenReporterImpl {
             searchPath = "**/" + tempFileName;
         }
 
-        return new JavaNCSSGhostwriter(searchPath);
+        return new JavaNCSSGhostwriter(searchPath, targets);
     }
 
     private String makeDirEndWithFileSeparator(String baseDirPath) {
@@ -98,7 +110,7 @@ public class JavaNCSSMavenPublisher extends AbstractMavenReporterImpl {
         return DESCRIPTOR;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    private static final class DescriptorImpl extends MavenReporterDescriptor {
+    public static final class DescriptorImpl extends MavenReporterDescriptor {
 
         /**
          * Do not instantiate DescriptorImpl.
@@ -114,8 +126,13 @@ public class JavaNCSSMavenPublisher extends AbstractMavenReporterImpl {
             return PluginImpl.DISPLAY_NAME;
         }
 
-        public MavenReporter newAutoInstance(MavenModule module) {
-            return new JavaNCSSMavenPublisher();
+        public MavenReporter newInstance(StaplerRequest req, JSONObject formData) throws FormException {
+            ConvertUtils.register(JavaNCSSHealthMetrics.CONVERTER, JavaNCSSHealthMetrics.class);
+            return req.bindJSON(JavaNCSSMavenPublisher.class, formData);
+        }
+
+        public HealthMetric[] getMetrics() {
+            return JavaNCSSHealthMetrics.values();
         }
     }
 

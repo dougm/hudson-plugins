@@ -4,11 +4,13 @@ import hudson.model.HealthReport;
 import hudson.model.Result;
 import org.kohsuke.stapler.DataBoundConstructor;
 
+import java.io.Serializable;
+
 /**
  * Created by IntelliJ IDEA. User: stephen Date: 17-Mar-2008 Time: 12:44:28 To change this template use File | Settings
  * | File Templates.
  */
-public abstract class HealthTarget<M extends HealthMetric<OBSERVABLE>, OBSERVABLE> {
+public abstract class HealthTarget<M extends HealthMetric<OBSERVABLE>, OBSERVABLE> implements Serializable {
 
     private final M metric;
     private final Float healthy;

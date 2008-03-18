@@ -11,15 +11,7 @@
            ">
         <f:textbox name="javancss.reportFilenamePattern" value="${instance.reportFilenamePattern}"/>
     </f:entry>
-    <f:entry title="Health Reports"
-             description="
-             Configure health reporting thresholds. &lt;br/&gt;
-             For the &lt;img src='${rootURL}/images/16x16/health-80plus.gif' alt='100%'&gt;
-             row, leave blank to use the default value (i.e. 80). &lt;br/&gt;
-             For the &lt;img src='${rootURL}/images/16x16/health-00to19.gif' alt='0%'&gt; and
-             &lt;img src='${rootURL}/images/16x16/yellow.gif' alt='0%'&gt; rows, leave blank to
-             use the default values (i.e. 0).
-    ">
+    <f:entry title="Health Reports">
         <f:repeatable var="targets" varStatus="instStatus" items="${instance.targets}">
             <bh:row name="javancss.targets" value="${targets}" metrics="${descriptor.metrics}" firstRow="false"
                     healthyDescription="hi" unhealthyDescription="ho"/>
