@@ -2,22 +2,17 @@ package hudson.plugins.javancss;
 
 import hudson.maven.MavenModule;
 import hudson.maven.MavenModuleSet;
-import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.Action;
 import hudson.model.Descriptor;
 import hudson.plugins.helpers.AbstractPublisherImpl;
 import hudson.plugins.helpers.Ghostwriter;
 import hudson.plugins.helpers.health.HealthMetric;
-import hudson.plugins.helpers.health.HealthTarget;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Publisher;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * TODO javadoc.
@@ -28,11 +23,12 @@ import java.util.List;
 public class JavaNCSSPublisher extends AbstractPublisherImpl {
 
     private String reportFilenamePattern;
-    private HealthTarget[] targets;
+    private JavaNCSSHealthTarget[] targets;
 
     @DataBoundConstructor
-    public JavaNCSSPublisher(String reportFilenamePattern, HealthTarget[] targets) {
+    public JavaNCSSPublisher(String reportFilenamePattern, JavaNCSSHealthTarget[] targets) {
         reportFilenamePattern.getClass();
+        targets.getClass();
         this.reportFilenamePattern = reportFilenamePattern;
         this.targets = targets;
     }
@@ -41,7 +37,7 @@ public class JavaNCSSPublisher extends AbstractPublisherImpl {
         return reportFilenamePattern;
     }
 
-    public HealthTarget[] getTargets() {
+    public JavaNCSSHealthTarget[] getTargets() {
         return targets;
     }
 
@@ -73,42 +69,6 @@ public class JavaNCSSPublisher extends AbstractPublisherImpl {
     }
 
     public static final class DescriptorImpl extends BuildStepDescriptor<Publisher> {
-        private static final HealthMetric[] HEALTH_METRIC = new HealthMetric[]{
-                new HealthMetric() {
-                    public String getName() {
-                        return "Fancy";
-                    }
-
-                    public float measure(AbstractBuild<?, ?> build) {
-                        return 0;
-                    }
-
-                    public float getBest() {
-                        return 10;
-                    }
-
-                    public float getWorst() {
-                        return 0;
-                    }
-                },
-                new HealthMetric() {
-                    public String getName() {
-                        return "Simple";
-                    }
-
-                    public float measure(AbstractBuild<?, ?> build) {
-                        return 0;
-                    }
-
-                    public float getBest() {
-                        return 10;
-                    }
-
-                    public float getWorst() {
-                        return 0;
-                    }
-                }
-        };
 
         /**
          * Do not instantiate DescriptorImpl.
@@ -133,15 +93,8 @@ public class JavaNCSSPublisher extends AbstractPublisherImpl {
                     && !MavenModule.class.isAssignableFrom(aClass);
         }
 
-        public HealthTarget[] getTargets(JavaNCSSPublisher instance) {
-//            if (instance == null) {
-            return new HealthTarget[]{new HealthTarget(getMetrics().iterator().next(), "55", "0", null)};
-            //           }
-            //           return instance.getTargets();
-        }
-
-        public List<HealthMetric> getMetrics() {
-            return Arrays.asList(HEALTH_METRIC);
+        public HealthMetric[] getMetrics() {
+            return JavaNCSSHealthMetrics.values();
         }
     }
 

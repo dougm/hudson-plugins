@@ -12,14 +12,14 @@ import org.kohsuke.stapler.DataBoundConstructor;
  * Time: 12:44:28
  * To change this template use File | Settings | File Templates.
  */
-public final class HealthTarget {
-    private final HealthMetric healthMetric;
+public abstract class HealthTarget<M extends HealthMetric> {
+    private final M healthMetric;
     private final Float healthy;
     private final Float unhealthy;
     private final Float unstable;
 
     @DataBoundConstructor
-    public HealthTarget(HealthMetric healthMetric, String healthy, String unhealthy, String unstable) {
+    public HealthTarget(M healthMetric, String healthy, String unhealthy, String unstable) {
         this.healthMetric = healthMetric;
         this.healthy = safeParse(healthy);
         this.unhealthy = safeParse(unhealthy);
@@ -38,7 +38,7 @@ public final class HealthTarget {
 
     }
 
-    public HealthMetric getMetric() {
+    public M getMetric() {
         return healthMetric;
     }
 
