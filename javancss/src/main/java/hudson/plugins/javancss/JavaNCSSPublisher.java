@@ -16,6 +16,9 @@ import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * TODO javadoc.
  *
@@ -69,7 +72,43 @@ public class JavaNCSSPublisher extends AbstractPublisherImpl {
         return new JavaNCSSGhostwriter(reportFilenamePattern);
     }
 
-    private static final class DescriptorImpl extends BuildStepDescriptor<Publisher> {
+    public static final class DescriptorImpl extends BuildStepDescriptor<Publisher> {
+        private static final HealthMetric[] HEALTH_METRIC = new HealthMetric[]{
+                new HealthMetric() {
+                    public String getName() {
+                        return "Fancy";
+                    }
+
+                    public float measure(AbstractBuild<?, ?> build) {
+                        return 0;
+                    }
+
+                    public float getBest() {
+                        return 10;
+                    }
+
+                    public float getWorst() {
+                        return 0;
+                    }
+                },
+                new HealthMetric() {
+                    public String getName() {
+                        return "Simple";
+                    }
+
+                    public float measure(AbstractBuild<?, ?> build) {
+                        return 0;
+                    }
+
+                    public float getBest() {
+                        return 10;
+                    }
+
+                    public float getWorst() {
+                        return 0;
+                    }
+                }
+        };
 
         /**
          * Do not instantiate DescriptorImpl.
@@ -95,49 +134,14 @@ public class JavaNCSSPublisher extends AbstractPublisherImpl {
         }
 
         public HealthTarget[] getTargets(JavaNCSSPublisher instance) {
-            if (instance == null) {
-                return new HealthTarget[0];
-            }
-            return instance.getTargets();
+//            if (instance == null) {
+            return new HealthTarget[]{new HealthTarget(getMetrics().iterator().next(), "55", "0", null)};
+            //           }
+            //           return instance.getTargets();
         }
 
-        public HealthMetric[] getMetrics() {
-            return new HealthMetric[]{
-                    new HealthMetric() {
-                        public String getName() {
-                            return "Fancy";
-                        }
-
-                        public float measure(AbstractBuild<?, ?> build) {
-                            return 0;
-                        }
-
-                        public float getBest() {
-                            return 10;
-                        }
-
-                        public float getWorst() {
-                            return 0;
-                        }
-                    },
-                    new HealthMetric() {
-                        public String getName() {
-                            return "Simple";
-                        }
-
-                        public float measure(AbstractBuild<?, ?> build) {
-                            return 0;
-                        }
-
-                        public float getBest() {
-                            return 10;
-                        }
-
-                        public float getWorst() {
-                            return 0;
-                        }
-                    }
-            };
+        public List<HealthMetric> getMetrics() {
+            return Arrays.asList(HEALTH_METRIC);
         }
     }
 
