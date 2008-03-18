@@ -1,6 +1,5 @@
 package hudson.plugins.helpers.health;
 
-import hudson.model.AbstractBuild;
 import hudson.model.HealthReport;
 import hudson.model.Result;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -9,7 +8,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
  * Created by IntelliJ IDEA. User: stephen Date: 17-Mar-2008 Time: 12:44:28 To change this template use File | Settings
  * | File Templates.
  */
-public abstract class HealthTarget<M extends HealthMetric> {
+public abstract class HealthTarget<M extends HealthMetric<OBSERVABLE>, OBSERVABLE> {
 
     private final M metric;
     private final Float healthy;
@@ -52,17 +51,24 @@ public abstract class HealthTarget<M extends HealthMetric> {
         return unstable;
     }
 
-    public HealthReport evaluate(AbstractBuild<?, ?> build) {
-        float result = metric.measure(build);
+    public HealthReport evaluateHealth(OBSERVABLE observable) {
+        float result = metric.measure(observable);
+        float healthy = this.healthy == null ? metric.getBest() : this.healthy;
+        float unhealthy = this.unhealthy == null ? metric.getWorst() : this.unhealthy;
+        return new HealthReport(
+                Math.max(0, Math.min(100, (int) ((result - unhealthy) / (healthy - unhealthy) * 100))),
+                metric.getName());
+    }
+
+    public Result evaluateStability(OBSERVABLE observable) {
+        float result = metric.measure(observable);
         float healthy = this.healthy == null ? metric.getBest() : this.healthy;
         float unhealthy = this.unhealthy == null ? metric.getWorst() : this.unhealthy;
         if (unstable != null) {
             if ((healthy > unhealthy && result < unstable) || (healthy < unhealthy && result > unstable)) {
-                if (Result.UNSTABLE.isWorseThan(build.getResult())) {
-                    build.setResult(Result.UNSTABLE);
-                }
+                return Result.UNSTABLE;
             }
         }
-        return new HealthReport((int) ((result - unhealthy) / (healthy - unhealthy) * 100), metric.getName());
+        return Result.SUCCESS;
     }
 }
