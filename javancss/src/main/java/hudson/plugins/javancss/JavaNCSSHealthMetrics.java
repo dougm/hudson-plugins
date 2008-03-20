@@ -35,8 +35,8 @@ public enum JavaNCSSHealthMetrics implements HealthMetric<JavaNCSSBuildIndividua
             return "Ratio of javadocs to classes and functions";
         }
         public float measure(JavaNCSSBuildIndividualReport report) {
-            final long javadocs = report.getTotals().getJavadocs();
-            final long total = report.getTotals().getClasses()
+            final float javadocs = report.getTotals().getJavadocs();
+            final float total = report.getTotals().getClasses()
                     + report.getTotals().getFunctions();
             return javadocs / total;
         }
