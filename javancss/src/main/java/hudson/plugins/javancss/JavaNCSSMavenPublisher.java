@@ -28,6 +28,10 @@ public class JavaNCSSMavenPublisher extends AbstractMavenReporterImpl {
         this.targets = targets == null ? new JavaNCSSHealthTarget[0] : targets;
     }
 
+    public JavaNCSSHealthTarget[] getTargets() {
+        return targets;
+    }
+
     /**
      * The groupId of the Maven plugin that provides the functionality we want to report on.
      */
