@@ -81,7 +81,7 @@ public class JavaNCSSPublisher extends AbstractPublisherImpl {
          * {@inheritDoc}
          */
         public String getDisplayName() {
-            return PluginImpl.DISPLAY_NAME;
+            return "Publish " + PluginImpl.DISPLAY_NAME;
         }
 
         public Publisher newInstance(StaplerRequest req, JSONObject formData) throws FormException {

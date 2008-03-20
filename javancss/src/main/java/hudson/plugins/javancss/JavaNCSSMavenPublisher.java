@@ -123,7 +123,7 @@ public class JavaNCSSMavenPublisher extends AbstractMavenReporterImpl {
          * {@inheritDoc}
          */
         public String getDisplayName() {
-            return PluginImpl.DISPLAY_NAME;
+            return "Publish " + PluginImpl.DISPLAY_NAME;
         }
 
         public MavenReporter newInstance(StaplerRequest req, JSONObject formData) throws FormException {

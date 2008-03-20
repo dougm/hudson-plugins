@@ -1,11 +1,5 @@
 package hudson.plugins.javancss;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 import hudson.FilePath;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
@@ -14,6 +8,12 @@ import hudson.plugins.helpers.BuildProxy;
 import hudson.plugins.helpers.Ghostwriter;
 import hudson.plugins.javancss.parser.Statistic;
 import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * TODO javadoc.
@@ -65,7 +65,7 @@ public class JavaNCSSGhostwriter
             if (targets != null && targets.length > 0) {
                 HealthReport r = null;
                 for (JavaNCSSHealthTarget target : targets) {
-                    r = HealthReport.min(r, target.evaluateHealth(action));
+                    r = HealthReport.min(r, target.evaluateHealth(action, PluginImpl.DISPLAY_NAME + ": "));
                 }
                 action.setBuildHealth(r);
             }
