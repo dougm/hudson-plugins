@@ -46,7 +46,7 @@ public class CrapBuildResult implements ModelObject, ICrapMethodPresentation {
 	
 	@Override
 	public String getTitle() {
-		return "All Crappy Methods for " + getOwner().getDisplayName();
+		return "All Crappy Methods for <a href=\"/" + getOwner().getUrl() + "\">" + getOwner().getDisplayName() + "</a>";
 	}
 	
 	@Override

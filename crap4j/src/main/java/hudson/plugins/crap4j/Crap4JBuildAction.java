@@ -96,7 +96,15 @@ public class Crap4JBuildAction implements StaplerProxy, HealthReportingAction {
         		500, 200);
     }
     
-    private ChartSeriesDefinition getChartDefinitionFor(StaplerRequest request) {
+    private String getRelPath(StaplerRequest req) {
+        String relPath = req.getParameter("rel");
+        if (null == relPath) {
+        	return "";
+        }
+        return relPath;
+    }
+    
+    private ChartSeriesDefinition getChartDefinitionFor(final StaplerRequest request) {
     	String dataType = request.getParameter("data");
     	if ("crapMethodCount".equals(dataType)) {
     		return new ChartSeriesDefinition("crap methods", "method count") {
@@ -106,7 +114,7 @@ public class Crap4JBuildAction implements StaplerProxy, HealthReportingAction {
     			}
     			@Override
     			public AbstractChartMaker getChartMaker() {
-    				return new AreaChartMaker();
+    				return new AreaChartMaker(getRelPath(request));
     			}
     		};
     	}

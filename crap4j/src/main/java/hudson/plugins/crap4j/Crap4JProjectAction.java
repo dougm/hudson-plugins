@@ -60,7 +60,7 @@ public class Crap4JProjectAction implements Action, StaplerProxy {
     	doTrend(request, response);
     }
 	
-    private Crap4JBuildAction getLastResultAction() {
+    public Crap4JBuildAction getLastResultAction() {
     	AbstractBuild<?, ?> lastSuccessfulBuild = this.project.getLastSuccessfulBuild();
     	if (null == lastSuccessfulBuild) {
     		return null;

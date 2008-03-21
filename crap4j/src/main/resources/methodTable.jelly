@@ -29,5 +29,4 @@
 			</j:forEach>
 		</tbody>
 	</table>
-
 </j:jelly>

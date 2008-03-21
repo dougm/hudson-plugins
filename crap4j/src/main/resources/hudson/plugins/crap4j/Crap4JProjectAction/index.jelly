@@ -1,6 +1,6 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local">
 
-    	<l:layout>
+    <l:layout>
 		<st:include it="${it.owner}" page="sidepanel.jelly" />
 		
 		<l:main-panel>
@@ -38,6 +38,10 @@
 			    <img src="trend?data=crap" lazymap="trendMap?data=crap"/>
 			  </div>
 		   	</div>
+		   	<h1>Current Crappy Methods</h1>
+		   	<div>
+	        	<st:include it="${it.lastResultAction.target}" page="/methodTable.jelly" />
+	        </div>
 		</l:main-panel>
 	</l:layout>
 </j:jelly>
