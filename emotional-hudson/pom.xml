@@ -10,12 +10,7 @@
 
   <artifactId>emotional-hudson</artifactId>
   <packaging>hpi</packaging>
-  <version>1.01</version>
+  <version>1.02-SNAPSHOT</version>
   <name>Emotional Hudson plugin</name>
   <url>http://hudson.gotdns.com/wiki/display/HUDSON/Emotional+Hudson+Plugin</url>
-
-
-  <scm>
-    <tag>emotional-hudson-1_01</tag>
-  </scm>
 </project>
