@@ -26,41 +26,41 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="org.jvnet.hudson.main:hudson-war:1.197">
+      <library name="org.jvnet.hudson.main:hudson-war:1.200">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/hudson-war/1.197/hudson-war-1.197.war!/" />
+          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/hudson-war/1.200/hudson-war-1.200.war!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/hudson-war/1.197/hudson-war-1.197-javadoc.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/hudson-war/1.200/hudson-war-1.200-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/hudson-war/1.197/hudson-war-1.197-sources.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/hudson-war/1.200/hudson-war-1.200-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="org.jvnet.hudson.main:hudson-core:1.197">
+      <library name="org.jvnet.hudson.main:hudson-core:1.200">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/hudson-core/1.197/hudson-core-1.197.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/hudson-core/1.200/hudson-core-1.200.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/hudson-core/1.197/hudson-core-1.197-javadoc.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/hudson-core/1.200/hudson-core-1.200-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/hudson-core/1.197/hudson-core-1.197-sources.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/hudson-core/1.200/hudson-core-1.200-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="org.jvnet.hudson.main:remoting:1.197">
+      <library name="org.jvnet.hudson.main:remoting:1.200">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/remoting/1.197/remoting-1.197.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/remoting/1.200/remoting-1.200.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/remoting/1.197/remoting-1.197-javadoc.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/remoting/1.200/remoting-1.200-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/remoting/1.197/remoting-1.197-sources.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/remoting/1.200/remoting-1.200-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -546,41 +546,41 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="org.jvnet.hudson.main:maven-agent:1.197">
+      <library name="org.jvnet.hudson.main:maven-agent:1.200">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/maven-agent/1.197/maven-agent-1.197.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/maven-agent/1.200/maven-agent-1.200.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/maven-agent/1.197/maven-agent-1.197-javadoc.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/maven-agent/1.200/maven-agent-1.200-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/maven-agent/1.197/maven-agent-1.197-sources.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/maven-agent/1.200/maven-agent-1.200-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="org.jvnet.hudson.main:maven-interceptor:1.197">
+      <library name="org.jvnet.hudson.main:maven-interceptor:1.200">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/maven-interceptor/1.197/maven-interceptor-1.197.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/maven-interceptor/1.200/maven-interceptor-1.200.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/maven-interceptor/1.197/maven-interceptor-1.197-javadoc.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/maven-interceptor/1.200/maven-interceptor-1.200-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/maven-interceptor/1.197/maven-interceptor-1.197-sources.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/jvnet/hudson/main/maven-interceptor/1.200/maven-interceptor-1.200-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="org.kohsuke.stapler:stapler:1.65">
+      <library name="org.kohsuke.stapler:stapler:1.66">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/kohsuke/stapler/stapler/1.65/stapler-1.65.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/kohsuke/stapler/stapler/1.66/stapler-1.66.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/kohsuke/stapler/stapler/1.65/stapler-1.65-javadoc.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/kohsuke/stapler/stapler/1.66/stapler-1.66-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/kohsuke/stapler/stapler/1.65/stapler-1.65-sources.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/org/kohsuke/stapler/stapler/1.66/stapler-1.66-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -1388,15 +1388,6 @@
         <SOURCES>
           <root url="jar://$MODULE_DIR$/../../../../../.m2/repository/commons-pool/commons-pool/1.3/commons-pool-1.3-sources.jar!/" />
         </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$APPLICATION_HOME_DIR$/lib/javaee.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
       </library>
     </orderEntry>
     <orderEntryProperties />

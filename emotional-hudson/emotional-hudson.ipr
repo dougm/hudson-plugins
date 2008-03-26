@@ -432,7 +432,7 @@
     <option name="UNLOCK_ON_CHECKIN" value="false" />
   </component>
   <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="" />
+    <mapping directory="" vcs="CVS" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
