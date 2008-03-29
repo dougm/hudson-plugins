@@ -1,7 +1,5 @@
 package hudson.plugins.crap4j.model;
 
-import hudson.model.AbstractBuild;
-import hudson.plugins.crap4j.Crap4JBuildAction;
 import hudson.plugins.crap4j.calculation.CrapDataComparer;
 import hudson.plugins.crap4j.display.ICrapComparison;
 
@@ -23,19 +21,18 @@ public class ProjectCrapBean implements Serializable {
 	private final int crapMethodCount;
 	private final double crapMethodPercent;
 	private final int crapLoad;
-	private final AbstractBuild<?,?> build;
 	private final int newCrapMethodsCount;
 	private final int fixedCrapMethodsCount;
 	
 	private transient WeakReference<IMethodCrap[]> newCrapMethods;
 	private transient WeakReference<IMethodCrap[]> fixedCrapMethods;
 	
-	public ProjectCrapBean(AbstractBuild<?,?> build,
+	public ProjectCrapBean(
+			ProjectCrapBean previousCrap,
 			IOverallStatistics statistics,
 			IMethodCrapData... data) {
 		super();
 		checkParameters(statistics, data);
-		this.build = build;
 		this.crapMethods = extractCrapMethods(data);
 		this.name = statistics.getName();
 		this.totalCrap = statistics.getTotalCrap();
@@ -44,15 +41,14 @@ public class ProjectCrapBean implements Serializable {
 		this.crapMethodPercent = statistics.getCrapMethodPercent();
 		this.crapLoad = statistics.getCrapLoad();
 		// Getting the delta counts to the previous build (if one exists)
-		ICrapComparison comparison = compareWithPreviousCrap();
+		ICrapComparison comparison = compareWithPreviousCrap(previousCrap);
 		this.newCrapMethodsCount = comparison.getNewCrapMethods().length;
 		this.fixedCrapMethodsCount = comparison.getFixedCrapMethods().length;
 		loadCrapMethodComparison(comparison);
 	}
 	
-	private ICrapComparison compareWithPreviousCrap() {
+	private ICrapComparison compareWithPreviousCrap(ProjectCrapBean previousCrap) {
 		IMethodCrap[] previousCrapMethods = new IMethodCrap[0];
-		ProjectCrapBean previousCrap = getPrevious();
 		if (null != previousCrap) {
 			previousCrapMethods = previousCrap.getCrapMethods();
 		}
@@ -60,26 +56,26 @@ public class ProjectCrapBean implements Serializable {
 		return comparison;
 	}
 	
-	private void loadCrapMethodComparison() {
-		loadCrapMethodComparison(compareWithPreviousCrap());
+	private void loadCrapMethodComparison(ProjectCrapBean previousCrap) {
+		loadCrapMethodComparison(compareWithPreviousCrap(previousCrap));
 	}
 	
-	public IMethodCrap[] getFixedMethods() {
+	public IMethodCrap[] getFixedMethods(ProjectCrapBean previousCrap) {
 		if (null == this.fixedCrapMethods) {
-			loadCrapMethodComparison();
+			loadCrapMethodComparison(previousCrap);
 		}
 		if (null == this.fixedCrapMethods.get()) {
-			loadCrapMethodComparison();
+			loadCrapMethodComparison(previousCrap);
 		}
 		return this.fixedCrapMethods.get();
 	}
 	
-	public IMethodCrap[] getNewMethods() {
+	public IMethodCrap[] getNewMethods(ProjectCrapBean previousCrap) {
 		if (null == this.newCrapMethods) {
-			loadCrapMethodComparison();
+			loadCrapMethodComparison(previousCrap);
 		}
 		if (null == this.newCrapMethods.get()) {
-			loadCrapMethodComparison();
+			loadCrapMethodComparison(previousCrap);
 		}
 		return this.newCrapMethods.get();
 	}
@@ -146,21 +142,5 @@ public class ProjectCrapBean implements Serializable {
 	
 	public int getFixedCrapMethodsCount() {
 		return this.fixedCrapMethodsCount;
-	}
-	
-	public ProjectCrapBean getPrevious() {
-		AbstractBuild<?,?> previous = getBuild().getPreviousBuild();
-		while (null != previous) {
-			Crap4JBuildAction action = previous.getAction(Crap4JBuildAction.class);
-			if (null != action) {
-				return action.getCrap();
-			}
-			previous = previous.getPreviousBuild();
-		}
-		return null;
-	}
-	
-	public AbstractBuild<?,?> getBuild() {
-		return this.build;
 	}
 }

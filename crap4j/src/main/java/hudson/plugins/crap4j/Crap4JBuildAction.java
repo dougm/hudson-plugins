@@ -36,7 +36,7 @@ public class Crap4JBuildAction implements StaplerProxy, HealthReportingAction {
 	}
 	
 	public ProjectCrapBean getCrap() {
-		return this.crapResult.getResultData();
+		return getTarget().getResultData();
 	}
 	
 	@Override
@@ -50,6 +50,7 @@ public class Crap4JBuildAction implements StaplerProxy, HealthReportingAction {
 	}
 	
 	public CrapBuildResult getTarget() {
+		this.crapResult.setOwner(this.build);
 		return this.crapResult;
 	}
 	
@@ -58,7 +59,7 @@ public class Crap4JBuildAction implements StaplerProxy, HealthReportingAction {
 	}
 	
 	public boolean hasPreviousCrap() {
-		return (null != getCrap().getPrevious());
+		return (null != getTarget().getPrevious());
 	}
 	
 	@Override
@@ -71,7 +72,7 @@ public class Crap4JBuildAction implements StaplerProxy, HealthReportingAction {
             response.sendRedirect2(request.getContextPath() + "/images/headless.png");
             return;
         }
-        CrapDataSet dataset = new CrapDataSet(getCrap());
+        CrapDataSet dataset = new CrapDataSet(getResult());
         ChartSeriesDefinition definition = getChartDefinitionFor(request);
         ChartUtil.generateClickableMap(request, response,
         		definition.getChartMaker().createChart(
@@ -85,7 +86,7 @@ public class Crap4JBuildAction implements StaplerProxy, HealthReportingAction {
             response.sendRedirect2(request.getContextPath() + "/images/headless.png");
             return;
         }
-        CrapDataSet dataset = new CrapDataSet(getCrap());
+        CrapDataSet dataset = new CrapDataSet(getResult());
         ChartSeriesDefinition definition = getChartDefinitionFor(request);
         ChartUtil.generateGraph(request, response,
         		definition.getChartMaker().createChart(

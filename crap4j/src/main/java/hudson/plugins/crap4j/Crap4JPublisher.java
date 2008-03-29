@@ -61,7 +61,13 @@ public class Crap4JPublisher extends Publisher {
         ReportReader parser = new ReportReader(reportReader);
         ICrapReport report = parser.parseData();
         
-        ProjectCrapBean reportBean = new ProjectCrapBean(build,
+        ProjectCrapBean previousCrap = null;
+        CrapBuildResult previousResult = CrapBuildResult.getPrevious(build);
+        if (null != previousResult) {
+        	previousCrap = previousResult.getResultData();
+        }
+        ProjectCrapBean reportBean = new ProjectCrapBean(
+        		previousCrap,
         		report.getStatistics(),
         		report.getDetails().getMethodCrapManager().getAllCrapData());
         logger.println("Got a report bean with " + reportBean.getCrapMethodCount() + " crap methods out of " + reportBean.getMethodCount() + " methods.");

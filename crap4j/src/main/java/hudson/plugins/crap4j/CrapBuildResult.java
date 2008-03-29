@@ -27,7 +27,7 @@ import com.thoughtworks.xstream.XStream;
 public class CrapBuildResult implements ModelObject, ICrapMethodPresentation {
 	
 	private transient WeakReference<ProjectCrapBean> crap; 
-	private final AbstractBuild<?, ?> owner;
+	private AbstractBuild<?, ?> owner;
 
     /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(CrapBuildResult.class.getName());
@@ -47,6 +47,10 @@ public class CrapBuildResult implements ModelObject, ICrapMethodPresentation {
         } catch (IOException e) {
             LOGGER.log(Level.WARNING, "Failed to serialize the crap4j result.", e);
         }
+	}
+	
+	public void setOwner(AbstractBuild<?, ?> owner) {
+		this.owner = owner;
 	}
 	
 	public AbstractBuild<?, ?> getOwner() {
@@ -157,15 +161,41 @@ public class CrapBuildResult implements ModelObject, ICrapMethodPresentation {
 	
 	public ICrapMethodPresentation getDynamic(final String link, final StaplerRequest request, final StaplerResponse response) {
         if ("new".equals(link)) {
-        	return new NewCrapMethodsResult(getOwner(), getResultData().getNewMethods());
+        	return new NewCrapMethodsResult(getOwner(),
+        			getResultData().getNewMethods(getPreviousCrap()));
         }
         if ("fixed".equals(link)) {
-        	return new FixedCrapMethodsResult(getOwner(), getResultData().getFixedMethods());
+        	return new FixedCrapMethodsResult(getOwner(),
+        			getResultData().getFixedMethods(getPreviousCrap()));
         }
         return this;
     }
 	
 	private XmlFile getDataFile() {
 		return new XmlFile(new File(getOwner().getRootDir(), "crap.xml"));
+	}
+	
+	private ProjectCrapBean getPreviousCrap() {
+		CrapBuildResult previousResult = getPrevious();
+		if (null == previousResult) {
+			return null;
+		}
+		return previousResult.getResultData();
+	}
+	
+	public CrapBuildResult getPrevious() {
+		return getPrevious(getOwner());
+	}
+	
+	public static CrapBuildResult getPrevious(AbstractBuild<?, ?> currentBuild) {
+		AbstractBuild<?,?> previous = currentBuild.getPreviousBuild();
+		while (null != previous) {
+			Crap4JBuildAction action = previous.getAction(Crap4JBuildAction.class);
+			if (null != action) {
+				return action.getResult();
+			}
+			previous = previous.getPreviousBuild();
+		}
+		return null;
 	}
 }

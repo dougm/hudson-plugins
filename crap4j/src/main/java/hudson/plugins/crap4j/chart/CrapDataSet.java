@@ -1,6 +1,6 @@
 package hudson.plugins.crap4j.chart;
 
-import hudson.plugins.crap4j.model.ProjectCrapBean;
+import hudson.plugins.crap4j.CrapBuildResult;
 import hudson.util.DataSetBuilder;
 import hudson.util.ChartUtil.NumberOnlyBuildLabel;
 
@@ -28,20 +28,20 @@ public class CrapDataSet {
 		}
 	}
 
-	private final ProjectCrapBean report;
+	private final CrapBuildResult report;
 
-	public CrapDataSet(ProjectCrapBean report) {
+	public CrapDataSet(CrapBuildResult report) {
 		this.report = report;
 	}
 
 	public CategoryDataset buildCategoryDataSet(ChartSeriesDefinition extractor) {
 		Row dataRow = new Row(extractor.getDenotation(), 0);
 		DataSetBuilder<Row, NumberOnlyBuildLabel> builder = new DataSetBuilder<Row, NumberOnlyBuildLabel>();
-		ProjectCrapBean crap = this.report;
-		while (crap != null) {
-			builder.add(extractor.extractNumberFrom(crap), dataRow,
-					new NumberOnlyBuildLabel(crap.getBuild()));
-			crap = crap.getPrevious();
+		CrapBuildResult currentReport = this.report;
+		while (null != currentReport) {
+			builder.add(extractor.extractNumberFrom(currentReport.getResultData()), dataRow,
+					new NumberOnlyBuildLabel(currentReport.getOwner()));
+			currentReport = currentReport.getPrevious();
 		}
 		return builder.build();
 	}
