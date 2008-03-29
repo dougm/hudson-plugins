@@ -20,14 +20,14 @@ import org.kohsuke.stapler.StaplerResponse;
 public class Crap4JBuildAction implements StaplerProxy, HealthReportingAction {
 	
 	private static final long serialVersionUID = 8586323795728749743L;
-	private final ProjectCrapBean crap;
+	private final CrapBuildResult crapResult;
 	private final AbstractBuild<?, ?> build;
 	
 	public Crap4JBuildAction(AbstractBuild<?, ?> owner,
-			ProjectCrapBean crap) {
+			CrapBuildResult crapResult) {
 		super();
 		this.build = owner;
-		this.crap = crap;
+		this.crapResult = crapResult;
 	}
 	
 	@Override
@@ -36,7 +36,7 @@ public class Crap4JBuildAction implements StaplerProxy, HealthReportingAction {
 	}
 	
 	public ProjectCrapBean getCrap() {
-		return this.crap;
+		return this.crapResult.getResultData();
 	}
 	
 	@Override
@@ -50,9 +50,7 @@ public class Crap4JBuildAction implements StaplerProxy, HealthReportingAction {
 	}
 	
 	public CrapBuildResult getTarget() {
-		return new CrapBuildResult(
-				this.build,
-				this.crap);
+		return this.crapResult;
 	}
 	
 	public CrapBuildResult getResult() {
@@ -65,7 +63,7 @@ public class Crap4JBuildAction implements StaplerProxy, HealthReportingAction {
 	
 	@Override
 	public HealthReport getBuildHealth() {
-		return (new HealthBuilder().getHealthReportFor(this.crap));
+		return (new HealthBuilder().getHealthReportFor(getCrap()));
 	}
 	
     public final void doGraphMap(final StaplerRequest request, final StaplerResponse response) throws IOException {
@@ -73,7 +71,7 @@ public class Crap4JBuildAction implements StaplerProxy, HealthReportingAction {
             response.sendRedirect2(request.getContextPath() + "/images/headless.png");
             return;
         }
-        CrapDataSet dataset = new CrapDataSet(this.crap);
+        CrapDataSet dataset = new CrapDataSet(getCrap());
         ChartSeriesDefinition definition = getChartDefinitionFor(request);
         ChartUtil.generateClickableMap(request, response,
         		definition.getChartMaker().createChart(
@@ -87,7 +85,7 @@ public class Crap4JBuildAction implements StaplerProxy, HealthReportingAction {
             response.sendRedirect2(request.getContextPath() + "/images/headless.png");
             return;
         }
-        CrapDataSet dataset = new CrapDataSet(this.crap);
+        CrapDataSet dataset = new CrapDataSet(getCrap());
         ChartSeriesDefinition definition = getChartDefinitionFor(request);
         ChartUtil.generateGraph(request, response,
         		definition.getChartMaker().createChart(

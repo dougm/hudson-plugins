@@ -65,7 +65,7 @@ public class Crap4JPublisher extends Publisher {
         		report.getStatistics(),
         		report.getDetails().getMethodCrapManager().getAllCrapData());
         logger.println("Got a report bean with " + reportBean.getCrapMethodCount() + " crap methods out of " + reportBean.getMethodCount() + " methods.");
-        build.getActions().add(new Crap4JBuildAction(build, reportBean));
+        build.getActions().add(new Crap4JBuildAction(build, new CrapBuildResult(build, reportBean)));
 		logger.println("Hell yeah, i got my crap published!");
 		return true;
 	}

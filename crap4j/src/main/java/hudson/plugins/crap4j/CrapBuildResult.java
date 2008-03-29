@@ -1,34 +1,75 @@
 package hudson.plugins.crap4j;
 
+import hudson.XmlFile;
 import hudson.model.AbstractBuild;
 import hudson.model.ModelObject;
 import hudson.plugins.crap4j.display.DecreasingCrapLoadComparator;
 import hudson.plugins.crap4j.model.ICrapMethodPresentation;
 import hudson.plugins.crap4j.model.IMethodCrap;
 import hudson.plugins.crap4j.model.ProjectCrapBean;
+import hudson.util.XStream2;
 
+import java.io.File;
+import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
+import com.thoughtworks.xstream.XStream;
+
 public class CrapBuildResult implements ModelObject, ICrapMethodPresentation {
 	
-	private final ProjectCrapBean crap;
-	final AbstractBuild<?, ?> owner;
+	private transient WeakReference<ProjectCrapBean> crap; 
+	private final AbstractBuild<?, ?> owner;
+
+    /** Logger. */
+    private static final Logger LOGGER = Logger.getLogger(CrapBuildResult.class.getName());
+    /** Serialization provider. */
+    private static final XStream XSTREAM = new XStream2();
+    static {
+        XSTREAM.alias("crap", ProjectCrapBean.class);
+    }
 
 	public CrapBuildResult(AbstractBuild<?, ?> owner,
 			ProjectCrapBean crap) {
 		super();
 		this.owner = owner;
-		this.crap = crap;
+		this.crap = new WeakReference<ProjectCrapBean>(crap);
+        try {
+            getDataFile().write(crap);
+        } catch (IOException e) {
+            LOGGER.log(Level.WARNING, "Failed to serialize the crap4j result.", e);
+        }
 	}
 	
 	public AbstractBuild<?, ?> getOwner() {
 		return this.owner;
+	}
+	
+	public ProjectCrapBean getResultData() {
+		if (null == this.crap) {
+			loadCrap();
+		}
+		ProjectCrapBean result = this.crap.get();
+		if (null == result) {
+			loadCrap();
+		}
+		return this.crap.get();
+	}
+	
+	private void loadCrap() {
+		try {
+			this.crap = new WeakReference<ProjectCrapBean>((ProjectCrapBean) getDataFile().read());
+		} catch (IOException e) {
+            LOGGER.log(Level.WARNING, "Failed to load " + getDataFile(), e);
+		}
 	}
 	
 	public String getSummary() {
@@ -52,7 +93,7 @@ public class CrapBuildResult implements ModelObject, ICrapMethodPresentation {
 	@Override
 	public Collection<IMethodCrap> getMethods() {
 		List<IMethodCrap> result = new ArrayList<IMethodCrap>();
-		Collections.addAll(result, this.crap.getCrapMethods());
+		Collections.addAll(result, getResultData().getCrapMethods());
 		Collections.sort(result, new DecreasingCrapLoadComparator());
 		return result;
 	}
@@ -70,11 +111,11 @@ public class CrapBuildResult implements ModelObject, ICrapMethodPresentation {
 	}
 	
 	public boolean hasNewCrappyMethods() {
-		return (this.crap.getNewCrapMethodsCount() > 0);
+		return (getResultData().getNewCrapMethodsCount() > 0);
 	}
 	
 	public boolean hasFixedCrappyMethods() {
-		return (this.crap.getFixedCrapMethodsCount() > 0);
+		return (getResultData().getFixedCrapMethodsCount() > 0);
 	}
 	
 	public boolean hasChangesAtCrappyMethods() {
@@ -85,12 +126,12 @@ public class CrapBuildResult implements ModelObject, ICrapMethodPresentation {
 		StringBuilder result = new StringBuilder();
 		if (hasNewCrappyMethods()) {
 			result.append(buildListEntry("crapResult/new",
-					this.crap.getNewCrapMethodsCount(),
+					getResultData().getNewCrapMethodsCount(),
 					"new crap methods"));
 		}
 		if (hasFixedCrappyMethods()) {
 			result.append(buildListEntry("crapResult/fixed",
-					this.crap.getFixedCrapMethodsCount(),
+					getResultData().getFixedCrapMethodsCount(),
 					"fewer crap methods"));
 		}
 		return result.toString();
@@ -99,16 +140,16 @@ public class CrapBuildResult implements ModelObject, ICrapMethodPresentation {
 	private String buildSummary() {
         StringBuilder result = new StringBuilder();
         result.append("Crap4J: ");
-        int crapMethods = this.crap.getCrapMethodCount();
+        int crapMethods = getResultData().getCrapMethodCount();
         if (0 == crapMethods) {
         	result.append("No crappy methods in this project.");
         } else {
         	result.append("<a href=\"crapResult\">");
         	result.append(crapMethods);
         	result.append(" crappy methods (");
-        	result.append(this.crap.getCrapMethodPercent());
+        	result.append(getResultData().getCrapMethodPercent());
         	result.append("%)</a> out of ");
-        	result.append(this.crap.getMethodCount());
+        	result.append(getResultData().getMethodCount());
         	result.append(" methods in this project.");
         }
         return result.toString();
@@ -116,11 +157,15 @@ public class CrapBuildResult implements ModelObject, ICrapMethodPresentation {
 	
 	public ICrapMethodPresentation getDynamic(final String link, final StaplerRequest request, final StaplerResponse response) {
         if ("new".equals(link)) {
-        	return new NewCrapMethodsResult(getOwner(), this.crap.getNewMethods());
+        	return new NewCrapMethodsResult(getOwner(), getResultData().getNewMethods());
         }
         if ("fixed".equals(link)) {
-        	return new FixedCrapMethodsResult(getOwner(), this.crap.getFixedMethods());
+        	return new FixedCrapMethodsResult(getOwner(), getResultData().getFixedMethods());
         }
         return this;
     }
+	
+	private XmlFile getDataFile() {
+		return new XmlFile(new File(getOwner().getRootDir(), "crap.xml"));
+	}
 }
