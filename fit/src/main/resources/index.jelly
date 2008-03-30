@@ -1,0 +1,4 @@
+<div>
+  This plugin publishes the HTML test reports from Fit.
+  It will also work for Fitness HTML reports (but not for Fitnesse XML reports).
+</div>
