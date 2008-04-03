@@ -86,7 +86,7 @@
             <plugin>
                 <groupId>org.jvnet.hudson.tools</groupId>
                 <artifactId>maven-hpi-plugin</artifactId>
-                <version>1.18</version>
+                <version>1.19</version>
                 <extensions>true</extensions>
             </plugin>
             <plugin>
@@ -145,6 +145,7 @@
         <module>googlecode</module>
         <module>groovy</module>
         <module>hello-world</module>
+        <module>hudsontrayapp</module>
         <module>ircbot</module>
         <module>ivy</module>
         <module>jabber</module>
