@@ -1,8 +1,8 @@
-package hudson.plugins.findbugs.util;
+package hudson.plugins.tasks.util;
 
 import hudson.model.AbstractBuild;
-import hudson.plugins.findbugs.util.model.JavaPackage;
-import hudson.plugins.findbugs.util.model.WorkspaceFile;
+import hudson.plugins.tasks.util.model.JavaPackage;
+import hudson.plugins.tasks.util.model.WorkspaceFile;
 
 import java.util.Collection;
 

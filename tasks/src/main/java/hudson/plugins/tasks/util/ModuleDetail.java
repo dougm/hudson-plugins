@@ -1,9 +1,9 @@
-package hudson.plugins.pmd.util;
+package hudson.plugins.tasks.util;
 
 import hudson.model.AbstractBuild;
-import hudson.plugins.pmd.util.model.JavaPackage;
-import hudson.plugins.pmd.util.model.MavenModule;
-import hudson.plugins.pmd.util.model.WorkspaceFile;
+import hudson.plugins.tasks.util.model.JavaPackage;
+import hudson.plugins.tasks.util.model.MavenModule;
+import hudson.plugins.tasks.util.model.WorkspaceFile;
 
 import java.io.IOException;
 import java.util.Collection;
