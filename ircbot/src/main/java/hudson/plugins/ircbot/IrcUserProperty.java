@@ -36,7 +36,7 @@ public class IrcUserProperty extends hudson.model.UserProperty {
     /**
      * @see hudson.model.Describable#getDescriptor()
      */
-    public Descriptor<UserProperty> getDescriptor() {
+    public UserPropertyDescriptor getDescriptor() {
         return DESCRIPTOR;
     }
 
