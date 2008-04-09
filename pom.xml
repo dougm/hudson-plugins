@@ -128,6 +128,7 @@
         <module>batch-task</module>
         <module>build-publisher</module>
         <module>build-timeout</module>
+        <module>ci-game</module>
         <module>clearcase</module>
         <module>clover</module>
         <module>codeviation</module>
