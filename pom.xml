@@ -145,7 +145,7 @@
         <module>googlecode</module>
         <module>groovy</module>
         <module>hello-world</module>
-        <module>hudsontrayapp</module>
+        <!--module>hudsontrayapp</module--><!-- not building with maven yet -->
         <module>ircbot</module>
         <module>ivy</module>
         <module>jabber</module>
