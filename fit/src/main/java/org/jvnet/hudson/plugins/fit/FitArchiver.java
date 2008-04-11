@@ -23,7 +23,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 
 import org.apache.commons.lang.StringUtils;
-import org.jvnet.localizer.LocaleProvider;
+import org.jvnet.hudson.plugins.fit.HtmlContentHandler.FitResult;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
@@ -95,7 +95,12 @@ public class FitArchiver extends Publisher {
 							sourceDirectory, targetDirectory));
 			sourceDirectory.copyRecursiveTo("**/*", targetDirectory);
 
-			if (!targetDirectory.child(INDEX_HTML).exists()) {
+			FilePath indexHtml = targetDirectory.child(INDEX_HTML);
+			if (indexHtml.exists()) {
+				String msg = indexHtml.getName()
+						+ " already present: no file will be generated";
+				listener.getLogger().println(msg);
+			} else {
 				generateIndexHtml(listener, targetDirectory);
 			}
 
@@ -113,11 +118,18 @@ public class FitArchiver extends Publisher {
 		FilePath[] htmlReports = reportDirectory.list("*" + DOT_HTML);
 		String content = "";
 		for (FilePath filePath : htmlReports) {
+			listener.getLogger().println("Now parsing " + filePath.getRemote());
+			FitResult fitResult = HtmlContentHandler.parse(new File(filePath
+					.getRemote()));
 			content += "<li>";
 			content += "<a href='" + filePath.getName() + "'>";
 			content += StringUtils.removeEnd(filePath.getName(), DOT_HTML);
-			content += "</a>";
+			content += "</a> ";
+			content += fitResult.getErrorsNumber() + " errors ";
+			content += ", ";
+			content += fitResult.getExpectationsNumber() + " failures ";
 		}
+
 		FilePath tempFile = reportDirectory.createTextTempFile("temp", "txt",
 				content);
 		FilePath indexHtml = reportDirectory.child(INDEX_HTML);

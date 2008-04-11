@@ -31,6 +31,12 @@
       <artifactId>localizer</artifactId>
       <version>1.5</version>
     </dependency>
+    <dependency>
+      <groupId>com.c2.fit</groupId>
+      <artifactId>fit</artifactId>
+      <version>1.1</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   
   <build>
