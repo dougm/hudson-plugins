@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.jvnet.hudson.plugins</groupId>
@@ -98,6 +100,12 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<scm>
+        <connection>scm:svn:https://svn.dev.java.net/svn/hudson/trunk/hudson/plugins/ldapemail</connection>
+        <developerConnection>scm:svn:https://svn.dev.java.net/svn/hudson/trunk/hudson/plugins/ldapemail</developerConnection>
+        <url>https://hudson.dev.java.net/source/browse/hudson/hudson/plugins/ldapemail</url>
+    </scm>
 
 	<repositories>
 		<!-- We put the central repository first, as most artifacts will be
