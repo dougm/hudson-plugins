@@ -134,6 +134,7 @@
         <module>codeviation</module>
         <module>cobertura</module>
         <!--module>coverage</module--><!-- not ready for release yet -->
+        <module>deploy</module>
         <module>email-ext</module>
         <module>emma</module>
         <module>emotional-hudson</module>
