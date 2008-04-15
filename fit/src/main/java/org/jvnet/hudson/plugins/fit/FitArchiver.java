@@ -106,13 +106,19 @@ public class FitArchiver extends Publisher {
 
 		} catch (IOException e) {
 			Util.displayIOException(e, listener);
-			e.printStackTrace();
 			build.setResult(Result.FAILURE);
 		}
 
 		return true;
 	}
 
+	/**
+	 * Generates an index file for the Fit results. It is necessary to have at
+	 * least one index.html or the web server will show an error.
+	 * <p>
+	 * The index file will list all HTML files, and show the number of errors
+	 * and failures.
+	 */
 	private void generateIndexHtml(BuildListener listener,
 			FilePath reportDirectory) throws IOException, InterruptedException {
 		FilePath[] htmlReports = reportDirectory.list("*" + DOT_HTML);
@@ -125,8 +131,7 @@ public class FitArchiver extends Publisher {
 			content += "<a href='" + filePath.getName() + "'>";
 			content += StringUtils.removeEnd(filePath.getName(), DOT_HTML);
 			content += "</a> ";
-			content += fitResult.getErrorsNumber() + " errors ";
-			content += ", ";
+			content += fitResult.getErrorsNumber() + " errors, ";
 			content += fitResult.getExpectationsNumber() + " failures ";
 		}
 
