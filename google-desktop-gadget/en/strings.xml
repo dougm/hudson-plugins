@@ -1,0 +1,34 @@
+﻿<strings>
+  <GADGET_NAME>Hudson Status Gadget</GADGET_NAME>
+  <GADGET_DESCRIPTION>Checks status of each job in Hudson</GADGET_DESCRIPTION>
+  <GADGET_ABOUT_TEXT>Hudson Status Gadget
+Copyright (c) 2008 Jeff Black
+  </GADGET_ABOUT_TEXT>
+  <GADGET_COPYRIGHT>Copyright (c) 2008 Jeff Black. All Rights Reserved</GADGET_COPYRIGHT>
+
+  <JSON_JOBS>jobs</JSON_JOBS>
+  <JSON_JOB_NAME>job</JSON_JOB_NAME>
+  <JSON_JOB_URL>url</JSON_JOB_URL>
+  <JSON_JOB_COLOR>color</JSON_JOB_COLOR>
+
+  <SET_OPTIONS_TEXT>Configure this gadget</SET_OPTIONS_TEXT>
+  <OPTIONS_TEXT>Options</OPTIONS_TEXT>
+  <OPTIONS_HEADER>Please fill all the fields with valid data.</OPTIONS_HEADER>
+
+  <STATUS_UPDATING>updating...</STATUS_UPDATING>
+  <STATUS_UPDATED>Updated</STATUS_UPDATED>
+  <STATUS_FAILED>FAILED</STATUS_FAILED>
+
+  <JOB_LABEL_TEXT>Job list</JOB_LABEL_TEXT>
+  <TIMEOUT_LABEL>Polling interval in seconds</TIMEOUT_LABEL>
+  <URL_LABEL>The url to Hudson [http://server:port/]</URL_LABEL>
+
+  <ERR_URL_EMPTY>Hudson url shouldn't be empty and must start with http.</ERR_URL_EMPTY>
+  <VALID_TIMEOUT>Timeout should be a valid number.</VALID_TIMEOUT>
+
+  <TABLE_HEAD_JOB>Job</TABLE_HEAD_JOB>
+  <TABLE_HEAD_STATUS>Status</TABLE_HEAD_STATUS>
+
+  <UPDATED_TOOLTIP>Last update time:</UPDATED_TOOLTIP>
+  <NETWORK_FAILURE>Error fetching hudson status from server, please check your network connection and try again.</NETWORK_FAILURE>
+</strings>

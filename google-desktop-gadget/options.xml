@@ -1,0 +1,25 @@
+﻿<view height="285" width="430" oncancel="onCancel();" onok="onOk();"
+  onopen="onOpen();">
+    <img height="100%" width="100%" x="1" y="1" src="stock_images\background.png"
+     />
+    <edit height="22" name="intervalEdit" width="57" x="35" y="213" background="#CCCCCC"
+     />
+    <label height="15" width="100%" x="25" y="192" bold="true" wordwrap="true"
+     >&TIMEOUT_LABEL;
+    </label>
+    <edit height="16" name="hudsonUrlEdit" width="350" x="35" y="162"
+      background="#CCCCCC"/>
+    <label height="15" width="100%" x="25" y="144" bold="true" trimming="word"
+      wordwrap="true">&URL_LABEL;
+    </label>
+    <label height="30" width="430" x="0" y="31" align="center" trimming="word"
+     >&OPTIONS_HEADER;
+    </label>
+    <label height="15" width="396" x="29" y="68" color="#770000" font=""
+      size="9">&ERR_URL_EMPTY;
+    </label>
+    <label height="15" width="396" x="30" y="90" color="#770000" font=""
+      size="9">&VALID_TIMEOUT;
+    </label>
+    <script src="options.js" />
+</view>
