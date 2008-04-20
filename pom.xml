@@ -177,6 +177,7 @@
         <module>scp</module>
         <!-- module>sfee</module --> <!--  not compiling currently  -->
         <module>svncompat13</module>
+        <module>svn-tag</module>
         <module>tasks</module>
         <module>text-finder</module>
         <module>trac</module>
