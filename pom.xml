@@ -89,6 +89,11 @@
                 <extensions>true</extensions>
             </plugin>
             <plugin>
+                <groupId>org.kohsuke.stapler</groupId>
+                <artifactId>maven-stapler-plugin</artifactId>
+                <extensions>true</extensions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-release-plugin</artifactId>
                 <!-- upload the plugin to java.net and make an announcement as well -->
                 <configuration>
