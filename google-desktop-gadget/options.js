@@ -15,8 +15,17 @@ limitations under the License.
 */ 
 
 function onOpen() {
+
+  // map minutes to droplist index
+  var validMinuteIntervals = new Object();
+  validMinuteIntervals[1] = 0;
+  validMinuteIntervals[2] = 1;
+  validMinuteIntervals[5] = 2;
+  validMinuteIntervals[10] = 3;
+
   hudsonUrlEdit.value = options.getValue("hudsonUrlProp");
-  intervalEdit.value  = options.getValue("intervalProp");
+  intervalMinutes.selectedIndex= validMinuteIntervals[options.getValue("intervalMinutesProp")];
+
 }
 
 function onCancel() {
@@ -26,8 +35,11 @@ function onCancel() {
 function onOk() {
   var continueAndClose = false;
   if (validateProp()) {
+   if (hudsonUrlEdit.value.substring(hudsonUrlEdit.value.length-1) != "/") {
+     hudsonUrlEdit.value += "/";
+   }
    options.putValue("hudsonUrlProp", hudsonUrlEdit.value);
-   options.putValue("intervalProp", intervalEdit.value);
+   options.putValue("intervalMinutesProp", intervalMinutes.value);
    continueAndClose = true;
   }
   return continueAndClose;
@@ -44,12 +56,6 @@ function validateProp() {
     errorMessage = ERR_URL_EMPTY;
   }
 
-  var number = parseInt(intervalEdit.value);
-  if (isNaN(number)) {
-    isValidate = false;
-    errorMessage = intervalEdit.value + " " + VALID_TIMEOUT;
-  }
-
   if (!isValidate) {
     view.alert(errorMessage);
   }
@@ -57,6 +63,15 @@ function validateProp() {
   return isValidate;
 }
 
-function hudsonUrlEdit_onclick() {
+function intervalMinutes_onchange() {
+  var intervalMinutesValue = intervalMinutes.value;
+  // debug.trace("intervalMinutes=" + intervalMinutes);
+}
 
+/* 
+  workaround until the next release of google desktop which will have the option to stop the behavior of
+  clicking in this field launching the URL in the default browser
+*/
+function clearUrl_onclick() {
+  hudsonUrlEdit.value = "";
 }

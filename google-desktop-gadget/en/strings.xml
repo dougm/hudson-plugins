@@ -20,10 +20,10 @@ Copyright (c) 2008 Jeff Black
   <STATUS_FAILED>FAILED</STATUS_FAILED>
 
   <JOB_LABEL_TEXT>Job list</JOB_LABEL_TEXT>
-  <TIMEOUT_LABEL>Polling interval in seconds</TIMEOUT_LABEL>
-  <URL_LABEL>The url to Hudson [http://server:port/]</URL_LABEL>
+  <TIMEOUT_LABEL>Polling interval in minutes</TIMEOUT_LABEL>
+  <URL_LABEL>The url to Hudson, http://server[:port]/</URL_LABEL>
 
-  <ERR_URL_EMPTY>Hudson url shouldn't be empty and must start with http.</ERR_URL_EMPTY>
+  <ERR_URL_EMPTY>Hudson url is not valid.</ERR_URL_EMPTY>
   <VALID_TIMEOUT>Timeout should be a valid number.</VALID_TIMEOUT>
 
   <TABLE_HEAD_JOB>Job</TABLE_HEAD_JOB>

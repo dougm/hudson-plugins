@@ -1,15 +1,18 @@
 ﻿<view height="285" width="430" oncancel="onCancel();" onok="onOk();"
   onopen="onOpen();">
-    <img height="100%" width="100%" x="1" y="1" src="stock_images\background.png"
+    <img height="100%" width="100%" x="1" y="2" src="stock_images\background.png"
      />
-    <edit height="22" name="intervalEdit" width="57" x="35" y="213" background="#CCCCCC"
-     />
-    <label height="15" width="100%" x="25" y="192" bold="true" wordwrap="true"
+    <label height="15" width="100%" x="25" y="145" bold="true" wordwrap="true"
      >&TIMEOUT_LABEL;
     </label>
-    <edit height="16" name="hudsonUrlEdit" width="350" x="35" y="162"
+    <edit height="15" name="hudsonUrlEdit" width="269" x="34" y="215"
       background="#CCCCCC"/>
-    <label height="15" width="100%" x="25" y="144" bold="true" trimming="word"
+    <button height="22" name="clearUrl" width="76" x="319" y="215" onclick="clearUrl_onclick()"
+      color="#222222" downImage="stock_images\button_down.png"
+      image="stock_images\button_up.png" overImage="stock_images\button_over.png"
+      caption="Clear URL"/>
+    <label enabled="true" height="15" hitTest="htclient" width="100%" x="25"
+      y="199" onclick="label_onclick()" bold="true" trimming="word"
       wordwrap="true">&URL_LABEL;
     </label>
     <label height="30" width="430" x="0" y="31" align="center" trimming="word"
@@ -21,5 +24,25 @@
     <label height="15" width="396" x="30" y="90" color="#770000" font=""
       size="9">&VALID_TIMEOUT;
     </label>
+    <combobox height="250" name="intervalMinutes" width="50" x="35" y="160" background="#CCCCCC"
+      selectedIndex="0" itemWidth="50" itemHeight="17" onchange="intervalMinutes_onchange();"
+      type="droplist">
+        <item height="17" width="50" selected="true">
+            <label valign="middle">1
+            </label>
+        </item>
+        <item height="17" width="50">
+            <label valign="middle">2
+            </label>
+        </item>
+        <item height="17" width="50">
+            <label valign="middle">5
+            </label>
+        </item>
+        <item height="17" width="50">
+            <label valign="middle">10
+            </label>
+        </item>
+    </combobox>
     <script src="options.js" />
 </view>

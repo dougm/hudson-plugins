@@ -35,7 +35,7 @@ var BASE_UPDATE_INTERVAL_MS = 300000;  // 300 seconds
 // var BASE_UPDATE_INTERVAL_MS = 1000;  // 1 seconds
 
 /**
- * How often to check for new messages, if we're offline
+ * How often to check for new job status, if we're offline
  * @type Number
  */
 var CHECK_ONLINE_STATUS_INTERVAL_MS = 30000;  // 30 seconds
@@ -47,41 +47,36 @@ var CHECK_ONLINE_STATUS_INTERVAL_MS = 30000;  // 30 seconds
 var g_updateStatusTimer = null;
 
 /**
- * interval between rows
- * @type Number
- */ 
-var yinterval = 20;
-
-/**
  * Default to a local Hudson instance on port 8080
  */
-var DEFAULT_HUDSON_URL = "http://localhost:8080/";
+var DEFAULT_HUDSON_URL = "";
 // var defaultHudsonUrl = "http://simile.mit.edu/hudson/";
 // var defaultHudsonUrl = "http://build.sourcelabs.org/hudson/";
+// var DEFAULT_HUDSON_URL = "http://localhost:8080/";
 
 /**
- * @fileoverview hudson viewer gadget
- * 
- * view the status of projects in hudson
- */ 
-var hudsonUrl = DEFAULT_HUDSON_URL;
-
-/**
- * Default to a local Hudson instance on port 8080
+ * Default to a polling every 5 minutes
  */
-var pollingInterval = BASE_UPDATE_INTERVAL_MS;
+var DEFAULT_POLLING_INTERVAL_MINUTES = 5;
+// var DEFAULT_POLLING_INTERVAL_MINUTES = 1;
 
+var hudsonUrl = DEFAULT_HUDSON_URL;
+var pollingIntervalMinutes = DEFAULT_POLLING_INTERVAL_MINUTES;
 var updateFailCount = 0;
+var httpRequest;
 
 function view_onOpen() {
   initializeStoredOptions();
   hudsonUrl = options.getValue('hudsonUrlProp');
-  updateStatus();
+
+  if (hudsonUrl != "") {
+    updateStatus();
+  }
 }
 
 function initializeStoredOptions() {
   options.putDefaultValue('hudsonUrlProp', DEFAULT_HUDSON_URL);
-  options.putDefaultValue('intervalProp', BASE_UPDATE_INTERVAL_MS);
+  options.putDefaultValue('intervalMinutesProp', DEFAULT_POLLING_INTERVAL_MINUTES);
 }
 
 /**
@@ -89,44 +84,38 @@ function initializeStoredOptions() {
  * 
  */
 function onOptionChanged() {
+
+  // stop any current timer
   if (g_updateStatusTimer) {
     view.clearTimeout(g_updateStatusTimer);
     g_updateStatusTimer = null;
   }
 
+  // remove the configure your hudson url msg, if still there
+  jobList.removeAllElements();
+
   hudsonUrl = options.getValue('hudsonUrlProp');
-  pollingInterval = options.getValue('intervalProp');
+  pollingIntervalMinutes = options.getValue('intervalMinutesProp');
 
   updateStatus();
 }
 
 /**
- * delete all previous elements, create elements according to jobs array
- * create row(job link, status image, updated info) for each job
- * 
+ * delete all previous jobs and statuses and recreate with latest jobs and statuses
  */ 
 function createElements() {
-
   errorDiv.visible = false;
   contentDiv.visible = true;
-  contentDiv.removeAllElements();
 
-  var newHeight = yinterval * jobs.length;
-  if (newHeight < yinterval) {
-    newHeight = yinterval;
-  }
-  var addedHeight = newHeight - contentDiv.height;
-  contentDiv.height = newHeight;
-  // changeViewSize(addedHeight);
-
+  jobList.removeAllElements();
   for (var i=0; i<jobs.length;++i) {
     var job = jobs[i];
-    var label = "<a height='16' width='120' x='0' y='" + (i*yinterval) + "' href='" + job.url + "'>" + job.name + "</a>";
-    contentDiv.appendElement(label);
-    var img = "<img height='16' name='" + job.name + "Img' width='16' x='130' y='" + (i*yinterval)+ "' src='images/" + job.color + ".gif'/>";
-    contentDiv.appendElement(img);
+    var jobLink = "<a width='120' height='16' x='0' href='" + job.url + "'>" + job.name + "</a>";
+    var jobImg = "<img name='" + job.name + "Img' width='16' height='16' x='130' src='images/" + job.color + ".gif'/>";
+    jobList.appendElement("<item name='"+job.name+"' height='20'>" + jobLink + jobImg + "</item>");
   }
 
+  contentDiv.height = jobs.length * 20;
 }
 
 /**
@@ -138,7 +127,7 @@ function registerUpdateStatus() {
   if (framework.system.network.online == false) {
     timeout = CHECK_ONLINE_STATUS_INTERVAL_MS;
   } else {
-    timeout = pollingInterval;
+    timeout = pollingIntervalMinutes * 60000;
   }
 
   if (g_updateStatusTimer) {
@@ -155,7 +144,9 @@ function registerUpdateStatus() {
  * @param {String} url The url to hudson dashboard
  */ 
 function updateStatus() {
-  var apiUrl = hudsonUrl + "/api/json";
+
+  // make sure we don't get a cached request by changing the url every poll
+  var apiUrl = hudsonUrl + "api/json" + "?noCache="+Math.random();
   httpRequest = new XMLHttpRequest();
   httpRequest.open("GET", apiUrl, true);
   httpRequest.onreadystatechange = parseJSON;
@@ -182,7 +173,10 @@ function parseJSON() {
     var nextRefreshTime = 2 * 60 * 1000;  // in error cases try after 2 min
     if (httpRequest.status == 200) {
       try {
-        jsonObj = eval("(" + httpRequest.responseText + ")");
+
+        // clear the old results
+        jobs = [];
+        var jsonObj = eval("(" + httpRequest.responseText + ")");
         jobs = jsonObj.jobs;
         updateFailCount = 0;  // successfully parsed stuff
         createElements();
@@ -193,12 +187,13 @@ function parseJSON() {
     } else {
       updateFailCount++;
     }
+
     httpRequest = null;
 
     if (updateFailCount > 3) {
       debug.trace("network failure");
       // too many failures so stop retrying
-      contentDiv.removeAllElements();
+      jobList.removeAllElements();
       contentDiv.visible = false;
       errorDiv.visible = true;
     }
@@ -223,7 +218,3 @@ function changeViewSize(val) {
 function onOpenOptionsClick() {
   pluginHelper.ShowOptionsDialog();
 } 
-
-function jobLabel_onclick() {
-
-}

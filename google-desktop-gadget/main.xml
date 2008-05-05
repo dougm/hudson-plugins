@@ -1,4 +1,4 @@
-﻿<view height="60" resizable="true" width="208" onopen="view_onOpen();"
+﻿<view height="60" resizable="true" width="200" onopen="view_onOpen();"
   onoptionchanged="onOptionChanged();">
     <img height="35" name="backgroundImg" width="100%" y="1" src="stock_images\background.png"
      />
@@ -11,8 +11,16 @@
     <label height="15" name="statusLabel" width="50" x="125" y="20" bold="true"
      >&TABLE_HEAD_STATUS;
     </label>
-    <div height="103" name="contentDiv" width="100%" x="8" y="36" autoscroll="true"
-      background="#FFFFFF"/>
+    <div height="25" name="contentDiv" width="100%" x="8" y="36" autoscroll="true"
+      background="#FFFFFF">
+        <listbox height="100%" name="jobList" width="87%" x="0" y="0" background="#FFFFFF"
+          itemHeight="20" itemOverColor="#FFFFFF" itemSelectedColor="#FFFFFF">
+            <item height="20" name="item0">
+                <a onclick="plugin.ShowOptionsDialog()">Configure your Hudson URL
+                </a>
+            </item>
+        </listbox>
+    </div>
     <label height="15" name="updateLabel" tooltip="&UPDATED_TOOLTIP;" width="137"
       x="15" y="6">&UPDATED_TOOLTIP;
     </label>
