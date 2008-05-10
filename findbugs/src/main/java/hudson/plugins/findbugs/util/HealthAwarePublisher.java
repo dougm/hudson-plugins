@@ -2,7 +2,6 @@ package hudson.plugins.findbugs.util;
 
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
-import hudson.model.Build;
 import hudson.model.BuildListener;
 import hudson.model.Result;
 import hudson.plugins.findbugs.util.model.JavaProject;
@@ -48,6 +47,8 @@ public abstract class HealthAwarePublisher extends Publisher {
     private boolean healthyReportEnabled;
     /** Determines the height of the trend graph. */
     private final String height;
+    /** The name of the plug-in. */
+    private final String pluginName;
 
     /**
      * Creates a new instance of <code>HealthAwarePublisher</code>.
@@ -65,15 +66,18 @@ public abstract class HealthAwarePublisher extends Publisher {
      *            than this value
      * @param height
      *            the height of the trend graph
+     * @param pluginName
+     *            the name of the plug-in
      */
     public HealthAwarePublisher(final String pattern, final String threshold,
-            final String healthy, final String unHealthy, final String height) {
+            final String healthy, final String unHealthy, final String height, final String pluginName) {
         super();
         this.threshold = threshold;
         this.healthy = healthy;
         this.unHealthy = unHealthy;
         this.pattern = pattern;
         this.height = height;
+        this.pluginName = "[" + pluginName + "] ";
 
         if (!StringUtils.isEmpty(threshold)) {
             try {
@@ -102,21 +106,46 @@ public abstract class HealthAwarePublisher extends Publisher {
 
     /** {@inheritDoc} */
     @Override
-    public final boolean perform(final AbstractBuild<?, ?> build, final Launcher launcher,
-            final BuildListener listener) throws InterruptedException, IOException {
+    public final boolean perform(final AbstractBuild<?, ?> build, final Launcher launcher, final BuildListener listener) throws InterruptedException, IOException {
         if (build.getResult() != Result.ABORTED && build.getResult() != Result.FAILURE) {
+            PrintStream logger = listener.getLogger();
             try {
-                JavaProject project = perform(build, listener);
-                evaluateBuildResult(build, listener.getLogger(), project);
+                JavaProject project = perform(build, logger);
+                evaluateBuildResult(build, logger, project);
             }
             catch (AbortException exception) {
-                listener.getLogger().println(exception.getMessage());
+                logger.println(exception.getMessage());
                 build.setResult(Result.FAILURE);
                 return false;
             }
         }
         return true;
     }
+
+    /**
+     * Performs the publishing of the results of this plug-in.
+     *
+     * @param build
+     *            the build
+     * @param logger the logger to report the progress to
+     *
+     * @return the java project containing the found annotations
+     *
+     * @throws InterruptedException
+     *             If the build is interrupted by the user (in an attempt to
+     *             abort the build.) Normally the {@link BuildStep}
+     *             implementations may simply forward the exception it got from
+     *             its lower-level functions.
+     * @throws IOException
+     *             If the implementation wants to abort the processing when an
+     *             {@link IOException} happens, it can simply propagate the
+     *             exception to the caller. This will cause the build to fail,
+     *             with the default error message. Implementations are
+     *             encouraged to catch {@link IOException} on its own to provide
+     *             a better error message, if it can do so, so that users have
+     *             better understanding on why it failed.
+     */
+    protected abstract JavaProject perform(AbstractBuild<?, ?> build, PrintStream logger) throws InterruptedException, IOException;
 
     /**
      * Evaluates the build result. The build is marked as unstable if the
@@ -132,45 +161,25 @@ public abstract class HealthAwarePublisher extends Publisher {
     private void evaluateBuildResult(final AbstractBuild<?, ?> build, final PrintStream logger, final JavaProject project) {
         int annotationCount = project.getNumberOfAnnotations();
         if (annotationCount > 0) {
-            logger.println("A total of " + annotationCount + " annotations have been found.");
+            log(logger, "A total of " + annotationCount + " annotations have been found.");
             if (isThresholdEnabled() && annotationCount >= getMinimumAnnotations()) {
                 build.setResult(Result.UNSTABLE);
             }
         }
         else {
-            logger.println("No annotations have been found.");
+            log(logger, "No annotations have been found.");
         }
     }
 
     /**
-     * Runs the step over the given build and reports the progress to the
-     * listener.
-     * <p>
-     * A plug-in can contribute the action object to {@link Build#getActions()}
-     * so that a 'report' becomes a part of the persisted data of {@link Build}.
-     * This is how JUnit plug-in attaches the test report to a build page, for
-     * example.
+     * Logs the specified message.
      *
-     * @param build
-     *            the build
-     * @param listener
-     *            the build listener
-     * @return the created project
-     * @throws InterruptedException
-     *             If the build is interrupted by the user (in an attempt to
-     *             abort the build.) Normally the {@link BuildStep}
-     *             implementations may simply forward the exception it got from
-     *             its lower-level functions.
-     * @throws IOException
-     *             If the implementation wants to abort the processing when an
-     *             {@link IOException} happens, it can simply propagate the
-     *             exception to the caller. This will cause the build to fail,
-     *             with the default error message. Implementations are
-     *             encouraged to catch {@link IOException} on its own to provide
-     *             a better error message, if it can do so, so that users have
-     *             better understanding on why it failed.
+     * @param logger the logger
+     * @param message the message
      */
-    protected abstract JavaProject perform(AbstractBuild<?, ?> build, BuildListener listener) throws InterruptedException, IOException;
+    protected void log(final PrintStream logger, final String message) {
+        logger.println(StringUtils.defaultString(pluginName) + message);
+    }
 
     /**
      * Creates a new instance of <code>HealthReportBuilder</code>.
