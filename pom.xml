@@ -186,6 +186,7 @@
         <module>tasks</module>
         <module>text-finder</module>
         <module>trac</module>
+        <module>twitter</module>
         <module>violations</module>
         <module>vmware</module>
         <module>vss</module>
