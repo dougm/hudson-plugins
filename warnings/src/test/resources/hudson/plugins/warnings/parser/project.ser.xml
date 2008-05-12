@@ -1,9 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <annotation-array>
   <warning>
-    <category>Test Task3</category>
     <type>Test Task3</type>
-    <tooltip></tooltip>
+    <category>Test Task3</category>
     <message>Test Task3</message>
     <priority>LOW</priority>
     <key>2</key>
@@ -19,9 +18,8 @@
     <packageName>Package1</packageName>
   </warning>
   <warning>
-    <category>Test Task5</category>
     <type>Test Task5</type>
-    <tooltip></tooltip>
+    <category>Test Task5</category>
     <message>Test Task5</message>
     <priority>NORMAL</priority>
     <key>4</key>
@@ -37,9 +35,8 @@
     <packageName>Package1</packageName>
   </warning>
   <warning>
-    <category>Test Task2</category>
     <type>Test Task2</type>
-    <tooltip></tooltip>
+    <category>Test Task2</category>
     <message>Test Task2</message>
     <priority>LOW</priority>
     <key>1</key>
@@ -55,9 +52,8 @@
     <packageName>Package1</packageName>
   </warning>
   <warning>
-    <category>Test Task4</category>
     <type>Test Task4</type>
-    <tooltip></tooltip>
+    <category>Test Task4</category>
     <message>Test Task4</message>
     <priority>NORMAL</priority>
     <key>3</key>
@@ -73,9 +69,8 @@
     <packageName>Package2</packageName>
   </warning>
   <warning>
-    <category>Test Task1</category>
     <type>Test Task1</type>
-    <tooltip></tooltip>
+    <category>Test Task1</category>
     <message>Test Task1</message>
     <priority>HIGH</priority>
     <key>0</key>
