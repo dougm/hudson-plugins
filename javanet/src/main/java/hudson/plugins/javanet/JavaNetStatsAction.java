@@ -112,6 +112,14 @@ public class JavaNetStatsAction implements Action {
     }
 
     /**
+     * Manually trigger the regeneration.
+     */
+    public void doRegenerate(StaplerResponse rsp) throws IOException, ServletException {
+        scheduleGeneration();
+        rsp.sendRedirect2(".");
+    }
+
+    /**
      * Returns true if the current user has a permission to reconfigure this action.
      */
     public boolean hasConfigurePermission() {
