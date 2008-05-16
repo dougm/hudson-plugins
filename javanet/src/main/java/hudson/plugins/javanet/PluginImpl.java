@@ -35,13 +35,19 @@ public class PluginImpl extends Plugin {
 
                 Trigger.timer.scheduleAtFixedRate(new SafeTimerTask() {
                     protected void doRun() {
-                        for(AbstractProject<?,?> j : Hudson.getInstance().getAllItems(AbstractProject.class)) {
-                            StatsProperty p = j.getProperty(StatsProperty.class);
-                            if(p==null) continue;
-                            JavaNetStatsAction a = p.getJobAction(j);
-                            if(a==null)  continue;
+                        LOGGER.fine("Starting up-to-date check of java.net stat reports");
+                        long startTime = System.currentTimeMillis();
+                        try {
+                            for(AbstractProject<?,?> j : Hudson.getInstance().getAllItems(AbstractProject.class)) {
+                                StatsProperty p = j.getProperty(StatsProperty.class);
+                                if(p==null) continue;
+                                JavaNetStatsAction a = p.getJobAction(j);
+                                if(a==null)  continue;
 
-                            a.upToDateCheck();
+                                a.upToDateCheck();
+                            }
+                        } finally {
+                            LOGGER.fine("Completing up-to-date check of java.net stat reports. Took "+(System.currentTimeMillis()-startTime)+"ms");
                         }
                     }
                 },10*MINUTE,3*HOUR);
