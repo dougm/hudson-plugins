@@ -16,6 +16,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * {@link JobProperty} so that this plugin can contribute
+ * {@link JavaNetStatsAction} to the project, which in turn
+ * displays a link in the project page.
+ *
  * @author Kohsuke Kawaguchi
  */
 public class StatsProperty extends JobProperty<AbstractProject<?,?>> {
