@@ -27,7 +27,7 @@ public class PluginImpl extends Plugin {
                     StatsProperty p = j.getProperty(StatsProperty.class);
                     if(p==null)
                         try {
-                            ((AbstractProject)j).addProperty(new StatsProperty());
+                            j.addProperty(new StatsProperty());
                         } catch (IOException e) {
                             LOGGER.log(Level.SEVERE, "Failed to persist "+j,e);
                         }
