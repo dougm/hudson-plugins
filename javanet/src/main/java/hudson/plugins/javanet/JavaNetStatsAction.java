@@ -18,6 +18,8 @@ import java.util.regex.Pattern;
 import java.net.URL;
 
 /**
+ * UI for java.net stats. Added to the project.
+ *
  * @author Kohsuke Kawaguchi
  */
 public class JavaNetStatsAction implements Action {
