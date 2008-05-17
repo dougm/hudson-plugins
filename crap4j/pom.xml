@@ -1,7 +1,13 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jvnet.hudson.plugins</groupId>
+    <artifactId>plugin</artifactId>
+    <version>1.215</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
   
-  <groupId>org.jvnet.hudson.plugins</groupId>
   <artifactId>crap4j</artifactId>
   <packaging>hpi</packaging>
   <version>0.1-SNAPSHOT</version>
@@ -38,18 +44,19 @@
   </dependencies>
   
   <build>
-    <!--
-      Since new versions need to overwrite old versions, it's better
-      not to have version number in the .hpi file name.
-    -->
-    <finalName>${project.artifactId}</finalName>
-    <defaultGoal>package</defaultGoal>
     <plugins>
+      <plugin>
+        <groupId>org.kohsuke.stapler</groupId>
+        <artifactId>maven-stapler-plugin</artifactId>
+        <extensions>true</extensions>
+      </plugin>
       <plugin>
         <groupId>org.jvnet.hudson.tools</groupId>
         <artifactId>maven-hpi-plugin</artifactId>
-        <version>1.17</version>
-        <extensions>true</extensions>
+        <configuration>
+          <showDeprecation>true</showDeprecation>
+          <showWarnings>true</showWarnings>
+        </configuration>
       </plugin>
     </plugins>
   </build>
