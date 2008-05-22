@@ -177,6 +177,7 @@
         <module>polarion</module>
         <module>port-allocator</module>
         <module>pmd</module>
+	<module>rake</module>
         <module>ruby</module>
         <module>promoted-builds</module>
         <module>sametime</module>
@@ -194,7 +195,6 @@
         <module>webtestpresenter</module>
         <module>ws7</module>
         <module>xvnc</module>
-	<module>rake</module>
     </modules>
 
     <properties>
