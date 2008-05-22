@@ -194,6 +194,7 @@
         <module>webtestpresenter</module>
         <module>ws7</module>
         <module>xvnc</module>
+	<module>rake</module>
     </modules>
 
     <properties>
