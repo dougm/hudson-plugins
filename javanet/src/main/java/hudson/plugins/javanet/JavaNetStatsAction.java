@@ -70,7 +70,8 @@ public class JavaNetStatsAction implements Action {
      */
     public void upToDateCheck() {
         File indexHtml = new File(reportDir,"index.html");
-        if(!indexHtml.exists() || (System.currentTimeMillis()-indexHtml.lastModified()>7*DAY)) {
+        long diff = System.currentTimeMillis() - indexHtml.lastModified();
+        if(!indexHtml.exists() || (diff >7*DAY)) {
             scheduleGeneration();
         }
     }
