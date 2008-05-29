@@ -177,7 +177,7 @@
         <module>polarion</module>
         <module>port-allocator</module>
         <module>pmd</module>
-	<!--module>rake</module> test requires rake to be installed in the system. -->
+	<module>rake</module> 
         <module>ruby</module>
         <module>promoted-builds</module>
         <module>sametime</module>
