@@ -79,7 +79,7 @@ abstract class Task {
                 if(!subscribe)
                     return; // already unsubscribed
                 LOGGER.info("Subscribing "+project.getName()+" to java.net SCM trigger");
-                list.massSubscribe("hudson-"+project.getName()+calcSuffix()+"@hudson.sfbay.sun.com",
+                list.massSubscribe("hudson-"+escape(project.getName())+calcSuffix()+"@hudson.sfbay.sun.com",
                     SubscriptionMode.NORMAL);
             }
         }
@@ -199,13 +199,32 @@ abstract class Task {
      * Checks if the trigger e-mail address is already subscribed.
      */
     protected final String getSubscriptionAddress(JNMailingList list) throws ProcessingException {
-        Pattern triggerAddress = Pattern.compile("hudson-"+project.getName()+"(\\+.+)?@(kohsuke|hudson)\\.sfbay\\.sun\\.com");
+        Pattern triggerAddress = Pattern.compile("hudson-"+escape(project.getName())+"(\\+.+)?@(kohsuke|hudson)\\.sfbay\\.sun\\.com");
 
         for (String adrs : list.getSubscribers(SubscriptionMode.NORMAL)) {
             if(triggerAddress.matcher(adrs).matches())
                 return adrs;
         }
         return null;
+    }
+
+    /**
+     * Escapes the character unsafe for e-mail address.
+     */
+    private static String escape(String projectName) {
+        // TODO: escape non-ASCII characters
+        StringBuilder buf = new StringBuilder(projectName.length());
+        for( int i=0; i<projectName.length(); i++ ) {
+            char ch = projectName.charAt(i);
+            if(('a'<=ch && ch<='z')
+            || ('z'<=ch && ch<='Z')
+            || ('0'<=ch && ch<='9')
+            || "-_.".indexOf(ch)>=0)
+                buf.append(ch);
+            else
+                buf.append('_');    // escape
+        }
+        return projectName;
     }
 
     /**
