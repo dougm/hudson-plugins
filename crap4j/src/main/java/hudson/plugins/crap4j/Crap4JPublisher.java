@@ -35,7 +35,7 @@ public class Crap4JPublisher extends Publisher {
 		this.reportPattern = reportPattern;
 	}
 	
-	@Override
+	//@Override
 	public Descriptor<Publisher> getDescriptor() {
 		return DESCRIPTOR;
 	}

@@ -26,7 +26,7 @@ public class ReportFilesFinder implements FileCallable<FoundFile[]>{
 		this.isSkippingOldFiles = isSkippingOldFiles;
 	}
 	
-	@Override
+	//@Override
 	public FoundFile[] invoke(File workspaceRoot, VirtualChannel channel)
 			throws IOException {
 		return getFilesFor(workspaceRoot);

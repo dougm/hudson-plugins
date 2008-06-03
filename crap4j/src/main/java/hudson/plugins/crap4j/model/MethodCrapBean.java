@@ -38,7 +38,7 @@ public class MethodCrapBean implements Serializable, IMethodCrap {
 	}
 	
 	private static String getMethodNameFrom(String contextName) {
-		if (contextName.isEmpty()) {
+		if (0 == contextName.length()) {
 			return "(init)";
 		}
 		if ("<init>".equals(contextName)) {

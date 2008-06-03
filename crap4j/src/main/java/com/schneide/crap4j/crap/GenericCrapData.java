@@ -35,22 +35,22 @@ public class GenericCrapData<O> implements IContextedCrapData<O> {
 		this.complexity = complexity;
 	}
 
-	@Override
+	//@Override
 	public O getContext() {
 		return this.context;
 	}
 
-	@Override
+	//@Override
 	public double getCoverage() {
 		return this.coverage;
 	}
 
-	@Override
+	//@Override
 	public double getCrap() {
 		return this.crap;
 	}
 
-	@Override
+	//@Override
 	public int getCrapLoad() {
 		return this.crapLoad;
 	}
@@ -63,12 +63,12 @@ public class GenericCrapData<O> implements IContextedCrapData<O> {
 		return this.totalMethods;
 	}
 
-	@Override
+	//@Override
 	public double getCrapPercentage() {
 		return (getCrappyMethods() / ((double) getTotalMethods()));
 	}
 
-	@Override
+	//@Override
 	public double getComplexity() {
 		return this.complexity;
 	}

@@ -22,22 +22,22 @@ public class Crap4JProjectAction implements Action, StaplerProxy {
 		this.project = project;
 	}
 	
-	@Override
+	//@Override
 	public String getDisplayName() {
 		return "Crap";
 	}
 	
-	@Override
+	//@Override
 	public String getIconFileName() {
 		return "/plugin/crap4j/icons/crap-32x32.gif";
 	}
 	
-	@Override
+	//@Override
 	public String getUrlName() {
 		return "crap";
 	}
 	
-	@Override
+	//@Override
 	public Object getTarget() {
 		return this;
 	}

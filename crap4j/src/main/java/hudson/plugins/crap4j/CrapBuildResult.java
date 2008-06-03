@@ -84,17 +84,17 @@ public class CrapBuildResult implements ModelObject, ICrapMethodPresentation {
 		return buildDetails();
 	}
 	
-	@Override
+	//@Override
 	public String getDisplayName() {
 		return "Crap Report";
 	}
 	
-	@Override
+	//@Override
 	public String getTitle() {
 		return "All Crappy Methods for <a href=\"/" + getOwner().getUrl() + "\">" + getOwner().getDisplayName() + "</a>";
 	}
 	
-	@Override
+	//@Override
 	public Collection<IMethodCrap> getMethods() {
 		List<IMethodCrap> result = new ArrayList<IMethodCrap>();
 		Collections.addAll(result, getResultData().getCrapMethods());

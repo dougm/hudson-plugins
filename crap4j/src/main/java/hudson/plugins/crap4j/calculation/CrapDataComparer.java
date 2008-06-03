@@ -59,7 +59,7 @@ public class CrapDataComparer implements ICrapComparison {
 		this.newMethods.addAll(newCrapMethodMap.values());
 	}
 	
-	@Override
+	//@Override
 	public IMethodCrap[] getFixedCrapMethods() {
 		return getAsArray(this.fixedMethods);
 	}
@@ -68,12 +68,12 @@ public class CrapDataComparer implements ICrapComparison {
 		return methodList.toArray(new IMethodCrap[methodList.size()]);
 	}
 	
-	@Override
+	//@Override
 	public IMethodCrap[] getNewCrapMethods() {
 		return getAsArray(this.newMethods);
 	}
 	
-	@Override
+	//@Override
 	public IMethodCrap[] getUnchangedCrapMethods() {
 		return getAsArray(this.unchangedMethods);
 	}

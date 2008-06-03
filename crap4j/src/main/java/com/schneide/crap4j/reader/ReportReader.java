@@ -42,12 +42,12 @@ public class ReportReader {
 			this.data = data;
 		}
 		
-		@Override
+		//@Override
 		public ICrapDetails getDetails() {
 			return this.data;
 		}
 		
-		@Override
+		//@Override
 		public IOverallStatistics getStatistics() {
 			return this.statistics;
 		}
@@ -77,32 +77,32 @@ public class ReportReader {
 			this.crapMethodPercent = crapMethodPercent;
 		}
 
-		@Override
+		//@Override
 		public int getCrapLoad() {
 			return this.crapLoad;
 		}
 
-		@Override
+		//@Override
 		public int getCrapMethodCount() {
 			return this.crapMethodCount;
 		}
 
-		@Override
+		//@Override
 		public double getCrapMethodPercent() {
 			return this.crapMethodPercent;
 		}
 
-		@Override
+		//@Override
 		public int getMethodCount() {
 			return this.methodCount;
 		}
 
-		@Override
+		//@Override
 		public String getName() {
 			return this.name;
 		}
 
-		@Override
+		//@Override
 		public double getTotalCrap() {
 			return this.totalCrap;
 		}
@@ -113,7 +113,7 @@ public class ReportReader {
 			super();
 		}
 
-		@Override
+		//@Override
 		public MethodCrapManager getMethodCrapManager() {
 			return ReportReader.this.methodCrapManager;
 		}
@@ -132,7 +132,7 @@ public class ReportReader {
 			this.parsedData = new ParsedCrapReport(statistics, details);
 			return this.parsedData;
 		} catch (JDOMException e) {
-			throw new IOException(e);
+			throw new IOException(e.getMessage());
 		}
 	}
 	
@@ -187,7 +187,7 @@ public class ReportReader {
 			return 0;
 		}
 
-		@Override
+		//@Override
 		public boolean isCrappy() {
 			return (getCrapLoad() > 0);
 		}
@@ -231,27 +231,27 @@ public class ReportReader {
 			this.fullMethod = fullMethod;
 		}
 
-		@Override
+		//@Override
 		public String getClassName() {
 			return this.className;
 		}
 
-		@Override
+		//@Override
 		public String getFullMethod() {
 			return this.fullMethod;
 		}
 
-		@Override
+		//@Override
 		public String getName() {
 			return this.methodName;
 		}
 
-		@Override
+		//@Override
 		public String getPackageName() {
 			return this.packageName;
 		}
 
-		@Override
+		//@Override
 		public String getSignature() {
 			return this.signature;
 		}

@@ -30,7 +30,7 @@ public class Crap4JBuildAction implements StaplerProxy, HealthReportingAction {
 		this.crapResult = crapResult;
 	}
 	
-	@Override
+	//@Override
 	public String getDisplayName() {
 		return "Crap";
 	}
@@ -39,12 +39,12 @@ public class Crap4JBuildAction implements StaplerProxy, HealthReportingAction {
 		return getTarget().getResultData();
 	}
 	
-	@Override
+	//@Override
 	public String getIconFileName() {
 		return "/plugin/crap4j/icons/crap-32x32.gif";
 	}
 	
-	@Override
+	//@Override
 	public String getUrlName() {
 		return "crapResult";
 	}
@@ -62,7 +62,7 @@ public class Crap4JBuildAction implements StaplerProxy, HealthReportingAction {
 		return (null != getTarget().getPrevious());
 	}
 	
-	@Override
+	//@Override
 	public HealthReport getBuildHealth() {
 		return (new HealthBuilder().getHealthReportFor(getCrap()));
 	}
