@@ -144,7 +144,6 @@
         <module>email-ext</module>
         <module>emma</module>
         <module>emotional-hudson</module>
-        <module>external-project</module>
         <module>findbugs</module>
         <module>gant</module>
         <module>gcal</module>
