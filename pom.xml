@@ -181,6 +181,7 @@
         <module>promoted-builds</module>
         <module>sametime</module>
         <module>scp</module>
+        <module>ssh-slaves</module>
         <!-- module>sfee</module --> <!--  not compiling currently  -->
         <module>svncompat13</module>
         <module>svn-tag</module>
