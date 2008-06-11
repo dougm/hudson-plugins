@@ -59,7 +59,7 @@ public class GoogleCodeLinkAnnotator extends ChangeLogAnnotator {
 
     static final LinkMarkup[] MARKUPS = new LinkMarkup[] {
         new LinkMarkup(
-            "issue #?NUM",
+            "(?:#|issue )NUM",
             "issues/detail?id=$1"),
         new LinkMarkup(
             "issue #?NUM:NUM",

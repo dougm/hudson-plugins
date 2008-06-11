@@ -61,7 +61,15 @@ public class GoogleCodeLinkAnnotatorTest {
     public void testIssueWithHashLinkToAnnotate() {
         MarkupText markupText = new MarkupText("Message with an issue #12.");
         annotator.annotate(null, null, markupText);
-        assertEquals("Message with an <a href='http://code.google.com/issues/detail?id=12'>issue #12</a>.", markupText.toString() );
+        assertEquals("Message with an issue <a href='http://code.google.com/issues/detail?id=12'>#12</a>.", markupText.toString() );
+        context.assertIsSatisfied();
+    }
+
+    @Test
+    public void testHashedNumberLinkToAnnotate() {
+        MarkupText markupText = new MarkupText("Message with an #12.");
+        annotator.annotate(null, null, markupText);
+        assertEquals("Message with an <a href='http://code.google.com/issues/detail?id=12'>#12</a>.", markupText.toString() );
         context.assertIsSatisfied();
     }
 }
