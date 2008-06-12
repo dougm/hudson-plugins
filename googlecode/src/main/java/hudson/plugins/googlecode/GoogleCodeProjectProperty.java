@@ -1,12 +1,19 @@
 package hudson.plugins.googlecode;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.Job;
 import hudson.model.JobProperty;
 import hudson.model.JobPropertyDescriptor;
+import hudson.plugins.googlecode.scm.GoogleCodeSCM;
 import hudson.scm.SubversionChangeLogSet.LogEntry;
 
+import net.sf.json.JSONObject;
+
+import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
 
 /**
@@ -24,10 +31,10 @@ public final class GoogleCodeProjectProperty extends JobProperty<AbstractProject
      * Null if this is not configured yet.
      */
     public final String googlecodeWebsite;
+    
+    private transient String projectName;
 
-    /**
-     * @stapler-constructor
-     */
+    @DataBoundConstructor
     public GoogleCodeProjectProperty(String googlecodeWebsite) {
         // normalize
         if(googlecodeWebsite==null || googlecodeWebsite.length()==0)
@@ -39,11 +46,26 @@ public final class GoogleCodeProjectProperty extends JobProperty<AbstractProject
         this.googlecodeWebsite = googlecodeWebsite;
     }
 
+    /**
+     * Returns the project name for the google code property
+     * "Project's name must consist of a lowercase letter, followed by lowercase letters, digits, 
+     * and dashes, with no spaces." 
+     * @return the project name
+     */
+    public String getProjectName() {
+        if (projectName == null) {
+            Matcher matcher = Pattern.compile(".*\\/p\\/([\\w-]*)").matcher(googlecodeWebsite);
+            matcher.find();
+            projectName = matcher.group(1);
+        }
+        return projectName;
+    }
+
     @Override
     public DescriptorImpl getDescriptor() {
         return PluginImpl.PROJECT_PROPERTY_DESCRIPTOR;
     }
-
+    
     public static final class DescriptorImpl extends JobPropertyDescriptor implements GoogleCodeProjectProperty.PropertyRetriever{
 
         public DescriptorImpl() {
@@ -62,11 +84,8 @@ public final class GoogleCodeProjectProperty extends JobProperty<AbstractProject
         }
 
         @Override
-        public JobProperty<?> newInstance(StaplerRequest req) throws FormException {
-            GoogleCodeProjectProperty tpp = req.bindParameters(GoogleCodeProjectProperty.class, "googlecode.");
-            if(tpp.googlecodeWebsite==null)
-                tpp = null; // not configured
-            return tpp;
+        public GoogleCodeProjectProperty newInstance(StaplerRequest req, JSONObject formData) throws FormException {
+            return req.bindJSON(GoogleCodeProjectProperty.class, formData);
         }
 
         public GoogleCodeProjectProperty getProperty(AbstractBuild<?, ?> build) {
