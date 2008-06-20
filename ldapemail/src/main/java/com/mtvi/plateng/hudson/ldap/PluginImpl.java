@@ -13,11 +13,9 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Entry point of a plugin.
- * 
- * <p>
- * There must be one {@link Plugin} class in each plugin. See javadoc of
- * {@link Plugin} for more about what can be done on this class.
+ * Entry point of for the LDAP Email plugin. Loads configuration from
+ * com.mtvi.plateng.hudson.ldap.LdapMailAddressResolver.xml and adds an instance
+ * of LdapMailAddressResolver to the MailAddressResolver list.
  * 
  * @author edelsonj
  */

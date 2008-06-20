@@ -18,22 +18,50 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 
+/**
+ * Implementation of hudson.tasks.MailAddressResolver that looks up the email
+ * address for a user based on information in an LDAP directory.
+ * 
+ * @author edelsonj
+ * 
+ */
 public class LdapMailAddressResolver extends MailAddressResolver {
 
     private static final Logger LOGGER = Logger.getLogger(LdapMailAddressResolver.class.getName());
 
+    /**
+     * Configuration object encapsulating how to connect to the LDAP server.
+     */
     private Configuration configuration;
 
+    /**
+     * Build an instance wrapping a Configuration object.
+     * 
+     * @param config
+     *            the Configuration object
+     */
     public LdapMailAddressResolver(Configuration config) {
         configuration = config;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String findMailAddressFor(User user) {
         return findMailAddressFor(user.getDisplayName());
     }
 
-    protected String findMailAddressFor(String displayName) {
+    /**
+     * Look up the email address for a user in the directory.
+     * 
+     * @param userName
+     *            the user's username, generally corresponds to the uid
+     *            attribute.
+     * @return the corresponding email address from the directory, or null if
+     *         none can be found.
+     */
+    protected String findMailAddressFor(String userName) {
         if (configuration.isValid()) {
             try {
                 Hashtable<String, String> env = new Hashtable<String, String>();
@@ -46,7 +74,7 @@ public class LdapMailAddressResolver extends MailAddressResolver {
                     env.put(Context.SECURITY_CREDENTIALS, configuration.getBindPassword());
                 }
                 DirContext ctx = new InitialDirContext(env);
-                Attributes attrs = ctx.getAttributes(configuration.makeUserDN(displayName),
+                Attributes attrs = ctx.getAttributes(configuration.makeUserDN(userName),
                         new String[] { configuration.getEmailAttribute() });
                 Attribute attr = attrs.get("mail");
                 if (attr != null) {
