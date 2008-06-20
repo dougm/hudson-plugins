@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.jvnet.hudson.plugins</groupId>
@@ -20,7 +17,7 @@
 	<groupId>com.mtvi.plateng.hudson</groupId>
 	<artifactId>regexemail</artifactId>
 	<packaging>hpi</packaging>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.1</version>
 
 	<dependencies>
 		<dependency>
@@ -84,4 +81,10 @@
 			</plugin>
 		</plugins>
 	</build>
+
+  <scm>
+    <connection>scm:svn:https://guest@svn.dev.java.net/svn/hudson/tags/regexemail-0.1</connection>
+    <developerConnection>scm:svn:https://svn.dev.java.net/svn/hudson/tags/regexemail-0.1</developerConnection>
+    <url>https://hudson.dev.java.net/source/browse/hudson/hudson/plugins/regexemail/tags/regexemail-0.1</url>
+  </scm>
 </project>
