@@ -5,5 +5,5 @@
 -->
 
 <div>
-  This plugin resolves user email addresses from an LDAP server.
+  This plugin resolves user email addresses using regular expressions.
 </div>

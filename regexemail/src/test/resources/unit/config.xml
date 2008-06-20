@@ -5,11 +5,7 @@
 
 -->
 
-<com.mtvi.plateng.hudson.ldap.Configuration>
-	<server>ldap://testserver:389</server>
-	<baseDN>ou=People,dc=test,dc=com</baseDN>
-	<bindDN>cn=System,ou=Internal,dc=test,dc=com</bindDN>
-	<bindPassword>password</bindPassword>
-	<emailAttribute>mail</emailAttribute>
-	<searchAttribute>uid</searchAttribute>
-</com.mtvi.plateng.hudson.ldap.Configuration>
+<com.mtvi.plateng.hudson.regex.Configuration>
+	<userNameExpression>{.*} {.*}</userNameExpression>
+	<emailAddressPattern>%s.%s@foo.com</emailAddressPattern>
+</com.mtvi.plateng.hudson.regex.Configuration>
