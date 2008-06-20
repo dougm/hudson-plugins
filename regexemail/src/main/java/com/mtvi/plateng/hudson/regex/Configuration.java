@@ -4,8 +4,10 @@
 
 package com.mtvi.plateng.hudson.regex;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Class to store configuration for the plugin.
@@ -46,6 +48,11 @@ public class Configuration {
         return userNameExpression;
     }
 
+    /**
+     * Determine if this configuration object is valid.
+     * 
+     * @return true if this object is valid
+     */
     public boolean isValid() {
         getUserNamePattern();
         return (userNamePattern != null) && (emailAddressPattern != null);
@@ -59,9 +66,19 @@ public class Configuration {
         this.userNameExpression = userNameExpression;
     }
 
+    /**
+     * If necessary, compile the userNameExpression property into a RegEx
+     * pattern.
+     * 
+     * @return the compiled Pattern.
+     */
     protected Pattern getUserNamePattern() {
         if (userNamePattern == null && userNameExpression != null) {
-            userNamePattern = Pattern.compile(userNameExpression);
+            try {
+                userNamePattern = Pattern.compile(userNameExpression);
+            } catch (PatternSyntaxException e) {
+                LOGGER.log(Level.WARNING, "Bad username expression: " + userNameExpression, e);
+            }
         }
         return userNamePattern;
     }
