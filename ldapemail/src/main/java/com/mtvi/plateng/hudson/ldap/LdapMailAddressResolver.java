@@ -27,6 +27,9 @@ import javax.naming.directory.InitialDirContext;
  */
 public class LdapMailAddressResolver extends MailAddressResolver {
 
+    /**
+     * A logger object.
+     */
     private static final Logger LOGGER = Logger.getLogger(LdapMailAddressResolver.class.getName());
 
     /**

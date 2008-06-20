@@ -27,6 +27,7 @@ public class PluginImpl extends Plugin {
      * 
      * @see hudson.Plugin#start()
      * @throws Exception
+     *             if something goes wrong
      */
     @Override
     public void start() throws Exception {
@@ -38,8 +39,9 @@ public class PluginImpl extends Plugin {
      * Loads confiugration file from
      * com.mtvi.plateng.hudson.ldap.LdapMailAddressResolver.xml
      * 
-     * @return a populated Configuration object
+     * @return a Configuration object, populated from the file, if it exists
      * @throws IOException
+     *             if the file can't be read.
      */
     protected Configuration loadConfiguration() throws IOException {
         Hudson hudson = Hudson.getInstance();
