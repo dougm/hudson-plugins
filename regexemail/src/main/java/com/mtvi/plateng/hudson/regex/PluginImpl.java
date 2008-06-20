@@ -2,7 +2,7 @@
  * Copyright (c) 2008, MTV Networks
  */
 
-package com.mtvi.plateng.hudson.ldap;
+package com.mtvi.plateng.hudson.regex;
 
 import hudson.Plugin;
 import hudson.XmlFile;

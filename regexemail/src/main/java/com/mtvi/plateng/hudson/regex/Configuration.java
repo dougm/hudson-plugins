@@ -2,7 +2,7 @@
  * Copyright (c) 2008, MTV Networks
  */
 
-package com.mtvi.plateng.hudson.ldap;
+package com.mtvi.plateng.hudson.regex;
 
 /**
  * Class to store configuration for the plugin.
