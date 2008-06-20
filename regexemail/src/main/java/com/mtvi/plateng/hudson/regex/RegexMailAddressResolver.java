@@ -7,16 +7,8 @@ package com.mtvi.plateng.hudson.regex;
 import hudson.model.User;
 import hudson.tasks.MailAddressResolver;
 
-import java.util.Hashtable;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.naming.Context;
-import javax.naming.NamingException;
-import javax.naming.directory.Attribute;
-import javax.naming.directory.Attributes;
-import javax.naming.directory.DirContext;
-import javax.naming.directory.InitialDirContext;
+import java.util.regex.Matcher;
 
 /**
  * Implementation of hudson.tasks.MailAddressResolver that looks up the email
@@ -56,37 +48,25 @@ public class RegexMailAddressResolver extends MailAddressResolver {
     }
 
     /**
-     * Look up the email address for a user in the directory.
+     * Transform a username into a email address using regular expressions and
+     * java.lang.String.format().
      * 
      * @param userName
-     *            the user's username, generally corresponds to the uid
-     *            attribute.
-     * @return the corresponding email address from the directory, or null if
-     *         none can be found.
+     *            the user's username
+     * @return the corresponding email address
      */
     protected String findMailAddressFor(String userName) {
         if (configuration.isValid()) {
-            try {
-                Hashtable<String, String> env = new Hashtable<String, String>();
-                env.put(Context.INITIAL_CONTEXT_FACTORY, configuration
-                        .getInitialContextFactoryName());
-                env.put(Context.PROVIDER_URL, configuration.getServer());
-
-                if (configuration.isBindCredentialsProvided()) {
-                    env.put(Context.SECURITY_PRINCIPAL, configuration.getBindDN());
-                    env.put(Context.SECURITY_CREDENTIALS, configuration.getBindPassword());
+            Matcher matcher = configuration.getUserNamePattern().matcher(userName);
+            if (matcher.matches()) {
+                int groupCount = matcher.groupCount();
+                // This array is declared as an Object[] to ensure it's passed
+                // correctly via varargs.
+                Object[] parts = new String[groupCount + 1];
+                for (int i = 0; i < groupCount; i++) {
+                    parts[i] = matcher.group(i + 1);
                 }
-                DirContext ctx = new InitialDirContext(env);
-                Attributes attrs = ctx.getAttributes(configuration.makeUserDN(userName),
-                        new String[] { configuration.getEmailAttribute() });
-                Attribute attr = attrs.get("mail");
-                if (attr != null) {
-                    return (String) attr.get();
-                } else {
-                    return null;
-                }
-            } catch (NamingException e) {
-                LOGGER.log(Level.SEVERE, "Unable to run LDAP query", e);
+                return String.format(configuration.getEmailAddressPattern(), parts);
             }
         }
         return null;

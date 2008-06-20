@@ -13,9 +13,9 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Entry point of for the LDAP Email plugin. Loads configuration from
- * com.mtvi.plateng.hudson.ldap.LdapMailAddressResolver.xml and adds an instance
- * of LdapMailAddressResolver to the MailAddressResolver list.
+ * Entry point of for the Regex Email plugin. Loads configuration from
+ * com.mtvi.plateng.hudson.ldap.RegexMailAddressResolver.xml and adds an
+ * instance of RegexMailAddressResolver to the MailAddressResolver list.
  * 
  * @author edelsonj
  */
@@ -23,7 +23,7 @@ public class PluginImpl extends Plugin {
 
     /**
      * Plugin lifecycle method. Loads configuration and adds configured instance
-     * of LdapMailAddressResolver to MailAddressResolver list.
+     * of RegexMailAddressResolver to MailAddressResolver list.
      * 
      * @see hudson.Plugin#start()
      * @throws Exception
@@ -32,12 +32,12 @@ public class PluginImpl extends Plugin {
     @Override
     public void start() throws Exception {
         Configuration config = loadConfiguration();
-        MailAddressResolver.LIST.add(new LdapMailAddressResolver(config));
+        MailAddressResolver.LIST.add(new RegexMailAddressResolver(config));
     }
 
     /**
      * Loads confiugration file from
-     * com.mtvi.plateng.hudson.ldap.LdapMailAddressResolver.xml.
+     * com.mtvi.plateng.hudson.ldap.RegexMailAddressResolver.xml.
      * 
      * @return a Configuration object, populated from the file, if it exists
      * @throws IOException
@@ -46,7 +46,7 @@ public class PluginImpl extends Plugin {
     protected Configuration loadConfiguration() throws IOException {
         Hudson hudson = Hudson.getInstance();
         File rootDirectory = hudson.getRootDir();
-        String fileName = LdapMailAddressResolver.class.getName() + ".xml";
+        String fileName = RegexMailAddressResolver.class.getName() + ".xml";
         XmlFile xmlFile = new XmlFile(Hudson.XSTREAM, new File(rootDirectory, fileName));
         Configuration config = null;
         if (xmlFile.exists()) {

@@ -4,6 +4,9 @@
 
 package com.mtvi.plateng.hudson.regex;
 
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
+
 /**
  * Class to store configuration for the plugin.
  * 
@@ -13,126 +16,54 @@ package com.mtvi.plateng.hudson.regex;
 public class Configuration {
 
     /**
-     * Default value for the initialContextFactoryName property. Assumes a Sun
-     * JDK.
+     * A logger object.
      */
-    public static final String DEFAULT_INITIAL_CONTEXT_FACTORY = "com.sun.jndi.ldap.LdapCtxFactory";
+    private static final Logger LOGGER = Logger.getLogger(Configuration.class.getName());
 
     /**
-     * The base String for building distinguised name references.
+     * The expression used to parse a user's username. Expected to be a regular
+     * expression.
      */
-    private String baseDN;
+    private String userNameExpression;
 
     /**
-     * The distinguised name with which to bind to LDAP. Optional.
+     * The format string used to create an email address.
+     * 
+     * @see http://java.sun.com/j2se/1.5.0/docs/api/java/util/Formatter.html#syntax
      */
-    private String bindDN;
+    private String emailAddressPattern;
 
     /**
-     * The password to use when binding to LDAP. Optional.
+     * The compiled regular expression Pattern.
      */
-    private String bindPassword;
+    private Pattern userNamePattern;
 
-    /**
-     * The LDAP attribute which stores the user's email address. Typically
-     * 'mail' or something similar to that.
-     */
-    private String emailAttribute;
-
-    /**
-     * The class name of the InitialContextFactory implementation to use when
-     * connecting to LDAP.
-     */
-    private String initialContextFactoryName;
-
-    /**
-     * The LDAP attribute to use for searching. Usually 'uid'
-     */
-    private String searchAttribute;
-
-    /**
-     * The LDAP server's URL.
-     */
-    private String server;
-
-    public String getBaseDN() {
-        return baseDN;
+    public String getEmailAddressPattern() {
+        return emailAddressPattern;
     }
 
-    public String getBindDN() {
-        return bindDN;
-    }
-
-    public String getBindPassword() {
-        return bindPassword;
-    }
-
-    public String getEmailAttribute() {
-        return emailAttribute;
-    }
-
-    public String getInitialContextFactoryName() {
-        return initialContextFactoryName != null ? initialContextFactoryName
-                : DEFAULT_INITIAL_CONTEXT_FACTORY;
-    }
-
-    public String getSearchAttribute() {
-        return searchAttribute;
-    }
-
-    public String getServer() {
-        return server;
-    }
-
-    public boolean isBindCredentialsProvided() {
-        return (bindDN != null) && (bindPassword != null);
+    public String getUserNameExpression() {
+        return userNameExpression;
     }
 
     public boolean isValid() {
-        return (server != null) && (baseDN != null) && (searchAttribute != null)
-                && (emailAttribute != null);
+        getUserNamePattern();
+        return (userNamePattern != null) && (emailAddressPattern != null);
     }
 
-    /**
-     * Construct a user's distinguised name (DN) from their username.
-     * 
-     * @param userName
-     *            the user's username
-     * @return the DN
-     */
-    public String makeUserDN(String userName) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(getSearchAttribute()).append("=").append(userName);
-        builder.append(",").append(getBaseDN());
-        return builder.toString();
+    public void setEmailAddressPattern(String emailAddressPattern) {
+        this.emailAddressPattern = emailAddressPattern;
     }
 
-    public void setBaseDN(String baseDN) {
-        this.baseDN = baseDN;
+    public void setUserNameExpression(String userNameExpression) {
+        this.userNameExpression = userNameExpression;
     }
 
-    public void setBindDN(String bindDN) {
-        this.bindDN = bindDN;
-    }
-
-    public void setBindPassword(String bindPassword) {
-        this.bindPassword = bindPassword;
-    }
-
-    public void setEmailAttribute(String emailAttribute) {
-        this.emailAttribute = emailAttribute;
-    }
-
-    public void setInitialContextFactoryName(String initialContextFactoryName) {
-        this.initialContextFactoryName = initialContextFactoryName;
-    }
-
-    public void setSearchAttribute(String searchAttribute) {
-        this.searchAttribute = searchAttribute;
-    }
-
-    public void setServer(String server) {
-        this.server = server;
+    protected Pattern getUserNamePattern() {
+        if (userNamePattern == null) {
+            userNamePattern = Pattern.compile(userNameExpression);
+        }
+        return userNamePattern;
     }
 
 }
