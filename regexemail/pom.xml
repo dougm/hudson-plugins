@@ -10,14 +10,13 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<name>LDAP Email Plugin</name>
+	<name>Regex Email Plugin</name>
 	<description>
-		Hudson plugin that resolves email addresses through LDAP
-		lookups.
+		Hudson plugin that resolves email addresses based on a regular expression.
 	</description>
 
 	<groupId>com.mtvi.plateng.hudson</groupId>
-	<artifactId>ldapemail</artifactId>
+	<artifactId>regexemail</artifactId>
 	<packaging>hpi</packaging>
 	<version>0.1-SNAPSHOT</version>
 
