@@ -37,7 +37,7 @@ public class PluginImpl extends Plugin {
 
     /**
      * Loads confiugration file from
-     * com.mtvi.plateng.hudson.ldap.LdapMailAddressResolver.xml
+     * com.mtvi.plateng.hudson.ldap.LdapMailAddressResolver.xml.
      * 
      * @return a Configuration object, populated from the file, if it exists
      * @throws IOException

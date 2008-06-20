@@ -93,6 +93,13 @@ public class Configuration {
                 && (emailAttribute != null);
     }
 
+    /**
+     * Construct a user's distinguised name (DN) from their username.
+     * 
+     * @param userName
+     *            the user's username
+     * @return the DN
+     */
     public String makeUserDN(String userName) {
         StringBuilder builder = new StringBuilder();
         builder.append(getSearchAttribute()).append("=").append(userName);
