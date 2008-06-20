@@ -17,7 +17,7 @@
 	<groupId>com.mtvi.plateng.hudson</groupId>
 	<artifactId>regexemail</artifactId>
 	<packaging>hpi</packaging>
-	<version>0.1</version>
+	<version>0.2-SNAPSHOT</version>
 
 	<dependencies>
 		<dependency>
