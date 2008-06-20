@@ -60,7 +60,7 @@ public class Configuration {
     }
 
     protected Pattern getUserNamePattern() {
-        if (userNamePattern == null) {
+        if (userNamePattern == null && userNameExpression != null) {
             userNamePattern = Pattern.compile(userNameExpression);
         }
         return userNamePattern;

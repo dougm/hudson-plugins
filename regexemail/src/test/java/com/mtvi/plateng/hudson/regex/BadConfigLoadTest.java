@@ -10,10 +10,6 @@ import junit.framework.TestCase;
 
 import org.apache.commons.io.FileUtils;
 
-import com.mtvi.plateng.hudson.regex.Configuration;
-import com.mtvi.plateng.hudson.regex.RegexMailAddressResolver;
-import com.mtvi.plateng.hudson.regex.PluginImpl;
-
 public class BadConfigLoadTest extends TestCase {
 
     public void testBadConfig() throws IOException {
@@ -22,7 +18,7 @@ public class BadConfigLoadTest extends TestCase {
         assertFalse(config.isValid());
     }
 
-    public void testLdapMailAddressResolver() throws Exception {
+    public void testRegexMailAddressResolver() throws Exception {
         PluginImpl pi = new PluginImpl();
         Configuration config = pi.loadConfiguration();
         RegexMailAddressResolver resolver = new RegexMailAddressResolver(config);

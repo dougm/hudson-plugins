@@ -6,6 +6,6 @@
 -->
 
 <com.mtvi.plateng.hudson.regex.Configuration>
-	<userNameExpression>{.*} {.*}</userNameExpression>
+	<userNameExpression>(.*) (.*)</userNameExpression>
 	<emailAddressPattern>%s.%s@foo.com</emailAddressPattern>
 </com.mtvi.plateng.hudson.regex.Configuration>
