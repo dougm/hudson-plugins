@@ -2,7 +2,7 @@
  * Copyright (c) 2008, MTV Networks
  */
 
-package com.mtvi.plateng.hudson.ldap;
+package com.mtvi.plateng.hudson.regex;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +10,10 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.apache.commons.io.FileUtils;
+
+import com.mtvi.plateng.hudson.regex.Configuration;
+import com.mtvi.plateng.hudson.regex.RegexMailAddressResolver;
+import com.mtvi.plateng.hudson.regex.PluginImpl;
 
 public class GoodConfigLoadTest extends TestCase {
 
@@ -24,7 +28,7 @@ public class GoodConfigLoadTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         FileUtils.copyFile(new File("src/test/resources/unit/config.xml"), new File(
-                HudsonUtil.root, LdapMailAddressResolver.class.getName() + ".xml"));
+                HudsonUtil.root, RegexMailAddressResolver.class.getName() + ".xml"));
     }
 
     @Override

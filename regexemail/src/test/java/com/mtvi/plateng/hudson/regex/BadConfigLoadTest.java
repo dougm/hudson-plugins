@@ -2,13 +2,17 @@
  * Copyright (c) 2008, MTV Networks
  */
 
-package com.mtvi.plateng.hudson.ldap;
+package com.mtvi.plateng.hudson.regex;
 
 import java.io.IOException;
 
 import junit.framework.TestCase;
 
 import org.apache.commons.io.FileUtils;
+
+import com.mtvi.plateng.hudson.regex.Configuration;
+import com.mtvi.plateng.hudson.regex.RegexMailAddressResolver;
+import com.mtvi.plateng.hudson.regex.PluginImpl;
 
 public class BadConfigLoadTest extends TestCase {
 
@@ -21,7 +25,7 @@ public class BadConfigLoadTest extends TestCase {
     public void testLdapMailAddressResolver() throws Exception {
         PluginImpl pi = new PluginImpl();
         Configuration config = pi.loadConfiguration();
-        LdapMailAddressResolver resolver = new LdapMailAddressResolver(config);
+        RegexMailAddressResolver resolver = new RegexMailAddressResolver(config);
         assertNull(resolver.findMailAddressFor("username"));
     }
 
