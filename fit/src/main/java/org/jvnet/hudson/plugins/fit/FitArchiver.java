@@ -131,8 +131,13 @@ public class FitArchiver extends Publisher {
 			content += "<a href='" + filePath.getName() + "'>";
 			content += StringUtils.removeEnd(filePath.getName(), DOT_HTML);
 			content += "</a> ";
-			content += fitResult.getErrorsNumber() + " errors, ";
-			content += fitResult.getExpectationsNumber() + " failures ";
+//			content += fitResult.getErrorsNumber() + " "
+//					+ getPlural(fitResult.getErrorsNumber(), "error", "errors")
+//					+ ", ";
+//			content += fitResult.getExpectationsNumber()
+//					+ " "
+//					+ getPlural(fitResult.getExpectationsNumber(), "failure",
+//							"failures");
 		}
 
 		FilePath tempFile = reportDirectory.createTextTempFile("temp", "txt",
@@ -141,6 +146,14 @@ public class FitArchiver extends Publisher {
 		tempFile.copyTo(indexHtml);
 		listener.getLogger()
 				.println(Messages.FitPlugin_IndexCreated(indexHtml));
+	}
+
+	private String getPlural(int number, String singular, String plural) {
+		if (number <= 1) {
+			return singular;
+		} else {
+			return plural;
+		}
 	}
 
 	/** {@inheritDoc} */
