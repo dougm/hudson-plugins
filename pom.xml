@@ -189,9 +189,11 @@
         <module>svn-tag</module>
         <module>tasks</module>
         <module>text-finder</module>
+        <module>tfs</module>
         <module>trac</module>
         <module>twitter</module>
         <module>violations</module>
+        <module>warnings</module>
         <module>vmware</module>
         <module>vss</module>
         <module>warnings</module>
