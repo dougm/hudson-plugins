@@ -14,7 +14,7 @@ import java.util.regex.Matcher;
  * Implementation of hudson.tasks.MailAddressResolver that looks up the email
  * address for a user based on information in an LDAP directory.
  * 
- * @author edelsonj
+ * @author justinedelson
  * 
  */
 public class RegexMailAddressResolver extends MailAddressResolver {

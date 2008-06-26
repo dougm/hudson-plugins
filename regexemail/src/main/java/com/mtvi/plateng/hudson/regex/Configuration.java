@@ -12,7 +12,7 @@ import java.util.regex.PatternSyntaxException;
 /**
  * Class to store configuration for the plugin.
  * 
- * @author edelsonj
+ * @author justinedelson
  * 
  */
 public class Configuration {
