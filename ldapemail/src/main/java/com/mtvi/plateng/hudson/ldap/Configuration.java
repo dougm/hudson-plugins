@@ -7,7 +7,7 @@ package com.mtvi.plateng.hudson.ldap;
 /**
  * Class to store configuration for the plugin.
  * 
- * @author edelsonj
+ * @author justinedelson
  * 
  */
 public class Configuration {

@@ -17,7 +17,7 @@ import java.io.IOException;
  * com.mtvi.plateng.hudson.ldap.LdapMailAddressResolver.xml and adds an instance
  * of LdapMailAddressResolver to the MailAddressResolver list.
  * 
- * @author edelsonj
+ * @author justinedelson
  */
 public class PluginImpl extends Plugin {
 
