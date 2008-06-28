@@ -1,5 +1,6 @@
 package hudson.plugins.coverage.model;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -41,6 +42,23 @@ public class Instance {
      * Recorders registered against this instance during parsing.
      */
     private final transient Map<Recorder, Object> recorders = new HashMap<Recorder, Object>();
+
+    /**
+     * Used to keep track of multiple recorders mapping the same file to different models. Only set for file level
+     * elements while on the slave that hosts the source code.
+     */
+    private transient File sourceFile;
+
+    /**
+     * Used to keep track of all the source code files so we can archive the source code.
+     * Only set for the root element while on the slave that hosts the source code.
+     */
+    private final transient Set<File> sourceFiles;
+
+    /**
+     * Used to keep track of all the mesurement files and their associated recorders.
+     */
+    private final transient Map<Recorder, File> measurementFiles;
 
 // -------------------------- STATIC METHODS --------------------------
 
@@ -113,6 +131,9 @@ public class Instance {
         for (Element child : this.element.getChildren()) {
             children.put(child, Collections.synchronizedMap(new TreeMap<String, Instance>()));
         }
+        this.sourceFile = null;
+        this.sourceFiles = new HashSet<File>();
+        this.measurementFiles = new HashMap<Recorder, File>();
     }
 
     /**
@@ -126,12 +147,45 @@ public class Instance {
         element.getClass(); // throw NPE if null
         parent.getClass(); // throw NPE if null
         name.getClass(); // throw NPE if null
+        if (element.isFileLevel()) {
+            throw new IllegalArgumentException("You must specify the source file for a file level element");
+        }
         this.element = element;
         this.name = name;
         this.parent = parent;
+        this.sourceFile = null;
         for (Element child : element.getChildren()) {
             children.put(child, Collections.synchronizedMap(new TreeMap<String, Instance>()));
         }
+        this.sourceFiles = null;
+        this.measurementFiles = null;
+    }
+
+    /**
+     * Constructs a new Instance instance at the file level.
+     *
+     * @param element    The element type of the new instance.
+     * @param parent     The parent instance.
+     * @param name       The name of the instance.
+     * @param sourceFile The source code that this file element corresponds to.
+     */
+    private Instance(Element element, Instance parent, String name, File sourceFile) {
+        element.getClass(); // throw NPE if null
+        parent.getClass(); // throw NPE if null
+        name.getClass(); // throw NPE if null
+        sourceFile.getClass(); // throw NPE if null
+        if (!element.isFileLevel()) {
+            throw new IllegalArgumentException("You can only specify the source file for a file level element");
+        }
+        this.element = element;
+        this.name = name;
+        this.parent = parent;
+        this.sourceFile = sourceFile;
+        for (Element child : element.getChildren()) {
+            children.put(child, Collections.synchronizedMap(new TreeMap<String, Instance>()));
+        }
+        this.sourceFiles = null;
+        this.measurementFiles = null;
     }
 
 // --------------------- GETTER / SETTER METHODS ---------------------
@@ -260,6 +314,20 @@ public class Instance {
     }
 
     /**
+     * Creates a new child instance corresponding with a file level element.
+     *
+     * @param element    The child element type.
+     * @param name       The child name.
+     * @param sourceFile The source file.
+     * @return The child instance.
+     */
+    public Instance newChild(Element element, String name, File sourceFile) {
+        Instance child = new Instance(element, this, name, sourceFile);
+        addChild(child);
+        return child;
+    }
+
+    /**
      * Add's a child instance.
      *
      * @param child The child.
@@ -271,6 +339,15 @@ public class Instance {
         }
         final Map<String, Instance> map = children.get(child.element);
         map.put(child.name, child);
+        if (child.sourceFile != null) {
+            Instance root = this;
+            while (root.sourceFiles != null) {
+                root = root.parent;
+            }
+            synchronized (root.sourceFiles) {
+                root.sourceFiles.add(sourceFile);
+            }
+        }
     }
 
     /**
