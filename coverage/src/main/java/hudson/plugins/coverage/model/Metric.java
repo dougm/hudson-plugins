@@ -1,5 +1,8 @@
 package hudson.plugins.coverage.model;
 
+import hudson.plugins.coverage.model.measurements.BranchCoverage;
+import hudson.plugins.coverage.model.measurements.LineCoverage;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,28 +18,34 @@ public final class Metric implements Comparable<Metric> {
     /**
      * Standard metric for line coverage.
      */
-    public static final Metric LINE_COVERAGE = Metric.newMetric("line");
+    public static final Metric LINE_COVERAGE = Metric.newMetric("line", LineCoverage.class);
 
     /**
      * Standard metric for branch coverage.
      */
-    public static final Metric BRANCH_COVERAGE = Metric.newMetric("branch");
+    public static final Metric BRANCH_COVERAGE = Metric.newMetric("branch", BranchCoverage.class);
 
     /**
      * The name of this metric.
      */
     private final String name;
 
+    /**
+     * The type of measurement.
+     */
+    private final Class<? extends Measurement> clazz;
+
 // -------------------------- STATIC METHODS --------------------------
 
     /**
      * Creates a new source code metric.
      *
-     * @param name The name of the metric.
+     * @param name  The name of the metric.
+     * @param clazz The measurement class.
      * @return The new metric.
      */
-    public static Metric newMetric(String name) {
-        Metric result = new Metric(name);
+    public static Metric newMetric(String name, Class<? extends Measurement> clazz) {
+        Metric result = new Metric(name, clazz);
         SingletonHolder.ALL_METRICS.add(result);
         return result;
     }
@@ -46,11 +55,14 @@ public final class Metric implements Comparable<Metric> {
     /**
      * Constructor for a child element.
      *
-     * @param name The name.
+     * @param name  The name.
+     * @param clazz The measurement class.
      */
-    private Metric(String name) {
+    private Metric(String name, Class<? extends Measurement> clazz) {
         name.getClass(); // throw NPE if null
+        clazz.getClass();
         this.name = name;
+        this.clazz = clazz;
     }
 
 // --------------------- GETTER / SETTER METHODS ---------------------
@@ -64,7 +76,16 @@ public final class Metric implements Comparable<Metric> {
         return name;
     }
 
-// ------------------------ CANONICAL METHODS ------------------------
+    /**
+     * Getter for property 'clazz'.
+     *
+     * @return Value for property 'clazz'.
+     */
+    public Class<? extends Measurement> getClazz() {
+        return clazz;
+    }
+
+    // ------------------------ CANONICAL METHODS ------------------------
 
     /**
      * {@inheritDoc}

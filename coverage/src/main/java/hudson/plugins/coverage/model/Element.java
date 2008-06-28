@@ -34,6 +34,8 @@ public final class Element implements Comparable<Element> {
      */
     private final transient Set<Element> children = new TreeSet<Element>();
 
+    private final transient Model model;
+
     /**
      * Lazily calculated full name of the element.
      */
@@ -56,15 +58,44 @@ public final class Element implements Comparable<Element> {
     }
 
     /**
+     * Gets the root element from which all elements must inherit.
+     *
+     * @param fullName The full name of the element.
+     * @return the root element from which all elements must inherit.
+     */
+    public static Element getElement(String fullName) {
+        return SingletonHolder.ROOT.find(fullName);
+    }
+
+    /**
+     * Finds an element from its full name.
+     *
+     * @param fullName The full name.
+     * @return the element of {@code null} if the element does not exist.
+     */
+    public Element find(String fullName) {
+        if (getFullName().equals(fullName)) {
+            return this;
+        }
+        for (Element element : children) {
+            if (fullName.startsWith(element.getFullName())) {
+                return element.find(fullName);
+            }
+        }
+        return null;
+    }
+
+    /**
      * Creates a new source code element.
      *
      * @param parent    The parent.
      * @param name      The name of the element.
      * @param fileLevel {@code true} if this element corresponds to a source file.
+     * @param model     The model that describes how this element calculates results from its children.
      * @return The new element.
      */
-    public static Element newElement(Element parent, String name, boolean fileLevel) {
-        Element result = new Element(parent, name, fileLevel);
+    public static Element newElement(Element parent, String name, boolean fileLevel, Model model) {
+        Element result = new Element(parent, name, fileLevel, model);
         parent.addChild(result);
         return result;
     }
@@ -75,23 +106,10 @@ public final class Element implements Comparable<Element> {
      * @param child the child.
      */
     private synchronized void addChild(Element child) {
-        if (child.getParent() != parent) {
+        if (child.getParent() != this) {
             throw new IllegalArgumentException("Cannot add the child of a different parent");
         }
         children.add(child);
-    }
-
-    /**
-     * Creates a new source code element as a child of {@code this}.
-     *
-     * @param name      The name of the element.
-     * @param fileLevel {@code true} if this element corresponds to a source file.
-     * @return The new element.
-     */
-    public Element newChild(String name, boolean fileLevel) {
-        Element result = new Element(this, name, fileLevel);
-        addChild(result);
-        return result;
     }
 
 // --------------------------- CONSTRUCTORS ---------------------------
@@ -100,9 +118,10 @@ public final class Element implements Comparable<Element> {
      * Constructor for root element.
      */
     private Element() {
-        name = "project";
+        name = "";
         parent = null;
         fileLevel = false;
+        model = StandardModel.getInstance();
     }
 
     /**
@@ -111,16 +130,19 @@ public final class Element implements Comparable<Element> {
      * @param parent    The parent.
      * @param name      The name.
      * @param fileLevel {@code true} if this is a file level element.
+     * @param model     The model that describes how this element calculates results from its children.
      */
-    private Element(Element parent, String name, boolean fileLevel) {
+    private Element(Element parent, String name, boolean fileLevel, Model model) {
         parent.getClass(); // throw NPE if null
         name.getClass(); // throw NPE if null
+        model.getClass(); // throw NPE if null
         if (name.indexOf('/') != -1) {
             throw new IllegalArgumentException("The name of an element caonnot contain the '/' character");
         }
         this.name = name;
         this.parent = parent;
         this.fileLevel = fileLevel;
+        this.model = model;
     }
 
 // --------------------- GETTER / SETTER METHODS ---------------------
@@ -146,6 +168,15 @@ public final class Element implements Comparable<Element> {
             fullName = buf.toString();
         }
         return fullName;
+    }
+
+    /**
+     * Getter for property 'model'.
+     *
+     * @return Value for property 'model'.
+     */
+    public Model getModel() {
+        return model;
     }
 
     /**
@@ -230,6 +261,29 @@ public final class Element implements Comparable<Element> {
 // -------------------------- OTHER METHODS --------------------------
 
     /**
+     * Destroys this element. Needed for unit tests.
+     */
+    synchronized void destroy() {
+        // first destroy all children
+        for (Element child : new TreeSet<Element>(children)) {
+            child.destroy();
+        }
+        // next unhook ourselves from the parent
+        if (parent != null) {
+            parent.removeChild(this);
+        }
+    }
+
+    /**
+     * Removes a child element.
+     *
+     * @param element The child.
+     */
+    private synchronized void removeChild(Element element) {
+        children.remove(element);
+    }
+
+    /**
      * Getter for property 'children'.
      *
      * @return Value for property 'children'.
@@ -253,6 +307,20 @@ public final class Element implements Comparable<Element> {
             }
         }
         return subfileLevel.booleanValue();
+    }
+
+    /**
+     * Creates a new source code element as a child of {@code this}.
+     *
+     * @param name      The name of the element.
+     * @param fileLevel {@code true} if this element corresponds to a source file.
+     * @param model     The model that describes how this element calculates results from its children.
+     * @return The new element.
+     */
+    public Element newChild(String name, boolean fileLevel, Model model) {
+        Element result = new Element(this, name, fileLevel, model);
+        addChild(result);
+        return result;
     }
 
 // -------------------------- INNER CLASSES --------------------------
