@@ -58,7 +58,7 @@ public class Instance {
     /**
      * Used to keep track of all the mesurement files and their associated recorders.
      */
-    private final transient Map<Recorder, File> measurementFiles;
+    private final transient Map<Recorder, Set<File>> measurementFiles;
 
 // -------------------------- STATIC METHODS --------------------------
 
@@ -107,7 +107,7 @@ public class Instance {
         }
         if (element.isFileLevel()) {
             for (Map.Entry<Recorder, Object> recorder : recorders.entrySet()) {
-                recorder.getKey().parseSourceResults(this, recorder.getValue());
+                recorder.getKey().parseSourceResults(this, measurementFiles.get(recorder), recorder.getValue());
             }
             recorders.clear();
         } else {
@@ -133,7 +133,7 @@ public class Instance {
         }
         this.sourceFile = null;
         this.sourceFiles = new HashSet<File>();
-        this.measurementFiles = new HashMap<Recorder, File>();
+        this.measurementFiles = new HashMap<Recorder, Set<File>>();
     }
 
     /**
@@ -185,7 +185,7 @@ public class Instance {
             children.put(child, Collections.synchronizedMap(new TreeMap<String, Instance>()));
         }
         this.sourceFiles = null;
-        this.measurementFiles = null;
+        this.measurementFiles = new HashMap<Recorder, Set<File>>();
     }
 
 // --------------------- GETTER / SETTER METHODS ---------------------
@@ -222,19 +222,44 @@ public class Instance {
     /**
      * Registers a recorder.
      *
-     * @param recorder The recorder.
-     * @param memo     A memo object that the recorder can use to hold state prior to the second-pass parsing
-     *                 {@linkplain hudson.plugins.coverage.model.Recorder#parseSourceResults(Instance, Object)}
+     * @param recorder         The recorder.
+     * @param measurementFiles The measurement files.
+     * @param memo             A memo object that the recorder can use to hold state prior to the second-pass parsing
+     *                         {@linkplain hudson.plugins.coverage.model.Recorder#parseSourceResults(Instance, Set,
+     *                         Object)}
      * @see hudson.plugins.coverage.model.Recorder#identifySourceFiles(Instance) the first-pass parsing which should
      *      register recorders.
-     * @see hudson.plugins.coverage.model.Recorder#parseSourceResults(Instance, Object) the second-pass parsing which
+     * @see hudson.plugins.coverage.model.Recorder#reidentifySourceFiles(Instance, java.util.Set, java.io.File) the
+     *      first-pass parsing at report time which should register recorders.
+     * @see hudson.plugins.coverage.model.Recorder#parseSourceResults(Instance, Set, Object) the second-pass parsing which
      *      populates the parse results.
      */
-    public synchronized void addRecorder(Recorder recorder, Object memo) {
+    public synchronized void addRecorder(Recorder recorder, Set<File> measurementFiles, Object memo) {
+        recorder.getClass(); // throw NPE if null
+        measurementFiles.getClass(); // throw NPE if null
         if (!element.isFileLevel()) {
             throw new IllegalStateException("Cannot add a recorder except at the file level");
         }
+        if (recorders.containsKey(recorder)) {
+            throw new IllegalStateException("Cannot add a recorder except at the file level");
+        }
         recorders.put(recorder, memo);
+        Instance root = this.parent;
+        assert root != null : "The root element can never be source level";
+        assert this.measurementFiles != null;
+        synchronized (this.measurementFiles) {
+            this.measurementFiles.put(recorder, measurementFiles);
+        }
+        while (root.measurementFiles != null) {
+            root = root.parent;
+        }
+        synchronized (root.measurementFiles) {
+            if (root.measurementFiles.containsKey(recorder)) {
+                root.measurementFiles.get(recorder).addAll(measurementFiles);
+            } else {
+                root.measurementFiles.put(recorder, new HashSet<File>(measurementFiles));
+            }
+        }
     }
 
     /**
@@ -348,18 +373,6 @@ public class Instance {
                 root.sourceFiles.add(sourceFile);
             }
         }
-    }
-
-    /**
-     * Removes a recorder.
-     *
-     * @param recorder The recorder to remove.
-     */
-    public synchronized void removeRecorder(Recorder recorder) {
-        if (!element.isFileLevel()) {
-            throw new IllegalStateException("Cannot add a recorder except at the file level");
-        }
-        recorders.remove(recorder);
     }
 
     /**
