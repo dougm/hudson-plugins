@@ -3,6 +3,10 @@ package hudson.plugins.coverage;
 import hudson.tasks.Publisher;
 import hudson.model.*;
 import hudson.Launcher;
+import hudson.maven.MavenModule;
+import hudson.maven.MavenModuleSet;
+import hudson.plugins.helpers.AbstractPublisherImpl;
+import hudson.plugins.helpers.health.HealthMetric;
 
 import java.io.IOException;
 
@@ -14,17 +18,7 @@ import org.kohsuke.stapler.StaplerRequest;
  * @author Stephen Connolly
  * @since 1.0
  */
-public class CoveragePublisher extends Publisher {
-    /** {@inheritDoc} */
-    public boolean perform(Build<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
-        build.addAction(new CoverageBuildAction());
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    /** {@inheritDoc} */
-    public Action getProjectAction(Project project) {
-        return new CoverageProjectAction();  //To change body of implemented methods use File | Settings | File Templates.
-    }
+public class CoveragePublisher extends AbstractPublisherImpl {
 
     /** {@inheritDoc} */
     public Descriptor<Publisher> getDescriptor() {
@@ -38,12 +32,7 @@ public class CoveragePublisher extends Publisher {
     public static final DescriptorImpl DESCRIPTOR = new DescriptorImpl();
 
     /**
-     * Descriptor for {@link CoveragePublisher}. Used as a singleton. The class is marked as public so that it can be
-     * accessed from views.
-     * <p/>
-     * <p/>
-     * See <tt>views/hudson/plugins/clover/CloverPublisher/*.jelly</tt> for the actual HTML fragment for the
-     * configuration screen.
+     * Descriptor for {@link CoveragePublisher}.
      */
     public static final class DescriptorImpl extends Descriptor<Publisher> {
         /** Constructs a new DescriptorImpl. */
@@ -53,12 +42,16 @@ public class CoveragePublisher extends Publisher {
 
         /** {@inheritDoc} */
         public String getDisplayName() {
-            return "Record code coverage";  //To change body of implemented methods use File | Settings | File Templates.
+            return "Record code coverage";
         }
 
-        /** {@inheritDoc} */
-        public Publisher newInstance(StaplerRequest req) throws FormException {
-            return new CoveragePublisher();  //To change body of implemented methods use File | Settings | File Templates.
+        public boolean isApplicable(Class<? extends AbstractProject> aClass) {
+            return !MavenModuleSet.class.isAssignableFrom(aClass)
+                    && !MavenModule.class.isAssignableFrom(aClass);
+        }
+
+        public HealthMetric[] getMetrics() {
+            return CoverageHealthMetrics.values();
         }
     }
 }
