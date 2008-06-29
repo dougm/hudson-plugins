@@ -3,9 +3,11 @@ package hudson.plugins.coverage.model;
 import hudson.plugins.coverage.model.measurements.BranchCoverage;
 import hudson.plugins.coverage.model.measurements.LineCoverage;
 
+import java.io.ObjectStreamException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * Represents a source code metric.
@@ -14,7 +16,7 @@ import java.util.Set;
  * @since 26-Jun-2008 17:04:11
  */
 public final class Metric implements Comparable<Metric> {
-    // ------------------------------ FIELDS ------------------------------
+// ------------------------------ FIELDS ------------------------------
 
     /**
      * Standard metric for line coverage.
@@ -78,15 +80,6 @@ public final class Metric implements Comparable<Metric> {
 // --------------------- GETTER / SETTER METHODS ---------------------
 
     /**
-     * Getter for property 'name'.
-     *
-     * @return Value for property 'name'.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
      * Getter for property 'clazz'.
      *
      * @return Value for property 'clazz'.
@@ -95,7 +88,16 @@ public final class Metric implements Comparable<Metric> {
         return clazz;
     }
 
-    // ------------------------ CANONICAL METHODS ------------------------
+    /**
+     * Getter for property 'name'.
+     *
+     * @return Value for property 'name'.
+     */
+    public String getName() {
+        return name;
+    }
+
+// ------------------------ CANONICAL METHODS ------------------------
 
     /**
      * {@inheritDoc}
@@ -106,9 +108,7 @@ public final class Metric implements Comparable<Metric> {
 
         Metric element = (Metric) o;
 
-        if (!name.equals(element.name)) return false;
-
-        return true;
+        return name.equals(element.name);
     }
 
     /**
@@ -129,6 +129,24 @@ public final class Metric implements Comparable<Metric> {
         return name.compareTo(that.name);
     }
 
+// -------------------------- OTHER METHODS --------------------------
+
+    /**
+     * Ensure that instances are deserialized correctly.
+     *
+     * @return The deserialized instance.
+     * @throws ObjectStreamException never.
+     */
+    private Object readResolve() throws ObjectStreamException {
+        for (Metric alternatives : SingletonHolder.ALL_METRICS) {
+            if (alternatives.name.equals(name)) {
+                return alternatives;
+            }
+        }
+        SingletonHolder.ALL_METRICS.add(this);
+        return this;
+    }
+
 // -------------------------- INNER CLASSES --------------------------
 
     /**
@@ -140,7 +158,7 @@ public final class Metric implements Comparable<Metric> {
         /**
          * The collection of metrics.
          */
-        private static final Set<Metric> ALL_METRICS = new HashSet<Metric>();
+        private static final Set<Metric> ALL_METRICS = new CopyOnWriteArraySet<Metric>();
 
 // --------------------------- CONSTRUCTORS ---------------------------
 
