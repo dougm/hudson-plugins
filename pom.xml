@@ -193,7 +193,7 @@
         <module>trac</module>
         <module>twitter</module>
         <module>violations</module>
-        <module>vmware</module>
+        <!--module>vmware</module-->
         <module>vss</module>
         <module>warnings</module>
         <module>webtestpresenter</module>
