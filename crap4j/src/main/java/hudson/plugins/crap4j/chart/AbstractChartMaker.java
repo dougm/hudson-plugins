@@ -41,12 +41,15 @@ public abstract class AbstractChartMaker {
         domainAxis.setLowerMargin(0.0);
         domainAxis.setUpperMargin(0.0);
         domainAxis.setCategoryMargin(0.0);
-
-        final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-        rangeAxis.setLowerBound(0);
+        
+        setupRangeAxis((NumberAxis) plot.getRangeAxis());
 
         // crop extra space around the graph
         plot.setInsets(new RectangleInsets(PADDING, 0, 0, PADDING));
+	}
+	
+	protected void setupRangeAxis(NumberAxis rangeAxis) {
+        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        rangeAxis.setLowerBound(0);
 	}
 }

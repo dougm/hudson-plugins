@@ -8,11 +8,12 @@ import org.jfree.data.category.CategoryDataset;
 
 public class CrapDataSet {
 	
-	private static class Row implements Comparable<Row> {
+	public static class Row implements Comparable<Row> {
 		private final String tag;
 		private final int number;
 
 		public Row(String tag, int number) {
+			super();
 			this.tag = tag;
 			this.number = number;
 		}
@@ -31,6 +32,7 @@ public class CrapDataSet {
 	private final CrapBuildResult report;
 
 	public CrapDataSet(CrapBuildResult report) {
+		super();
 		this.report = report;
 	}
 

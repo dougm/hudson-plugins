@@ -6,6 +6,7 @@ import java.awt.BasicStroke;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
@@ -38,5 +39,11 @@ public class LineChartMaker extends AbstractChartMaker {
         LineAndShapeRenderer renderer = (LineAndShapeRenderer) plot.getRenderer();
         renderer.setBaseStroke(new BasicStroke(2.0f));
         ColorPalette.apply(renderer);
+	}
+	
+	@Override
+	protected void setupRangeAxis(NumberAxis rangeAxis) {
+		super.setupRangeAxis(rangeAxis);
+		rangeAxis.setStandardTickUnits(NumberAxis.createStandardTickUnits());
 	}
 }
