@@ -3,6 +3,7 @@ package hudson.plugins.coverage.model;
 import hudson.plugins.coverage.model.measurements.BranchCoverage;
 import hudson.plugins.coverage.model.measurements.LineCoverage;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -48,6 +49,15 @@ public final class Metric implements Comparable<Metric> {
         Metric result = new Metric(name, clazz);
         SingletonHolder.ALL_METRICS.add(result);
         return result;
+    }
+
+    /**
+     * Returns all the metrics.
+     *
+     * @return a read-only copy of all the metrics.
+     */
+    public static Set<Metric> values() {
+        return Collections.unmodifiableSet(new HashSet<Metric>(SingletonHolder.ALL_METRICS));
     }
 
 // --------------------------- CONSTRUCTORS ---------------------------
