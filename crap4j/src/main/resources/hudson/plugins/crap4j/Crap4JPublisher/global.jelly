@@ -1,0 +1,26 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <!--
+    This Jelly script is used to produce the global configuration option.
+
+    Hudson uses a set of tag libraries to provide uniformity in forms.
+    To determine where this tag is defined, first check the namespace URI,
+    and then look under $HUDSON/views/. For example, <f:section> is defined
+    in $HUDSON/views/lib/form/section.jelly.
+
+    It's also often useful to just check other similar scripts to see what
+    tags they use. Views are always organized according to its owner class,
+    so it should be straightforward to find them.
+  -->
+  <f:section title="IRC Notification">
+    <!--
+      optional @help points to the help document HTML. ${rootURL}/plugin/hello-world
+      is mapped to our resources/ directory, so this is a convenient way to serve
+      static resources.
+    -->
+    <f:entry title="Health threshold (in percent)"
+      description="The threshold of crappyness percentage when the build health reaches 0%"
+      help="/plugin/crap4j/help-globalConfigHealthThreshold.html">
+      <f:textbox name="crap_publisher.health.threshold" value="${descriptor.getHealthBuilder().getThreshold()}" />
+    </f:entry>
+  </f:section>
+</j:jelly>

@@ -1,12 +1,19 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
          xmlns:d="jelly:define" xmlns:l="/lib/layout"
-         xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-
-  <f:entry
-    title="XML Crap Report filename pattern"
-    description="The pattern to look for crap xml reports"
-    help="/plugin/crap4j/help-config-crapreport.html"
+         xmlns:t="/lib/hudson" xmlns:f="/lib/form"
+>
+	<f:entry
+	    title="XML Crap Report filename pattern"
+	    description="The pattern to look for crap xml reports"
+	    help="/plugin/crap4j/help-config-crapreport.html"
     >
-    <f:textbox name="crap_reportPattern" value="${instance.reportPattern}"/>
-  </f:entry>
+    	<f:textbox name="crap_reportPattern" value="${instance.reportPattern}"/>
+	</f:entry>
+	<f:entry
+  		title="Health threshold (in percent)"
+	    description="The threshold of crappyness percentage when the build health reaches 0%"
+    	help="/plugin/crap4j/help-instanceConfigHealthThreshold.html"
+	>
+    	<f:textbox name="crap_healthThreshold" value="${instance.healthThreshold}"/>
+	</f:entry>
 </j:jelly>

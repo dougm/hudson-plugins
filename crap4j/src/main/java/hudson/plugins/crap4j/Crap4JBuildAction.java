@@ -22,12 +22,15 @@ public class Crap4JBuildAction implements StaplerProxy, HealthReportingAction {
 	private static final long serialVersionUID = 8586323795728749743L;
 	private final CrapBuildResult crapResult;
 	private final AbstractBuild<?, ?> build;
+	private transient HealthBuilder healthBuilder;
 	
 	public Crap4JBuildAction(AbstractBuild<?, ?> owner,
-			CrapBuildResult crapResult) {
+			CrapBuildResult crapResult,
+			HealthBuilder healthBuilder) {
 		super();
 		this.build = owner;
 		this.crapResult = crapResult;
+		this.healthBuilder = healthBuilder;
 	}
 	
 	//@Override
@@ -64,7 +67,10 @@ public class Crap4JBuildAction implements StaplerProxy, HealthReportingAction {
 	
 	//@Override
 	public HealthReport getBuildHealth() {
-		return (new HealthBuilder().getHealthReportFor(getCrap()));
+		if (null == this.healthBuilder) {
+			this.healthBuilder = Crap4JPublisher.DESCRIPTOR.getHealthBuilder();
+		}
+		return (this.healthBuilder.getHealthReportFor(getCrap()));
 	}
 	
     public final void doGraphMap(final StaplerRequest request, final StaplerResponse response) throws IOException {
