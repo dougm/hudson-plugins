@@ -143,6 +143,7 @@
         <!--module>coverage</module--><!-- not ready for release yet -->
 	     <module>cvs-tag</module>
         <module>deploy</module>
+	<module>disk-usage</module>
         <module>email-ext</module>
         <module>emma</module>
         <module>emotional-hudson</module>
