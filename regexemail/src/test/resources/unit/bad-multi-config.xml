@@ -8,12 +8,8 @@
 <com.mtvi.plateng.hudson.regex.MultiConfiguration>
     <configurations>
         <com.mtvi.plateng.hudson.regex.Configuration>
-            <userNameExpression>(.*) (.*) (.*)</userNameExpression>
+            <userNameExpression>(.*) (*) (.*)</userNameExpression>
             <emailAddressPattern>%s.%s-%s@foo.com</emailAddressPattern>
-        </com.mtvi.plateng.hudson.regex.Configuration>
-        <com.mtvi.plateng.hudson.regex.Configuration>
-            <userNameExpression>(.*) (.*)</userNameExpression>
-            <emailAddressPattern>%s.%s@foo.com</emailAddressPattern>
         </com.mtvi.plateng.hudson.regex.Configuration>
     </configurations>
 </com.mtvi.plateng.hudson.regex.MultiConfiguration>

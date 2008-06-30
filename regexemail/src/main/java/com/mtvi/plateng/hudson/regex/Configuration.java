@@ -10,6 +10,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Class to store configuration for the plugin.
  * 
@@ -17,6 +19,26 @@ import java.util.regex.PatternSyntaxException;
  * 
  */
 public class Configuration implements IConfiguration {
+
+    /**
+     * Zero-argument constructor.
+     */
+    public Configuration() {
+    }
+
+    /**
+     * Constructor with two arguments.
+     * 
+     * @param userNameExpression
+     *            the user name expression (gets compiled to a regex)
+     * @param emailAddressPattern
+     *            the email address pattern
+     */
+    public Configuration(String userNameExpression, String emailAddressPattern) {
+        this.userNameExpression = userNameExpression;
+        this.emailAddressPattern = emailAddressPattern;
+        getUserNamePattern();
+    }
 
     /**
      * A logger object.
@@ -41,28 +63,15 @@ public class Configuration implements IConfiguration {
      */
     private Pattern userNamePattern;
 
-    public String getEmailAddressPattern() {
-        return emailAddressPattern;
-    }
-
-    public String getUserNameExpression() {
-        return userNameExpression;
-    }
-
     /**
+     * Configuration is valid if the user name pattern can be compiled and the
+     * email address pattern isn't blank.
+     * 
      * {@inheritDoc}
      */
     public boolean isValid() {
         getUserNamePattern();
-        return (userNamePattern != null) && (emailAddressPattern != null);
-    }
-
-    public void setEmailAddressPattern(String emailAddressPattern) {
-        this.emailAddressPattern = emailAddressPattern;
-    }
-
-    public void setUserNameExpression(String userNameExpression) {
-        this.userNameExpression = userNameExpression;
+        return (userNamePattern != null) && (StringUtils.isNotBlank(emailAddressPattern));
     }
 
     /**
@@ -72,7 +81,7 @@ public class Configuration implements IConfiguration {
      * @return the compiled Pattern.
      */
     protected Pattern getUserNamePattern() {
-        if (userNamePattern == null && userNameExpression != null) {
+        if (userNamePattern == null && StringUtils.isNotBlank(userNameExpression)) {
             try {
                 userNamePattern = Pattern.compile(userNameExpression);
             } catch (PatternSyntaxException e) {
@@ -87,6 +96,8 @@ public class Configuration implements IConfiguration {
      */
     public String findMailAddressFor(String userName) {
         if (isValid()) {
+            LOGGER.info(String.format("Attempting to match %s with regex %s", userName,
+                    userNameExpression));
             Matcher matcher = getUserNamePattern().matcher(userName);
             if (matcher.matches()) {
                 int groupCount = matcher.groupCount();
@@ -96,16 +107,23 @@ public class Configuration implements IConfiguration {
                 for (int i = 0; i < groupCount; i++) {
                     parts[i] = matcher.group(i + 1);
                 }
-                return String.format(getEmailAddressPattern(), parts);
+                String emailAddress = String.format(emailAddressPattern, parts);
+                LOGGER.info(String.format("Match for %s with regex %s, produced %s", userName,
+                        userNameExpression, emailAddress));
+                return emailAddress;
+            } else {
+                LOGGER.info(String.format("No match for %s with regex %s", userName,
+                        userNameExpression));
+
+                return null;
             }
         } else {
             LOGGER
                     .warning(String
                             .format(
                                     "RegExMailAddressResolver configuration for regex %s and email pattern %s is not valid.",
-                                    getUserNameExpression(), getEmailAddressPattern()));
+                                    userNameExpression, emailAddressPattern));
+            return null;
         }
-        return null;
     }
-
 }

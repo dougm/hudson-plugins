@@ -6,7 +6,6 @@ package com.mtvi.plateng.hudson.regex;
 
 import hudson.model.User;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
@@ -15,10 +14,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class BadConfigLoadTest {
+public class MissingConfigLoadTest {
 
     @Test
-    public void testBadConfig() throws IOException {
+    public void testMissingConfig() throws IOException {
         PluginImpl pi = new PluginImpl();
         Configuration config = (Configuration) pi.loadConfiguration();
         Assert.assertFalse(config.isValid());
@@ -35,8 +34,7 @@ public class BadConfigLoadTest {
 
     @Before
     public void setUp() throws Exception {
-        FileUtils.copyFile(new File("src/test/resources/unit/bad-config.xml"), new File(
-                HudsonUtil.root, RegexMailAddressResolver.class.getName() + ".xml"));
+        HudsonUtil.hudson.getRootUrl();
     }
 
     @After

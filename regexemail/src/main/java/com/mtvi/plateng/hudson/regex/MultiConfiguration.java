@@ -5,79 +5,60 @@ package com.mtvi.plateng.hudson.regex;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
 
 /**
+ * A MultiConfiguration object wraps some number of Configuration objects and
+ * will iterate through them (in order) to match a username and transform it to
+ * an email address.
+ * 
  * @author justinedelson
  * 
  */
 public class MultiConfiguration implements IConfiguration {
 
     /**
-     * A logger object.
+     * The list of configuration objects contained.
      */
-    private static final Logger LOGGER = Logger.getLogger(Configuration.class.getName());
-
-    private List<ConfigurationDetails> configurationDetails;
+    private List<Configuration> configurations;
 
     /**
      * {@inheritDoc}
      */
     public String findMailAddressFor(String userName) {
-        for (ConfigurationDetails details : configurationDetails) {
-            if (details.isValid()) {
-                LOGGER.info(String.format("Attempting to match %s with regex %s", userName, details
-                        .getUserNameExpression()));
-                Matcher matcher = details.getUserNamePattern().matcher(userName);
-                if (matcher.matches()) {
-                    int groupCount = matcher.groupCount();
-                    // This array is declared as an Object[] to ensure it's
-                    // passed correctly via varargs.
-                    Object[] parts = new String[groupCount + 1];
-                    for (int i = 0; i < groupCount; i++) {
-                        parts[i] = matcher.group(i + 1);
-                    }
-                    String emailAddress = String.format(details.getEmailAddressPattern(), parts);
-                    LOGGER.info(String.format("Match for %s with regex %s, produced", userName,
-                            details.getUserNameExpression(), emailAddress));
-                    return emailAddress;
-                } else {
-                    LOGGER.info(String.format("No match for %s with regex %s", userName, details
-                            .getUserNameExpression()));
-                }
-
-            } else {
-                LOGGER.warning(String.format(
-                        "RegExMailAddressResolver configuration for pattern %s is not valid.",
-                        details.getUserNameExpression()));
+        for (Configuration config : configurations) {
+            String address = config.findMailAddressFor(userName);
+            if (address != null) {
+                return address;
             }
         }
         return null;
     }
 
-    protected synchronized List<ConfigurationDetails> getConfigurationDetails() {
-        if (configurationDetails == null) {
-            configurationDetails = new ArrayList<ConfigurationDetails>();
-            configurationDetails.add(new ConfigurationDetails());
+    protected synchronized List<Configuration> getConfigurations() {
+        if (configurations == null) {
+            configurations = new ArrayList<Configuration>();
+            configurations.add(new Configuration());
         }
-        return configurationDetails;
+        return configurations;
     }
 
-    protected synchronized void addConfigurationDetails(ConfigurationDetails details) {
-        if (configurationDetails == null) {
-            configurationDetails = new ArrayList<ConfigurationDetails>();
-            configurationDetails.add(details);
+    protected synchronized void addConfiguration(Configuration config) {
+        if (configurations == null) {
+            configurations = new ArrayList<Configuration>();
         }
+        configurations.add(config);
     }
 
     /**
+     * A MultiConfiguration object is valid if at least one of the underlying
+     * Configuration objects is valid.
+     * 
      * {@inheritDoc}
      */
     public boolean isValid() {
         boolean retval = false;
-        for (ConfigurationDetails details : getConfigurationDetails()) {
-            retval = retval || details.isValid();
+        for (Configuration config : getConfigurations()) {
+            retval = retval || config.isValid();
         }
         return retval;
     }

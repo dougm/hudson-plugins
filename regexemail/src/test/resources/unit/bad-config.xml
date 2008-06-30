@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright (c) 2008, MTV Networks
+
+-->
+
+<com.mtvi.plateng.hudson.regex.Configuration>
+	<userNameExpression>(.*) (*)</userNameExpression>
+	<emailAddressPattern>%s.%s@foo.com</emailAddressPattern>
+</com.mtvi.plateng.hudson.regex.Configuration>
