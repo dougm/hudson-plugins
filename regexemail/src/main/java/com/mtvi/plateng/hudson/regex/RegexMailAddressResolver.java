@@ -8,7 +8,6 @@ import hudson.model.User;
 import hudson.tasks.MailAddressResolver;
 
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
 
 /**
  * Implementation of hudson.tasks.MailAddressResolver that looks up the email
@@ -27,7 +26,7 @@ public class RegexMailAddressResolver extends MailAddressResolver {
     /**
      * Configuration object encapsulating how to connect to the LDAP server.
      */
-    private Configuration configuration;
+    private IConfiguration configuration;
 
     /**
      * Build an instance wrapping a Configuration object.
@@ -35,7 +34,7 @@ public class RegexMailAddressResolver extends MailAddressResolver {
      * @param config
      *            the Configuration object
      */
-    public RegexMailAddressResolver(Configuration config) {
+    public RegexMailAddressResolver(IConfiguration config) {
         configuration = config;
     }
 
@@ -44,31 +43,7 @@ public class RegexMailAddressResolver extends MailAddressResolver {
      */
     @Override
     public String findMailAddressFor(User user) {
-        return findMailAddressFor(user.getDisplayName());
+        return configuration.findMailAddressFor(user.getDisplayName());
     }
 
-    /**
-     * Transform a username into a email address using regular expressions and
-     * java.lang.String.format().
-     * 
-     * @param userName
-     *            the user's username
-     * @return the corresponding email address
-     */
-    protected String findMailAddressFor(String userName) {
-        if (configuration.isValid()) {
-            Matcher matcher = configuration.getUserNamePattern().matcher(userName);
-            if (matcher.matches()) {
-                int groupCount = matcher.groupCount();
-                // This array is declared as an Object[] to ensure it's passed
-                // correctly via varargs.
-                Object[] parts = new String[groupCount + 1];
-                for (int i = 0; i < groupCount; i++) {
-                    parts[i] = matcher.group(i + 1);
-                }
-                return String.format(configuration.getEmailAddressPattern(), parts);
-            }
-        }
-        return null;
-    }
 }

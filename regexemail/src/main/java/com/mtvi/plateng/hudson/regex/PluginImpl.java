@@ -31,7 +31,7 @@ public class PluginImpl extends Plugin {
      */
     @Override
     public void start() throws Exception {
-        Configuration config = loadConfiguration();
+        IConfiguration config = loadConfiguration();
         MailAddressResolver.LIST.add(new RegexMailAddressResolver(config));
     }
 
@@ -43,14 +43,14 @@ public class PluginImpl extends Plugin {
      * @throws IOException
      *             if the file can't be read.
      */
-    protected Configuration loadConfiguration() throws IOException {
+    protected IConfiguration loadConfiguration() throws IOException {
         Hudson hudson = Hudson.getInstance();
         File rootDirectory = hudson.getRootDir();
         String fileName = RegexMailAddressResolver.class.getName() + ".xml";
         XmlFile xmlFile = new XmlFile(Hudson.XSTREAM, new File(rootDirectory, fileName));
-        Configuration config = null;
+        IConfiguration config = null;
         if (xmlFile.exists()) {
-            config = (Configuration) xmlFile.read();
+            config = (IConfiguration) xmlFile.read();
         } else {
             config = new Configuration();
         }

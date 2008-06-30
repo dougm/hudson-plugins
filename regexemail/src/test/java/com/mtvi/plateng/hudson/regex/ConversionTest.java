@@ -10,8 +10,6 @@ public class ConversionTest {
         Configuration config = new Configuration();
         config.setUserNameExpression("(.*) (.*)");
         config.setEmailAddressPattern("%s.%s@test.com");
-        RegexMailAddressResolver resolver = new RegexMailAddressResolver(config);
-        Assert.assertEquals("justin.edelson@test.com", resolver
-                .findMailAddressFor("justin edelson"));
+        Assert.assertEquals("justin.edelson@test.com", config.findMailAddressFor("justin edelson"));
     }
 }

@@ -6,6 +6,7 @@ package com.mtvi.plateng.hudson.regex;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -15,7 +16,7 @@ import java.util.regex.PatternSyntaxException;
  * @author justinedelson
  * 
  */
-public class Configuration {
+public class Configuration implements IConfiguration {
 
     /**
      * A logger object.
@@ -49,9 +50,7 @@ public class Configuration {
     }
 
     /**
-     * Determine if this configuration object is valid.
-     * 
-     * @return true if this object is valid
+     * {@inheritDoc}
      */
     public boolean isValid() {
         getUserNamePattern();
@@ -81,6 +80,32 @@ public class Configuration {
             }
         }
         return userNamePattern;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String findMailAddressFor(String userName) {
+        if (isValid()) {
+            Matcher matcher = getUserNamePattern().matcher(userName);
+            if (matcher.matches()) {
+                int groupCount = matcher.groupCount();
+                // This array is declared as an Object[] to ensure it's passed
+                // correctly via varargs.
+                Object[] parts = new String[groupCount + 1];
+                for (int i = 0; i < groupCount; i++) {
+                    parts[i] = matcher.group(i + 1);
+                }
+                return String.format(getEmailAddressPattern(), parts);
+            }
+        } else {
+            LOGGER
+                    .warning(String
+                            .format(
+                                    "RegExMailAddressResolver configuration for regex %s and email pattern %s is not valid.",
+                                    getUserNameExpression(), getEmailAddressPattern()));
+        }
+        return null;
     }
 
 }
