@@ -1,4 +1,8 @@
 /**
+ * Copyright (c) 2008, MTV Networks
+ */
+
+/**
  * 
  */
 package com.mtvi.plateng.hudson.regex;
