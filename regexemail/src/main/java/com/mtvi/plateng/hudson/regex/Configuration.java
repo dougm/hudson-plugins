@@ -21,26 +21,6 @@ import org.apache.commons.lang.StringUtils;
 public class Configuration implements IConfiguration {
 
     /**
-     * Zero-argument constructor.
-     */
-    public Configuration() {
-    }
-
-    /**
-     * Constructor with two arguments.
-     * 
-     * @param userNameExpression
-     *            the user name expression (gets compiled to a regex)
-     * @param emailAddressPattern
-     *            the email address pattern
-     */
-    public Configuration(String userNameExpression, String emailAddressPattern) {
-        this.userNameExpression = userNameExpression;
-        this.emailAddressPattern = emailAddressPattern;
-        getUserNamePattern();
-    }
-
-    /**
      * A logger object.
      */
     private static final Logger LOGGER = Logger.getLogger(Configuration.class.getName());
@@ -64,31 +44,23 @@ public class Configuration implements IConfiguration {
     private Pattern userNamePattern;
 
     /**
-     * Configuration is valid if the user name pattern can be compiled and the
-     * email address pattern isn't blank.
-     * 
-     * {@inheritDoc}
+     * Zero-argument constructor.
      */
-    public boolean isValid() {
-        getUserNamePattern();
-        return (userNamePattern != null) && (StringUtils.isNotBlank(emailAddressPattern));
+    public Configuration() {
     }
 
     /**
-     * If necessary, compile the userNameExpression property into a RegEx
-     * pattern.
+     * Constructor with two arguments.
      * 
-     * @return the compiled Pattern.
+     * @param userNameExpression
+     *            the user name expression (gets compiled to a regex)
+     * @param emailAddressPattern
+     *            the email address pattern
      */
-    protected Pattern getUserNamePattern() {
-        if (userNamePattern == null && StringUtils.isNotBlank(userNameExpression)) {
-            try {
-                userNamePattern = Pattern.compile(userNameExpression);
-            } catch (PatternSyntaxException e) {
-                LOGGER.log(Level.WARNING, "Bad username expression: " + userNameExpression, e);
-            }
-        }
-        return userNamePattern;
+    public Configuration(String userNameExpression, String emailAddressPattern) {
+        this.userNameExpression = userNameExpression;
+        this.emailAddressPattern = emailAddressPattern;
+        getUserNamePattern();
     }
 
     /**
@@ -125,5 +97,33 @@ public class Configuration implements IConfiguration {
                                     userNameExpression, emailAddressPattern));
             return null;
         }
+    }
+
+    /**
+     * Configuration is valid if the user name pattern can be compiled and the
+     * email address pattern isn't blank.
+     * 
+     * {@inheritDoc}
+     */
+    public boolean isValid() {
+        getUserNamePattern();
+        return (userNamePattern != null) && (StringUtils.isNotBlank(emailAddressPattern));
+    }
+
+    /**
+     * If necessary, compile the userNameExpression property into a RegEx
+     * pattern.
+     * 
+     * @return the compiled Pattern.
+     */
+    protected Pattern getUserNamePattern() {
+        if (userNamePattern == null && StringUtils.isNotBlank(userNameExpression)) {
+            try {
+                userNamePattern = Pattern.compile(userNameExpression);
+            } catch (PatternSyntaxException e) {
+                LOGGER.log(Level.WARNING, "Bad username expression: " + userNameExpression, e);
+            }
+        }
+        return userNamePattern;
     }
 }
