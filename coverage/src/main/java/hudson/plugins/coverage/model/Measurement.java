@@ -7,4 +7,5 @@ package hudson.plugins.coverage.model;
  * @since 26-Jun-2008 22:02:09
  */
 public interface Measurement {
+    float getPercentValue();
 }

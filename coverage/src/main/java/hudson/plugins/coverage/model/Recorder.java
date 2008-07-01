@@ -1,6 +1,7 @@
 package hudson.plugins.coverage.model;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Set;
  * @author Stephen Connolly
  * @since 27-Jun-2008 17:13:08
  */
-public interface Recorder {
+public interface Recorder extends Serializable {
 
     /**
      * Find all the source code files.
