@@ -75,6 +75,12 @@ public class JNUploaderPublisher extends Publisher {
                     build.setResult(Result.FAILURE);
                     return true;
                 }
+                if(e.filePath.contains("/servlets/ProjectDocumentList?")) {
+                    // some people tried to specify URL here
+                    listener.getLogger().println("Configuration error: specify a folder path like '/foo/bar/zot' in the destination, not URL");
+                    build.setResult(Result.FAILURE);
+                }
+
                 listener.getLogger().println("Uploading "+e.sourceFile+" to java.net");
 
                 String expanded = Util.replaceMacro(e.sourceFile, envVars);
