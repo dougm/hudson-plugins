@@ -142,10 +142,6 @@ public class Gant extends Builder {
             return true;
         }
 
-        public Builder newInstance(StaplerRequest req) {
-            return req.bindParameters(Gant.class,"gant.");
-        }
-
     //
     // web methods
     //
