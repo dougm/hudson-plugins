@@ -29,8 +29,11 @@ import org.kohsuke.stapler.StaplerResponse;
  * @author Adam Ambrose
  */
 public class WebtestPublisher extends Publisher implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+    // Uncomment for debugging:
+    //private static final Logger LOG = 
+    //    Logger.getLogger(WebtestPublisher.class.getName());
+    private static final String WEBTEST_REPORTS = "webtestReports";
+	private static final long serialVersionUID = 1L;
     private final String webtestResultsSrcDir;
 
     WebtestPublisher(String webtestResultsSrcDir) {
@@ -47,28 +50,44 @@ public class WebtestPublisher extends Publisher implements Serializable {
      * Gets the directory where the latest Webtest results are stored for the
      * given project.
      */
-    private static File getWebtestReportDir(AbstractBuild<?,?> build) {
-        return new File(build.getArtifactsDir(), "webtestReports");
+    private static FilePath getWebtestReportDir(AbstractBuild<?,?> build) {
+        //return new File(build.getArtifactsDir(), "webtestReports");
+        return new FilePath(
+                new File(build.getRootDir(), WEBTEST_REPORTS));
     }
 
     public boolean perform(AbstractBuild<?,?> build, Launcher launcher,
                            BuildListener listener) throws InterruptedException {
-        // this also shows how you can consult the global configuration of the
-        // builder
-        listener.getLogger().println("Publishing webtest results: "
-                                     + webtestResultsSrcDir);
 
+        // TODO: does time check need to account for running on slave?
+        // see hudson.tasks.junit.JUnitResultsArchiver
+        final long buildTime = build.getTimestamp().getTimeInMillis();
+        
         FilePath webtestResults =
             build.getParent().getWorkspace().child(webtestResultsSrcDir);
-        FilePath target = new FilePath(getWebtestReportDir(build));
+        FilePath target = getWebtestReportDir(build);
         Action action = null;
 
         try {
-            if(build.getResult().isWorseOrEqualTo(Result.FAILURE) ||
-               !webtestResults.exists())
+            if (!webtestResults.exists()) {
                 return true;
+            }
+            // Check if the results are stale.  If not, copy them over
+            // anyways.
+            if (build.getResult().isWorseOrEqualTo(Result.FAILURE) &&
+                    buildTime + 1000 /*error margin*/ >
+                    webtestResults.lastModified()) {
+                listener.getLogger().println(
+                        "Webtest reports are stale.  Not publishing.");
+                return true;
+            }
 
-            webtestResults.copyRecursiveTo("**/*",target);
+            StringBuffer msgBuf = new StringBuffer("Publishing webtest results: ");
+            msgBuf.append(webtestResultsSrcDir);
+            msgBuf.append(" to: ");
+            msgBuf.append(target);
+            listener.getLogger().println(msgBuf.toString());
+            webtestResults.copyRecursiveTo("**/*", target);
             action = new WebtestReportAction(build);
         } catch (IOException e) {
             Util.displayIOException(e,listener);
@@ -168,17 +187,14 @@ public class WebtestPublisher extends Publisher implements Serializable {
             this.build = build;
         }
 
-        @Override
         public String getUrlName() {
             return "webtestResults";
         }
 
-        @Override
         public String getDisplayName() {
             return "Webtest Results";
         }
 
-        @Override
         public String getIconFileName() {
             return "clipboard.gif";
         }
@@ -192,10 +208,11 @@ public class WebtestPublisher extends Publisher implements Serializable {
 
         public void doDynamic(StaplerRequest req, StaplerResponse rsp)
             throws IOException, ServletException, InterruptedException {
+
             if(this.build != null) {
                 new DirectoryBrowserSupport(this, "webtest")
                     .serveFile(req, rsp,
-                               new FilePath(getWebtestReportDir(this.build)),
+                               getWebtestReportDir(this.build),
                                "clipboard.gif", false);
             }
         }
