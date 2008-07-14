@@ -9,5 +9,5 @@
   
   <artifactId>webtestpresenter</artifactId>
   <packaging>hpi</packaging>
-  <version>0.21-SNAPSHOT</version>
+  <version>0.22-SNAPSHOT</version>
 </project>
