@@ -9,11 +9,5 @@
   
   <artifactId>webtestpresenter</artifactId>
   <packaging>hpi</packaging>
-  <version>0.22</version>
-
-  <scm>
-    <connection>scm:svn:https://guest@svn.dev.java.net/svn/hudson/tags/webtestpresenter-0.22</connection>
-    <developerConnection>scm:svn:https://svn.dev.java.net/svn/hudson/tags/webtestpresenter-0.22</developerConnection>
-    <url>https://hudson.dev.java.net/source/browse/hudson/hudson/plugins/webtestpresenter/tags/webtestpresenter-0.22</url>
-  </scm>
+  <version>0.23-SNAPSHOT</version>
 </project>
