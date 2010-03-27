@@ -22,15 +22,19 @@ public class IPhoneJobTest {
     FreeStyleProject mockProject;
 
     /**
-     * Test of getChangedBuilds method, of class IPhoneJob.
+     * Test of getChangedBuildsAll method, of class IPhoneJob.
      */
     @Test
-    public void testGetChangedBuilds() {
+    public void testGetChangedBuildsAll() {
 
         new Expectations() {
+
             FreeStyleBuild mockBuild;
+
             ChangeLogSet<? extends ChangeLogSet.Entry> mockChangeLogSet;
+
             ChangeLogSet.Entry mockEntry;
+
             {
                 List<FreeStyleBuild> builds = new ArrayList<FreeStyleBuild>();
                 builds.add(mockBuild);
@@ -43,109 +47,37 @@ public class IPhoneJobTest {
 
                 List<ChangeLogSet.Entry> list = new ArrayList<ChangeLogSet.Entry>();
                 list.add(mockEntry);
-                
+
                 mockChangeLogSet.iterator();
                 returns(list.iterator());
             }
         };
 
         IPhoneJob<FreeStyleProject, FreeStyleBuild> job = new IPhoneJob<FreeStyleProject, FreeStyleBuild>(mockProject);
-        List<FreeStyleBuild> builds = job.getChangedBuilds(1);
+        List<FreeStyleBuild> builds = job.getChangedBuildsAll();
 
         assertNotNull(builds);
         assertEquals(1, builds.size());
     }
 
     /**
-     * Test of getChangedBuilds method, of class IPhoneJob.
+     * Test of getChangedBuildsAll method, of class IPhoneJob.
      */
     @Test
-    public void testGetChangedBuilds_ManyBuilds() {
-
-
-        new Expectations() {
-            FreeStyleBuild mockBuild;
-            ChangeLogSet<? extends ChangeLogSet.Entry> mockChangeLogSet;
-            ChangeLogSet.Entry mockEntry;
-            {
-                List<FreeStyleBuild> builds = new ArrayList<FreeStyleBuild>();
-                builds.add(mockBuild);
-                builds.add(mockBuild);
-                builds.add(mockBuild);
-
-                mockProject.getBuilds();
-                returns(builds);
-
-                for (int i = 0; i < 3; i++) {
-                    mockBuild.getChangeSet();
-                    returns(mockChangeLogSet);
-
-                    List<ChangeLogSet.Entry> list = new ArrayList<ChangeLogSet.Entry>();
-                    list.add(mockEntry);
-                    mockChangeLogSet.iterator();
-                    returns(list.iterator());
-                }
-            }
-        };
-
-        IPhoneJob<FreeStyleProject, FreeStyleBuild> job = new IPhoneJob<FreeStyleProject, FreeStyleBuild>(mockProject);
-        List<FreeStyleBuild> builds = job.getChangedBuilds(2);
-
-        assertNotNull(builds);
-        assertEquals(2, builds.size());
-    }
-
-    /**
-     * Test of getChangedBuilds method, of class IPhoneJob.
-     */
-    @Test
-    public void testGetChangedBuilds_FewBuilds() {
+    public void testGetChangedBuildsAll_HasNoChangedBuild() {
 
         new Expectations() {
+
             FreeStyleBuild mockBuild;
-            ChangeLogSet<? extends ChangeLogSet.Entry> mockChangeLogSet;
-            ChangeLogSet.Entry mockEntry;
-            {
-                List<FreeStyleBuild> builds = new ArrayList<FreeStyleBuild>();
-                builds.add(mockBuild);
-                builds.add(mockBuild);
-                builds.add(mockBuild);
 
-                mockProject.getBuilds();
-                returns(builds);
-
-                for (int i = 0; i < 3; i++) {
-                    mockBuild.getChangeSet();
-                    returns(mockChangeLogSet);
-
-                    List<ChangeLogSet.Entry> list = new ArrayList<ChangeLogSet.Entry>();
-                    list.add(mockEntry);
-
-                    mockChangeLogSet.iterator();
-                    returns(list.iterator());
-                }
-            }
-        };
-
-        IPhoneJob<FreeStyleProject, FreeStyleBuild> job = new IPhoneJob<FreeStyleProject, FreeStyleBuild>(mockProject);
-        List<FreeStyleBuild> builds = job.getChangedBuilds(5);
-
-        assertNotNull(builds);
-        assertEquals(3, builds.size());
-    }
-
-    /**
-     * Test of getChangedBuilds method, of class IPhoneJob.
-     */
-    @Test
-    public void testGetChangedBuilds_HasNoChangedBuild() {
-
-        new Expectations() {
-            FreeStyleBuild mockBuild;
             FreeStyleBuild mockNoChangedBuild;
+
             ChangeLogSet<? extends ChangeLogSet.Entry> mockChangeLogSet;
+
             ChangeLogSet<? extends ChangeLogSet.Entry> mockEmptyChangeLogSet;
+
             ChangeLogSet.Entry mockEntry;
+
             {
                 List<FreeStyleBuild> builds = new ArrayList<FreeStyleBuild>();
                 builds.add(mockBuild);
@@ -172,23 +104,26 @@ public class IPhoneJobTest {
         };
 
         IPhoneJob<FreeStyleProject, FreeStyleBuild> job = new IPhoneJob<FreeStyleProject, FreeStyleBuild>(mockProject);
-        List<FreeStyleBuild> builds = job.getChangedBuilds(2);
+        List<FreeStyleBuild> builds = job.getChangedBuildsAll();
 
         assertNotNull(builds);
         assertEquals(1, builds.size());
     }
 
     /**
-     * Test of getChangedBuilds method, of class IPhoneJob.
+     * Test of getChangedBuildsAll method, of class IPhoneJob.
      */
     @Test
-    public void testGetChangedBuilds_NoBuilds() {
-
+    public void testGetChangedBuildsAll_NoBuilds() {
 
         new Expectations() {
+
             FreeStyleBuild mockBuild;
+
             ChangeLogSet<? extends ChangeLogSet.Entry> mockChangeLogSet;
+
             ChangeLogSet.Entry mockEntry;
+
             {
                 List<FreeStyleBuild> builds = new ArrayList<FreeStyleBuild>();
 
@@ -198,11 +133,178 @@ public class IPhoneJobTest {
         };
 
         IPhoneJob<FreeStyleProject, FreeStyleBuild> job = new IPhoneJob<FreeStyleProject, FreeStyleBuild>(mockProject);
-        List<FreeStyleBuild> builds = job.getChangedBuilds(1);
+        List<FreeStyleBuild> builds = job.getChangedBuildsAll();
 
         assertNotNull(builds);
         assertTrue(builds.isEmpty());
     }
 
+    /**
+     * Test of getChangedBuilds method, of class IPhoneJob.
+     */
+    @Test
+    public void testGetChangedBuilds_MoreThanSize() {
+
+        new Expectations() {
+
+            FreeStyleBuild mockBuild;
+
+            ChangeLogSet<? extends ChangeLogSet.Entry> mockChangeLogSet;
+
+            ChangeLogSet.Entry mockEntry;
+
+            {
+                List<FreeStyleBuild> builds = new ArrayList<FreeStyleBuild>();
+                builds.add(mockBuild);
+                builds.add(mockBuild);
+
+                mockProject.getBuilds();
+                returns(builds);
+
+                for (FreeStyleBuild build : builds) {
+                    mockBuild.getChangeSet();
+                    returns(mockChangeLogSet);
+
+                    List<ChangeLogSet.Entry> list = new ArrayList<ChangeLogSet.Entry>();
+                    list.add(mockEntry);
+
+                    mockChangeLogSet.iterator();
+                    returns(list.iterator());
+                }
+            }
+        };
+
+        IPhoneJob<FreeStyleProject, FreeStyleBuild> job = new IPhoneJob<FreeStyleProject, FreeStyleBuild>(mockProject);
+        List<FreeStyleBuild> builds = job.getChangedBuilds(1);
+
+        assertNotNull(builds);
+        assertEquals(1, builds.size());
+    }
+
+    /**
+     * Test of getChangedBuilds method, of class IPhoneJob.
+     */
+    @Test
+    public void testGetChangedBuilds_LessThanSize() {
+
+        new Expectations() {
+
+            FreeStyleBuild mockBuild;
+
+            ChangeLogSet<? extends ChangeLogSet.Entry> mockChangeLogSet;
+
+            ChangeLogSet.Entry mockEntry;
+
+            {
+                List<FreeStyleBuild> builds = new ArrayList<FreeStyleBuild>();
+                builds.add(mockBuild);
+                builds.add(mockBuild);
+
+                mockProject.getBuilds();
+                returns(builds);
+
+                for (FreeStyleBuild build : builds) {
+                    mockBuild.getChangeSet();
+                    returns(mockChangeLogSet);
+
+                    List<ChangeLogSet.Entry> list = new ArrayList<ChangeLogSet.Entry>();
+                    list.add(mockEntry);
+
+                    mockChangeLogSet.iterator();
+                    returns(list.iterator());
+                }
+            }
+        };
+
+        IPhoneJob<FreeStyleProject, FreeStyleBuild> job = new IPhoneJob<FreeStyleProject, FreeStyleBuild>(mockProject);
+        List<FreeStyleBuild> builds = job.getChangedBuilds(3);
+
+        assertNotNull(builds);
+        assertEquals(2, builds.size());
+    }
+
+    /**
+     * Test of getChangedBuilds method, of class IPhoneJob.
+     */
+    @Test
+    public void testGetChangedBuilds_EqualSize() {
+
+        new Expectations() {
+
+            FreeStyleBuild mockBuild;
+
+            ChangeLogSet<? extends ChangeLogSet.Entry> mockChangeLogSet;
+
+            ChangeLogSet.Entry mockEntry;
+
+            {
+                List<FreeStyleBuild> builds = new ArrayList<FreeStyleBuild>();
+                builds.add(mockBuild);
+                builds.add(mockBuild);
+
+                mockProject.getBuilds();
+                returns(builds);
+
+                for (FreeStyleBuild build : builds) {
+                    mockBuild.getChangeSet();
+                    returns(mockChangeLogSet);
+
+                    List<ChangeLogSet.Entry> list = new ArrayList<ChangeLogSet.Entry>();
+                    list.add(mockEntry);
+
+                    mockChangeLogSet.iterator();
+                    returns(list.iterator());
+                }
+            }
+        };
+
+        IPhoneJob<FreeStyleProject, FreeStyleBuild> job = new IPhoneJob<FreeStyleProject, FreeStyleBuild>(mockProject);
+        List<FreeStyleBuild> builds = job.getChangedBuilds(2);
+
+        assertNotNull(builds);
+        assertEquals(2, builds.size());
+    }
+
+    /**
+     * Test of getChangedBuilds method, of class IPhoneJob.
+     */
+    @Test
+    public void testGetChangedBuilds_NegativeSize() {
+
+        new Expectations() {
+
+            FreeStyleBuild mockBuild;
+
+            ChangeLogSet<? extends ChangeLogSet.Entry> mockChangeLogSet;
+
+            ChangeLogSet.Entry mockEntry;
+
+            {
+                List<FreeStyleBuild> builds = new ArrayList<FreeStyleBuild>();
+                builds.add(mockBuild);
+                builds.add(mockBuild);
+
+                mockProject.getBuilds();
+                returns(builds);
+
+                for (FreeStyleBuild build : builds) {
+                    mockBuild.getChangeSet();
+                    returns(mockChangeLogSet);
+
+                    List<ChangeLogSet.Entry> list = new ArrayList<ChangeLogSet.Entry>();
+                    list.add(mockEntry);
+
+                    mockChangeLogSet.iterator();
+                    returns(list.iterator());
+                }
+            }
+        };
+
+        IPhoneJob<FreeStyleProject, FreeStyleBuild> job = new IPhoneJob<FreeStyleProject, FreeStyleBuild>(mockProject);
+        List<FreeStyleBuild> builds = job.getChangedBuilds(-1);
+
+        assertNotNull(builds);
+        assertEquals(0, builds.size());
+    }
 
 }
