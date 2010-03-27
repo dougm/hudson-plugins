@@ -318,7 +318,7 @@ public class EclipseBuckminsterBuilder extends Builder {
             FilePath path = project.getSomeWorkspace();
             if(path==null)
             	//we tried, but we couldn't get a workspace
-            	FormValidation.ok();
+            	return FormValidation.ok();
         	return path.validateRelativePath(value, true, true);
         }
 		

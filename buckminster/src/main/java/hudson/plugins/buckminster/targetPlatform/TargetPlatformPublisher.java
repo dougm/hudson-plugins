@@ -26,6 +26,7 @@ import hudson.model.FreeStyleProject;
 import hudson.model.Hudson;
 import hudson.model.Project;
 import hudson.model.Result;
+import hudson.model.DependencyGraph.Dependency;
 import hudson.plugins.buckminster.EclipseBuckminsterBuilder;
 import hudson.tasks.ArtifactArchiver;
 import hudson.tasks.BuildStepDescriptor;
@@ -148,12 +149,12 @@ public class TargetPlatformPublisher extends ArtifactArchiver implements
 									builder.getTargetPlatform().getFullName())) {
 						if (project instanceof MatrixConfiguration) {
 							//in case of a matrix configuration, the MatrixProject is the actual dependency, not the individual configurations
-							MatrixConfiguration matrixConfiguration = (MatrixConfiguration) project;
+//							MatrixConfiguration matrixConfiguration = (MatrixConfiguration) project;
 							MatrixProject matrix = (MatrixProject) project.getParent();
-							graph.addDependency(owner, matrix);
+							graph.addDependency(new Dependency(owner, matrix));
 						}
 						else{
-							graph.addDependency(owner, project);	
+							graph.addDependency(new Dependency(owner, project));	
 						}
 						
 					}
@@ -197,7 +198,7 @@ public class TargetPlatformPublisher extends ArtifactArchiver implements
 		 * Performs on-the-fly validation on the relative directory.
 		 */
 		public FormValidation doCheckArtifacts(
-				@AncestorInPath AbstractProject project,
+				@AncestorInPath AbstractProject<?,?> project,
 				@QueryParameter String value) throws IOException {
 			FilePath ws = project.getSomeWorkspace();
 			return ws != null ? ws.validateRelativeDirectory(value) : FormValidation.ok();

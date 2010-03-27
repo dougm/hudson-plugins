@@ -16,9 +16,7 @@ import hudson.plugins.buckminster.install.BuckminsterInstallable.Repository;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -73,7 +71,6 @@ public class CommandLineBuilder {
 	public List<String> buildCommands(AbstractBuild<?,?> build, BuildListener listener)
 			throws MalformedURLException, IOException, InterruptedException{
 
-
 		List<String> commandList = new ArrayList<String>();
 		hudsonWorkspaceRoot = new File(build.getWorkspace().absolutize().toURI().getPath());
 		// VM Options
@@ -110,17 +107,16 @@ public class CommandLineBuilder {
 		properties.putAll(build.getBuildVariables());
 		
 		addJVMProperties(commandList, properties);
-		String commandsPath = getCommandFilePath(build, properties);
+		FilePath commandsPath = getCommandFilePath(build, properties);
 		
 		addStarterParameters(build, commandList, properties);
 
 
 		 commandList.add("--loglevel");
 		 commandList.add(getLogLevel());
-
 		// Tell Buckminster about the command file
 		commandList.add("-S");
-		commandList.add(commandsPath);
+		commandList.add(commandsPath.absolutize().toURI().getPath());
 
 		//only write out commands if the user did not specify a custom command file
 		if(userCommandFile==null || userCommandFile.length()==0)
@@ -130,15 +126,15 @@ public class CommandLineBuilder {
 		return commandList;
 	}
 
-	private String getCommandFilePath(AbstractBuild<?, ?> build,
+	private FilePath getCommandFilePath(AbstractBuild<?, ?> build,
 			Map<String, String> properties) {
 		// the file listing all the commands since buckminster doesn't accept
 		// several commands as programm arguments
 		if(userCommandFile==null || userCommandFile.length()==0)
 		{
-			return new File(build.getRootDir(),"commands.txt").getAbsolutePath();
+			return build.getWorkspace().child("commands.txt");
 		}
-		return expandProperties(userCommandFile, properties);
+		return build.getWorkspace().child(expandProperties(userCommandFile, properties));
 
 	}
 
@@ -158,21 +154,9 @@ public class CommandLineBuilder {
 		return additionalParams;
 	}
 
-	private void writeCommandFile(String commandsPath, Map<String, String> properties)
-			throws IOException {
-		PrintWriter writer = null;
-		try {
-			writer = new PrintWriter(new FileWriter(commandsPath));
-
-			String[] commands = getCommands().split("[\n\r]+");
-			for (int i = 0; i < commands.length; i++) {
-
-					writer.println(expandProperties(commands[i],properties));
-			}
-		} finally {
-			if (writer != null)
-				writer.close();
-		}
+	private void writeCommandFile(FilePath commandsPath, Map<String, String> properties)
+			throws IOException, InterruptedException {
+		commandsPath.write(expandProperties(getCommands(), properties), "UTF-8");
 	}
 
 	private void addStarterParameters(AbstractBuild<?,?> build, List<String> commandList, Map<String, String> properties)
@@ -280,22 +264,25 @@ public class CommandLineBuilder {
 	 * @return the guess for the startup jar, or <code>null</code> if none was
 	 *         found
 	 * @throws IOException 
+	 * @throws InterruptedException 
 	 * @see EclipseBuckminsterBuilder#getEclipseHome()
 	 */
-	private String findEquinoxLauncher() throws IOException {
-		//TODO: make this behave in master/slave scenario
-		File pluginDir = new File(getInstallation().getHome() + "/plugins");
+	private String findEquinoxLauncher() throws IOException, InterruptedException {
+		FilePath installationHome =  Computer.currentComputer().getNode().createPath(getInstallation().getHome());
+		FilePath pluginDir = installationHome.child("plugins");
 		if(!pluginDir.exists())
 			throw new FileNotFoundException("No 'plugins' directory has been found in "+installation.getHome());
-		File[] plugins = pluginDir.listFiles();
-		for (int i = 0; i < plugins.length; i++) {
-			if (plugins[i].getName()
+		List<FilePath> plugins = pluginDir.list();
+		for (FilePath filePath : plugins) {
+			
+			
+			if (filePath.getName()
 					.startsWith("org.eclipse.equinox.launcher_")) {
-				return plugins[i].getAbsolutePath();
+				return filePath.absolutize().toURI().getPath();
 
 			}
 		}
-		throw new FileNotFoundException("No equinox launcher jar has been found in "+pluginDir.getCanonicalPath());
+		throw new FileNotFoundException("No equinox launcher jar has been found in "+pluginDir.getRemote());
 	}
 	
 	public static String createInstallScript(BuckminsterInstallable installable, FilePath toolDir, Node node, TaskListener log) throws MalformedURLException, IOException, InterruptedException
