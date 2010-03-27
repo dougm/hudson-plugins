@@ -4,9 +4,10 @@
     <j:forEach var="job" items="${items}" varStatus="status">
         <div id="job_${status.index}">
             <div class="toolbar">
-                <h1>${job.displayName}</h1>
+                <h1>${%Project}</h1>
                 <a class="button back" href="#">${%Top}</a>
             </div>
+            <p class="page_title">${job.displayName}</p>
             <st:include page="description.jelly" />
             <st:include page="buildHealth.jelly" />
             <st:include page="trend.jelly" />

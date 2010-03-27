@@ -6,9 +6,10 @@
         <iphone:main-panel>
             <div>
                 <div class="toolbar">
-                    <h1>${%Recent Changes} - ${job.displayName}</h1>
+                    <h1>${%Recent Changes}</h1>
                     <a class="button back" href="#">${%Job}</a>
                 </div>
+                <p class="page_title">${job.displayName}</p>
                 <j:set var="builds" value="${it.getChangedBuilds(5)}" />
                 <j:choose>
                     <j:when test="${empty(builds)}">
