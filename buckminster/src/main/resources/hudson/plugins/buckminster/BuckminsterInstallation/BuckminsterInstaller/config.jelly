@@ -1,0 +1,23 @@
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+  <!-- XXX t:label? -->
+  <f:entry title="${%Version}" field="id">
+    <j:choose>
+      <j:set var="tools" value="${descriptor.installables}"/>
+      <j:when test="${empty(tools)}">
+        <!-- if the list is not available, fall back to text box -->
+        <f:textbox />
+      </j:when>
+      <j:otherwise>
+        <select name="_.id">
+          <j:forEach var="tool" items="${tools}">
+            <f:option value="${tool.id}" selected="${tool.id==instance.id}">${tool.name}</f:option>
+          </j:forEach>
+        </select>
+      </j:otherwise>
+    </j:choose>
+  </f:entry>
+  <f:entry title="" field="update" help="${rootURL}/plugin/buckminster/help-update.html">
+    <f:checkbox/>
+    <label class="attach-previous">${%Update before build}</label>
+  </f:entry>
+</j:jelly>

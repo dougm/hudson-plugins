@@ -14,6 +14,8 @@ import hudson.model.DownloadService.Downloadable;
 import hudson.plugins.buckminster.command.CommandLineBuilder;
 import hudson.plugins.buckminster.install.BuckminsterInstallable;
 import hudson.plugins.buckminster.install.BuckminsterInstallable.BuckminsterInstallableList;
+import hudson.plugins.buckminster.install.BuckminsterInstallable.Feature;
+import hudson.plugins.buckminster.install.BuckminsterInstallable.Repository;
 import hudson.plugins.buckminster.util.ReadDelegatingTextFile;
 import hudson.slaves.NodeSpecific;
 import hudson.tools.DownloadFromUrlInstaller;
@@ -23,11 +25,19 @@ import hudson.tools.ToolInstaller;
 import hudson.tools.ToolProperty;
 import hudson.util.TextFile;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FilePermission;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import net.sf.json.JSONObject;
 
@@ -42,7 +52,7 @@ public class BuckminsterInstallation extends ToolInstallation implements Environ
 
 	private String version;
 	private String params;
-
+	
 	@DataBoundConstructor
 	public BuckminsterInstallation(String name, String home, String version, String params, List<ToolProperty<?>> properties) {
 		super(name, home, properties);
@@ -89,7 +99,7 @@ public class BuckminsterInstallation extends ToolInstallation implements Environ
 		
 		@Override
 		public List<? extends ToolInstaller> getDefaultInstallers() {
-			return Collections.singletonList(new BuckminsterInstaller(null));
+			return Collections.singletonList(new BuckminsterInstaller(null,false));
 		}
 //		
         // for compatibility reasons, the persistence is done by Ant.DescriptorImpl  
@@ -107,9 +117,12 @@ public class BuckminsterInstallation extends ToolInstallation implements Environ
 
 	public static class BuckminsterInstaller extends DownloadFromUrlInstaller {
 
+		private boolean update;
+		
 		@DataBoundConstructor
-		public BuckminsterInstaller(String id) {
+		public BuckminsterInstaller(String id, boolean update) {
 			super(id);
+			this.update = update;
 		}
 
 		@Override
@@ -118,36 +131,130 @@ public class BuckminsterInstallation extends ToolInstallation implements Environ
 			return null;
 		}
 		
+		public boolean isUpdate() {
+			return update;
+		}
+		
 		@Override
 		public FilePath performInstallation(ToolInstallation tool, Node node,
 				TaskListener log) throws IOException, InterruptedException {
 			FilePath director = super.performInstallation(tool, node, log);
 			FilePath buckminsterDir = director.child("buckminster");
+			FilePath directorDir = director.child("director");
+	        BuckminsterInstallable inst = (BuckminsterInstallable) getInstallable();
 			if(buckminsterDir.exists())
 			{
 		    	FilePath executableWin = buckminsterDir.child("buckminster.bat");
 		    	FilePath executableUnix = buckminsterDir.child("buckminster");
 		    	if(executableUnix.exists() || executableWin.exists())
-				//	here we could do an update...
-		    		return buckminsterDir;
+		    	{
+		    		if(isUpdate())
+		    		{
+		    			//it exists and should be updated so execute the update script
+		    			log.getLogger().println("Checking for Buckminster Updates");
+		    			Map<String, Set<String>> installedFeatures = readInstalledFeatures(buckminsterDir, log);
+		    			String command = CommandLineBuilder.createUpdateScript(inst, director, node, log, installedFeatures);
+		    			executeScript(node, log, directorDir, command);
+		    	        writeInstallationDetails(node,log,buckminsterDir,inst);
+		    		}
+		    		return buckminsterDir;	
+		    	}
 			}
-//	        FilePath expected = preferredLocation(tool, node);
-	        BuckminsterInstallable inst = (BuckminsterInstallable) getInstallable();
+
+			//the tool did not exist, so we install it freshly
 	        String command = CommandLineBuilder.createInstallScript(inst, director, node, log);
-	        FilePath script = buckminsterDir.createTextTempFile("hudson", ".sh", command);
+	        executeScript(node, log, buckminsterDir, command);
+	        writeInstallationDetails(node,log,buckminsterDir,inst);
+	        return buckminsterDir;
+			
+		}
+
+		private void writeInstallationDetails(Node node, TaskListener log,
+				FilePath buckminsterDir, BuckminsterInstallable inst) throws InterruptedException, IOException {
+			FilePath installedFeatures = buckminsterDir.child(".installedFeatures");
+			StringBuilder installed = new StringBuilder();
+			for (Repository repo : inst.repositories) {
+				installed.append(repo.url);
+				installed.append("\n");
+				for (Feature feature : repo.features) {
+					installed.append("-");
+					installed.append(feature.id);
+					installed.append("\n");
+				}
+			}
+			try {
+				installedFeatures.write(installed.toString(), "UTF-8");
+			} catch (InterruptedException e) {
+				installedFeatures.delete();
+				throw e;
+			}
+			
+		}
+		
+		/**
+		 * reads the contents of DIRECTOR_DIR/.installedFeatures and returns a map that 
+		 * contains the repository url as key and the set of features installed from that url as value
+		 * @param log 
+		 * @return
+		 * @throws IOException 
+		 * @throws InterruptedException 
+		 */
+		private Map<String, Set<String>> readInstalledFeatures(FilePath buckminsterDir, TaskListener log) throws IOException, InterruptedException
+		{
+			Map<String, Set<String>> installed = new HashMap<String, Set<String>>();
+			FilePath installedFeatures = buckminsterDir.child(".installedFeatures");
+			if(!installedFeatures.exists())
+			{
+				String message = "{0} is missing. This file contains the information which features have already been installed into buckminster. The Update will not be accurate without this file.";
+				message = MessageFormat.format(message, installedFeatures.toURI().getPath());
+				log.error(message);
+				return installed;
+			}
+			BufferedReader reader = new BufferedReader(new InputStreamReader(installedFeatures.read(),"UTF-8"));
+			String s = null;
+			String url = null;
+			Set<String> features = new HashSet<String>();
+			while((s=reader.readLine())!=null)
+			{
+				if(s.startsWith("-"))
+				{
+					features.add(s.substring(1));
+				}
+				else
+				{
+					if(url!=null && features.size()>0)
+					{
+						installed.put(url, features);
+						features = new HashSet<String>();
+					}
+					url = s;
+				}
+			}
+			if(url!=null && features.size()>0)
+			{
+				installed.put(url, features);
+				features = new HashSet<String>();
+			}
+			url = s;
+			return installed;
+		}
+
+		private void executeScript(Node node, TaskListener log,
+				FilePath directorDir, String command) throws IOException,
+				InterruptedException {
+			FilePath script = directorDir.createTextTempFile("hudson", ".sh", command);
 	        try {
 	            String[] cmd = {"sh", "-e", script.getRemote()};
-	            int r = node.createLauncher(log).launch().cmds(cmd).stdout(log).pwd(buckminsterDir).join();
+	            int r = node.createLauncher(log).launch().cmds(cmd).stdout(log).pwd(directorDir).join();
 	            if (r != 0) {
 	                throw new IOException("Command returned status " + r);
 	            }
 	        } finally {
 	            script.delete();
 	        }
-	        return buckminsterDir;
-			
 		}
 		
+
 		@Extension
 		public static final class DescriptorImpl extends
 				DownloadFromUrlInstaller.DescriptorImpl<BuckminsterInstaller> {
