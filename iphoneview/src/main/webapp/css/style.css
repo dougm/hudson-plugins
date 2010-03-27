@@ -21,3 +21,13 @@ pre.log {
     margin-right: 5px;
     white-space: pre-wrap;
 }
+
+.build_title {
+    font-size: 16pt;
+    font-weight: bold;
+}
+
+.changeset_author {
+    font-size: 12pt;
+}
+

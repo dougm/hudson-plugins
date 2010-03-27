@@ -12,25 +12,25 @@
                 <j:set var="builds" value="${it.getChangedBuilds(5)}" />
                 <j:choose>
                     <j:when test="${empty(builds)}">
-                        <ul class="form">
+                        <ul class="edgetoedge">
                             <li>${%No builds.}</li>
                         </ul>
                     </j:when>
                     <j:otherwise>
+                            <ul class="edgetoedge">
                         <j:forEach var="build" items="${builds}">
                             <j:set var="entries" value="${build.changeSet.iterator()}" />
-                            <ul class="form">
                                 <li>
                                     <img src="${resURL}/images/${iconSize}/${build.iconColor.image}" width="${iconWidth}" height="${iconHeight}" />
-                                    #${build.number} (<i:formatDate value="${build.timestamp.time}" type="both" dateStyle="medium" timeStyle="medium"/>)
+                                    <span class="build_title">#${build.number} (<i:formatDate value="${build.timestamp.time}" type="both" dateStyle="medium" timeStyle="medium"/>)</span>
                                 </li>
                                 <j:forEach var="entry" items="${entries}" >
-                                    <li>${entry.revision} - ${entry.author}<br/>
+                                    <li>${entry.revision} - <span class="changeset_author">${entry.author}</span><br/>
                                         <pre class="log">${entry.msg}</pre>
                                     </li>
                                 </j:forEach>
-                            </ul>
                         </j:forEach>
+                            </ul>
                     </j:otherwise>
                 </j:choose>
             </div>

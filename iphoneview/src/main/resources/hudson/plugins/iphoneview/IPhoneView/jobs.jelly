@@ -16,7 +16,7 @@
             </j:when>
 
             <j:otherwise>
-                <ul class="form">
+                <ul class="edgetoedge">
                     <j:forEach var="job" items="${items}" varStatus="status">
                         <j:set var="buildHealth" value="${job.buildHealth}"/>
                         <li class="arrow">
