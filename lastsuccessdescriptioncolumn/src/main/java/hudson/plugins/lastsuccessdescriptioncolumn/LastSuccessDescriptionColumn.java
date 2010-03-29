@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package hudson.plugins.lastsuccessversioncolumn;
+package hudson.plugins.lastsuccessdescriptioncolumn;
 
 import hudson.Extension;
 import hudson.model.Descriptor;
@@ -36,40 +36,31 @@ import net.sf.json.JSONObject;
 import org.kohsuke.stapler.StaplerRequest;
 
 /**
- * View column that shows the last success version by parsing it out of the build description or using the build number.
- * It also shows the date it succeeded.
+ * View column that shows the last success build description.
  * 
- * @author Adam Purkiss
+ * @author Stephen Connolly 
  */
-public class LastSuccessVersionColumn extends ListViewColumn {
+public class LastSuccessDescriptionColumn extends ListViewColumn {
 
     public String getShortName(Job job) {
         Run lastSuccessfulBuild = job.getLastSuccessfulBuild();
         StringBuilder stringBuilder = new StringBuilder();
 
         if (lastSuccessfulBuild != null) {
-            String successfulDate = DateFormat.getDateTimeInstance().format(lastSuccessfulBuild.getTimestamp()
-                                                                                               .getTime());
-            stringBuilder.append(successfulDate);
             String tempDescription = lastSuccessfulBuild.getDescription();
-            int index = -1;
-            if (tempDescription != null) {
-                index = tempDescription.indexOf("[version]");
-            }
-
-            stringBuilder.append(" (<a href=\"");
+            stringBuilder.append("<a href=\"");
             stringBuilder.append(lastSuccessfulBuild.getUrl());
             stringBuilder.append("\">");
 
-            if (index != -1) {
-                stringBuilder.append(tempDescription.substring(index + 9).trim());
+            if (tempDescription != null) {
+                stringBuilder.append(tempDescription.trim());
             } else {
-                stringBuilder.append(Integer.toString(lastSuccessfulBuild.getNumber()));
+                stringBuilder.append(Messages.NoDescription());
             }
-            stringBuilder.append("</a>)");
+            stringBuilder.append("</a>");
 
         } else {
-            stringBuilder.append("N/A");
+            stringBuilder.append(Messages.NoBuild());
         }
 
         return stringBuilder.toString();
@@ -86,12 +77,12 @@ public class LastSuccessVersionColumn extends ListViewColumn {
         @Override
         public ListViewColumn newInstance(StaplerRequest req,
                                           JSONObject formData) throws FormException {
-            return new LastSuccessVersionColumn();
+            return new LastSuccessDescriptionColumn();
         }
 
         @Override
         public String getDisplayName() {
-            return Messages.LastSuccessVersionColumn_DisplayName();
+            return Messages.LastSuccessDescriptionColumn_DisplayName();
         }
     }
 }

@@ -23,5 +23,5 @@ THE SOFTWARE.
 -->
 
 <j:jelly xmlns:j="jelly:core">
-    <th>${%Last Success Version}</th>
+    <th>${%Last Success Description}</th>
 </j:jelly>
