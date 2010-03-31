@@ -288,16 +288,19 @@ public class CommandLineBuilder {
 		throw new FileNotFoundException("No equinox launcher jar has been found in "+pluginDir.getRemote());
 	}
 	
-	public static String createInstallScript(BuckminsterInstallable installable, FilePath toolDir, Node node, TaskListener log) throws MalformedURLException, IOException, InterruptedException
+
+	public static List<String> createDirectorScript(BuckminsterInstallable installable, FilePath toolDir, Node node, TaskListener log, Set<String> repositories, Set<String> featuresToInstall) throws IOException, InterruptedException
 	{
-		FilePath directorDir = toolDir.child("director");
-		String directorDirPath = directorDir.absolutize().toURI().getPath();
-		if(!(directorDirPath.endsWith("/") || directorDirPath.endsWith("\\")))
-			directorDirPath += File.separator;	
+		return createDirectorScript(installable, toolDir, node, log, repositories, featuresToInstall, new HashSet<String>());
+	}
+	
+	public static List<String> createDirectorScript(BuckminsterInstallable installable, FilePath toolDir, Node node, TaskListener log, Set<String> repositories, Set<String> featuresToInstall, Set<String> featuresToUninstall) throws IOException, InterruptedException
+	{
+		List<String> commands = new ArrayList<String>();
+		commands.add("director"+File.separator+"director");
 		FilePath buckyDir = toolDir.child("buckminster");
 		String buckyDirPath = buckyDir.absolutize().toURI().getPath();
 		List<JDK> jdks = Hudson.getInstance().getJDKs();
-		String vmArgument = "";
 		if(jdks!=null && jdks.size()>0)
 		{
 			JDK jdk = Hudson.getInstance().getJDKs().get(0);
@@ -305,115 +308,44 @@ public class CommandLineBuilder {
 			jdk = jdk.forEnvironment(Computer.currentComputer().getEnvironment());
 			File javaBinDir = jdk.getBinDir(); 
 			File javaExecutable = new File(javaBinDir,"java");
-			vmArgument = "-vm "+"\""+javaExecutable.getCanonicalPath()+"\"";
+			commands.add("-vm");
+			commands.add(javaExecutable.getCanonicalPath());
 		}
-
-		String command = "{0}director {1} -r \"{2}\" -d \"{3}\" -p Buckminster -i \"{4}\"";
-		command = MessageFormat.format(command, directorDirPath,vmArgument ,installable.repositoryURL, buckyDirPath, installable.iu);
-		StringBuilder builder = new StringBuilder(command);
-		for (Repository repo : installable.repositories) {
-			builder.append("\n");
-			command = "{0}director {1} -repository {2} ";
-			command = MessageFormat.format(command, directorDirPath,vmArgument, repo.url);
-			builder.append(command);
-			builder.append("-installIU ");
-			
-			for (int i = 0; i < repo.features.length; i++) {
-				builder.append(repo.features[i].id);
-				builder.append(".feature.group");
-				if(i<repo.features.length-1)
-					builder.append(",");
-			}
-			builder.append(" -destination ");
-			builder.append(buckyDirPath);
-			builder.append(" -profile ");
-			builder.append("Buckminster");
-			
-		}
-		return builder.toString();
-	}
-	
-	public static String createUpdateScript(BuckminsterInstallable installable, FilePath toolDir, Node node, TaskListener log, Map<String, Set<String>> installedFeatures) throws MalformedURLException, IOException, InterruptedException
-	{
-		FilePath directorDir = toolDir.child("director");
-		String directorDirPath = directorDir.absolutize().toURI().getPath();
-		if(!(directorDirPath.endsWith("/") || directorDirPath.endsWith("\\")))
-			directorDirPath += File.separator;	
-		FilePath buckyDir = toolDir.child("buckminster");
-		String buckyDirPath = buckyDir.absolutize().toURI().getPath();
-		List<JDK> jdks = Hudson.getInstance().getJDKs();
-		String vmArgument = "";
-		if(jdks!=null && jdks.size()>0)
+		commands.add("-d");
+		commands.add(buckyDirPath);
+		commands.add("-p");
+		commands.add("Buckminster");
+		if(repositories.size()>0)
 		{
-			JDK jdk = Hudson.getInstance().getJDKs().get(0);
-			jdk = jdk.forNode(node, log);
-			jdk = jdk.forEnvironment(Computer.currentComputer().getEnvironment());
-			File javaBinDir = jdk.getBinDir(); 
-			File javaExecutable = new File(javaBinDir,"java");
-			vmArgument = "-vm "+"\""+javaExecutable.getCanonicalPath()+"\"";
+			commands.add("-r");
+			commands.add(toCSV(repositories));
 		}
+		if(featuresToUninstall.size()>0)
+		{
+			commands.add("-uninstallIU");
+			commands.add(toCSV(featuresToUninstall));
+		}
+		if(featuresToInstall.size()>0)
+		{
+			commands.add("-installIU");
+			commands.add(toCSV(featuresToInstall));
+		}
+		
+		return commands;
+	}
 
-		String command = "{0}director {1} -d \"{2}\" -p Buckminster ";
-		command = MessageFormat.format(command, directorDirPath,vmArgument, buckyDirPath);
-		StringBuilder builder = new StringBuilder(command);
-		writeRepositories(builder, installable.repositories,installedFeatures.keySet());
-		writeUninstalls(builder,installedFeatures.values());
-		writeInstalls(builder,installable);
+	
+	private static String toCSV(Collection<String> values) {
+		return toCSV(values,", ");
+	}
+	
+	private static String toCSV(Collection<String> values, String separator) {
+		StringBuilder builder = new StringBuilder();
+		for (String value : values) {
+				builder.append(value);
+				builder.append(separator);
+		}
+		builder.setLength(builder.length()-separator.length());
 		return builder.toString();
-	}
-
-
-
-
-
-	private static void writeRepositories(StringBuilder builder,
-			Repository[] repositories, Set<String> keySet) {
-		Set<String> repoURLs = new HashSet<String>(keySet);
-		for (Repository repository : repositories) {
-			repoURLs.add(repository.url);
-		}
-		if(repoURLs.size()==0)
-			return;
-		builder.append("-r ");
-		for (String string : repoURLs) {
-			builder.append(string);
-			builder.append(",");
-		}
-		builder.setLength(builder.length()-1);
-		
-	}
-	
-	private static void writeUninstalls(StringBuilder builder,
-			Collection<Set<String>> values) {
-		
-		if(values.size()==0)
-			return;
-		builder.append(" -uninstallIU ");
-		for (Set<String> set : values) {
-			for (String string : set) {
-				builder.append(string);
-				builder.append(".feature.group");
-				builder.append(",");
-			}
-		}
-		builder.setLength(builder.length()-1);
-		
-	}
-	
-	private static void writeInstalls(StringBuilder builder,
-			BuckminsterInstallable installable) {
-		if(installable.repositories == null || installable.repositories.length==0)
-			return;
-		builder.append(" -installIU ");
-		for (Repository repo : installable.repositories) {
-			for (Feature feature : repo.features) {
-				builder.append(feature.id);
-				builder.append(".feature.group");
-				builder.append(",");
-			}
-		}
-		builder.setLength(builder.length()-1);
-
-		
 	}
 }
