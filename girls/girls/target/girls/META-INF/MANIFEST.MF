@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Built-By: jyoshiek021510
+Created-By: Apache Maven
+Build-Jdk: 1.6.0_18
+Extension-Name: girls
+Specification-Title: Displays pictures of girls (instead of Hudson the
+  butler) and a random fact on each build page.
+Implementation-Title: girls
+Implementation-Version: 0.5-SNAPSHOT
+Short-Name: girls
+Long-Name: Girls Plugin
+Url: https://hudson.dev.java.net/plugin/girls
+Plugin-Version: 0.5-SNAPSHOT (private-03/25/2010 10:29-jyoshiek021510)
+Hudson-Version: 1.319
+
