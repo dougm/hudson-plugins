@@ -1,0 +1,50 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local">
+
+<div id="mariokart_control">
+<!--
+    <label style="font-weight: bold;">Options</label>
+    Quality:
+    <select id="quality">
+        <option value="4">Low</option>
+        <option value="2" selected="true">Medium</option>
+        <option value="1">High</option>
+    </select>
+    Screen size:
+    <select id="screenscale">
+        <option value="2">Small</option>
+        <option value="4">Medium</option>
+        <option value="6" selected="true">Large</option>
+        <option value="8">Very large</option>
+    </select>
+    Render mode:
+    <select id="rendermode">
+        <option value="0" selected="true">Single Canvas</option>
+        <option value="1">Per-line canvas</option>
+    </select>
+-->
+    Music:
+    <select id="music">
+        <option value="0" selected="true">Off</option>
+        <option value="1">On</option>
+    </select>
+    Use mouse to select character. Use arrow keys to control the cart.
+</div>
+     
+<div id="mariokart_container" style="height: 300px; width: 600px;"/>
+<script type="text/javascript" src="${rootURL}/plugin/jsgames/mariokart/resources/mariokart.js"></script>
+
+<script type="text/javascript">
+//function onQualityChange() { var oList = document.getElementById("quality"); var iValue = parseInt(oList.item(oList.selectedIndex).value);   MarioKartControl.setQuality(iValue);}
+//function onScaleChange() { var oList = document.getElementById("screenscale"); var iValue = parseInt(oList.item(oList.selectedIndex).value);   MarioKartControl.setScreenScale(iValue);}
+//function onRenderModeChange() {    var oList = document.getElementById("rendermode");  var iValue = parseInt(oList.item(oList.selectedIndex).value);   MarioKartControl.setRenderMode(iValue);}
+function onMusicChange() {  var oList = document.getElementById("music");   var iValue = parseInt(oList.item(oList.selectedIndex).value);   MarioKartControl.setMusic(iValue);}
+
+//document.getElementById("quality").onchange = onQualityChange;
+//document.getElementById("screenscale").onchange = onScaleChange;
+//document.getElementById("rendermode").onchange = onRenderModeChange;
+document.getElementById("music").onchange = onMusicChange;
+
+window.onload = MarioKart('${rootURL}');
+</script>
+
+</j:jelly>

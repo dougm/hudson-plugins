@@ -1,0 +1,147 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local">
+
+<style type="text/css">
+#tetris {
+    width : 516px;
+    height : 538px;
+    background-color : silver;
+    position : relative;
+    border : 3px outset silver;
+}
+
+#gamefield {
+    background-color : black;
+    position : relative;
+    overflow : hidden;
+    left : 24px;
+    top : 24px;
+    border : 3px inset silver;
+    width : 247px;
+    height : 487px;
+
+}
+
+.tetris-block {
+    border : 3px outset;
+    position : absolute;
+    width : 23px;
+    height : 23px;
+    overflow : hidden;
+    margin-left : 1px;
+    margin-top : 1px;
+}
+
+
+#tetris-next-piece {
+    background-color : black;
+    width : 192px;
+    height : 123px;
+    position : absolute;
+    left : 294px;
+    top : 60px;
+    border : 3px inset silver;
+}
+
+#gamefield {
+    color:white;
+    font-family:lucida console;
+    font-weight:bold;
+    font-size : 16px;
+    text-align:center;
+}
+
+#tetris-next-piece-text, #tetris-score-text, #tetris-level-text, #tetris-lines-text, #bottom-stuff {
+    position : absolute;
+    left : 294px;
+    width : 192px;
+    padding-left : 6px;
+    padding-top : 3px;
+    padding-bottom : 5px;
+    border : 3px inset silver;
+    font-family : lucida console;
+    font-weight : bold;
+    color : white;
+    font-size : 16px;
+    background-color : black;
+}
+
+#tetris-next-piece-text {
+    top : 24px;
+}
+
+#tetris-level-text {
+    top : 196px;
+}
+
+#tetris-lines-text {
+    top : 240px;
+}
+
+
+#tetris-score-text {
+    top : 284px;
+}
+
+#bottom-stuff {
+    top : 328px;
+    height : 184px;
+}
+
+#logo {
+    margin-top : 12px;
+    margin-bottom : 12px;
+    width : 100%;
+    text-align:center;
+}
+
+#byline {
+    position : absolute;
+    bottom : 0px;
+    margin-bottom : 6px;
+}
+
+#restart-link a {
+    color : white;
+}
+
+#blog-link a {
+    color : white;
+}
+
+</style>
+
+<script type="text/javascript" src="${rootURL}/plugin/jsgames/tetris/resources/tetris.js"></script>
+
+<div id="tetris">
+    <div id="gamefield">
+        <br/>
+        Welcome to DOMTRIS!<br/>
+        <br/>
+        Keys:<br/>
+        Move: Left / Right<br/>
+        Rotate: Up / SPACE<br/>
+        Drop: Enter<br/>
+        Pause : P<br/>
+        Save game: S<br/>
+        Press SPACE to start<br/>
+        <br/>
+        Clear multiple lines in one go for more points.
+    </div>
+    <div id="tetris-next-piece-text">Next piece</div>
+    <div id="tetris-next-piece"></div>
+    <div id="tetris-score-text"></div>
+    <div id="tetris-level-text"></div>
+    <div id="tetris-lines-text"></div>
+
+    <div id="bottom-stuff">
+        <div id="description">A tetris clone made with DOM &amp; JavaScript by <a href="http://blog.nihilogic.dk/">Jacob Seidelin</a><br/><br/>
+        </div>
+    </div>
+
+</div>
+
+<script>
+Tetris();
+</script>
+
+</j:jelly>

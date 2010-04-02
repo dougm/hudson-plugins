@@ -1,0 +1,19 @@
+div#jsgames_menu {
+    margin-bottom: 20px;
+}
+div.jsgames_menuitem {
+    float: left;
+    margin-right: 20px;
+    text-align: center;
+}
+img.jsgames_icon {
+}
+span.jsgames_title {
+}
+div#jsgames_games {
+}
+div.jsgames_game {
+}
+br.jsgames_clear {
+    clear: both;
+}

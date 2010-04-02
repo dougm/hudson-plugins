@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <l:layout title="${%JSGames}">
+        <l:main-panel>
+
+<link rel="stylesheet" type="text/css" href="${rootURL}/plugin/jsgames/jsgames.css"/>
+<script type="text/javascript" src="${rootURL}/plugin/jsgames/jsgames.js"/>
+
+<h2>${%JS Games}</h2>
+
+<div id="jsgames_menu">
+    <j:forEach var="game" items="${it.games}">
+        <div class="jsgames_menuitem" onclick="org_hudsonci_jsgames.click_menuitem();">
+            <img class="jsgames_icon" src="${rootURL}/plugin/jsgames/${game.id}/icon.png" height="36" width="36"/><br/>
+            <span class="jsgames_title" style="font-weight: bold;">${game.title}</span>
+        </div>
+    </j:forEach>
+    <br class="jsgames_clear"/>
+</div>
+
+<div id="jsgames_games">
+    <j:forEach var="game" items="${it.games}">
+        <div id="jsgames_${game.id}" class="jsgames_game">
+            <st:include page="games/${game.id}.jelly"/>
+        </div>
+    </j:forEach>
+</div>
+        </l:main-panel>
+    </l:layout>
+</j:jelly>
