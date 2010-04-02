@@ -6,6 +6,9 @@ package hudson.plugins.buckminster;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.FilePath;
+import hudson.Functions;
+import hudson.Launcher;
+import hudson.Util;
 import hudson.model.EnvironmentSpecific;
 import hudson.model.Hudson;
 import hudson.model.Node;
@@ -17,6 +20,7 @@ import hudson.plugins.buckminster.install.BuckminsterInstallable.BuckminsterInst
 import hudson.plugins.buckminster.install.BuckminsterInstallable.Feature;
 import hudson.plugins.buckminster.install.BuckminsterInstallable.Repository;
 import hudson.plugins.buckminster.util.ReadDelegatingTextFile;
+import hudson.remoting.Callable;
 import hudson.slaves.NodeSpecific;
 import hudson.tools.DownloadFromUrlInstaller;
 import hudson.tools.ToolDescriptor;
@@ -27,6 +31,7 @@ import hudson.util.TextFile;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FilePermission;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -89,6 +94,48 @@ public class BuckminsterInstallation extends ToolInstallation implements
 		File executableUnix = new File(buckyDir, "buckminster");
 		return executableWin.exists() || executableUnix.exists();
 	}
+	
+    /**
+     * Gets the executable path of this Ant on the given target system.
+     */
+    public String getBuckminsterExecutable(Launcher launcher) throws IOException, InterruptedException {
+        return launcher.getChannel().call(new Callable<String,IOException>() {
+            public String call() throws IOException {
+                File exe = getBuckminsterExeFile();
+                if(exe.exists())
+                    return exe.getPath();
+                throw new FileNotFoundException("The File "+exe.getAbsolutePath()+" could not be found.");
+            }
+        });
+    }
+
+    private File getBuckminsterExeFile() {
+        String execName = Functions.isWindows() ? "buckminster.bat" : "buckminster";
+        String home = Util.replaceMacro(getHome(), EnvVars.masterEnvVars);
+        
+        return new File(home,execName);
+    }
+    
+    /**
+     * Gets the executable path of this Ant on the given target system.
+     */
+    public String getDirectorExecutable(Launcher launcher) throws IOException, InterruptedException {
+        return launcher.getChannel().call(new Callable<String,IOException>() {
+            public String call() throws IOException {
+                File exe = getDirectorExeFile();
+                if(exe.exists())
+                    return exe.getPath();
+                return null;
+            }
+        });
+    }
+
+    private File getDirectorExeFile() {
+        String execName = Functions.isWindows() ? "buckminster.bat" : "buckminster";
+        String home = Util.replaceMacro(getHome(), EnvVars.masterEnvVars);
+        File director = new File(new File(home).getParent(),"director");
+        return new File(director,execName);
+    }
 
 	@Extension
     public static class DescriptorImpl extends ToolDescriptor<BuckminsterInstallation>

@@ -164,14 +164,7 @@ public class EclipseBuckminsterBuilder extends Builder {
 				modifiedCommands = "setpref targetPlatformPath=\""+targetPlatform.getPath()+"\"" +"\n" + modifiedCommands;
 			}
 			CommandLineBuilder cmdBuilder = new CommandLineBuilder(installation,modifiedCommands,getLogLevel(),getParams(),getUserWorkspace(),getUserTemp(),getUserOutput(), getUserCommand());
-			List<String> buildCommands = cmdBuilder.buildCommands(build,listener);
-			listener.getLogger().println("Commandline: ");
-			for (Iterator iterator = buildCommands.iterator(); iterator.hasNext();) {
-				String string = (String) iterator.next();
-				listener.getLogger().print(string);
-				listener.getLogger().print(" ");
-				
-			}
+			List<String> buildCommands = cmdBuilder.buildCommands(build,listener, launcher);
 			Proc proc = launcher.launch().pwd(build.getWorkspace()).cmds(buildCommands).stdout(listener).start();
 			return proc.join()==0;
 

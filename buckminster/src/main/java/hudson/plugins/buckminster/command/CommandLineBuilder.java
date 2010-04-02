@@ -1,6 +1,8 @@
 package hudson.plugins.buckminster.command;
 
 import hudson.FilePath;
+import hudson.Functions;
+import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
 import hudson.model.Computer;
@@ -11,8 +13,7 @@ import hudson.model.TaskListener;
 import hudson.plugins.buckminster.BuckminsterInstallation;
 import hudson.plugins.buckminster.EclipseBuckminsterBuilder;
 import hudson.plugins.buckminster.install.BuckminsterInstallable;
-import hudson.plugins.buckminster.install.BuckminsterInstallable.Feature;
-import hudson.plugins.buckminster.install.BuckminsterInstallable.Repository;
+import hudson.remoting.Callable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,7 +41,7 @@ public class CommandLineBuilder {
 	private String commands;
 	private String logLevel;
 	private String additionalParams;
-	private File hudsonWorkspaceRoot;
+	private FilePath hudsonWorkspaceRoot;
 	private String userWorkspace;
 	private String userTemp;
 	private String userOutput;
@@ -66,16 +67,18 @@ public class CommandLineBuilder {
 	 * fills an arraylist with all program arguments for buckminster
 	 * 
 	 * @param build
+	 * @param launcher 
 	 * @return
 	 * @throws MalformedURLException
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	public List<String> buildCommands(AbstractBuild<?,?> build, BuildListener listener)
+	public List<String> buildCommands(AbstractBuild<?,?> build, BuildListener listener, Launcher launcher)
 			throws MalformedURLException, IOException, InterruptedException{
 
 		List<String> commandList = new ArrayList<String>();
-		hudsonWorkspaceRoot = new File(build.getWorkspace().absolutize().toURI().getPath());
+		hudsonWorkspaceRoot = build.getWorkspace();
+		commandList.add(installation.getBuckminsterExecutable(launcher));
 		// VM Options
 		JDK jdk = build.getProject().getJDK();
 		if(jdk!=null)
@@ -85,31 +88,36 @@ public class CommandLineBuilder {
 		}
 
 		//if none is configured, hope it is in the PATH
-		if(jdk==null)
-			commandList.add("java");
 		//otherwise use the configured one
-		else
+		if(jdk!=null)
 		{
-			File javaBinDir = jdk.getBinDir();
-			File javaExecutable = new File(javaBinDir,"java");
-			if(jdk.getExists())
+			Boolean isWindows = !launcher.isUnix();
+			FilePath javaExecutable;
+			if(isWindows)
+			{ 
+				javaExecutable = Computer.currentComputer().getNode().createPath(jdk.getHome()).child("bin").child("java.exe");
+			}
+			else
 			{
-				commandList.add(javaExecutable.getCanonicalPath());	
+				javaExecutable = Computer.currentComputer().getNode().createPath(jdk.getHome()).child("bin").child("java");
+			}
+			if(javaExecutable.exists())
+			{
+				commandList.add("-vm");
+				commandList.add(javaExecutable.getRemote());
 			}
 			else
 			{
 				String message = "The configured JDK \"{0}\" points to \"{1}\" but no executable exists. Defaulting to \"java\"";
 				message = MessageFormat.format(message, jdk.getName(),jdk.getHome());
 				listener.error(message);
-				commandList.add("java");
 			}
-				
 		}
 		
 		Map<String, String> properties = new HashMap<String, String>(build.getEnvironment(listener));
 		properties.putAll(build.getBuildVariables());
 		
-		addJVMProperties(commandList, properties);
+
 		FilePath commandsPath = getCommandFilePath(build, properties);
 		
 		addStarterParameters(build, commandList, properties);
@@ -119,8 +127,8 @@ public class CommandLineBuilder {
 		 commandList.add(getLogLevel());
 		// Tell Buckminster about the command file
 		commandList.add("-S");
-		commandList.add(commandsPath.absolutize().toURI().getPath());
-
+		commandList.add(commandsPath.getRemote());
+		addJVMProperties(commandList, properties);
 		//only write out commands if the user did not specify a custom command file
 		if(userCommandFile==null || userCommandFile.length()==0)
 		{
@@ -164,12 +172,6 @@ public class CommandLineBuilder {
 
 	private void addStarterParameters(AbstractBuild<?,?> build, List<String> commandList, Map<String, String> properties)
 			throws IOException, InterruptedException {
-		commandList.add("-jar");
-		commandList.add(findEquinoxLauncher());
-
-		// Specify Eclipse Product
-		commandList.add("-application");
-		commandList.add("org.eclipse.buckminster.cmdline.headless");
 
 		// set the workspace to the hudson workspace
 		commandList.add("-data");
@@ -183,12 +185,13 @@ public class CommandLineBuilder {
 			Map<String, String> properties) throws IOException, InterruptedException {
 		if(userWorkspace==null || userWorkspace.length()==0)
 		{
-			return hudsonWorkspaceRoot.getAbsolutePath();
+			return hudsonWorkspaceRoot.getRemote();
 		}
 		return expandProperties(userWorkspace, properties);
 	}
 
 	private void addJVMProperties(List<String> commandList, Map<String, String> properties) throws IOException, InterruptedException {
+		commandList.add("-vmargs");
 		//temp and output root
 		commandList.add(MessageFormat.format("-Dbuckminster.output.root={0}",getOutputDir(properties)));
 		commandList.add(MessageFormat.format("-Dbuckminster.temp.root={0}",getTempDir(properties)));
@@ -220,17 +223,17 @@ public class CommandLineBuilder {
 	private Object getTempDir(Map<String, String> properties) {
 		if(userTemp==null || userTemp.length()==0)
 		{
-			return new File(hudsonWorkspaceRoot,"buckminster.temp").getAbsolutePath();
+			return hudsonWorkspaceRoot.child("buckminster.temp").getRemote();
 		}
-		return new File(hudsonWorkspaceRoot,expandProperties(userTemp, properties)).getAbsolutePath();
+		return hudsonWorkspaceRoot.child(expandProperties(userTemp, properties)).getRemote();
 	}
 
 	private String getOutputDir(Map<String, String> properties) {
 		if(userOutput==null || userOutput.length()==0)
 		{
-			return new File(hudsonWorkspaceRoot,"buckminster.output").getAbsolutePath();
+			return hudsonWorkspaceRoot.child("buckminster.output").getRemote();
 		}
-		return new File(hudsonWorkspaceRoot,expandProperties(userOutput, properties)).getAbsolutePath();
+		return hudsonWorkspaceRoot.child(expandProperties(userOutput, properties)).getRemote();
 	}
 
 	private String expandProperties(String string, Map<String, String> properties) {
@@ -257,37 +260,6 @@ public class CommandLineBuilder {
 		return string;
 	}
 	
-	/**
-	 * searches for the eclipse starter jar
-	 * <p>
-	 * The content of the folder $ECLIPSE_HOME/plugins is listed and the first
-	 * file that starts with <code>org.eclipse.equinox.launcher_</code> is
-	 * returned.
-	 * 
-	 * @return the guess for the startup jar, or <code>null</code> if none was
-	 *         found
-	 * @throws IOException 
-	 * @throws InterruptedException 
-	 * @see EclipseBuckminsterBuilder#getEclipseHome()
-	 */
-	private String findEquinoxLauncher() throws IOException, InterruptedException {
-		FilePath installationHome =  Computer.currentComputer().getNode().createPath(getInstallation().getHome());
-		FilePath pluginDir = installationHome.child("plugins");
-		if(!pluginDir.exists())
-			throw new FileNotFoundException("No 'plugins' directory has been found in "+installation.getHome());
-		List<FilePath> plugins = pluginDir.list();
-		for (FilePath filePath : plugins) {
-			
-			
-			if (filePath.getName()
-					.startsWith("org.eclipse.equinox.launcher_")) {
-				return filePath.absolutize().toURI().getPath();
-
-			}
-		}
-		throw new FileNotFoundException("No equinox launcher jar has been found in "+pluginDir.getRemote());
-	}
-	
 
 	public static List<String> createDirectorScript(BuckminsterInstallable installable, FilePath toolDir, Node node, TaskListener log, Set<String> repositories, Set<String> featuresToInstall) throws IOException, InterruptedException
 	{
@@ -297,19 +269,29 @@ public class CommandLineBuilder {
 	public static List<String> createDirectorScript(BuckminsterInstallable installable, FilePath toolDir, Node node, TaskListener log, Set<String> repositories, Set<String> featuresToInstall, Set<String> featuresToUninstall) throws IOException, InterruptedException
 	{
 		List<String> commands = new ArrayList<String>();
-		commands.add("director"+File.separator+"director");
+		
+		String executableName = toolDir.getChannel().call(new Callable<String, IOException>() {
+
+			public String call() throws IOException {
+				if(Functions.isWindows())
+					return "director.bat";
+				return "director";
+			}
+			
+		});
+		String directorInvocation = toolDir.child("director").child(executableName).getRemote();
+		
+		commands.add(directorInvocation);
 		FilePath buckyDir = toolDir.child("buckminster");
-		String buckyDirPath = buckyDir.absolutize().toURI().getPath();
+		String buckyDirPath = buckyDir.getRemote();
 		List<JDK> jdks = Hudson.getInstance().getJDKs();
 		if(jdks!=null && jdks.size()>0)
 		{
 			JDK jdk = Hudson.getInstance().getJDKs().get(0);
 			jdk = jdk.forNode(node, log);
-			jdk = jdk.forEnvironment(Computer.currentComputer().getEnvironment());
-			File javaBinDir = jdk.getBinDir(); 
-			File javaExecutable = new File(javaBinDir,"java");
+			jdk = jdk.forEnvironment(node.toComputer().getEnvironment());
 			commands.add("-vm");
-			commands.add(javaExecutable.getCanonicalPath());
+			commands.add(node.createPath(jdk.getBinDir().getPath()).child("java").getRemote());
 		}
 		commands.add("-d");
 		commands.add(buckyDirPath);
