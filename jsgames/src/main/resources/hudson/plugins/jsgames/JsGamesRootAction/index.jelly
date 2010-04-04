@@ -10,7 +10,7 @@
 
 <div id="jsgames_menu">
     <j:forEach var="game" items="${it.games}">
-        <div class="jsgames_menuitem" onclick="org_hudsonci_jsgames.click_menuitem();">
+        <div class="jsgames_menuitem" onclick="org_hudsonci_jsgames.selectmenuitem('${game.id}');">
             <img class="jsgames_icon" src="${rootURL}/plugin/jsgames/${game.id}/icon.png" height="36" width="36"/><br/>
             <span class="jsgames_title" style="font-weight: bold;">${game.title}</span>
         </div>
@@ -20,10 +20,14 @@
 
 <div id="jsgames_games">
     <j:forEach var="game" items="${it.games}">
-        <div id="jsgames_${game.id}" class="jsgames_game">
+        <div id="jsgames_${game.id}" class="jsgames_game" name="jsgames_game" style="visibility: hidden; height: 0; width: 0;">
             <st:include page="games/${game.id}.jelly"/>
         </div>
     </j:forEach>
+    <script type="text/javascript">
+        org_hudsonci_jsgames.resetmenuitems();
+        org_hudsonci_jsgames.selectmenuitem('${it.games.get(0).id}');
+    </script>
 </div>
         </l:main-panel>
     </l:layout>
