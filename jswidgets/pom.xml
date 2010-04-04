@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.jvnet.hudson.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>1.335</version><!-- which version of Hudson is this plugin built against? -->
+        <version>1.353</version><!-- which version of Hudson is this plugin built against? -->
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -40,13 +40,13 @@
         <dependency>
             <groupId>org.kohsuke.stapler</groupId>
             <artifactId>stapler</artifactId>
-            <version>1.125</version>
+            <version>1.139</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jvnet.hudson</groupId>
             <artifactId>htmlunit</artifactId>
-            <version>2.2-hudson-11</version>
+            <version>2.6-hudson-2</version>
             <scope>test</scope>
         </dependency>
         <dependency>

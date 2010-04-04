@@ -5,6 +5,7 @@ import hudson.model.AbstractProject;
 import hudson.model.Action;
 import hudson.model.TransientProjectActionFactory;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
@@ -26,13 +27,11 @@ public class JsProjectActionFactory extends TransientProjectActionFactory {
     @Override
     public Collection<? extends Action> createFor(@SuppressWarnings("unchecked") AbstractProject target) {
         LOG.fine(this + " adds JsJobAction for " + target);
+        final List<JsJobAction> jsJobActions = target.getActions(JsJobAction.class);
+        LOG.fine(target + " already has " + jsJobActions);
+        final JsJobAction newAction = new JsJobAction(target);
         final ArrayList<Action> actions = new ArrayList<Action>();
-        final JsJobAction jsJobAction = target.getAction(JsJobAction.class);
-        if (jsJobAction == null) {
-            actions.add(new JsJobAction(target));
-        } else {
-            LOG.fine(target + " already has " + jsJobAction);
-        }
+        actions.add(newAction);
         return actions;
     }
 
