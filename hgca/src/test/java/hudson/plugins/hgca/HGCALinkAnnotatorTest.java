@@ -14,9 +14,12 @@ public class HGCALinkAnnotatorTest extends TestCase {
 
     public void testLinkSyntax() {
         assertAnnotatedTextEquals("Nothing here.", "Nothing here.");
-        assertAnnotatedTextEquals("Text with bug CSCxy12345.", "Text with bug <a href='" + TEST_LINK_A + "CSCxy12345'>CSCxy12345</a>.");
-        assertAnnotatedTextEquals("Banana banana foo foo banana", "Banana banana foo foo banana");
-        assertAnnotatedTextEquals("Banana banana 22foo22 foo banana", "Banana banana <a href='" + TEST_LINK_B + "foo'>22foo22</a> foo banana");
+        assertAnnotatedTextEquals("Text with bug CSCxy12345.",
+                "Text with bug <a href=\"" + TEST_LINK_A + "CSCxy12345\">CSCxy12345</a>.");
+        assertAnnotatedTextEquals("Banana banana foo foo banana",
+                "Banana banana foo foo banana");
+        assertAnnotatedTextEquals("Banana banana 22foo22 foo banana",
+                "Banana banana <a href=\"" + TEST_LINK_B + "foo\">22foo22</a> foo banana");
         
     }
 

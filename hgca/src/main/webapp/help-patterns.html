@@ -1,0 +1,13 @@
+<div>
+  Add pairs of
+  <a href="http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html" target="_blank"
+  >patterns</a> and URLs; patterns matched in change log text (commit comments) are turned
+  into links to the paired URL, replacing $1, $2, etc with matched groups.
+  Note: backslashes in patterns do not need to be doubled, as they are in Java code.
+  <br/>Example:<br/>
+  Pattern = <tt>\bHUDSON-(\d+)</tt>,
+  URL = <tt>http://hudson-ci.org/issue/$1</tt>
+  <br/>
+  The tokens <tt>NUM</tt> and <tt>ANYWORD</tt> may be used in place of
+  <tt>(\d+)</tt> and <tt>([\w.-]+)</tt>, respectively.  Example: <tt>HUDSON-NUM</tt>
+</div>

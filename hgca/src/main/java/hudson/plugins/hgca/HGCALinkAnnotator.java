@@ -1,7 +1,7 @@
 /*
  * The MIT License
  * 
- * Copyright (c) 2004-2009, Andrew Bayer
+ * Copyright (c) 2004-2010, Andrew Bayer, Alan Harder
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,16 +30,16 @@ import hudson.model.AbstractBuild;
 import hudson.scm.ChangeLogAnnotator;
 import hudson.scm.ChangeLogSet.Entry;
 
-import java.util.regex.Pattern;
 import java.util.HashMap;
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
- * Given a set of pattern->URL pairs, replaces "pattern" in changelog text with 
+ * Given a set of pattern/URL pairs, replaces "pattern" in changelog text with
  * "&lt;a href='url'&gt;pattern&lt;/a&gt;", replacing $1, $2, etc in "url" with matched 
  * groups in "pattern". Does this for each pair.
  *
- * @author Andrew Bayer
+ * @author Andrew Bayer, Alan Harder
  */
 @Extension
 public class HGCALinkAnnotator extends ChangeLogAnnotator {
@@ -47,34 +47,20 @@ public class HGCALinkAnnotator extends ChangeLogAnnotator {
     @Override
     public void annotate(AbstractBuild<?,?> build, Entry change, MarkupText text) {
         HGCAProjectProperty hpp = build.getProject().getProperty(HGCAProjectProperty.class);
-        
-        if(hpp==null) 
-            return; // not configured
+        if (hpp==null && !HGCAProjectProperty.DESCRIPTOR.getAlwaysApply())
+            return;
 
-        HashMap<String,String> annoPats = hpp.getAnnotations();
-        if (annoPats.size() == 0) 
+        HashMap<String,String> annoPats = hpp!=null ? hpp.getAnnotations()
+                                        : HGCAProjectProperty.DESCRIPTOR.getGlobalAnnotations();
+        if (annoPats.isEmpty())
             return;
 
         annotate(annoPats, text);
-        return;
     }
 
     void annotate(HashMap<String,String> annoPats, MarkupText text) {
-        ArrayList<LinkMarkup> patternMarkups = createLinkMarkups(annoPats);
-        
-        for (LinkMarkup markup : patternMarkups) {
-            markup.process(text);
-        }
-    }
-
-    private ArrayList<LinkMarkup> createLinkMarkups(HashMap<String,String> annoPats) {
-        ArrayList<LinkMarkup> lm = new ArrayList<LinkMarkup>();
-
-        for (java.util.Map.Entry<String,String> entry : annoPats.entrySet()) {
-            lm.add(new LinkMarkup(entry.getKey(), entry.getValue()));
-        }
-        
-        return lm;
+        for (Map.Entry<String,String> entry : annoPats.entrySet())
+            new LinkMarkup(entry.getKey(), entry.getValue()).process(text);
     }
 
     private static final class LinkMarkup {
@@ -82,8 +68,8 @@ public class HGCALinkAnnotator extends ChangeLogAnnotator {
         private final String href;
         
         LinkMarkup(String pattern, String href) {
-            pattern = NUM_PATTERN.matcher(pattern).replaceAll("(\\\\d+)"); // \\\\d becomes \\d when in the expanded text.
-            pattern = ANYWORD_PATTERN.matcher(pattern).replaceAll("((?:\\\\w|[._-])+)");
+            pattern = NUM_PATTERN.matcher(pattern).replaceAll("(\\\\d+)"); // \\\\d becomes \d when in the expanded text.
+            pattern = ANYWORD_PATTERN.matcher(pattern).replaceAll("([\\\\w.-]+)");
             this.pattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
             this.href = href;
         }
@@ -92,7 +78,7 @@ public class HGCALinkAnnotator extends ChangeLogAnnotator {
             // Currently doing surroundWith - debating switching to pure replace?
             for(SubText st : text.findTokens(pattern)) {
                 st.surroundWith(
-                                "<a href='"+href+"'>",
+                                "<a href=\""+href+"\">",
                                 "</a>");
             }
         }

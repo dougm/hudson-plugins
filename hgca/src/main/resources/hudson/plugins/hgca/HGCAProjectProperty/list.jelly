@@ -1,0 +1,24 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+<d:taglib uri="local">
+  <d:tag name="list">
+    <f:entry title="${%List of pattern/URL pairs}" help="/plugin/hgca/${attrs.help}">
+      <f:repeatable var="annoPats" items="${attrs.items}">
+        <table width="100%">
+          <f:entry title="${%Pattern}">
+            <f:textbox name="key" value="${annoPats.key}"
+             checkURL="'/descriptor/hudson.model.ListView/checkIncludeRegex?value='+toValue(this)"/>
+          </f:entry>
+          <f:entry title="${%URL}">
+            <f:textbox name="value" value="${annoPats.value}"/>
+          </f:entry>
+          <f:entry title="">
+            <div align="right">
+              <f:repeatableDeleteButton/>
+            </div>
+          </f:entry>
+        </table>
+      </f:repeatable>
+    </f:entry>
+  </d:tag>
+</d:taglib>
+</j:jelly>
