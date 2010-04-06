@@ -78,15 +78,43 @@ public class CommandLineBuilder {
 
 		List<String> commandList = new ArrayList<String>();
 		hudsonWorkspaceRoot = build.getWorkspace();
-		commandList.add(installation.getBuckminsterExecutable(launcher));
-		// VM Options
+
+		commandList.add(getJavaExecutable(listener, launcher, build));
+		
+		Map<String, String> properties = new HashMap<String, String>(build.getEnvironment(listener));
+		properties.putAll(build.getBuildVariables());
+		
+		addJVMProperties(commandList, properties);
+
+		FilePath commandsPath = getCommandFilePath(build, properties);
+		
+		addStarterParameters(build, commandList, properties);
+
+
+		 commandList.add("--loglevel");
+		 commandList.add(getLogLevel());
+		// Tell Buckminster about the command file
+		commandList.add("-S");
+		commandList.add(commandsPath.getRemote());
+		//only write out commands if the user did not specify a custom command file
+		if(userCommandFile==null || userCommandFile.length()==0)
+		{
+			writeCommandFile(commandsPath, properties);
+		}
+		return commandList;
+	}
+
+	private String getJavaExecutable(BuildListener listener, Launcher launcher, AbstractBuild<?,?> build) throws IOException,
+			InterruptedException {
+
+		
 		JDK jdk = build.getProject().getJDK();
 		if(jdk!=null)
 		{
 	        jdk= jdk.forNode(Computer.currentComputer().getNode(), listener);
 	        jdk = jdk.forEnvironment(build.getEnvironment(listener));
 		}
-
+		
 		//if none is configured, hope it is in the PATH
 		//otherwise use the configured one
 		if(jdk!=null)
@@ -103,8 +131,7 @@ public class CommandLineBuilder {
 			}
 			if(javaExecutable.exists())
 			{
-				commandList.add("-vm");
-				commandList.add(javaExecutable.getRemote());
+				return javaExecutable.getRemote();
 			}
 			else
 			{
@@ -113,28 +140,7 @@ public class CommandLineBuilder {
 				listener.error(message);
 			}
 		}
-		
-		Map<String, String> properties = new HashMap<String, String>(build.getEnvironment(listener));
-		properties.putAll(build.getBuildVariables());
-		
-
-		FilePath commandsPath = getCommandFilePath(build, properties);
-		
-		addStarterParameters(build, commandList, properties);
-
-
-		 commandList.add("--loglevel");
-		 commandList.add(getLogLevel());
-		// Tell Buckminster about the command file
-		commandList.add("-S");
-		commandList.add(commandsPath.getRemote());
-		addJVMProperties(commandList, properties);
-		//only write out commands if the user did not specify a custom command file
-		if(userCommandFile==null || userCommandFile.length()==0)
-		{
-			writeCommandFile(commandsPath, properties);
-		}
-		return commandList;
+		return "java";
 	}
 
 	private FilePath getCommandFilePath(AbstractBuild<?, ?> build,
@@ -172,6 +178,12 @@ public class CommandLineBuilder {
 
 	private void addStarterParameters(AbstractBuild<?,?> build, List<String> commandList, Map<String, String> properties)
 			throws IOException, InterruptedException {
+		commandList.add("-jar");
+		commandList.add(findEquinoxLauncher());
+
+		// Specify Eclipse Product
+		commandList.add("-application");
+		commandList.add("org.eclipse.buckminster.cmdline.headless");
 
 		// set the workspace to the hudson workspace
 		commandList.add("-data");
@@ -191,7 +203,6 @@ public class CommandLineBuilder {
 	}
 
 	private void addJVMProperties(List<String> commandList, Map<String, String> properties) throws IOException, InterruptedException {
-		commandList.add("-vmargs");
 		//temp and output root
 		commandList.add(MessageFormat.format("-Dbuckminster.output.root={0}",getOutputDir(properties)));
 		commandList.add(MessageFormat.format("-Dbuckminster.temp.root={0}",getTempDir(properties)));
@@ -258,6 +269,37 @@ public class CommandLineBuilder {
 		}
 		
 		return string;
+	}
+	
+	/**
+	 * searches for the eclipse starter jar
+	 * <p>
+	 * The content of the folder $ECLIPSE_HOME/plugins is listed and the first
+	 * file that starts with <code>org.eclipse.equinox.launcher_</code> is
+	 * returned.
+	 * 
+	 * @return the guess for the startup jar, or <code>null</code> if none was
+	 *         found
+	 * @throws IOException 
+	 * @throws InterruptedException 
+	 * @see EclipseBuckminsterBuilder#getEclipseHome()
+	 */
+	private String findEquinoxLauncher() throws IOException, InterruptedException {
+		FilePath installationHome =  Computer.currentComputer().getNode().createPath(getInstallation().getHome());
+		FilePath pluginDir = installationHome.child("plugins");
+		if(!pluginDir.exists())
+			throw new FileNotFoundException("No 'plugins' directory has been found in "+installation.getHome());
+		List<FilePath> plugins = pluginDir.list();
+		for (FilePath filePath : plugins) {
+			
+			
+			if (filePath.getName()
+					.startsWith("org.eclipse.equinox.launcher_")) {
+				return filePath.getRemote();
+
+			}
+		}
+		throw new FileNotFoundException("No equinox launcher jar has been found in "+pluginDir.getRemote());
 	}
 	
 
