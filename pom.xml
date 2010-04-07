@@ -284,6 +284,7 @@
     <module>mantis</module>
     <module>maven1-snapshot-plugin</module>
     <module>m2release</module>
+    <module>measurement-plots</module>
     <module>mercurial</module>
     <module>mibsr</module>
     <module>msbuild</module>
