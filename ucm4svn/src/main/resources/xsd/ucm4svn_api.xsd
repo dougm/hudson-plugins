@@ -4,6 +4,7 @@
 		<xsd:complexType>
 			<xsd:sequence maxOccurs="1" minOccurs="0">
 				<xsd:element minOccurs="1" maxOccurs="1" ref="cvschema:status"/>
+				<xsd:element minOccurs="0" maxOccurs="1" ref="cvschema:id"/>
 				<xsd:element minOccurs="0" maxOccurs="1" ref="cvschema:token"/>
 				<xsd:element minOccurs="0" maxOccurs="1" ref="cvschema:projects"/>
 				<xsd:element minOccurs="0" maxOccurs="1" ref="cvschema:components"/>
@@ -138,10 +139,38 @@
 	<xsd:element name="svn_changeset">
 		<xsd:complexType>
 			<xsd:sequence maxOccurs="unbounded" minOccurs="0">
-				<xsd:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="lax"/>
+<!--				<xsd:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="lax"/>-->
+				<xsd:element ref="cvschema:diff"/>
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
+
+	<xsd:element name="diff">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="cvschema:paths"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="paths">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="cvschema:path"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="path">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="xsd:string">
+					<xsd:attribute name="item" type="xsd:string" use="required"/>
+					<xsd:attribute name="kind" type="xsd:string" use="required"/>
+					<xsd:attribute name="props" type="xsd:string" use="required"/>
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
+	</xsd:element>
+
 	<xsd:element name="checkout_commands">
 		<xsd:complexType>
 			<xsd:sequence maxOccurs="unbounded" minOccurs="0">
