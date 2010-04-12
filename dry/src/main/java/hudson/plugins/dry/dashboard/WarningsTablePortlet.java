@@ -2,10 +2,6 @@ package hudson.plugins.dry.dashboard;
 
 import hudson.Extension;
 import hudson.model.Descriptor;
-import hudson.model.Hudson;
-import hudson.plugins.analysis.core.AbstractProjectAction;
-import hudson.plugins.analysis.dashboard.AbstractWarningsTablePortlet;
-import hudson.plugins.dry.DryProjectAction;
 import hudson.plugins.dry.Messages;
 import hudson.plugins.view.dashboard.DashboardPortlet;
 
@@ -16,7 +12,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
  *
  * @author Ulli Hafner
  */
-public class WarningsTablePortlet extends AbstractWarningsTablePortlet {
+public class WarningsTablePortlet extends DryPortlet {
     /**
      * Creates a new instance of {@link WarningsTablePortlet}.
      *
@@ -26,18 +22,6 @@ public class WarningsTablePortlet extends AbstractWarningsTablePortlet {
     @DataBoundConstructor
     public WarningsTablePortlet(final String name) {
         super(name);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected Class<? extends AbstractProjectAction<?>> getAction() {
-        return DryProjectAction.class;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected String getPluginName() {
-        return "dry";
     }
 
     /**
@@ -53,7 +37,7 @@ public class WarningsTablePortlet extends AbstractWarningsTablePortlet {
          */
         @Extension
         public static WarningsPerJobDescriptor newInstance() {
-            if (Hudson.getInstance().getPlugin("dashboard-view") != null) {
+            if (isDashboardViewInstalled()) {
                 return new WarningsPerJobDescriptor();
             }
             return null;
