@@ -348,6 +348,7 @@
     <module>validating-string-parameter</module>
     <module>viewVC</module>
     <module>violations</module>
+    <module>virtualbox</module>
     <module>vmware</module>
     <module>vss</module>
     <module>warnings</module>
