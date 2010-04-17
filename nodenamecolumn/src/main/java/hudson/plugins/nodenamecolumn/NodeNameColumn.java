@@ -74,19 +74,28 @@ public class NodeNameColumn extends ListViewColumn {
         } catch(IllegalArgumentException e) {
             throw new RuntimeException("String has no matching NumeralEnum value");
         }
-        switch (jobType){
-            case FreeStyleProject:
-                name = ((FreeStyleProject)obj).getAssignedLabel().getName();
-                break;
-            case MavenModuleSet:
-                name = ((MavenModuleSet)obj).getAssignedLabel().getName();
-                break;
-            case MatrixProject:
-                name = ((MatrixProject)obj).getAssignedLabel().getName();
-                break;
-            default:
-                name = "N/A";
+        name = "N/A";
+        if (obj != null){
+            switch (jobType){
+                case FreeStyleProject:
+                    if (((FreeStyleProject)obj).getAssignedLabel() != null) {
+                        name = ((FreeStyleProject)obj).getAssignedLabel().getName();
+                    }
+                    break;
+                case MavenModuleSet:
+                    if (((MavenModuleSet)obj).getAssignedLabel() != null){
+                        name = ((MavenModuleSet)obj).getAssignedLabel().getName();
+                    }
+                    break;
+                case MatrixProject:
+                    if (((MatrixProject)obj).getAssignedLabel() != null){
+                        name = ((MatrixProject)obj).getAssignedLabel().getName();
+                    }
+                    break;
+                default:
+                    name = "N/A";
 
+            }
         }
         return name;
     }
