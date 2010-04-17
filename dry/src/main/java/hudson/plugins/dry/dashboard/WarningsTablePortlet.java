@@ -11,7 +11,7 @@ import hudson.plugins.view.dashboard.DashboardPortlet;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
- * A dashboard that shows a table with the number of warnings in a job.
+ * A portlet that shows a table with the number of warnings in a job.
  *
  * @author Ulli Hafner
  */

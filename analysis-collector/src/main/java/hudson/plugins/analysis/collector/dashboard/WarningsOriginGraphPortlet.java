@@ -1,23 +1,25 @@
-package hudson.plugins.checkstyle.dashboard;
+package hudson.plugins.analysis.collector.dashboard;
 
 import hudson.Extension;
 import hudson.model.Descriptor;
+import hudson.plugins.analysis.collector.AnalysisProjectAction;
+import hudson.plugins.analysis.collector.Messages;
+import hudson.plugins.analysis.collector.OriginGraph;
 import hudson.plugins.analysis.core.AbstractProjectAction;
 import hudson.plugins.analysis.dashboard.AbstractWarningsGraphPortlet;
-import hudson.plugins.checkstyle.CheckStyleProjectAction;
-import hudson.plugins.checkstyle.Messages;
+import hudson.plugins.analysis.graph.BuildResultGraph;
 import hudson.plugins.view.dashboard.DashboardPortlet;
 
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
- * A dashboard that shows a table with the number of warnings in a job.
+ * A portlet that shows the warnings trend graph of warnings by type.
  *
  * @author Ulli Hafner
  */
-public class WarningsGraphPortlet extends AbstractWarningsGraphPortlet {
+public class WarningsOriginGraphPortlet extends AbstractWarningsGraphPortlet {
     /**
-     * Creates a new instance of {@link WarningsGraphPortlet}.
+     * Creates a new instance of {@link WarningsOriginGraphPortlet}.
      *
      * @param name
      *            the name of the portlet
@@ -27,24 +29,28 @@ public class WarningsGraphPortlet extends AbstractWarningsGraphPortlet {
      *            height of the graph
      * @param dayCountString
      *            number of days to consider
-     * @param graphType
-     *            type of graph to use
      */
     @DataBoundConstructor
-    public WarningsGraphPortlet(final String name, final String width, final String height, final String dayCountString, final String graphType) {
-        super(name, width, height, dayCountString, graphType);
+    public WarningsOriginGraphPortlet(final String name, final String width, final String height, final String dayCountString) {
+        super(name, width, height, dayCountString);
     }
 
     /** {@inheritDoc} */
     @Override
     protected Class<? extends AbstractProjectAction<?>> getAction() {
-        return CheckStyleProjectAction.class;
+        return AnalysisProjectAction.class;
     }
 
     /** {@inheritDoc} */
     @Override
     protected String getPluginName() {
-        return "checkstyle";
+        return "analysis";
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected BuildResultGraph getGraphType() {
+        return new OriginGraph();
     }
 
     /**
@@ -68,7 +74,7 @@ public class WarningsGraphPortlet extends AbstractWarningsGraphPortlet {
 
         @Override
         public String getDisplayName() {
-            return Messages.Portlet_WarningsGraph();
+            return Messages.Portlet_WarningsOriginGraph();
         }
     }
 }
