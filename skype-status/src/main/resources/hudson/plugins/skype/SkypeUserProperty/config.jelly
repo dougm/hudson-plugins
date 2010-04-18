@@ -1,0 +1,6 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+	<f:entry title="${%Skype ID}">
+		<f:textbox name="skypeId" value="${instance.skypeId}"/>
+    ${%Current status: }<img src="${%http://mystatus.skype.com/smallicon/}${instance.skypeId}" /><br />
+	</f:entry>
+</j:jelly>
