@@ -1,14 +1,5 @@
 package hudson.plugins.bamboo;
 
-/*
- * (c) Copyright WesternGeco. Unpublished work, created 2009. All rights
- * reserved under copyright laws. This information is confidential and is
- * the trade property of WesternGeco. Do not use, disclose, or reproduce
- * without the prior written permission of the owner.
- *
- * File created: 30. des. 2009 14.08.01
- */
-
 import hudson.Extension;
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
@@ -31,51 +22,16 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
- * @author ANilsen
- * 
+ * @author Asgeir Storesund Nilsen
+ *
  */
 public class BambooNotifier extends Notifier {
 
-    private final String jobName;
-    private final String serverAddress;
-    private final String username;
-    private final String password;
-    private final boolean triggerUnstable;
-
-    /**
-     * @return the jobName
-     */
-    public String getJobName() {
-        return jobName;
-    }
-
-    /**
-     * @return the serverAddress
-     */
-    public String getServerAddress() {
-        return serverAddress;
-    }
-
-    /**
-     * @return the username
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * @return the password
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * @return the triggerUnstable
-     */
-    public boolean isTriggerUnstable() {
-        return triggerUnstable;
-    }
+    public final String jobName;
+    public final String serverAddress;
+    public final String username;
+    public final String password;
+    public final boolean triggerUnstable;
 
     @DataBoundConstructor
     public BambooNotifier(String jobName, String serverAddress,
@@ -92,7 +48,7 @@ public class BambooNotifier extends Notifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see hudson.tasks.BuildStep#getRequiredMonitorService()
      */
     public BuildStepMonitor getRequiredMonitorService() {
@@ -101,7 +57,7 @@ public class BambooNotifier extends Notifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * hudson.tasks.BuildStepCompatibilityLayer#perform(hudson.model.AbstractBuild
      * , hudson.Launcher, hudson.model.BuildListener)
@@ -110,17 +66,18 @@ public class BambooNotifier extends Notifier {
     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher,
             BuildListener listener) throws InterruptedException, IOException {
         if (build.getResult() == Result.SUCCESS)
-            triggerBamboo();
+	    triggerBamboo(listener);
         else if (triggerUnstable && build.getResult() == Result.UNSTABLE) {
-            System.out.println("Triggering unstable build");
-            triggerBamboo();
+	    listener.getLogger().println("Triggering unstable build");
+	    triggerBamboo(listener);
         }
         return true;
     }
 
-    void triggerBamboo() {
+    void triggerBamboo(BuildListener listener) {
         String url = serverAddress + "rest/api/latest/queue/" + jobName
                 + "?os_authType=basic";
+	listener.getLogger().printf("Triggering Bamboo job %s%n", url);
         PostMethod postMethod = new PostMethod(url);
         HttpClient client = new HttpClient();
         Credentials credentials = new UsernamePasswordCredentials(username,
@@ -128,11 +85,13 @@ public class BambooNotifier extends Notifier {
         client.getState().setCredentials(AuthScope.ANY, credentials);
         try {
             int status = client.executeMethod(postMethod);
-            System.out.printf("Response code from %s: %d%n", url, status);
+	    listener.getLogger().printf("Response code: %d%n", status);
         } catch (HttpException e) {
-            e.printStackTrace();
+	    e.printStackTrace(listener.error("Unable to notify Bamboo URL %s",
+		    url));
         } catch (IOException e) {
-            e.printStackTrace();
+	    e.printStackTrace(listener.error(
+		    "Unable to connect to Bamboo URL %s", url));
         } finally {
             postMethod.releaseConnection();
         }
@@ -144,7 +103,7 @@ public class BambooNotifier extends Notifier {
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see hudson.tasks.BuildStepDescriptor#isApplicable(java.lang.Class)
          */
         @Override
@@ -154,7 +113,7 @@ public class BambooNotifier extends Notifier {
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see hudson.model.Descriptor#getDisplayName()
          */
         @Override

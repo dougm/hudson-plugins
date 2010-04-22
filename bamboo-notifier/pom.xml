@@ -6,7 +6,7 @@
     <!--
       which version of Hudson is this plugin built against?
     -->
-    <version>1.339</version>
+    <version>1.355</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
