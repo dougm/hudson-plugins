@@ -357,6 +357,7 @@
     <module>wsclean</module>
     <module>xunit</module>
     <module>xvnc</module>
+    <module>rackspace-cloud</module>
   </modules>
 
   <properties>
