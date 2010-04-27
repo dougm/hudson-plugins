@@ -6,7 +6,7 @@
         <version>1.353</version>
     </parent>
     <artifactId>girls</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>Girls Plugin</name>
     <description>Displays pictures of girls (instead of Hudson the butler) and a random fact on each build page.</description>
     <url>http://wiki.hudson-ci.org/display/HUDSON/Girls+Plugin</url> 
@@ -44,10 +44,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-  <scm>
-    <connection>scm:svn:https://guest@svn.dev.java.net/svn/hudson/tags/girls-1.0.0</connection>
-    <developerConnection>scm:svn:https://svn.dev.java.net/svn/hudson/tags/girls-1.0.0</developerConnection>
-    <url>https://hudson.dev.java.net/source/browse/hudson/tags/girls-1.0.0</url>
-  </scm>
 </project>
