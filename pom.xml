@@ -363,7 +363,7 @@
     <module>wsclean</module>
     <module>xunit</module>
     <module>xvnc</module>
-    <module>rackspace-cloud</module>
+    <module>jclouds</module>
   </modules>
 
   <properties>
