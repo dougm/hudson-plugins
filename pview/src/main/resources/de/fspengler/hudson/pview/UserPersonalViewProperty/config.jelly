@@ -12,7 +12,7 @@
 	<f:entry title="${%show build no queue}">
 		<f:checkbox name="pview.pViewBuildNoQueue" checked="${instance.pViewBuildNoQueue}"/>
 	</f:entry>
-	<f:entry title="${%show build no exeutor}">
+	<f:entry title="${%show build no executor}">
 		<f:checkbox name="pview.pViewBuildNoExecutor" checked="${instance.pViewBuildNoExecutor}"/>
 	</f:entry>
 	<f:entry title="${%columns}">
