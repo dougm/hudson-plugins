@@ -25,6 +25,7 @@ package hudson.plugins.hgca;
 
 import hudson.Extension;
 import hudson.model.AbstractProject;
+import hudson.model.Hudson;
 import hudson.model.Job;
 import hudson.model.JobProperty;
 import hudson.model.JobPropertyDescriptor;
@@ -63,8 +64,8 @@ public final class HGCAProjectProperty extends JobProperty<AbstractProject<?,?>>
     public HashMap<String,String> getAnnotations() {
         // Get global annotations first, then project annotations.
         HashMap<String,String> allAnnos = new HashMap<String,String>();
-        if (applyGlobal)
-            allAnnos.putAll(DESCRIPTOR.getGlobalAnnotations());
+        if (getApplyGlobal())
+            allAnnos.putAll(DescriptorImpl.get().getGlobalAnnotations());
         allAnnos.putAll(annoPats);
         return allAnnos;
     }
@@ -74,8 +75,6 @@ public final class HGCAProjectProperty extends JobProperty<AbstractProject<?,?>>
     }
 
     @Extension
-    public static final DescriptorImpl DESCRIPTOR = new DescriptorImpl();
-
     public static final class DescriptorImpl extends JobPropertyDescriptor {
         // We basically rip off the same logic for per-project annotation pairs for use in setting
         // global annotation pairs.
@@ -121,6 +120,10 @@ public final class HGCAProjectProperty extends JobProperty<AbstractProject<?,?>>
             if (formData.has("annoBlock"))
                 hpp = req.bindJSON(HGCAProjectProperty.class, formData.getJSONObject("annoBlock"));
             return hpp;
+        }
+
+        static DescriptorImpl get() {
+            return Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
         }
     }
 

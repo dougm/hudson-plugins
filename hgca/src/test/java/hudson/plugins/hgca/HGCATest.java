@@ -29,6 +29,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import hudson.model.Hudson;
 import hudson.model.Job;
+import java.util.Collections;
+import org.jvnet.hudson.test.Bug;
 import org.jvnet.hudson.test.HudsonTestCase;
 import org.jvnet.hudson.test.recipes.LocalData;
 
@@ -41,7 +43,9 @@ public class HGCATest extends HudsonTestCase {
     @LocalData
     public void testPlugin() throws Exception {
         // ensure no NPE before plugin is configured:
-        assertTrue(HGCAProjectProperty.DESCRIPTOR.getGlobalAnnotations().isEmpty());
+        HGCAProjectProperty.DescriptorImpl DESCRIPTOR =
+                hudson.getDescriptorByType(HGCAProjectProperty.DescriptorImpl.class);
+        assertTrue(DESCRIPTOR.getGlobalAnnotations().isEmpty());
 
         Job job = (Job)Hudson.getInstance().getItem("test-job");
         assertNotNull("job missing.. @LocalData problem?", job);
@@ -55,8 +59,8 @@ public class HGCATest extends HudsonTestCase {
         // Don't automatically apply global patterns to all projects:
         ((HtmlInput)row.getByXPath("..//input[@name='alwaysApply']").get(0)).setChecked(false);
         submit(form);
-        assertEquals(1, HGCAProjectProperty.DESCRIPTOR.getGlobalAnnotations().size());
-        assertFalse(HGCAProjectProperty.DESCRIPTOR.getAlwaysApply());
+        assertEquals(1, DESCRIPTOR.getGlobalAnnotations().size());
+        assertFalse(DESCRIPTOR.getAlwaysApply());
 
         // With no HGCAProjectProperty and global "alwaysApply" == false, no annotation
         String xml = getChanges(wc, job);
@@ -73,8 +77,8 @@ public class HGCATest extends HudsonTestCase {
         // DO automatically apply global patterns to all projects:
         ((HtmlInput)row.getByXPath("..//input[@name='alwaysApply']").get(0)).setChecked(true);
         submit(form);
-        assertEquals(1, HGCAProjectProperty.DESCRIPTOR.getGlobalAnnotations().size());
-        assertTrue(HGCAProjectProperty.DESCRIPTOR.getAlwaysApply());
+        assertEquals(1, DESCRIPTOR.getGlobalAnnotations().size());
+        assertTrue(DESCRIPTOR.getAlwaysApply());
 
         // Now with no HGCAProjectProperty it will apply annotation
         job.removeProperty(HGCAProjectProperty.class);
@@ -129,5 +133,14 @@ public class HGCATest extends HudsonTestCase {
     private static String getChanges(WebClient wc, Job job) throws Exception {
         return wc.getPage(job, "changes").getElementById("main-panel")
                  .asXml().replaceAll("\\s+", " ");
+    }
+
+    @Bug(6367)
+    public void testUpgrade() {
+        // applyGlobal can be null in upgrade from previous HGCA
+        HGCAProjectProperty pp = new HGCAProjectProperty(
+                Collections.<HGCAProjectProperty.Entry>emptyList(), null);
+        // getAnnotations got NPE in HGCA 1.2
+        assertEquals(0, pp.getAnnotations().size());
     }
 }

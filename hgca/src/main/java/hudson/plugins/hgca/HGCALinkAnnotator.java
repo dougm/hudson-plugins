@@ -27,6 +27,7 @@ import hudson.Extension;
 import hudson.MarkupText;
 import hudson.MarkupText.SubText;
 import hudson.model.AbstractBuild;
+import hudson.plugins.hgca.HGCAProjectProperty.DescriptorImpl;
 import hudson.scm.ChangeLogAnnotator;
 import hudson.scm.ChangeLogSet.Entry;
 
@@ -47,11 +48,12 @@ public class HGCALinkAnnotator extends ChangeLogAnnotator {
     @Override
     public void annotate(AbstractBuild<?,?> build, Entry change, MarkupText text) {
         HGCAProjectProperty hpp = build.getProject().getProperty(HGCAProjectProperty.class);
-        if (hpp==null && !HGCAProjectProperty.DESCRIPTOR.getAlwaysApply())
+        DescriptorImpl descriptor = DescriptorImpl.get();
+        if (hpp==null && !descriptor.getAlwaysApply())
             return;
 
         HashMap<String,String> annoPats = hpp!=null ? hpp.getAnnotations()
-                                        : HGCAProjectProperty.DESCRIPTOR.getGlobalAnnotations();
+                                        : descriptor.getGlobalAnnotations();
         if (annoPats.isEmpty())
             return;
 
