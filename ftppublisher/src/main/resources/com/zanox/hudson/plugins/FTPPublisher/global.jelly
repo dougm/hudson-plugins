@@ -20,7 +20,7 @@
           <f:entry title="User Name" help="/plugin/ftppublisher/help-login.html">
             <f:textbox name="ftp.username" value="${site.username}"
 				checkMethod="post"
-				checkUrl="'${rootURL}/publisher/FTPPublisher/loginCheck?hostname='+escape(Form.findMatchingInput(this,'ftp.hostname').value)+'&amp;port='+escape(Form.findMatchingInput(this,'ftp.port').value)+'&amp;user='+escape(this.value)+'&amp;pass='+escape(Form.findMatchingInput(this,'ftp.password').value)"
+				checkUrl="'${rootURL}/publisher/FTPPublisher/loginCheck?hostname='+escape(Form.findMatchingInput(this,'ftp.hostname').value)+'&amp;port='+escape(Form.findMatchingInput(this,'ftp.port').value)+'&amp;user='+escape(this.value)+'&amp;pass='+escape(Form.findMatchingInput(this,'ftp.password').value)+'&amp;ftpDir='+escape(Form.findMatchingInput(this,'ftp.ftpDir').value)"
 			/>
           </f:entry>
           <f:entry title="Password">
