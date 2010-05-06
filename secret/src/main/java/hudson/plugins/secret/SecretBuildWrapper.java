@@ -7,7 +7,7 @@ import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.BuildListener;
 import hudson.model.Hudson;
-import hudson.security.Permission;
+import hudson.model.Item;
 import hudson.tasks.BuildWrapper;
 import hudson.tasks.BuildWrapperDescriptor;
 import java.io.File;
@@ -67,7 +67,7 @@ public class SecretBuildWrapper extends BuildWrapper {
 
         public void doUpload(StaplerRequest req, StaplerResponse rsp, @QueryParameter String job) throws IOException, ServletException {
             AbstractProject prj = (AbstractProject) Hudson.getInstance().getItem(job);
-            prj.checkPermission(Permission.CONFIGURE);
+            prj.checkPermission(Item.CONFIGURE);
             FileItem file = req.getFileItem("secret.file");
             if (file == null) {
                 throw new ServletException("no file upload");
