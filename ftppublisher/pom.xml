@@ -17,6 +17,13 @@
 	<description>Make it possible to upload artifacts and other resources to a ftp server.</description>
 	<url>http://wiki.hudson-ci.org/display/HUDSON/FTP-Publisher+Plugin</url>
 
+	<developers>
+		<developer>
+			<id>benjaminjaton</id>
+			<name>Benjamin Jaton</name>
+			<email>benjamin.jaton@gmail.com</email>
+		</developer>
+	</developers>
 
 	<dependencies>
 		<dependency>
