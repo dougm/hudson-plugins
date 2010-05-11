@@ -1,9 +1,8 @@
 package hudson.plugins.buckminster.util;
 
-import java.io.File;
-import java.io.IOException;
-
 import hudson.util.TextFile;
+
+import java.io.IOException;
 
 public class ReadDelegatingTextFile extends TextFile{
 

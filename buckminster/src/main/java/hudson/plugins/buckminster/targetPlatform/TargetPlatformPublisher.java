@@ -112,7 +112,7 @@ public class TargetPlatformPublisher extends ArtifactArchiver implements
 	private String targetPlatformName;
 
 	public TargetPlatformReference getTargetPlatformReference(
-			AbstractProject project) {
+			AbstractProject<?,?> project) {
 		TargetPlatformReference reference = new TargetPlatformReference();
 		reference.setName(targetPlatformName);
 		reference.setFullName(project.getFullName() + "/" + targetPlatformName);
@@ -131,6 +131,7 @@ public class TargetPlatformPublisher extends ArtifactArchiver implements
 		return targetPlatformName;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void buildDependencyGraph(AbstractProject owner,
 			DependencyGraph graph) {
 
@@ -177,6 +178,7 @@ public class TargetPlatformPublisher extends ArtifactArchiver implements
 	public static final class DescriptorImpl extends
 			BuildStepDescriptor<Publisher> {
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public boolean isApplicable(Class<? extends AbstractProject> jobType) {
 			return FreeStyleProject.class.isAssignableFrom(jobType)

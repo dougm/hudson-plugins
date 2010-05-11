@@ -32,7 +32,6 @@ import hudson.util.TextFile;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FilePermission;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.MessageFormat;
@@ -57,6 +56,9 @@ public class BuckminsterInstallation extends ToolInstallation implements
 		EnvironmentSpecific<BuckminsterInstallation>,
 		NodeSpecific<BuckminsterInstallation> {
 
+
+	private static final long serialVersionUID = -7771376893768609115L;
+	
 	private String version;
 	private String params;
 
@@ -100,7 +102,10 @@ public class BuckminsterInstallation extends ToolInstallation implements
      */
     public String getBuckminsterExecutable(Launcher launcher) throws IOException, InterruptedException {
         return launcher.getChannel().call(new Callable<String,IOException>() {
-            public String call() throws IOException {
+
+			private static final long serialVersionUID = -9191417273316445886L;
+
+			public String call() throws IOException {
                 File exe = getBuckminsterExeFile();
                 if(exe.exists())
                     return exe.getPath();
@@ -121,7 +126,10 @@ public class BuckminsterInstallation extends ToolInstallation implements
      */
     public String getDirectorExecutable(Launcher launcher) throws IOException, InterruptedException {
         return launcher.getChannel().call(new Callable<String,IOException>() {
-            public String call() throws IOException {
+
+			private static final long serialVersionUID = -6913910944225418236L;
+
+			public String call() throws IOException {
                 File exe = getDirectorExeFile();
                 if(exe.exists())
                     return exe.getPath();

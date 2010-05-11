@@ -68,7 +68,7 @@ public class CommandLineBuilder {
 	 * 
 	 * @param build
 	 * @param launcher 
-	 * @return
+	 * @return the list containing the actual invocation and all parameters
 	 * @throws MalformedURLException
 	 * @throws IOException
 	 * @throws InterruptedException
@@ -313,6 +313,8 @@ public class CommandLineBuilder {
 		List<String> commands = new ArrayList<String>();
 		
 		String executableName = toolDir.getChannel().call(new Callable<String, IOException>() {
+
+			private static final long serialVersionUID = 2062576798236698029L;
 
 			public String call() throws IOException {
 				if(Functions.isWindows())

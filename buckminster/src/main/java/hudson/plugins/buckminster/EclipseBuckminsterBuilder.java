@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -44,7 +43,7 @@ import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
 /**
- * Sample {@link Builder}.
+ * Build Step that invokes Eclipse Buckminster.
  * 
  * <p>
  * When the user configures the project and enables this builder,
@@ -140,10 +139,9 @@ public class EclipseBuckminsterBuilder extends Builder {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked") @Override
+	@Override
 	public boolean perform(AbstractBuild<?,?> build, Launcher launcher,
 			BuildListener listener) {
-		//TODO: make this behave in master/slave scenario
 		try {
 			BuckminsterInstallation installation = getInstallation();
 			if(installation==null)
@@ -165,7 +163,7 @@ public class EclipseBuckminsterBuilder extends Builder {
 			}
 			CommandLineBuilder cmdBuilder = new CommandLineBuilder(installation,modifiedCommands,getLogLevel(),getParams(),getUserWorkspace(),getUserTemp(),getUserOutput(), getUserCommand());
 			List<String> buildCommands = cmdBuilder.buildCommands(build,listener, launcher);
-			Proc proc = launcher.launch().pwd(build.getWorkspace()).cmds(buildCommands).stdout(listener).start();
+			Proc proc = launcher.launch().envs(build.getEnvironment(listener)).pwd(build.getWorkspace()).cmds(buildCommands).stdout(listener).start();
 			return proc.join()==0;
 
 		} 
@@ -177,7 +175,6 @@ public class EclipseBuckminsterBuilder extends Builder {
 	}
 
 	private BuckminsterInstallation pickDefault(BuildListener listener) {
-		String oldName = installationName;
 		BuckminsterInstallation[] available = DESCRIPTOR.getBuckminsterInstallations();
 		if(available==null || available.length==0)
 			return null;
@@ -194,12 +191,8 @@ public class EclipseBuckminsterBuilder extends Builder {
 	public static final DescriptorImpl DESCRIPTOR = new DescriptorImpl();
 
 	/**
-	 * Descriptor for {@link HelloWorldBuilder}. Used as a singleton. The class
+	 * Descriptor for {@link EclipseBuckminsterBuilder}. Used as a singleton. The class
 	 * is marked as public so that it can be accessed from views.
-	 * 
-	 * <p>
-	 * See <tt>views/hudson/plugins/hello_world/HelloWorldBuilder/*.jelly</tt>
-	 * for the actual HTML fragment for the configuration screen.
 	 */
     @SuppressWarnings("deprecation")
 	public static final class DescriptorImpl extends BuildStepDescriptor<Builder> {
@@ -222,14 +215,15 @@ public class EclipseBuckminsterBuilder extends Builder {
 		 * 
 		 * @return a list of all {@link TargetPlatformReference}s published by a {@link TargetPlatformPublisher}
 		 */
+		@SuppressWarnings("unchecked")
 		public List<TargetPlatformReference> getTargetPlatforms() {	
 			
 			List<AbstractProject> projects = Hudson.getInstance().getAllItems(AbstractProject.class);
 			List<TargetPlatformReference> references = new ArrayList<TargetPlatformReference>();
 			references.add(new NoTargetPlatformReference());
-			for (AbstractProject project : projects) {
+			for (AbstractProject<?,?> project : projects) {
 				DescribableList<Publisher,Descriptor<Publisher>> publishersList = project.getPublishersList();
-				for (Describable describable : publishersList) {
+				for (Describable<?> describable : publishersList) {
 					if (describable instanceof TargetPlatformPublisher) {
 						TargetPlatformPublisher publisher = (TargetPlatformPublisher) describable;
 						TargetPlatformReference reference = publisher.getTargetPlatformReference(project);
@@ -267,10 +261,12 @@ public class EclipseBuckminsterBuilder extends Builder {
 		}
 
 		/**
-		 * Performs on-the-fly validation of the form field 'installationName'.
-		 * 
-		 * @param value
-		 *            This receives the current value of the field.
+		 * performs on-thy-fly validation of the eclipse home path field.
+		 * @param req the request
+		 * @param rsp the response
+		 * @return one of {@link FormValidation#error(String)} or {@link FormValidation#ok()}
+		 * @throws IOException
+		 * @throws ServletException
 		 */
 		public FormValidation doCheckEclipseHome(StaplerRequest req, StaplerResponse rsp)
 				throws IOException, ServletException {
@@ -349,6 +345,7 @@ public class EclipseBuckminsterBuilder extends Builder {
 			formData);
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public boolean isApplicable(Class<? extends AbstractProject> jobType) {
 			return FreeStyleProject.class.isAssignableFrom(jobType) || MatrixProject.class.isAssignableFrom(jobType);
