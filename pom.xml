@@ -14,6 +14,11 @@
   <version>1.355</version>
   <packaging>pom</packaging>
 
+  <properties>
+    <!-- if your java.net user name is different from local user name, specify it here -->
+    <java.net.id>${user.name}</java.net.id>
+  </properties>
+
   <!--
     We need the following because the artifactId=plugin but directoryName=plugins, and
     Maven infers the wrong value if I don't specify it explicitly.
@@ -365,11 +370,6 @@
     <module>xvnc</module>
     <module>jclouds</module>
   </modules>
-
-  <properties>
-    <!-- if your java.net user name is different from local user name, specify it here -->
-    <java.net.id>${user.name}</java.net.id>
-  </properties>
 
   <repositories>
     <repository>
