@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package hudson.plugins.jswidgets;
 
@@ -10,14 +10,17 @@ import hudson.model.User;
 import hudson.scm.ChangeLogSet;
 import hudson.scm.ChangeLogSet.Entry;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
 import org.jvnet.hudson.test.Bug;
 import org.jvnet.hudson.test.HudsonTestCase;
 import org.jvnet.hudson.test.recipes.LocalData;
@@ -28,8 +31,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class PluginTest extends HudsonTestCase {
 
+    /** Our logger. */
+    private static final Logger LOG = Logger.getLogger(PluginTest.class.getName());
+
     /**
-     * 
+     *
      */
     private static final int TOTAL_NUMBER_OF_RUNS = 7;
 
@@ -43,9 +49,20 @@ public class PluginTest extends HudsonTestCase {
         webClient = createWebClient();
     }
 
+    /** {@inheritDoc}.
+     * Deletes the hudson instance directory on teardown to avoid leakage of testdirectories.
+     */
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        final File rootDir = hudson.getRootDir();
+        LOG.info("Deleting " + rootDir + " in tearDown");
+        FileUtils.deleteDirectory(rootDir);
+    }
+
     /**
      * Test method for an existing job without any builds.
-     * 
+     *
      * @throws IOException
      * @throws SAXException
      */
@@ -121,7 +138,7 @@ public class PluginTest extends HudsonTestCase {
         testJsBuildAction(buildPath, changesJelly, "#/trunk/foo", nodeName);
     }
 
-    
+
     @Bug(4889)
     @LocalData
     public void testJsBuildActionWithChangesAfterReloadOfConfiguration() throws IOException, SAXException {
@@ -144,7 +161,7 @@ public class PluginTest extends HudsonTestCase {
         checkHtmlOutput("job with '3' builds", relative);
         checkJavaScriptOutput("job with \\'3\\' builds", relative);
     }
-    
+
     @LocalData
     public void testJsBuildActionWithOutChanges() throws IOException, SAXException {
         final String buildPath = "/job/svntest/2";
@@ -165,8 +182,8 @@ public class PluginTest extends HudsonTestCase {
         Thread.sleep(TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS));
         testJsBuildAction(buildPath, changesJelly, changeLogNeedle, nodeName);
     }
-    
-    
+
+
     @LocalData
     public void testJsProjectActionFactory() {
         @SuppressWarnings("unchecked")
@@ -178,7 +195,7 @@ public class PluginTest extends HudsonTestCase {
         new JsProjectActionFactory().createFor(firstProject);
         assertEquals(1, firstProject.getActions(JsJobAction.class).size());
     }
-    
+
     public void testSCMWithoutAffectedFilesImplementation() {
         final Entry entry = new ChangeLogSet.Entry() {
 
@@ -223,7 +240,7 @@ public class PluginTest extends HudsonTestCase {
 
     /**
      * Checks the existence of the index-jelly entry and an additional specialized jelly referenced by jellyPath.
-     * 
+     *
      * @param objectPath
      * @param jellyPath
      * @throws IOException
@@ -297,7 +314,7 @@ public class PluginTest extends HudsonTestCase {
         final HtmlPage buildPage = webClient.goTo(build);
         final String body = buildPage.asXml();
         final String needle = "/plugin/jswidgets/img/jsindex.png";
-        assertEquals(body + " has more than one jsindex.png", body.indexOf(needle), body.lastIndexOf(needle));                
+        assertEquals(body + " has more than one jsindex.png", body.indexOf(needle), body.lastIndexOf(needle));
     }
 
 }
