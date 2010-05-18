@@ -5,7 +5,6 @@ import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.reset;
 import static org.easymock.classextension.EasyMock.verify;
-import hudson.model.Descriptor;
 import hudson.model.AbstractBuild;
 import hudson.model.FreeStyleProject;
 import hudson.tasks.Builder;
@@ -217,14 +216,10 @@ public class OrigoIssuePublisherTest extends HudsonTestCase {
 		return HUDSON_URL + "job/test0/" + i + "/";
 	}
 
-	@SuppressWarnings("deprecation")
 	private OrigoIssuePublisher setupPublisher() {
-		OrigoIssuePublisher.DescriptorImpl descriptor = new OrigoIssuePublisher.DescriptorImpl();
-		descriptor.setHudsonUrl(HUDSON_URL);
-		hudson.getExtensionList(Descriptor.class).add(descriptor);
-
 		OrigoIssuePublisher publisher = new OrigoIssuePublisher(API_URL, PROJECT_NAME, USER_KEY, ISSUE_SUBJECT,
 				ISSUE_TAG, ISSUE_PRIVATE, ORIGO_API_CLIENT_MOCK);
+		publisher.getDescriptor().setHudsonUrl(HUDSON_URL);
 		return publisher;
 	}
 }
