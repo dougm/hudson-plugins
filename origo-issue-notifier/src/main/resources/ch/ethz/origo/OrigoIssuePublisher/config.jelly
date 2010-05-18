@@ -1,0 +1,52 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <!--
+    This jelly script is used for per-project configuration.
+
+    See global.jelly for a general discussion about jelly script.
+  -->
+
+  <f:section title="Origo issue notifier">
+    <!--
+      optional @help points to the help document HTML. /plugin/origo-issue-notifier
+      is mapped to our webapp/ directory, so this is a convenient way to serve
+      static resources.
+    -->
+    
+      <!--
+        we'll have on input field. In HTML, single "namespace" is shared between
+        all form components in one <form>, so we need to choose a name that doesn't
+        collide with other plugins. The 'descriptor' variable represents our descriptor
+        object, so we use that to determine the initial value for this form.
+      -->
+
+	<f:entry title="Project name"
+	  field="projectName">
+	  <f:textbox name="origo.issues.projectName" />
+	 </f:entry>
+
+	<f:entry title="User API key"
+	  field="userKey">
+	  <f:textbox name="origo.issues.userKey" />
+	 </f:entry>
+
+	<f:entry title="API URL"
+	  field="apiUrl">
+	  <f:textbox name="origo.issues.apiUrl" default="http://api.origo.ethz.ch/api/xmlrpc" />
+	 </f:entry>
+
+	<f:entry title="Issue subject"
+	  field="issueSubject">
+	  <f:textbox name="origo.issues.issueSubject" default="Build failed" />
+	 </f:entry>
+
+	<f:entry title="Issue tag"
+	  field="issueTag">
+	  <f:textbox name="origo.issues.issueTag" default="build::failed" />
+	 </f:entry>
+
+    <f:entry title="Private issue"
+      field="issuePrivate">
+      <f:checkbox name="origo.issues.issuePrivate" default="true" />
+    </f:entry>
+  </f:section>  
+</j:jelly>
