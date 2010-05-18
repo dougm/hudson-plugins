@@ -10,7 +10,7 @@
   <artifactId>origo-issue-notifier</artifactId>
   <name>Origo Issue Notifier</name>
   <description>Plugin for Hudson that opens or updates an issue on Origo based on the build result.</description>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>hpi</packaging>
   <url>http://wiki.hudson-ci.org/display/HUDSON/Origo+Issue+Notifier</url>
   <developers>
@@ -35,4 +35,10 @@
   		<scope>test</scope>
   	</dependency>
   </dependencies>
+
+  <scm>
+    <connection>scm:svn:https://guest@svn.dev.java.net/svn/hudson/tags/origo-issue-notifier-1.0</connection>
+    <developerConnection>scm:svn:https://svn.dev.java.net/svn/hudson/tags/origo-issue-notifier-1.0</developerConnection>
+    <url>https://hudson.dev.java.net/source/browse/hudson/tags/origo-issue-notifier-1.0</url>
+  </scm>
 </project>
