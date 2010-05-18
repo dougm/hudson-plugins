@@ -55,11 +55,8 @@ public class FTPPublisher extends Notifier {
 	 * This is a SimpleDateFormat instance to get a directory name which include a time stamp.
 	 */
 	protected static final SimpleDateFormat ID_FORMATTER = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-
 	private String siteName;
-
 	private final List<Entry> entries = new ArrayList<Entry>();
-
 	private Boolean useTimestamps = false;
 	private Boolean flatten = true;
 
@@ -150,40 +147,16 @@ public class FTPPublisher extends Notifier {
 			ftpsite = getSite();
 			listener.getLogger().println("Connecting to " + ftpsite.getHostname());
 			ftpsite.createSession();
+			EntryCopier copier = new EntryCopier(build, listener, ftpsite, flatten, useTimestamps);
 
-			URI workSpaceDir = build.getWorkspace().toURI().normalize();
-			// workSpaceDir = workSpaceDir.resolve(build.getProject().getName()).normalize();
-
-			Map<String, String> envVars = build.getEnvironment(listener);
-
-			long fileCount = 0;
+			int copied = 0;
 
 			for (Entry e : entries) {
-				// prepare sources
-				String expanded = Util.replaceMacro(e.sourceFile, envVars);
-				listener.getLogger().println(workSpaceDir);
-				FilePath[] sourceFiles = build.getWorkspace().list(expanded);
-
-				// prepare common dest
-				ftpsite.changedToProjectRootDir("", listener.getLogger());
-				String subRoot = Util.replaceMacro(e.filePath, envVars);
-				if (useTimestamps) {
-					subRoot += "/" + ID_FORMATTER.format(build.getTimestamp().getTime());
-				}
-				ftpsite.mkdirs(subRoot, listener.getLogger());
-				ftpCurrentDirectory = subRoot;
-
-				if (sourceFiles.length == 0) {
-					listener.getLogger().println("No file(s) found: " + expanded);
-				} else {
-					for (FilePath sourceFile : sourceFiles) {
-						ftpCdMkdirs(sourceFile, workSpaceDir, ftpsite, subRoot, listener);
-						ftpsite.upload(sourceFile, envVars, listener.getLogger());
-						fileCount++;
-					}
-				}
-				listener.getLogger().println("transferred " + fileCount + " files to " + subRoot);
+				copied += copier.copy(e);
 			}
+
+			listener.getLogger().println("Transfered " + copied + " files.");
+
 		} catch (Throwable th) {
 			th.printStackTrace(listener.error("Failed to upload files"));
 			build.setResult(Result.UNSTABLE);
@@ -194,32 +167,6 @@ public class FTPPublisher extends Notifier {
 		}
 
 		return true;
-	}
-
-	private String ftpCurrentDirectory;
-
-	private void ftpCdMkdirs(FilePath sourceFile, URI workSpaceDirURI, FTPSite ftpsite, String entryRootFolder, BuildListener listener)
-	    throws IOException, SftpException, InterruptedException {
-		String relativeSourcePath = getRelativeSourcePath(workSpaceDirURI, sourceFile);
-		if (!ftpCurrentDirectory.equals(relativeSourcePath)) {
-			ftpsite.changedToProjectRootDir(entryRootFolder, listener.getLogger());
-			ftpCurrentDirectory = entryRootFolder;
-			if (!flatten) {
-				ftpsite.mkdirs(relativeSourcePath, listener.getLogger());
-				ftpCurrentDirectory += relativeSourcePath;
-			}
-		}
-	}
-
-	private String getRelativeSourcePath(URI workSpaceDirURI, FilePath sourceFile) throws IOException, InterruptedException {
-		URI sourceFileURI = sourceFile.toURI().normalize();
-		String relativeSourceFile = sourceFileURI.getPath().replaceFirst(workSpaceDirURI.getPath(), "");
-		int lastSlashIndex = relativeSourceFile.lastIndexOf("/");
-		if (lastSlashIndex == -1) {
-			return ".";
-		} else {
-			return relativeSourceFile.substring(0, lastSlashIndex);
-		}
 	}
 
 	/**
