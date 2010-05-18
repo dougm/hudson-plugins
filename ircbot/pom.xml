@@ -20,7 +20,7 @@
   </licenses>
   
     <properties>
-      <version.instant-messaging.plugin>1.8-SNAPSHOT</version.instant-messaging.plugin>
+      <version.instant-messaging.plugin>1.7</version.instant-messaging.plugin>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     
@@ -45,7 +45,7 @@
     <plugin>
         <groupId>org.jvnet.hudson.tools</groupId>
         <artifactId>maven-hpi-plugin</artifactId>
-        <version>1.48</version>
+        <version>1.52</version>
         <extensions>true</extensions>
     </plugin>
    </plugins>
