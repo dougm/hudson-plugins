@@ -13,7 +13,7 @@
 	<artifactId>ftppublisher</artifactId>
 	<packaging>hpi</packaging>
 	<name>FTP publisher plugin</name>
-	<version>1.0</version>
+	<version>1.1-SNAPSHOT</version>
 	<description>Make it possible to upload artifacts and other resources to a ftp server.</description>
 	<url>http://wiki.hudson-ci.org/display/HUDSON/FTP-Publisher+Plugin</url>
 
@@ -51,12 +51,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
-
-  <scm>
-    <connection>scm:svn:https://guest@svn.dev.java.net/svn/hudson/tags/ftppublisher-1.0</connection>
-    <developerConnection>scm:svn:https://svn.dev.java.net/svn/hudson/tags/ftppublisher-1.0</developerConnection>
-    <url>https://hudson.dev.java.net/source/browse/hudson/hudson/plugins/ftppublisher/tags/ftppublisher-1.0</url>
-  </scm>
 </project>
 
