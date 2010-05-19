@@ -22,11 +22,11 @@ import hudson.scm.SCMRevisionState;
 import hudson.triggers.SCMTrigger;
 import hudson.Util;
 
+import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.types.FileSet;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.util.Map;
-
 
 public class RemoteQueueSCM extends SCM {
 	
@@ -36,7 +36,7 @@ public class RemoteQueueSCM extends SCM {
 	
 	private final String directory;
 	
-	//private String timerSpec;
+	// private String timerSpec;
 	
 	/**
 	 * Files to locate under the base directory.
@@ -44,10 +44,12 @@ public class RemoteQueueSCM extends SCM {
 	private final String files = "*.zip";
 	
 	private String ziplogFilename = null;
+	
+	private FileSet zipFileSet = null;
 
     @DataBoundConstructor
 	public RemoteQueueSCM(String directory){
-		//this.timerSpec = timerSpec;
+		// this.timerSpec = timerSpec;
     	System.out.println("DEBUG: const");
 		this.directory = directory;
     }
@@ -64,7 +66,7 @@ public class RemoteQueueSCM extends SCM {
 			InterruptedException {
 		// TODO Auto-generated method stub
 		RemoteQueueRevisionState preComState = new RemoteQueueRevisionState();
-		//preComState.setBuildNow(filesFound());
+		preComState.setBuildNow(filesFound());
 		System.out.println("DEBUG: calcRevisions, found: " + filesFound());
 		
 		System.out.println("DEBUG: calcRevisions, found: " + preComState.getBuildNow());
@@ -72,8 +74,8 @@ public class RemoteQueueSCM extends SCM {
 	}
 
 	@Override
-	public boolean checkout(AbstractBuild<?, ?> arg0, Launcher arg1,
-			FilePath arg2, BuildListener listener, File zipFileLog) throws IOException,
+	public boolean checkout(AbstractBuild<?, ?> build, Launcher launcher,
+			FilePath filePath, BuildListener listener, File zipFileLog) throws IOException,
 			InterruptedException {
 		// TODO Auto-generated method stub
 		System.out.println("DEBUG: checkout");
@@ -81,20 +83,27 @@ public class RemoteQueueSCM extends SCM {
         ziplogFilename = zipFileLog.getAbsolutePath();
         
         // copy and unzip the file
+        FilePath path = build.getWorkspace();
         
-        System.out.println("DEBUG: zipFileLog");
+        System.out.println("DEBUG: zipFileLog, path: " + path);
         
 		return false;
 	}
 
 	@Override
 	protected PollingResult compareRemoteRevisionWith(
-			AbstractProject<?, ?> item, Launcher arg1, FilePath arg2,
-			TaskListener arg3, SCMRevisionState baseline) throws IOException,
+			AbstractProject<?, ?> item, Launcher launcher, FilePath filePath,
+			TaskListener taskListener, SCMRevisionState baseline) throws IOException,
 			InterruptedException {
+		System.out.println("DEBUG: compareRemote: found? : " + filesFound());
 		RemoteQueueRevisionState preComState = (RemoteQueueRevisionState)baseline;
-		System.out.println("DEBUG: preComState: "+ preComState.getBuildNow());
+		// System.out.println("DEBUG: preComState: "+ preComState.getBuildNow());
 		if (preComState.getBuildNow()){
+			preComState.setBuildNow(false);
+			System.out.println("DEBUG: filesFound: " + filesFound());			
+			FilePath changeZip = changeZip();
+			System.out.println("DEBUG: changeZip name: " + changeZip.getName());
+			//changeZip.copyTo();
 			return BUILD_NOW;
 		}
 		System.out.println("DEBUG: compareRemoteRev");
@@ -127,12 +136,32 @@ public class RemoteQueueSCM extends SCM {
 	private boolean filesFound() {
 	  if (directoryFound()) {
 		  System.out.println("DEBUG: files: " + files);
-	    FileSet fileSet = Util.createFileSet(new File(directory), files);
-	    fileSet.setDefaultexcludes(false);
-	    return fileSet.size() > 0;
+	    zipFileSet = Util.createFileSet(new File(directory), files);
+	    zipFileSet.setDefaultexcludes(false);
+	    
+	    return zipFileSet.size() > 0;
 	  }
 	  return false;
-	  }	
+	  }
+	
+	/**
+	 * Return the latest zip file.
+	 * 
+	 * @return FilePath
+	 *         
+	 */	
+	private FilePath changeZip(){
+		//FilePath changeZip = null;
+		
+	    DirectoryScanner directoryScanner = zipFileSet.getDirectoryScanner();
+	    String[] files = directoryScanner.getIncludedFiles();
+	//    for (int i = 0; i < files.length; i++) {
+	//      System.out.println("DEBUG: files: " + files[i]);
+	//    }
+	    FilePath changeZip = new FilePath(new File(files[0]));
+		
+		return changeZip;
+	}
 	
 	@Extension
     public static final class PreCommitSCMDescriptor extends SCMDescriptor<RemoteQueueSCM> {
