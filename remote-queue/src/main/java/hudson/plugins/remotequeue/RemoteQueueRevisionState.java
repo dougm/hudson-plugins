@@ -6,14 +6,14 @@ import hudson.scm.SCMRevisionState;
 
 public class RemoteQueueRevisionState extends SCMRevisionState implements Serializable {
 
-	private boolean buildNow = false;
+	private boolean zipFilesQueued = false;
 	
-	public void setBuildNow(boolean buildNow){
-		this.buildNow = buildNow;
+	public void setZipFilesQueued(boolean found){
+		this.zipFilesQueued = found;
 	}
 	
-	public boolean getBuildNow(){
-		return buildNow;
+	public boolean isZipFilesQueued(){
+		return zipFilesQueued;
 	}
 	
 }

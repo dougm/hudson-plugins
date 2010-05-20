@@ -34,7 +34,7 @@ public class RemoteQueueSCM extends SCM {
 	 * The base directory to use when locating files.  The queue.
 	 */
 	
-	private final String directory;
+	public final String directory;
 	
 	// private String timerSpec;
 	
@@ -51,7 +51,9 @@ public class RemoteQueueSCM extends SCM {
 	public RemoteQueueSCM(String directory){
 		// this.timerSpec = timerSpec;
     	System.out.println("DEBUG: const");
-		this.directory = directory;
+		this.directory = directory.trim();
+    	System.out.println("DEBUG: directory: " + directory);
+		
     }
     
     @Override
@@ -66,16 +68,16 @@ public class RemoteQueueSCM extends SCM {
 			InterruptedException {
 		// TODO Auto-generated method stub
 		RemoteQueueRevisionState preComState = new RemoteQueueRevisionState();
-		preComState.setBuildNow(filesFound());
-		System.out.println("DEBUG: calcRevisions, found: " + filesFound());
+		preComState.setZipFilesQueued(filesFound());
+		//System.out.println("DEBUG: calcRevisions, found: " + filesFound());
 		
-		System.out.println("DEBUG: calcRevisions, found: " + preComState.getBuildNow());
+		//System.out.println("DEBUG: calcRevisions, found: " + preComState.getBuildNow());
 		return preComState;
 	}
 
 	@Override
 	public boolean checkout(AbstractBuild<?, ?> build, Launcher launcher,
-			FilePath filePath, BuildListener listener, File zipFileLog) throws IOException,
+			FilePath zipFilePath, BuildListener listener, File zipFileLog) throws IOException,
 			InterruptedException {
 		// TODO Auto-generated method stub
 		System.out.println("DEBUG: checkout");
@@ -84,10 +86,12 @@ public class RemoteQueueSCM extends SCM {
         
         // copy and unzip the file
         FilePath path = build.getWorkspace();
+        System.out.println("DEBUG: zipFileLog, workspace: " + build.getWorkspace());
+        zipFilePath.copyTo(build.getWorkspace().child(zipFileLog.getName()));
         
         System.out.println("DEBUG: zipFileLog, path: " + path);
         
-		return false;
+		return true;
 	}
 
 	@Override
@@ -98,8 +102,9 @@ public class RemoteQueueSCM extends SCM {
 		System.out.println("DEBUG: compareRemote: found? : " + filesFound());
 		RemoteQueueRevisionState preComState = (RemoteQueueRevisionState)baseline;
 		// System.out.println("DEBUG: preComState: "+ preComState.getBuildNow());
-		if (preComState.getBuildNow()){
-			preComState.setBuildNow(false);
+		preComState.setZipFilesQueued(filesFound());
+		if (preComState.isZipFilesQueued()){
+			// preComState.setBuildNow(false);
 			System.out.println("DEBUG: filesFound: " + filesFound());			
 			FilePath changeZip = changeZip();
 			System.out.println("DEBUG: changeZip name: " + changeZip.getName());
@@ -124,7 +129,7 @@ public class RemoteQueueSCM extends SCM {
 	 *         search directory does not exist or has not been configured
 	 */
 	private boolean directoryFound() {
-	  return ((!directory.trim().isEmpty()) && new File(directory.trim()).isDirectory());
+	  return ((!directory.isEmpty()) && new File(directory.trim()).isDirectory());
 	}
 	
 	/**
