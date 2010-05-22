@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<results>
+<error file=".\gui\test.cpp" line="31" id="memleak" severity="error" msg="Memory leak: b"/>
+<error file=".\gui\test.cpp" line="16" id="mismatchAllocDealloc" severity="error" msg="Mismatching allocation and deallocation: k"/>
+</results>

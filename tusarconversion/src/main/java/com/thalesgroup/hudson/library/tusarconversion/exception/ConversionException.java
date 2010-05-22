@@ -21,24 +21,24 @@
  * THE SOFTWARE.                                                                *
  *******************************************************************************/
 
-package com.thalesgroup.hudson.library.tusarconversion;
+package com.thalesgroup.hudson.library.tusarconversion.exception;
 
-import com.thalesgroup.hudson.library.tusarconversion.model.InputType;
+public class ConversionException extends Exception {
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+	public ConversionException() {
+		super();
+	}
 
+	public ConversionException(String message) {
+		super(message);
+	}
 
-public abstract class Tools {
+	public ConversionException(Throwable cause) {
+		super(cause);
+	}
 
-    public abstract List<InputType> getTools();
+	public ConversionException(String message, Throwable cause) {
+		super(message, cause);
+	}
 
-    public Map<String, InputType> getAll() {
-        Map<String, InputType> registry = new HashMap<String, InputType>();
-        for (InputType inputType : getTools()) {
-            registry.put(new String(inputType.getType() + "." + inputType.getName()), inputType);
-        }
-        return registry;
-    }
 }

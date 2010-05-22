@@ -1,0 +1,481 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ResultsSession time="04/02/10 12:15:23" toolName="C++test" toolVer="7.3.0.343">
+   <Authors>
+      <Author id="dev1" name="S0017337" />
+   </Authors>
+   <VersionInfos>
+      <StorageInfo ownerId="com.parasoft.xtest.checkers.api.generation" resultId="IGenerationProjectInfo" ver="2" />
+      <StorageInfo ownerId="com.parasoft.xtest.checkers.api.generation" resultId="IGenerationInfo" ver="2" />
+      <StorageInfo ownerId="com.parasoft.xtest.checkers.api.codereview" resultId="ICodeReviewScannerInfo" ver="2" />
+      <StorageInfo ownerId="com.parasoft.xtest.checkers.api.codereview" resultId="ICodeReviewUndefinedAuthorsInfo" ver="1" />
+      <StorageInfo ownerId="com.parasoft.xtest.checkers.api.execution" resultId="InsureViolation" ver="3" />
+      <StorageInfo ownerId="com.parasoft.xtest.checkers.api.execution" resultId="IExecutionViolation" ver="2" />
+      <StorageInfo ownerId="com.parasoft.xtest.checkers.api.standards" resultId="IFlowAnalysisViolation" ver="2" />
+      <StorageInfo ownerId="com.parasoft.xtest.checkers.api.standards" resultId="IDupCodeViolation" ver="2" />
+      <StorageInfo ownerId="com.parasoft.xtest.checkers.api.standards" resultId="ICodingStandardsViolation" ver="2" />
+      <StorageInfo ownerId="com.parasoft.xtest.checkers.api.scope" resultId="IScopeProjectInfo" ver="3" />
+   </VersionInfos>
+   
+   
+   <Scope>
+      <ProjectInformations>
+         <ScopeProjectInfo fltFiles="81" fltLns="85283" project="/cppcheck" totFiles="81" totLns="85283" />
+      </ProjectInformations>
+   </Scope>
+   <CodingStandards ownerId="com.parasoft.xtest.checkers.api.standards" time="0:00:50">
+      <Goal mode="1" name="Static" />
+      <Projects>
+         <Project checkedFiles="40" checkedLns="23042" name="cppcheck" qfixErrs="0" suppErrs="0" totErrs="220" totFiles="43" totLns="23495" />
+      </Projects>
+      <TestingProcessProblems>
+         <CppAnalysisProblem tested="/cppcheck/cli/threadexecutor.cpp">
+            <ErrorList>
+               <Error val="Coding Standards checker: error during parsing file." />
+            </ErrorList>
+         </CppAnalysisProblem>
+         <CppAnalysisProblem tested="/cppcheck/cli/main.cpp">
+            <ErrorList>
+               <Error val="Coding Standards checker: error during parsing file." />
+            </ErrorList>
+         </CppAnalysisProblem>
+         <CppAnalysisProblem tested="/cppcheck/cli/cppcheckexecutor.cpp">
+            <ErrorList>
+               <Error val="Coding Standards checker: error during parsing file." />
+            </ErrorList>
+         </CppAnalysisProblem>
+      </TestingProcessProblems>
+      
+  <StdViols>
+    <StdViol cat="EXCEPT" sev="1" lang="cpp" msg="Destructors in class Check should not call functions (instances) which are not in try context" locType="sr" hash="-987402945" ln="56" rule="EXCEPT-01" tool="c++test" urgent="true" auth="S0017337" locStartln="56" locStartPos="8" locEndLn="56" locEndPos="9" locFile="/cppcheck/lib/check.h" />
+    <StdViol cat="EXCEPT" sev="1" lang="cpp" msg="Destructors in class Check should not call functions (remove) which are not in try context" locType="sr" hash="-987402945" ln="56" rule="EXCEPT-01" tool="c++test" urgent="true" auth="S0017337" locStartln="56" locStartPos="8" locEndLn="56" locEndPos="9" locFile="/cppcheck/lib/check.h" />
+    <StdViol cat="OPT" rule="OPT-14" lang="cpp" sev="3" msg="The parameter 'msg' of function 'reportError' is passed by value" tool="c++test" auth="S0017337" locType="sr" hash="-987402945" ln="108" locStartln="108" locStartPos="127" locEndLn="108" locEndPos="128" locFile="/cppcheck/lib/check.h" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'autoVariables' has high Cyclomatic Complexity value: 37" tool="c++test" auth="S0017337" locType="sr" hash="-117071201" ln="134" locStartln="134" locStartPos="25" locEndLn="134" locEndPos="26" locFile="/cppcheck/lib/checkautovariables.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'returnPointerToLocalArray' has high Cyclomatic Complexity value: 17" tool="c++test" auth="S0017337" locType="sr" hash="-117071201" ln="229" locStartln="229" locStartPos="25" locEndLn="229" locEndPos="26" locFile="/cppcheck/lib/checkautovariables.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'checkScope' has high Cyclomatic Complexity value: 156" tool="c++test" auth="S0017337" locType="sr" hash="211611836" ln="144" locStartln="144" locStartPos="25" locEndLn="144" locEndPos="26" locFile="/cppcheck/lib/checkbufferoverrun.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'tok2' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="211611836" ln="430" locStartln="430" locStartPos="20" locEndLn="430" locEndPos="21" locFile="/cppcheck/lib/checkbufferoverrun.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'checkGlobalAndLocalVariable' has high Cyclomatic Complexity value: 21" tool="c++test" auth="S0017337" locType="sr" hash="211611836" ln="700" locStartln="700" locStartPos="25" locEndLn="700" locEndPos="26" locFile="/cppcheck/lib/checkbufferoverrun.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'checkStructVariable' has high Cyclomatic Complexity value: 25" tool="c++test" auth="S0017337" locType="sr" hash="211611836" ln="790" locStartln="790" locStartPos="25" locEndLn="790" locEndPos="26" locFile="/cppcheck/lib/checkbufferoverrun.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'countSprintfLength' has high Cyclomatic Complexity value: 26" tool="c++test" auth="S0017337" locType="sr" hash="211611836" ln="913" locStartln="913" locStartPos="24" locEndLn="913" locEndPos="25" locFile="/cppcheck/lib/checkbufferoverrun.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'checkSprintfCall' has high Cyclomatic Complexity value: 15" tool="c++test" auth="S0017337" locType="sr" hash="211611836" ln="1025" locStartln="1025" locStartPos="25" locEndLn="1025" locEndPos="26" locFile="/cppcheck/lib/checkbufferoverrun.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'getVarList' has high Cyclomatic Complexity value: 41" tool="c++test" auth="S0017337" locType="sr" hash="479726970" ln="44" locStartln="44" locStartPos="29" locEndLn="44" locEndPos="30" locFile="/cppcheck/lib/checkclass.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'initializeVarList' has high Cyclomatic Complexity value: 33" tool="c++test" auth="S0017337" locType="sr" hash="479726970" ln="192" locStartln="192" locStartPos="17" locEndLn="192" locEndPos="18" locFile="/cppcheck/lib/checkclass.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'constructors' has high Cyclomatic Complexity value: 21" tool="c++test" auth="S0017337" locType="sr" hash="479726970" ln="347" locStartln="347" locStartPos="17" locEndLn="347" locEndPos="18" locFile="/cppcheck/lib/checkclass.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'checkConstructors' has high Cyclomatic Complexity value: 14" tool="c++test" auth="S0017337" locType="sr" hash="479726970" ln="453" locStartln="453" locStartPos="17" locEndLn="453" locEndPos="18" locFile="/cppcheck/lib/checkclass.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'privateFunctions' has high Cyclomatic Complexity value: 45" tool="c++test" auth="S0017337" locType="sr" hash="479726970" ln="528" locStartln="528" locStartPos="17" locEndLn="528" locEndPos="18" locFile="/cppcheck/lib/checkclass.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'noMemset' has high Cyclomatic Complexity value: 14" tool="c++test" auth="S0017337" locType="sr" hash="479726970" ln="682" locStartln="682" locStartPos="17" locEndLn="682" locEndPos="18" locFile="/cppcheck/lib/checkclass.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'tok' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="479726970" ln="743" locStartln="743" locStartPos="12" locEndLn="743" locEndPos="13" locFile="/cppcheck/lib/checkclass.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'operatorEqRetRefThis' has high Cyclomatic Complexity value: 36" tool="c++test" auth="S0017337" locType="sr" hash="479726970" ln="801" locStartln="801" locStartPos="17" locEndLn="801" locEndPos="18" locFile="/cppcheck/lib/checkclass.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'tok' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="479726970" ln="806" locStartln="806" locStartPos="12" locEndLn="806" locEndPos="13" locFile="/cppcheck/lib/checkclass.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'hasDeallocation' has high Cyclomatic Complexity value: 18" tool="c++test" auth="S0017337" locType="sr" hash="479726970" ln="929" locStartln="929" locStartPos="12" locEndLn="929" locEndPos="13" locFile="/cppcheck/lib/checkclass.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'hasAssignSelf' has high Cyclomatic Complexity value: 12" tool="c++test" auth="S0017337" locType="sr" hash="479726970" ln="1003" locStartln="1003" locStartPos="12" locEndLn="1003" locEndPos="13" locFile="/cppcheck/lib/checkclass.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'operatorEqToSelf' has high Cyclomatic Complexity value: 38" tool="c++test" auth="S0017337" locType="sr" hash="479726970" ln="1079" locStartln="1079" locStartPos="17" locEndLn="1079" locEndPos="18" locFile="/cppcheck/lib/checkclass.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'tok' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="479726970" ln="1084" locStartln="1084" locStartPos="12" locEndLn="1084" locEndPos="13" locFile="/cppcheck/lib/checkclass.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'virtualDestructor' has high Cyclomatic Complexity value: 25" tool="c++test" auth="S0017337" locType="sr" hash="479726970" ln="1200" locStartln="1200" locStartPos="17" locEndLn="1200" locEndPos="18" locFile="/cppcheck/lib/checkclass.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'derived' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="479726970" ln="1205" locStartln="1205" locStartPos="12" locEndLn="1205" locEndPos="13" locFile="/cppcheck/lib/checkclass.cpp" />
+    <StdViol cat="CODSTA-CPP" sev="1" lang="cpp" msg="Constructor 'Var' allowing conversion should be made explicit" locType="sr" hash="1693105376" ln="99" rule="CODSTA-CPP-04" tool="c++test" urgent="true" auth="S0017337" locStartln="99" locStartPos="8" locEndLn="99" locEndPos="9" locFile="/cppcheck/lib/checkclass.h" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'unsafeNew' has high Cyclomatic Complexity value: 46" tool="c++test" auth="S0017337" locType="sr" hash="-371942937" ln="78" locStartln="78" locStartPos="27" locEndLn="78" locEndPos="28" locFile="/cppcheck/lib/checkexceptionsafety.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'realloc' has high Cyclomatic Complexity value: 23" tool="c++test" auth="S0017337" locType="sr" hash="-371942937" ln="216" locStartln="216" locStartPos="27" locEndLn="216" locEndPos="28" locFile="/cppcheck/lib/checkexceptionsafety.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'tok1' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-371942937" ln="254" locStartln="254" locStartPos="21" locEndLn="254" locEndPos="22" locFile="/cppcheck/lib/checkexceptionsafety.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'tok1' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-371942937" ln="262" locStartln="262" locStartPos="33" locEndLn="262" locEndPos="34" locFile="/cppcheck/lib/checkexceptionsafety.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'deallocThrow' has high Cyclomatic Complexity value: 25" tool="c++test" auth="S0017337" locType="sr" hash="-371942937" ln="280" locStartln="280" locStartPos="27" locEndLn="280" locEndPos="28" locFile="/cppcheck/lib/checkexceptionsafety.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'warningIncludeHeader' has high Cyclomatic Complexity value: 49" tool="c++test" auth="S0017337" locType="sr" hash="559573669" ln="90" locStartln="90" locStartPos="19" locEndLn="90" locEndPos="20" locFile="/cppcheck/lib/checkheaders.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'getAllocationType' has high Cyclomatic Complexity value: 23" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="80" locStartln="80" locStartPos="44" locEndLn="80" locEndPos="45" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'getDeallocationType' has high Cyclomatic Complexity value: 13" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="190" locStartln="190" locStartPos="44" locEndLn="190" locEndPos="45" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'getDeallocationType' has high Cyclomatic Complexity value: 15" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="227" locStartln="227" locStartPos="44" locEndLn="227" locEndPos="45" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'functionReturnType' has high Cyclomatic Complexity value: 23" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="358" locStartln="358" locStartPos="44" locEndLn="358" locEndPos="45" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'parse_noreturn' has high Cyclomatic Complexity value: 13" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="431" locStartln="431" locStartPos="32" locEndLn="431" locEndPos="33" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'call_func' has high Cyclomatic Complexity value: 42" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="520" locStartln="520" locStartPos="40" locEndLn="520" locEndPos="41" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="OPT" rule="OPT-14" lang="cpp" sev="3" msg="The parameter 'callstack' of function 'call_func' is passed by value" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="520" locStartln="520" locStartPos="93" locEndLn="520" locEndPos="94" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'getcode' has high Cyclomatic Complexity value: 200" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="651" locStartln="651" locStartPos="34" locEndLn="651" locEndPos="35" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="OPT" rule="OPT-14" lang="cpp" sev="3" msg="The parameter 'callstack' of function 'getcode' is passed by value" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="651" locStartln="651" locStartPos="85" locEndLn="651" locEndPos="86" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifycode' has high Cyclomatic Complexity value: 124" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="1204" locStartln="1204" locStartPos="32" locEndLn="1204" locEndPos="33" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'findleak' has high Cyclomatic Complexity value: 16" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="1840" locStartln="1840" locStartPos="40" locEndLn="1840" locEndPos="41" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'result' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="1844" locStartln="1844" locStartPos="9" locEndLn="1844" locEndPos="10" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'result' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="1854" locStartln="1854" locStartPos="9" locEndLn="1854" locEndPos="10" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'result' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="1859" locStartln="1859" locStartPos="16" locEndLn="1859" locEndPos="17" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'result' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="1864" locStartln="1864" locStartPos="9" locEndLn="1864" locEndPos="10" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'result' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="1869" locStartln="1869" locStartPos="9" locEndLn="1869" locEndPos="10" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'result' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="1874" locStartln="1874" locStartPos="9" locEndLn="1874" locEndPos="10" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'checkScope' has high Cyclomatic Complexity value: 23" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="1913" locStartln="1913" locStartPos="32" locEndLn="1913" locEndPos="33" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'result' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="1933" locStartln="1933" locStartPos="9" locEndLn="1933" locEndPos="10" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'result' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="1987" locStartln="1987" locStartPos="9" locEndLn="1987" locEndPos="10" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'result' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="1992" locStartln="1992" locStartPos="14" locEndLn="1992" locEndPos="15" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'parseFunctionScope' has high Cyclomatic Complexity value: 16" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="2042" locStartln="2042" locStartPos="32" locEndLn="2042" locEndPos="33" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'tok' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="2102" locStartln="2102" locStartPos="17" locEndLn="2102" locEndPos="18" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'parseClass' has high Cyclomatic Complexity value: 17" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="2197" locStartln="2197" locStartPos="29" locEndLn="2197" locEndPos="30" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'variable' has high Cyclomatic Complexity value: 41" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="2252" locStartln="2252" locStartPos="29" locEndLn="2252" locEndPos="30" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'check' has high Cyclomatic Complexity value: 55" tool="c++test" auth="S0017337" locType="sr" hash="-1493948067" ln="2385" locStartln="2385" locStartPos="34" locEndLn="2385" locEndPos="35" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="CODSTA-CPP" sev="1" lang="cpp" msg="Constructor 'CheckLocalLeaks' allowing conversion should be made explicit" locType="sr" hash="-1493948067" ln="2620" rule="CODSTA-CPP-04" tool="c++test" urgent="true" auth="S0017337" locStartln="2620" locStartPos="4" locEndLn="2620" locEndPos="5" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="OOP" sev="1" lang="cpp" msg="Class 'CheckLocalLeaks' inherits from abstract class 'ExecutionPath'" locType="sr" hash="-1493948067" ln="2630" rule="OOP-29" tool="c++test" urgent="true" auth="S0017337" locStartln="2630" locStartPos="33" locEndLn="2630" locEndPos="34" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="OOP" sev="1" lang="cpp" msg="Class 'CheckLocalLeaks' inherits from abstract class 'ExecutionPath'" locType="sr" hash="-1493948067" ln="2664" rule="OOP-29" tool="c++test" urgent="true" auth="S0017337" locStartln="2664" locStartPos="33" locEndLn="2664" locEndPos="34" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="OOP" sev="1" lang="cpp" msg="Class 'CheckLocalLeaks' inherits from abstract class 'ExecutionPath'" locType="sr" hash="-1493948067" ln="2678" rule="OOP-29" tool="c++test" urgent="true" auth="S0017337" locStartln="2678" locStartPos="33" locEndLn="2678" locEndPos="34" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="OOP" sev="1" lang="cpp" msg="Class 'CheckLocalLeaks' inherits from abstract class 'ExecutionPath'" locType="sr" hash="-1493948067" ln="2689" rule="OOP-29" tool="c++test" urgent="true" auth="S0017337" locStartln="2689" locStartPos="33" locEndLn="2689" locEndPos="34" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="OOP" sev="1" lang="cpp" msg="Class 'CheckMemoryLeakInFunction' inherits from abstract class 'Check'" locType="sr" hash="-1493948067" ln="2692" rule="OOP-29" tool="c++test" urgent="true" auth="S0017337" locStartln="2692" locStartPos="58" locEndLn="2692" locEndPos="59" locFile="/cppcheck/lib/checkmemoryleak.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'warningRedundantCode' has high Cyclomatic Complexity value: 14" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="77" locStartln="77" locStartPos="17" locEndLn="77" locEndPos="18" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'invalidFunctionUsage' has high Cyclomatic Complexity value: 26" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="224" locStartln="224" locStartPos="17" locEndLn="224" locEndPos="18" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'tok2' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="282" locStartln="282" locStartPos="16" locEndLn="282" locEndPos="17" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'checkUnsignedDivision' has high Cyclomatic Complexity value: 24" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="307" locStartln="307" locStartPos="17" locEndLn="307" locEndPos="18" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'checkVariableScope' has high Cyclomatic Complexity value: 26" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="374" locStartln="374" locStartPos="17" locEndLn="374" locEndPos="18" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'lookupVar' has high Cyclomatic Complexity value: 25" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="451" locStartln="451" locStartPos="17" locEndLn="451" locEndPos="18" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'checkConstantFunctionParameter' has high Cyclomatic Complexity value: 11" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="543" locStartln="543" locStartPos="17" locEndLn="543" locEndPos="18" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'checkStructMemberUsage' has high Cyclomatic Complexity value: 18" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="600" locStartln="600" locStartPos="17" locEndLn="600" locEndPos="18" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'checkCharVariable' has high Cyclomatic Complexity value: 20" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="675" locStartln="675" locStartPos="17" locEndLn="675" locEndPos="18" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'checkIncompleteStatement' has high Cyclomatic Complexity value: 17" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="749" locStartln="749" locStartPos="17" locEndLn="749" locEndPos="18" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'nullPointerAfterLoop' has high Cyclomatic Complexity value: 19" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="842" locStartln="842" locStartPos="17" locEndLn="842" locEndPos="18" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" sev="3" lang="cpp" msg="Function 'nullPointerLinkedList' has high Cyclomatic Complexity value: 22" locType="sr" hash="-1641808035" ln="900" rule="METRICS-18" tool="c++test" urgent="true" auth="S0017337" locStartln="900" locStartPos="17" locEndLn="900" locEndPos="18" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'nullPointerStructByDeRefAndChec' has high Cyclomatic Complexity value: 23" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="981" locStartln="981" locStartPos="17" locEndLn="981" locEndPos="18" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'nullPointerByDeRefAndChec' has high Cyclomatic Complexity value: 18" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="1063" locStartln="1063" locStartPos="17" locEndLn="1063" locEndPos="18" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'parseFunctionCall' has high Cyclomatic Complexity value: 12" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="1129" locStartln="1129" locStartPos="12" locEndLn="1129" locEndPos="13" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="CODSTA-CPP" sev="1" lang="cpp" msg="Constructor 'CheckNullpointer' allowing conversion should be made explicit" locType="sr" hash="-1641808035" ln="1190" rule="CODSTA-CPP-04" tool="c++test" urgent="true" auth="S0017337" locStartln="1190" locStartPos="4" locEndLn="1190" locEndPos="5" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="OOP" sev="1" lang="cpp" msg="Class 'CheckNullpointer' inherits from abstract class 'ExecutionPath'" locType="sr" hash="-1641808035" ln="1219" rule="OOP-29" tool="c++test" urgent="true" auth="S0017337" locStartln="1219" locStartPos="34" locEndLn="1219" locEndPos="35" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="OOP" sev="1" lang="cpp" msg="Class 'CheckNullpointer' inherits from abstract class 'ExecutionPath'" locType="sr" hash="-1641808035" ln="1232" rule="OOP-29" tool="c++test" urgent="true" auth="S0017337" locStartln="1232" locStartPos="34" locEndLn="1232" locEndPos="35" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="OOP" sev="1" lang="cpp" msg="Class 'CheckOther' inherits from abstract class 'Check'" locType="sr" hash="-1641808035" ln="1236" rule="OOP-29" tool="c++test" urgent="true" auth="S0017337" locStartln="1236" locStartPos="41" locEndLn="1236" locEndPos="42" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'parse' has high Cyclomatic Complexity value: 25" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="1246" locStartln="1246" locStartPos="17" locEndLn="1246" locEndPos="18" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="OOP" sev="1" lang="cpp" msg="Class 'CheckOther' inherits from abstract class 'Check'" locType="sr" hash="-1641808035" ln="1314" rule="OOP-29" tool="c++test" urgent="true" auth="S0017337" locStartln="1314" locStartPos="41" locEndLn="1314" locEndPos="42" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="CODSTA-CPP" sev="1" lang="cpp" msg="Constructor 'CheckUninitVar' allowing conversion should be made explicit" locType="sr" hash="-1641808035" ln="1347" rule="CODSTA-CPP-04" tool="c++test" urgent="true" auth="S0017337" locStartln="1347" locStartPos="4" locEndLn="1347" locEndPos="5" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="OOP" sev="1" lang="cpp" msg="Class 'CheckUninitVar' inherits from abstract class 'ExecutionPath'" locType="sr" hash="-1641808035" ln="1378" rule="OOP-29" tool="c++test" urgent="true" auth="S0017337" locStartln="1378" locStartPos="32" locEndLn="1378" locEndPos="33" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="OOP" sev="1" lang="cpp" msg="Class 'CheckUninitVar' inherits from abstract class 'ExecutionPath'" locType="sr" hash="-1641808035" ln="1394" rule="OOP-29" tool="c++test" urgent="true" auth="S0017337" locStartln="1394" locStartPos="32" locEndLn="1394" locEndPos="33" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="OOP" sev="1" lang="cpp" msg="Class 'CheckUninitVar' inherits from abstract class 'ExecutionPath'" locType="sr" hash="-1641808035" ln="1423" rule="OOP-29" tool="c++test" urgent="true" auth="S0017337" locStartln="1423" locStartPos="32" locEndLn="1423" locEndPos="33" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="OOP" sev="1" lang="cpp" msg="Class 'CheckOther' inherits from abstract class 'Check'" locType="sr" hash="-1641808035" ln="1428" rule="OOP-29" tool="c++test" urgent="true" auth="S0017337" locStartln="1428" locStartPos="45" locEndLn="1428" locEndPos="46" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'use' has high Cyclomatic Complexity value: 17" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="1448" locStartln="1448" locStartPos="16" locEndLn="1448" locEndPos="17" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="OOP" sev="1" lang="cpp" msg="Class 'CheckUninitVar' inherits from abstract class 'ExecutionPath'" locType="sr" hash="-1641808035" ln="1457" rule="OOP-29" tool="c++test" urgent="true" auth="S0017337" locStartln="1457" locStartPos="32" locEndLn="1457" locEndPos="33" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="OOP" sev="1" lang="cpp" msg="Class 'CheckOther' inherits from abstract class 'Check'" locType="sr" hash="-1641808035" ln="1476" rule="OOP-29" tool="c++test" urgent="true" auth="S0017337" locStartln="1476" locStartPos="41" locEndLn="1476" locEndPos="42" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'declare' has high Cyclomatic Complexity value: 18" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="1535" locStartln="1535" locStartPos="9" locEndLn="1535" locEndPos="10" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="OOP" sev="1" lang="cpp" msg="Class 'CheckUninitVar' inherits from abstract class 'ExecutionPath'" locType="sr" hash="-1641808035" ln="1562" rule="OOP-29" tool="c++test" urgent="true" auth="S0017337" locStartln="1562" locStartPos="36" locEndLn="1562" locEndPos="37" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'parse' has high Cyclomatic Complexity value: 82" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="1578" locStartln="1578" locStartPos="17" locEndLn="1578" locEndPos="18" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'analyseFunctions' has high Cyclomatic Complexity value: 14" tool="c++test" auth="S0017337" locType="sr" hash="-1641808035" ln="1903" locStartln="1903" locStartPos="16" locEndLn="1903" locEndPos="17" locFile="/cppcheck/lib/checkother.cpp" />
+    <StdViol cat="METRICS" sev="3" lang="cpp" msg="Function 'iterators' has high Cyclomatic Complexity value: 19" locType="sr" hash="21371561" ln="44" rule="METRICS-18" tool="c++test" urgent="true" auth="S0017337" locStartln="44" locStartPos="15" locEndLn="44" locEndPos="16" locFile="/cppcheck/lib/checkstl.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'stlOutOfBounds' has high Cyclomatic Complexity value: 15" tool="c++test" auth="S0017337" locType="sr" hash="21371561" ln="122" locStartln="122" locStartPos="15" locEndLn="122" locEndPos="16" locFile="/cppcheck/lib/checkstl.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'eraseCheckLoop' has high Cyclomatic Complexity value: 15" tool="c++test" auth="S0017337" locType="sr" hash="21371561" ln="205" locStartln="205" locStartPos="15" locEndLn="205" locEndPos="16" locFile="/cppcheck/lib/checkstl.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'tok' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="21371561" ln="211" locStartln="211" locStartPos="36" locEndLn="211" locEndPos="37" locFile="/cppcheck/lib/checkstl.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'tok' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="21371561" ln="226" locStartln="226" locStartPos="17" locEndLn="226" locEndPos="18" locFile="/cppcheck/lib/checkstl.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'pushback' has high Cyclomatic Complexity value: 60" tool="c++test" auth="S0017337" locType="sr" hash="21371561" ln="261" locStartln="261" locStartPos="15" locEndLn="261" locEndPos="16" locFile="/cppcheck/lib/checkstl.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'stlBoundries' has high Cyclomatic Complexity value: 13" tool="c++test" auth="S0017337" locType="sr" hash="21371561" ln="451" locStartln="451" locStartPos="15" locEndLn="451" locEndPos="16" locFile="/cppcheck/lib/checkstl.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'find' has high Cyclomatic Complexity value: 13" tool="c++test" auth="S0017337" locType="sr" hash="21371561" ln="504" locStartln="504" locStartPos="15" locEndLn="504" locEndPos="16" locFile="/cppcheck/lib/checkstl.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'size' has high Cyclomatic Complexity value: 18" tool="c++test" auth="S0017337" locType="sr" hash="21371561" ln="564" locStartln="564" locStartPos="15" locEndLn="564" locEndPos="16" locFile="/cppcheck/lib/checkstl.cpp" />
+    <StdViol cat="METRICS" sev="3" lang="cpp" msg="Function 'parseTokens' has high Cyclomatic Complexity value: 34" locType="sr" hash="320465129" ln="48" rule="METRICS-18" tool="c++test" urgent="true" auth="S0017337" locStartln="48" locStartPos="27" locEndLn="48" locEndPos="28" locFile="/cppcheck/lib/checkunusedfunctions.cpp" />
+    <StdViol cat="OPT" rule="OPT-13" lang="cpp" sev="3" msg="Members '_functions' of class 'CheckUnusedFunctions' are declared in suboptimal order for memory layout" tool="c++test" auth="S0017337" locType="sr" hash="-483005285" ln="31" locStartln="31" locStartPos="6" locEndLn="31" locEndPos="7" locFile="/cppcheck/lib/checkunusedfunctions.h" />
+    <StdViol cat="CODSTA-CPP" sev="1" lang="cpp" msg="Constructor 'CheckUnusedFunctions' allowing conversion should be made explicit" locType="sr" hash="-483005285" ln="34" rule="CODSTA-CPP-04" tool="c++test" urgent="true" auth="S0017337" locStartln="34" locStartPos="4" locEndLn="34" locEndPos="5" locFile="/cppcheck/lib/checkunusedfunctions.h" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'parseFromArgs' has high Cyclomatic Complexity value: 65" tool="c++test" auth="S0017337" locType="sr" hash="-1911997905" ln="84" locStartln="84" locStartPos="15" locEndLn="84" locEndPos="16" locFile="/cppcheck/lib/cppcheck.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'check' has high Cyclomatic Complexity value: 17" tool="c++test" auth="S0017337" locType="sr" hash="-1911997905" ln="430" locStartln="430" locStartPos="23" locEndLn="430" locEndPos="24" locFile="/cppcheck/lib/cppcheck.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'checkFile' has high Cyclomatic Complexity value: 13" tool="c++test" auth="S0017337" locType="sr" hash="-1911997905" ln="520" locStartln="520" locStartPos="15" locEndLn="520" locEndPos="16" locFile="/cppcheck/lib/cppcheck.cpp" />
+    <StdViol cat="OPT" rule="OPT-14" lang="cpp" sev="3" msg="Returned value from function 'settings' is passed by value" tool="c++test" auth="S0017337" locType="sr" hash="-1911997905" ln="576" locStartln="576" locStartPos="19" locEndLn="576" locEndPos="20" locFile="/cppcheck/lib/cppcheck.cpp" />
+    <StdViol cat="OPT" rule="OPT-13" lang="cpp" sev="3" msg="Members '_errorList, _settings, _filenames, _fileContents, _checkUnusedFunctions, _xmllist' of class 'CppCheck' are declared in suboptimal order for memory layout" tool="c++test" auth="S0017337" locType="sr" hash="1648503524" ln="40" locStartln="40" locStartPos="6" locEndLn="40" locEndPos="7" locFile="/cppcheck/lib/cppcheck.h" />
+    <StdViol cat="OPT" rule="OPT-13" lang="cpp" sev="3" msg="Members '_errorLogger' of class 'CppCheck' are declared in suboptimal order for memory layout" tool="c++test" auth="S0017337" locType="sr" hash="1648503524" ln="40" locStartln="40" locStartPos="6" locEndLn="40" locEndPos="7" locFile="/cppcheck/lib/cppcheck.h" />
+    <StdViol cat="CODSTA-CPP" sev="1" lang="cpp" msg="Constructor 'CppCheck' allowing conversion should be made explicit" locType="sr" hash="1648503524" ln="46" rule="CODSTA-CPP-04" tool="c++test" urgent="true" auth="S0017337" locStartln="46" locStartPos="4" locEndLn="46" locEndPos="5" locFile="/cppcheck/lib/cppcheck.h" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'deserialize' has high Cyclomatic Complexity value: 12" tool="c++test" auth="S0017337" locType="sr" hash="-174992773" ln="55" locStartln="55" locStartPos="32" locEndLn="55" locEndPos="33" locFile="/cppcheck/lib/errorlogger.cpp" />
+    <StdViol cat="OPT" rule="OPT-14" lang="cpp" sev="3" msg="The parameter 's' of function 'stringToXml' is passed by value" tool="c++test" auth="S0017337" locType="sr" hash="-174992773" ln="127" locStartln="127" locStartPos="43" locEndLn="127" locEndPos="44" locFile="/cppcheck/lib/errorlogger.cpp" />
+    <StdViol cat="MISRA2004" sev="3" lang="cpp" msg="Assignment to 'pos' used in expression that yield a Boolean value" locType="sr" hash="-174992773" ln="130" rule="MISRA2004-13_1" tool="c++test" urgent="true" auth="S0017337" locStartln="130" locStartPos="12" locEndLn="130" locEndPos="13" locFile="/cppcheck/lib/errorlogger.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'index' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-174992773" ln="165" locStartln="165" locStartPos="12" locEndLn="165" locEndPos="13" locFile="/cppcheck/lib/errorlogger.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-174992773" ln="247" locStartln="247" locStartPos="12" locEndLn="247" locEndPos="13" locFile="/cppcheck/lib/errorlogger.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'checkExecutionPaths_' has high Cyclomatic Complexity value: 50" tool="c++test" auth="S0017337" locType="sr" hash="39922661" ln="59" locStartln="59" locStartPos="20" locEndLn="59" locEndPos="21" locFile="/cppcheck/lib/executionpath.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyPath' has high Cyclomatic Complexity value: 15" tool="c++test" auth="S0017337" locType="sr" hash="527409339" ln="37" locStartln="37" locStartPos="24" locEndLn="37" locEndPos="25" locFile="/cppcheck/lib/filelister.cpp" />
+    <StdViol cat="OPT" rule="OPT-14" lang="cpp" sev="3" msg="The parameter 'path' of function 'MyIsDirectory' is passed by value" tool="c++test" auth="S0017337" locType="sr" hash="527409339" ln="168" locStartln="168" locStartPos="38" locEndLn="168" locEndPos="39" locFile="/cppcheck/lib/filelister.cpp" />
+    <StdViol cat="OPT" rule="OPT-14" lang="cpp" sev="3" msg="The parameter 'path' of function 'MyFindFirstFile' is passed by value" tool="c++test" auth="S0017337" locType="sr" hash="527409339" ln="178" locStartln="178" locStartPos="42" locEndLn="178" locEndPos="43" locFile="/cppcheck/lib/filelister.cpp" />
+    <StdViol cat="METRICS" sev="3" lang="cpp" msg="Function 'recursiveAddFiles' has high Cyclomatic Complexity value: 14" locType="sr" hash="527409339" ln="186" rule="METRICS-18" tool="c++test" urgent="true" auth="S0017337" locStartln="186" locStartPos="17" locEndLn="186" locEndPos="18" locFile="/cppcheck/lib/filelister.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'isInt' has high Cyclomatic Complexity value: 28" tool="c++test" auth="S0017337" locType="sr" hash="459468711" ln="78" locStartln="78" locStartPos="14" locEndLn="78" locEndPos="15" locFile="/cppcheck/lib/mathlib.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'read' has high Cyclomatic Complexity value: 25" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="73" locStartln="73" locStartPos="26" locEndLn="73" locEndPos="27" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="METRICS" sev="3" lang="cpp" msg="Function 'removeComments' has high Cyclomatic Complexity value: 33" locType="sr" hash="-946252520" ln="167" rule="METRICS-18" tool="c++test" urgent="true" auth="S0017337" locStartln="167" locStartPos="26" locEndLn="167" locEndPos="27" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'removeParantheses' has high Cyclomatic Complexity value: 22" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="316" locStartln="316" locStartPos="26" locEndLn="316" locEndPos="27" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="330" locStartln="330" locStartPos="20" locEndLn="330" locEndPos="21" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="333" locStartln="333" locStartPos="20" locEndLn="333" locEndPos="21" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" sev="3" lang="cpp" msg="Assignment to 'pos' used in expression that yield a Boolean value" locType="sr" hash="-946252520" ln="336" rule="MISRA2004-13_1" tool="c++test" urgent="true" auth="S0017337" locStartln="336" locStartPos="20" locEndLn="336" locEndPos="21" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="339" locStartln="339" locStartPos="20" locEndLn="339" locEndPos="21" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="344" locStartln="344" locStartPos="20" locEndLn="344" locEndPos="21" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="427" locStartln="427" locStartPos="12" locEndLn="427" locEndPos="13" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" sev="3" lang="cpp" msg="Assignment to 'pos' used in expression that yield a Boolean value" locType="sr" hash="-946252520" ln="434" rule="MISRA2004-13_1" tool="c++test" urgent="true" auth="S0017337" locStartln="434" locStartPos="12" locEndLn="434" locEndPos="13" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="441" locStartln="441" locStartPos="12" locEndLn="441" locEndPos="13" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" sev="3" lang="cpp" msg="Assignment to 'pos' used in expression that yield a Boolean value" locType="sr" hash="-946252520" ln="445" rule="MISRA2004-13_1" tool="c++test" urgent="true" auth="S0017337" locStartln="445" locStartPos="12" locEndLn="445" locEndPos="13" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="489" locStartln="489" locStartPos="12" locEndLn="489" locEndPos="13" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" sev="3" lang="cpp" msg="Assignment to 'pos' used in expression that yield a Boolean value" locType="sr" hash="-946252520" ln="504" rule="MISRA2004-13_1" tool="c++test" urgent="true" auth="S0017337" locStartln="504" locStartPos="12" locEndLn="504" locEndPos="13" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="519" locStartln="519" locStartPos="12" locEndLn="519" locEndPos="13" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="562" locStartln="562" locStartPos="24" locEndLn="562" locEndPos="25" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'getdef' has high Cyclomatic Complexity value: 16" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="588" locStartln="588" locStartPos="26" locEndLn="588" locEndPos="27" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="OPT" rule="OPT-14" lang="cpp" sev="3" msg="The parameter 'line' of function 'getdef' is passed by value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="588" locStartln="588" locStartPos="45" locEndLn="588" locEndPos="46" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="610" locStartln="610" locStartPos="12" locEndLn="610" locEndPos="13" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'getcfgs' has high Cyclomatic Complexity value: 69" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="626" locStartln="626" locStartPos="37" locEndLn="626" locEndPos="38" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="773" locStartln="773" locStartPos="20" locEndLn="773" locEndPos="21" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="795" locStartln="795" locStartPos="20" locEndLn="795" locEndPos="21" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyCondition' has high Cyclomatic Complexity value: 18" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="933" locStartln="933" locStartPos="19" locEndLn="933" locEndPos="20" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="OPT" sev="3" lang="cpp" msg="The parameter 'def' of function 'match_cfg_def' is passed by value" locType="sr" hash="-946252520" ln="1005" rule="OPT-14" tool="c++test" urgent="true" auth="S0017337" locStartln="1005" locStartPos="92" locEndLn="1005" locEndPos="93" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'getcode' has high Cyclomatic Complexity value: 36" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="1025" locStartln="1025" locStartPos="26" locEndLn="1025" locEndPos="27" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="OPT" rule="OPT-14" lang="cpp" sev="3" msg="The parameter 'cfg' of function 'getcode' is passed by value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="1025" locStartln="1025" locStartPos="75" locEndLn="1025" locEndPos="76" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'handleIncludes' has high Cyclomatic Complexity value: 21" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="1219" locStartln="1219" locStartPos="19" locEndLn="1219" locEndPos="20" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="1230" locStartln="1230" locStartPos="12" locEndLn="1230" locEndPos="13" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" sev="3" lang="cpp" msg="Assignment to 'endfilePos' used in expression that yield a Boolean value" locType="sr" hash="-946252520" ln="1241" rule="MISRA2004-13_1" tool="c++test" urgent="true" auth="S0017337" locStartln="1241" locStartPos="16" locEndLn="1241" locEndPos="17" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="CODSTA-CPP" sev="1" lang="cpp" msg="Constructor 'PreprocessorMacro' allowing conversion should be made explicit" locType="sr" hash="-946252520" ln="1356" rule="CODSTA-CPP-04" tool="c++test" urgent="true" auth="S0017337" locStartln="1356" locStartPos="4" locEndLn="1356" locEndPos="5" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'PreprocessorMacro' has high Cyclomatic Complexity value: 12" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="1356" locStartln="1356" locStartPos="4" locEndLn="1356" locEndPos="5" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'code' has high Cyclomatic Complexity value: 41" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="1500" locStartln="1500" locStartPos="9" locEndLn="1500" locEndPos="10" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="1510" locStartln="1510" locStartPos="17" locEndLn="1510" locEndPos="18" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="1513" locStartln="1513" locStartPos="17" locEndLn="1513" locEndPos="18" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="1533" locStartln="1533" locStartPos="17" locEndLn="1533" locEndPos="18" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="1536" locStartln="1536" locStartPos="17" locEndLn="1536" locEndPos="18" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" sev="3" lang="cpp" msg="Assignment to 'pos' used in expression that yield a Boolean value" locType="sr" hash="-946252520" ln="1540" rule="MISRA2004-13_1" tool="c++test" urgent="true" auth="S0017337" locStartln="1540" locStartPos="20" locEndLn="1540" locEndPos="21" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="1556" locStartln="1556" locStartPos="21" locEndLn="1556" locEndPos="22" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'tok' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="1569" locStartln="1569" locStartPos="24" locEndLn="1569" locEndPos="25" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'getlines' has high Cyclomatic Complexity value: 20" tool="c++test" auth="S0017337" locType="sr" hash="-946252520" ln="1669" locStartln="1669" locStartPos="12" locEndLn="1669" locEndPos="13" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="METRICS" sev="3" lang="cpp" msg="Function 'expandMacros' has high Cyclomatic Complexity value: 65" locType="sr" hash="-946252520" ln="1726" rule="METRICS-18" tool="c++test" urgent="true" auth="S0017337" locStartln="1726" locStartPos="26" locEndLn="1726" locEndPos="27" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="OPT" sev="3" lang="cpp" msg="The parameter 'filename' of function 'expandMacros' is passed by value" locType="sr" hash="-946252520" ln="1726" rule="OPT-14" tool="c++test" urgent="true" auth="S0017337" locStartln="1726" locStartPos="76" locEndLn="1726" locEndPos="77" locFile="/cppcheck/lib/preprocessor.cpp" />
+    <StdViol cat="CODSTA-CPP" sev="1" lang="cpp" msg="Constructor 'Preprocessor' allowing conversion should be made explicit" locType="sr" hash="-283348344" ln="38" rule="CODSTA-CPP-04" tool="c++test" urgent="true" auth="S0017337" locStartln="38" locStartPos="4" locEndLn="38" locEndPos="5" locFile="/cppcheck/lib/preprocessor.h" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'addEnabled' has high Cyclomatic Complexity value: 13" tool="c++test" auth="S0017337" locType="sr" hash="-110302746" ln="118" locStartln="118" locStartPos="15" locEndLn="118" locEndPos="16" locFile="/cppcheck/lib/settings.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'pos' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="-110302746" ln="125" locStartln="125" locStartPos="16" locEndLn="125" locEndPos="17" locFile="/cppcheck/lib/settings.cpp" />
+    <StdViol cat="OPT" rule="OPT-13" lang="cpp" sev="3" msg="Members '_includePaths, nomsg, nofail' of class 'Settings' are declared in suboptimal order for memory layout" tool="c++test" auth="S0017337" locType="sr" hash="1061464926" ln="37" locStartln="37" locStartPos="6" locEndLn="37" locEndPos="7" locFile="/cppcheck/lib/settings.h" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'multiCompare' has high Cyclomatic Complexity value: 13" tool="c++test" auth="S0017337" locType="sr" hash="1405556785" ln="192" locStartln="192" locStartPos="11" locEndLn="192" locEndPos="12" locFile="/cppcheck/lib/token.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'Match' has high Cyclomatic Complexity value: 54" tool="c++test" auth="S0017337" locType="sr" hash="1405556785" ln="335" locStartln="335" locStartPos="12" locEndLn="335" locEndPos="13" locFile="/cppcheck/lib/token.cpp" />
+    <StdViol cat="METRICS" sev="3" lang="cpp" msg="Function 'stringifyList' has high Cyclomatic Complexity value: 11" locType="sr" hash="1405556785" ln="637" rule="METRICS-18" tool="c++test" urgent="true" auth="S0017337" locStartln="637" locStartPos="19" locEndLn="637" locEndPos="20" locFile="/cppcheck/lib/token.cpp" />
+    <StdViol cat="CODSTA-CPP" sev="1" lang="cpp" msg="Constructor 'Token' allowing conversion should be made explicit" locType="sr" hash="81906905" ln="47" rule="CODSTA-CPP-04" tool="c++test" urgent="true" auth="S0017337" locStartln="47" locStartPos="4" locEndLn="47" locEndPos="5" locFile="/cppcheck/lib/token.h" />
+    <StdViol cat="EXCEPT" sev="1" lang="cpp" msg="Destructors in class Tokenizer should not call functions (deallocateTokens) which are not in try context" locType="sr" hash="1927617454" ln="60" rule="EXCEPT-01" tool="c++test" urgent="true" auth="S0017337" locStartln="60" locStartPos="4" locEndLn="60" locEndPos="5" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'createTokens' has high Cyclomatic Complexity value: 42" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="165" locStartln="165" locStartPos="16" locEndLn="165" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyTypedef' has high Cyclomatic Complexity value: 104" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="369" locStartln="369" locStartPos="16" locEndLn="369" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'tokenize' has high Cyclomatic Complexity value: 27" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="798" locStartln="798" locStartPos="16" locEndLn="798" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" sev="3" lang="cpp" msg="Function 'simplifyTemplates' has high Cyclomatic Complexity value: 122" locType="sr" hash="1927617454" ln="1024" rule="METRICS-18" tool="c++test" urgent="true" auth="S0017337" locStartln="1024" locStartPos="16" locEndLn="1024" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="MISRA2004" sev="3" lang="cpp" msg="Assignment to 'tok2' used in expression that yield a Boolean value" locType="sr" hash="1927617454" ln="1098" rule="MISRA2004-13_1" tool="c++test" urgent="true" auth="S0017337" locStartln="1098" locStartPos="21" locEndLn="1098" locEndPos="22" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'updateClassList' has high Cyclomatic Complexity value: 13" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="1516" locStartln="1516" locStartPos="16" locEndLn="1516" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'tok1' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="1523" locStartln="1523" locStartPos="12" locEndLn="1523" locEndPos="13" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'setVarId' has high Cyclomatic Complexity value: 87" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="1581" locStartln="1581" locStartPos="16" locEndLn="1581" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyNamespaces' has high Cyclomatic Complexity value: 12" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="1874" locStartln="1874" locStartPos="16" locEndLn="1874" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" sev="3" lang="cpp" msg="Function 'createLinks' has high Cyclomatic Complexity value: 18" locType="sr" hash="1927617454" ln="1918" rule="METRICS-18" tool="c++test" urgent="true" auth="S0017337" locStartln="1918" locStartPos="16" locEndLn="1918" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifySizeof' has high Cyclomatic Complexity value: 50" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="2026" locStartln="2026" locStartPos="16" locEndLn="2026" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyTokenList' has high Cyclomatic Complexity value: 69" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="2268" locStartln="2268" locStartPos="16" locEndLn="2268" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'removeReduntantConditions' has high Cyclomatic Complexity value: 20" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="2592" locStartln="2592" locStartPos="16" locEndLn="2592" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyIfAddBraces' has high Cyclomatic Complexity value: 28" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="2718" locStartln="2718" locStartPos="16" locEndLn="2718" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'tempToken' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="2774" locStartln="2774" locStartPos="16" locEndLn="2774" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyConditions' has high Cyclomatic Complexity value: 52" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="2931" locStartln="2931" locStartPos="16" locEndLn="2931" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_3" lang="cpp" sev="3" msg="Do not use &quot;==&quot; or &quot;!=&quot; to test floating-point expression" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="2999" locStartln="2999" locStartPos="30" locEndLn="2999" locEndPos="31" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_3" lang="cpp" sev="3" msg="Do not use &quot;==&quot; or &quot;!=&quot; to test floating-point expression" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="3001" locStartln="3001" locStartPos="30" locEndLn="3001" locEndPos="31" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyQuestionMark' has high Cyclomatic Complexity value: 22" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="3050" locStartln="3050" locStartPos="16" locEndLn="3050" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyCasts' has high Cyclomatic Complexity value: 16" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="3142" locStartln="3142" locStartPos="16" locEndLn="3142" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyFunctionParameters' has high Cyclomatic Complexity value: 19" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="3197" locStartln="3197" locStartPos="16" locEndLn="3197" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" sev="3" lang="cpp" msg="Function 'simplifyVarDecl' has high Cyclomatic Complexity value: 63" locType="sr" hash="1927617454" ln="3344" rule="METRICS-18" tool="c++test" urgent="true" auth="S0017337" locStartln="3344" locStartPos="16" locEndLn="3344" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="MISRA2004" rule="MISRA2004-13_1" lang="cpp" sev="3" msg="Assignment to 'tok2' used in expression that yield a Boolean value" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="3534" locStartln="3534" locStartPos="51" locEndLn="3534" locEndPos="52" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'unsignedint' has high Cyclomatic Complexity value: 16" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="3599" locStartln="3599" locStartPos="16" locEndLn="3599" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyIfAssign' has high Cyclomatic Complexity value: 27" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="3669" locStartln="3669" locStartPos="16" locEndLn="3669" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyIfNot' has high Cyclomatic Complexity value: 16" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="3791" locStartln="3791" locStartPos="16" locEndLn="3791" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyIfNotNull' has high Cyclomatic Complexity value: 12" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="3858" locStartln="3858" locStartPos="16" locEndLn="3858" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" sev="3" lang="cpp" msg="Function 'simplifyKnownVariables' has high Cyclomatic Complexity value: 51" locType="sr" hash="1927617454" ln="3930" rule="METRICS-18" tool="c++test" urgent="true" auth="S0017337" locStartln="3930" locStartPos="16" locEndLn="3930" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'elseif' has high Cyclomatic Complexity value: 11" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="4117" locStartln="4117" locStartPos="16" locEndLn="4117" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyRedundantParanthesis' has high Cyclomatic Complexity value: 14" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="4146" locStartln="4146" locStartPos="16" locEndLn="4146" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyCalculations' has high Cyclomatic Complexity value: 48" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="4222" locStartln="4222" locStartPos="16" locEndLn="4222" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyGoto' has high Cyclomatic Complexity value: 37" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="4343" locStartln="4343" locStartPos="16" locEndLn="4343" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyEnum' has high Cyclomatic Complexity value: 28" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="4552" locStartln="4552" locStartPos="16" locEndLn="4552" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'fillFunctionList' has high Cyclomatic Complexity value: 16" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="4711" locStartln="4711" locStartPos="16" locEndLn="4711" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'findClassFunction' has high Cyclomatic Complexity value: 25" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="4841" locStartln="4841" locStartPos="25" locEndLn="4841" locEndPos="26" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyComma' has high Cyclomatic Complexity value: 45" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="5025" locStartln="5025" locStartPos="16" locEndLn="5025" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'removeExceptionSpecifications' has high Cyclomatic Complexity value: 13" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="5211" locStartln="5211" locStartPos="16" locEndLn="5211" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'validate' has high Cyclomatic Complexity value: 12" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="5244" locStartln="5244" locStartPos="16" locEndLn="5244" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyString' has high Cyclomatic Complexity value: 14" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="5316" locStartln="5316" locStartPos="23" locEndLn="5316" locEndPos="24" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="METRICS" rule="METRICS-18" lang="cpp" sev="3" msg="Function 'simplifyWhile0' has high Cyclomatic Complexity value: 11" tool="c++test" auth="S0017337" locType="sr" hash="1927617454" ln="5427" locStartln="5427" locStartPos="16" locEndLn="5427" locEndPos="17" locFile="/cppcheck/lib/tokenize.cpp" />
+    <StdViol cat="MRM" sev="1" lang="cpp" msg="A class 'Tokenizer' must declare a canonical assignment operator" locType="sr" hash="-1444159586" ln="38" rule="MRM-37" tool="c++test" urgent="true" auth="S0017337" locStartln="38" locStartPos="6" locEndLn="38" locEndPos="7" locFile="/cppcheck/lib/tokenize.h" />
+  </StdViols>
+
+      <Supps />
+      
+      <FADetails />
+   
+      
+      
+      <Rules>
+         <RulesList>
+            <Rule cat="CODSTA" desc="Local variables and variables of class/parent classes/parent structs should have different name" id="CODSTA-44" sev="1">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="CODSTA-CPP" desc="Constructors allowing for conversion should be made explicit" id="CODSTA-CPP-04" sev="1">
+               <Stats authTot="9;" authUrg="9;" total="9" />
+            </Rule>
+            <Rule cat="CODSTA-CPP" desc="Do not use user-defined conversion functions" id="CODSTA-CPP-05" sev="1">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="EXCEPT" desc="Never allow an exception to be thrown from a destructor, deallocation, and swap" id="EXCEPT-01" sev="1">
+               <Stats authTot="3;" authUrg="3;" total="3" />
+            </Rule>
+            <Rule cat="EXCEPT" desc="Throw by value, catch by reference" id="EXCEPT-02" sev="1">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="EXCEPT" desc="Do not throw from within destructor" id="EXCEPT-03" sev="1">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="INIT" desc="All member variables should be initialized in constructor" id="INIT-06" sev="1">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="INIT" desc="Initialize static class members" id="INIT-09" sev="1">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="METRICS" desc="Follow the Cyclomatic Complexity limit of 10" id="METRICS-18" sev="3">
+               <Stats authTot="121;" authUrg="11;" total="121" />
+            </Rule>
+            <Rule cat="MISRA2004" desc="Assignment operators shall not be used in expressions that yield a Boolean value" id="MISRA2004-13_1" sev="3">
+               <Stats authTot="53;" authUrg="8;" total="53" />
+            </Rule>
+            <Rule cat="MISRA2004" desc="Floating-point expressions shall not be tested for equality or inequality" id="MISRA2004-13_3" sev="3">
+               <Stats authTot="2;" authUrg="0;" total="2" />
+            </Rule>
+            <Rule cat="MISRA2004" desc="The controlling expression of a for statement shall not contain any objects of floating type" id="MISRA2004-13_4" sev="3">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="MRM" desc="Do not invoke malloc/realloc for objects having constructors" id="MRM-08" sev="1">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="MRM" desc="Never return a reference to a local object" id="MRM-24" sev="1">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="MRM" desc="Avoid hiding the global new" id="MRM-32" sev="1">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="MRM" desc="Declare an assignment operator for classes with dynamically allocated memory" id="MRM-37" sev="1">
+               <Stats authTot="1;" authUrg="1;" total="1" />
+            </Rule>
+            <Rule cat="MRM" desc="Declare a copy constructor for classes with dynamically allocated memory" id="MRM-38" sev="1">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="MRM" desc="Adhere to convention when writing new" id="MRM-13" sev="3">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="MRM" desc="Write operator delete if you write operator new" id="MRM-26" sev="3">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="MRM" desc="Write operator delete[] if you write operator new[]" id="MRM-27" sev="3">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="MRM" desc="Never provide brackets ([]) for delete when deallocating non-arrays" id="MRM-35" sev="3">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="MRM" desc="Always provide empty brackets ([]) for delete when deallocating arrays" id="MRM-36" sev="3">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="OOP" desc="Do not directly access global data from a constructor" id="OOP-08" sev="1">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="OOP" desc="Avoid calling virtual functions from constructors and destructors" id="OOP-16" sev="1">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="OOP" desc="Make destructors virtual in base classes" id="OOP-24" sev="1">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="OOP" desc="A pointer to an abstract class shall not be converted to a pointer of a class that inherits from that abstract class" id="OOP-29" sev="1">
+               <Stats authTot="16;" authUrg="16;" total="16" />
+            </Rule>
+            <Rule cat="OOP" desc="Make base class destructors public and virtual, or protected and nonvirtual" id="OOP-31" sev="1">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="OOP" desc="If a class has virtual functions it shall have a virtual destructor" id="OOP-23" sev="2">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="OOP" desc="Public member functions shall not return non-const handles to private/protected class-data" id="OOP-36" sev="3">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="OPT" desc="Declare member variables in the descending size order" id="OPT-13" sev="3">
+               <Stats authTot="4;" authUrg="0;" total="4" />
+            </Rule>
+            <Rule cat="OPT" desc="Pass objects by reference instead of by value" id="OPT-14" sev="3">
+               <Stats authTot="11;" authUrg="2;" total="11" />
+            </Rule>
+            <Rule cat="PB" desc="Do not call delete on non-pointers" id="PB-13" sev="1">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+            <Rule cat="SECURITY" desc="Never use gets()" id="SECURITY-16" sev="1">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Rule>
+         </RulesList>
+         <CategoriesList>
+            <Category desc="BugDetective (License Required)" name="BD" total="25">
+               <Category desc="Resources" name="BD-RES" total="4">
+                  <Stats authTot="0;" authUrg="0;" total="0" />
+               </Category>
+               <Category desc="Security" name="BD-SECURITY" total="7">
+                  <Stats authTot="0;" authUrg="0;" total="0" />
+               </Category>
+               <Category desc="Threads &amp; Synchronization" name="BD-TRS" total="2">
+                  <Stats authTot="0;" authUrg="0;" total="0" />
+               </Category>
+               <Category desc="Possible Bugs" name="BD-PB" total="11">
+                  <Stats authTot="0;" authUrg="0;" total="0" />
+               </Category>
+               <Category desc="Miscellaneous" name="BD-MISC" total="1">
+                  <Stats authTot="0;" authUrg="0;" total="0" />
+               </Category>
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Category>
+            <Category desc="Coding Conventions" name="CODSTA" total="167">
+               <Category desc="Coding Conventions for C++" name="CODSTA-CPP" total="78">
+                  <Stats authTot="9;" authUrg="9;" total="9" />
+               </Category>
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Category>
+            <Category desc="Comments" name="COMMENT" total="10">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Category>
+            <Category desc="Exceptions" name="EXCEPT" total="18">
+               <Stats authTot="3;" authUrg="3;" total="3" />
+            </Category>
+            <Category desc="Formatting" name="FORMAT" total="38">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Category>
+            <Category desc="Initialization" name="INIT" total="14">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Category>
+            <Category desc="Joint Strike Fighter" name="JSF" total="219">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Category>
+            <Category desc="Metrics" name="METRICS" total="41">
+               <Stats authTot="121;" authUrg="11;" total="121" />
+            </Category>
+            <Category desc="MISRA C" name="MISRA" total="57">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Category>
+            <Category desc="MISRA C 2004" name="MISRA2004" total="193">
+               <Stats authTot="55;" authUrg="8;" total="55" />
+            </Category>
+            <Category desc="MISRA C++ 2008" name="MISRA2008" total="263">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Category>
+            <Category desc="Memory and Resource Management" name="MRM" total="47">
+               <Stats authTot="1;" authUrg="1;" total="1" />
+            </Category>
+            <Category desc="Naming Conventions" name="NAMING" total="92">
+               <Category desc="Hungarian Notation" name="NAMING-HN" total="44">
+                  <Stats authTot="0;" authUrg="0;" total="0" />
+               </Category>
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Category>
+            <Category desc="Object Oriented" name="OOP" total="51">
+               <Stats authTot="16;" authUrg="16;" total="16" />
+            </Category>
+            <Category desc="Optimization" name="OPT" total="33">
+               <Stats authTot="15;" authUrg="2;" total="15" />
+            </Category>
+            <Category desc="Possible Bugs" name="PB" total="43">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Category>
+            <Category desc="Physical File Organization" name="PFO" total="9">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Category>
+            <Category desc="Portability" name="PORT" total="26">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Category>
+            <Category desc="Preprocessor" name="PREPROC" total="15">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Category>
+            <Category desc="Qt Best Practices" name="QT" total="18">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Category>
+            <Category desc="Security" name="SECURITY" total="38">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Category>
+            <Category desc="STL Best Practices" name="STL" total="42">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Category>
+            <Category desc="Template" name="TEMPL" total="12">
+               <Stats authTot="0;" authUrg="0;" total="0" />
+            </Category>
+         </CategoriesList>
+         <SeverityList>
+            <Severity id="1">
+               <Stats authTot="29;" authUrg="29;" total="29" />
+            </Severity>
+            <Severity id="3">
+               <Stats authTot="191;" authUrg="21;" total="191" />
+            </Severity>
+         </SeverityList>
+      </Rules>
+   </CodingStandards>
+</ResultsSession>

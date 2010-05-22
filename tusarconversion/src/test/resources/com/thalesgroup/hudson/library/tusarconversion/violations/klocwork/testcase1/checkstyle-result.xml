@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle xmlns_xsi="http://www.w3.org/2001/XMLSchema-instance" version="4.4">
+   <file name="C:\Documents and Settings\s0017337\Desktop\WORKSPACE_KLOCWORK\Timer\driver.c">
+      <error line="49" column="13" severity="Critical"
+             message="Unvalidated integer value 'get_input_digit()' is received from an external function through a call to 'get_input_digit' at line 49 which can be used to access an array through call to 'delete_timer_record' at line 49. Use of unvalidated user input for array index can lead to a buffer overflow and denial of service condition. Check integers for reasonable limits."
+             source="SV.TAINTED.CALL.INDEX_ACCESS"/>
+   </file>
+   <file name="C:\Documents and Settings\s0017337\Desktop\WORKSPACE_KLOCWORK\Timer\timer.c">
+      <error line="150" column="9" severity="Critical"
+             message="Buffer overflow, array index of 'buf' may be out of bounds. Array 'buf' of size 100 may use index value(s) 0..222"
+             source="ABR"/>
+      <error line="133" column="43" severity="Error"
+             message="Pointer 'localtime( &amp;tr-&gt;starttime)' returned from call to function 'localtime' at line 133 may be NULL and will be dereferenced at line 133."
+             source="NPD.FUNC.MUST"/>
+      <error line="134" column="41" severity="Error"
+             message="Pointer 'localtime( &amp;tr-&gt;endtime)' returned from call to function 'localtime' at line 134 may be NULL and will be dereferenced at line 134."
+             source="NPD.FUNC.MUST"/>
+      <error line="53" column="5" severity="Error"
+             message="Pointer 'tm_tmp' returned from call to function 'localtime' at line 46 may be NULL and will be dereferenced at line 53."
+             source="NPD.FUNC.MUST"/>
+      <error line="49" column="12" severity="Error"
+             message="Pointer 'the_record' returned from call to function 'malloc' at line 48 may be NULL and will be dereferenced at line 49."
+             source="NPD.FUNC.MUST"/>
+   </file>
+</checkstyle>
