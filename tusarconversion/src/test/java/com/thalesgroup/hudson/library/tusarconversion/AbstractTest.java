@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2010 Thales Corporate Services SAS                             *
- * Author : Grégory Boissinot, Guillaume Tanier                                 *
+ * Author : Gregory Boissinot, Guillaume Tanier                                 *
  *                                                                              *
  * Permission is hereby granted, free of charge, to any person obtaining a copy *
  * of this software and associated documentation files (the "Software"), to deal*
@@ -21,33 +21,38 @@
  * THE SOFTWARE.                                                                *
  *******************************************************************************/
 
-package com.thalesgroup.hudson.library.tusarconversion.tests;
+package com.thalesgroup.hudson.library.tusarconversion;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import com.thalesgroup.hudson.library.tusarconversion.exception.ConversionException;
+import com.thalesgroup.hudson.library.tusarconversion.model.InputType;
+import junit.framework.Assert;
+import org.custommonkey.xmlunit.Diff;
+import org.xml.sax.SAXException;
 
+import java.io.*;
 
-public class XSLUtil {
+public class AbstractTest {
 
-    public static String readXmlAsString(InputStream input)
-            throws IOException {
-        String xmlString = "";
+    protected void conversion(InputType type, String inputPath, String resultPath) throws ConversionException, IOException, SAXException {
 
-        if (input == null) {
-            throw new IOException("The input stream object is null.");
-        }
+        // define the streams (input/output)
+        InputStream inputStream = this.getClass().getResourceAsStream(inputPath);
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-        String line = reader.readLine();
-        while (line != null) {
-            xmlString += line + "\n";
-            line = reader.readLine();
-        }
-        reader.close();
+        File target = File.createTempFile("result", "xml");
+        OutputStream outputStream = new FileOutputStream(target);
 
-        return xmlString;
+        // convert the input xml file
+        ConversionUtil.convert(type, inputStream, outputStream);
+
+        // compare with expected result
+        InputStream expectedResult = this.getClass().getResourceAsStream(resultPath);
+        InputStream fisTarget = new FileInputStream(target);
+
+        Diff myDiff = new Diff(XSLUtil.readXmlAsString(expectedResult), XSLUtil.readXmlAsString(fisTarget));
+
+        Assert.assertTrue("XSL transformation did not work" + myDiff, myDiff.similar());
+
+        fisTarget.close();
     }
 
 }

@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2010 Thales Corporate Services SAS                             *
- * Author : Grégory Boissinot, Guillaume Tanier                                 *
+ * Author : Gregory Boissinot, Guillaume Tanier                                 *
  *                                                                              *
  * Permission is hereby granted, free of charge, to any person obtaining a copy *
  * of this software and associated documentation files (the "Software"), to deal*
@@ -33,10 +33,10 @@ public class ViolationsTools extends Tools {
 
     private static String VIOLATIONS_TYPE = "violations";
 
-    public static InputType CPPCHECK = new InputType(VIOLATIONS_TYPE, "cppcheck", "inputtype.violations.cppcheck", "violations/cppcheck-to-checkstyle.xsl");
+    public static InputType CPPCHECK = new InputType(VIOLATIONS_TYPE, "cppcheck", "inputtype.violations.cppcheck", "violations/cppcheck-1.40-to-checkstyle.xsl");
     public static InputType QA_C = new InputType(VIOLATIONS_TYPE, "qa_c", "inputtype.violations.qa_c", "violations/qa-c-to-checkstyle.xsl");
-    public static InputType CPPTEST = new InputType(VIOLATIONS_TYPE, "cpptest", "inputtype.violations.cpptest", "violations/cpptest-to-checkstyle.xsl");
-    public static InputType KLOCWORK = new InputType(VIOLATIONS_TYPE, "klockwork", "inputtype.violations.klocwork", "violations/klocwork-to-checkstyle.xsl");
+    public static InputType CPPTEST = new InputType(VIOLATIONS_TYPE, "cpptest", "inputtype.violations.cpptest", "violations/cpptest-7.3-to-checkstyle.xsl");
+    public static InputType KLOCWORK = new InputType(VIOLATIONS_TYPE, "klockwork", "inputtype.violations.klocwork", "violations/klocwork-9.0-to-checkstyle.xsl");
     public static InputType COVERITY = new InputType(VIOLATIONS_TYPE, "coverity", "inputtype.violations.coverity", "violations/coverity-to-checkstyle.xsl");
     public static InputType GNATCHECK = new InputType(VIOLATIONS_TYPE, "gnatcheck", "inputtype.violations.gnatcheck", "violations/gnatcheck-to-checkstyle.xsl");
 

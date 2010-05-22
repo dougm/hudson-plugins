@@ -21,45 +21,33 @@
  * THE SOFTWARE.                                                                *
  *******************************************************************************/
 
-package com.thalesgroup.hudson.library.tusarconversion.tests;
+package com.thalesgroup.hudson.library.tusarconversion;
 
-import com.thalesgroup.hudson.library.tusarconversion.AbstractTest;
-import com.thalesgroup.hudson.library.tusarconversion.TestsTools;
-import org.custommonkey.xmlunit.XMLUnit;
-import org.junit.Before;
-import org.junit.Test;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
-public class NUnitXSLTest extends AbstractTest {
 
-    @Before
-    public void setUp() {
-        XMLUnit.setIgnoreWhitespace(true);
-        XMLUnit.setNormalizeWhitespace(true);
-        XMLUnit.setIgnoreComments(true);
+public class XSLUtil {
+
+    public static String readXmlAsString(InputStream input)
+            throws IOException {
+        String xmlString = "";
+
+        if (input == null) {
+            throw new IOException("The input stream object is null.");
+        }
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+        String line = reader.readLine();
+        while (line != null) {
+            xmlString += line + "\n";
+            line = reader.readLine();
+        }
+        reader.close();
+
+        return xmlString;
     }
 
-    @Test
-    public void testTransformation() throws Exception {
-        conversion(TestsTools.NUNIT, "nunit/NUnit-simple.xml", "nunit/JUnit-simple.xml");
-    }
-
-    @Test
-    public void testTransformationFailure() throws Exception {
-        conversion(TestsTools.NUNIT, "nunit/NUnit-failure.xml", "nunit/JUnit-failure.xml");
-    }
-
-    @Test
-    public void testTransformationMultiNamespace() throws Exception {
-        conversion(TestsTools.NUNIT, "nunit/NUnit-multinamespace.xml", "nunit/JUnit-multinamespace.xml");
-    }
-
-    @Test
-    public void testTransformedIgnored() throws Exception {
-        conversion(TestsTools.NUNIT, "nunit/NUnit-ignored.xml", "nunit/JUnit-ignored.xml");
-    }
-
-    @Test
-    public void testTransformedIssue1077() throws Exception {
-        conversion(TestsTools.NUNIT, "nunit/NUnit-issue1077.xml", "nunit/JUnit-issue1077.xml");
-    }
 }

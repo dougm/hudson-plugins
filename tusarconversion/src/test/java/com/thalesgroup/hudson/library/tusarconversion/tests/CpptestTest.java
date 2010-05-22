@@ -1,6 +1,6 @@
 /*******************************************************************************
 * Copyright (c) 2010 Thales Corporate Services SAS                             *
-* Author : Grégory Boissinot, Guillaume Tanier                                 *
+* Author : Gregory Boissinot, Guillaume Tanier                                 *
 *                                                                              *
 * Permission is hereby granted, free of charge, to any person obtaining a copy *
 * of this software and associated documentation files (the "Software"), to deal*
@@ -23,12 +23,11 @@
 
 package com.thalesgroup.hudson.library.tusarconversion.tests;
 
+import com.thalesgroup.hudson.library.tusarconversion.AbstractTest;
 import com.thalesgroup.hudson.library.tusarconversion.TestsTools;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.thalesgroup.hudson.library.tusarconversion.ConversionType;
 
 public class CpptestTest extends AbstractTest {
     

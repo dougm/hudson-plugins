@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2010 Thales Corporate Services SAS                             *
- * Author : Grégory Boissinot, Guillaume Tanier                                 *
+ * Author : Gregory Boissinot, Guillaume Tanier                                 *
  *                                                                              *
  * Permission is hereby granted, free of charge, to any person obtaining a copy *
  * of this software and associated documentation files (the "Software"), to deal*
@@ -23,6 +23,7 @@
 
 package com.thalesgroup.hudson.library.tusarconversion;
 
+import com.thalesgroup.hudson.library.tusarconversion.exception.ConversionException;
 import com.thalesgroup.hudson.library.tusarconversion.model.InputType;
 import net.sf.saxon.s9api.*;
 
@@ -41,9 +42,9 @@ public class ConversionUtil {
      * @param type   : the type of xml file to convert. It is one the 4 types shipped within the library (Unit Tests, Coverage, Violations, Measures)
      * @param source
      * @param output
-     * @throws SaxonApiException
+     * @throws ConversionException
      */
-    public static void convert(InputType type, Source source, OutputStream output) throws SaxonApiException {
+    public static void convert(InputType type, Source source, OutputStream output) throws ConversionException {
 
         convert(type.getXsl(), source, output);
     }
@@ -55,9 +56,9 @@ public class ConversionUtil {
      * @param type   : the type of xml file to convert. It is one the 4 types shipped within the library (Unit Tests, Coverage, Violations, Measures)
      * @param input
      * @param output
-     * @throws SaxonApiException
+     * @throws ConversionException
      */
-    public static void convert(InputType type, InputStream input, OutputStream output) throws SaxonApiException {
+    public static void convert(InputType type, InputStream input, OutputStream output) throws ConversionException {
 
         convert(type.getXsl(), new StreamSource(input), output);
     }
@@ -69,9 +70,9 @@ public class ConversionUtil {
      * @param stylesheetName : the name of the stylesheet
      * @param input
      * @param output
-     * @throws SaxonApiException
+     * @throws ConversionException
      */
-    public static void convert(String stylesheetName, InputStream input, OutputStream output) throws SaxonApiException {
+    public static void convert(String stylesheetName, InputStream input, OutputStream output) throws ConversionException {
 
         convert(stylesheetName, new StreamSource(input), output);
     }
@@ -83,31 +84,37 @@ public class ConversionUtil {
      * @param stylesheetName : the name of the stylesheet
      * @param source
      * @param output
-     * @throws SaxonApiException
+     * @throws ConversionException
      */
-    public static void convert(String stylesheetName, Source source, OutputStream output) throws SaxonApiException {
+    public static void convert(String stylesheetName, Source source, OutputStream output) throws ConversionException {
 
-        // create the conversion processor with a Xslt compiler
-        Processor processor = new Processor(false);
-        XsltCompiler compiler = processor.newXsltCompiler();
+        try {
+            // create the conversion processor with a Xslt compiler
 
-        // compile and load the XSL file
-        XsltExecutable xsltExecutable = compiler.compile(new StreamSource(ConversionUtil.class.getResourceAsStream(stylesheetName)));
-        XsltTransformer xsltTransformer = xsltExecutable.load();
+            Processor processor = new Processor(false);
+            XsltCompiler compiler = processor.newXsltCompiler();
 
-        // create the input
-        XdmNode xdmNode = processor.newDocumentBuilder().build(source);
+            // compile and load the XSL file
+            XsltExecutable xsltExecutable = compiler.compile(new StreamSource(ConversionUtil.class.getResourceAsStream(stylesheetName)));
+            XsltTransformer xsltTransformer = xsltExecutable.load();
 
-        // create the output with its options
-        Serializer out = new Serializer();
-        out.setOutputProperty(Serializer.Property.METHOD, "xml");
-        out.setOutputProperty(Serializer.Property.INDENT, "yes");
-        out.setOutputStream(output);
+            // create the input
+            XdmNode xdmNode = processor.newDocumentBuilder().build(source);
 
-        // run the conversion
-        xsltTransformer.setInitialContextNode(xdmNode);
-        xsltTransformer.setDestination(out);
-        xsltTransformer.transform();
+            // create the output with its options
+            Serializer out = new Serializer();
+            out.setOutputProperty(Serializer.Property.METHOD, "xml");
+            out.setOutputProperty(Serializer.Property.INDENT, "yes");
+            out.setOutputStream(output);
+
+            // run the conversion
+            xsltTransformer.setInitialContextNode(xdmNode);
+            xsltTransformer.setDestination(out);
+            xsltTransformer.transform();
+        }
+        catch (SaxonApiException saie) {
+            throw new ConversionException("Error to convert the document", saie);
+        }
     }
 
 }
