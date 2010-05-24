@@ -1,5 +1,6 @@
 package hudson.plugins.cppncss;
 
+import hudson.matrix.MatrixConfiguration;
 import hudson.model.AbstractProject;
 import hudson.model.Action;
 import hudson.model.Descriptor;
@@ -103,7 +104,7 @@ public class CppNCSSPublisher extends AbstractPublisherImpl {
         }
 
         public boolean isApplicable(Class<? extends AbstractProject> aClass) {
-            return FreeStyleProject.class.isAssignableFrom(aClass);
+            return true;
         }
 
         public HealthMetric[] getMetrics() {
