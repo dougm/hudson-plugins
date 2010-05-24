@@ -1,10 +1,8 @@
 package hudson.plugins.cppncss;
 
-import hudson.matrix.MatrixConfiguration;
 import hudson.model.AbstractProject;
 import hudson.model.Action;
 import hudson.model.Descriptor;
-import hudson.model.FreeStyleProject;
 import hudson.plugins.helpers.AbstractPublisherImpl;
 import hudson.plugins.helpers.Ghostwriter;
 import hudson.plugins.helpers.health.HealthMetric;
