@@ -51,10 +51,7 @@ public class RemoteQueueSCM extends SCM {
     @DataBoundConstructor
 	public RemoteQueueSCM(String directory){
 		// this.timerSpec = timerSpec;
-    	System.out.println("DEBUG: const");
 		this.directory = directory.trim();
-    	System.out.println("DEBUG: directory: " + directory);
-		
     }
     
     @Override
@@ -71,9 +68,6 @@ public class RemoteQueueSCM extends SCM {
 		RemoteQueueRevisionState preComState = new RemoteQueueRevisionState();
 		// if we get here, the change has been unzipped and the workspace updated.
 		preComState.setWorkspaceUpdated(filesFound());
-		//System.out.println("DEBUG: calcRevisions, found: " + filesFound());
-		
-		//System.out.println("DEBUG: calcRevisions, found: " + preComState.getBuildNow());
 		return preComState;
 	}
 
@@ -82,16 +76,20 @@ public class RemoteQueueSCM extends SCM {
 			FilePath zipFilePath, BuildListener listener, File zipFileLog) throws IOException,
 			InterruptedException {
 		// TODO Auto-generated method stub
-		System.out.println("DEBUG: checkout");
         PrintStream log = listener.getLogger();
         ziplogFilename = zipFileLog.getAbsolutePath();
         
         // copy and unzip the file
         FilePath path = build.getWorkspace();
-        System.out.println("DEBUG: zipFileLog, workspace: " + build.getWorkspace());
-        // zipFilePath.copyTo(build.getWorkspace().child(zipFileLog.getName()));
-        changeZip.delete();
-        System.out.println("DEBUG: zipFileLog, path: " + path);
+        FilePath targetZip = new FilePath(build.getWorkspace(), changeZip.getName());
+        try{
+            changeZip.copyTo(targetZip);
+            changeZip.delete();
+        	
+        } catch (IOException ie){
+        	System.out.println("IO problem moving the zip to the workspace.");
+        	ie.printStackTrace();
+        }
         
 		return true;
 	}
@@ -101,26 +99,20 @@ public class RemoteQueueSCM extends SCM {
 			AbstractProject<?, ?> item, Launcher launcher, FilePath filePath,
 			TaskListener taskListener, SCMRevisionState baseline) throws IOException,
 			InterruptedException {
-		System.out.println("DEBUG: compareRemote: found? : " + filesFound());
 		RemoteQueueRevisionState preComState = (RemoteQueueRevisionState)baseline;
 		// System.out.println("DEBUG: preComState: "+ preComState.getBuildNow());
 		preComState.setWorkspaceUpdated(filesFound());
 		if (preComState.isWorkspaceUpdated()){
 			// preComState.setBuildNow(false);
-			System.out.println("DEBUG: filesFound: " + filesFound());			
 			changeZip = changeZip();
-			System.out.println("DEBUG: changeZip name: " + changeZip.getName());
-			//changeZip.copyTo();
 			return BUILD_NOW;
 		}
-		System.out.println("DEBUG: compareRemoteRev");
 		return NO_CHANGES;
 	}
 
 	@Override
 	public ChangeLogParser createChangeLogParser() {
 		// TODO Auto-generated method stub
-		System.out.println("DEBUG: createChangeLogParser");
 		return null;
 	}
 	
@@ -142,7 +134,6 @@ public class RemoteQueueSCM extends SCM {
 	 */
 	private boolean filesFound() {
 	  if (directoryFound()) {
-		  System.out.println("DEBUG: files: " + files);
 	    zipFileSet = Util.createFileSet(new File(directory), files);
 	    zipFileSet.setDefaultexcludes(false);
 	    
@@ -162,12 +153,6 @@ public class RemoteQueueSCM extends SCM {
 		
 	    DirectoryScanner directoryScanner = zipFileSet.getDirectoryScanner();
 	    String[] files = directoryScanner.getIncludedFiles();
-	//    for (int i = 0; i < files.length; i++) {
-	//      System.out.println("DEBUG: files: " + files[i]);
-	//    }
-	    
-	  //  FilePath queueDir = new FilePath(new File(directory));
-	   // changeZip = new FilePath(new File(files[0]));
 	    FilePath queueDir = new FilePath(new File(directory));
 		
 		return queueDir.child(files[0]);
@@ -183,7 +168,7 @@ public class RemoteQueueSCM extends SCM {
         }
         
         public String getDisplayName() {
-            return "PreCommit";
+            return "Remote Queue";
         }        
     }
 
