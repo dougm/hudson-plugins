@@ -46,6 +46,7 @@ public class RemoteQueueSCM extends SCM {
 	private String ziplogFilename = null;
 	
 	private FileSet zipFileSet = null;
+	private FilePath changeZip;
 
     @DataBoundConstructor
 	public RemoteQueueSCM(String directory){
@@ -68,7 +69,8 @@ public class RemoteQueueSCM extends SCM {
 			InterruptedException {
 		// TODO Auto-generated method stub
 		RemoteQueueRevisionState preComState = new RemoteQueueRevisionState();
-		preComState.setZipFilesQueued(filesFound());
+		// if we get here, the change has been unzipped and the workspace updated.
+		preComState.setWorkspaceUpdated(filesFound());
 		//System.out.println("DEBUG: calcRevisions, found: " + filesFound());
 		
 		//System.out.println("DEBUG: calcRevisions, found: " + preComState.getBuildNow());
@@ -87,8 +89,8 @@ public class RemoteQueueSCM extends SCM {
         // copy and unzip the file
         FilePath path = build.getWorkspace();
         System.out.println("DEBUG: zipFileLog, workspace: " + build.getWorkspace());
-        zipFilePath.copyTo(build.getWorkspace().child(zipFileLog.getName()));
-        
+        // zipFilePath.copyTo(build.getWorkspace().child(zipFileLog.getName()));
+        changeZip.delete();
         System.out.println("DEBUG: zipFileLog, path: " + path);
         
 		return true;
@@ -102,11 +104,11 @@ public class RemoteQueueSCM extends SCM {
 		System.out.println("DEBUG: compareRemote: found? : " + filesFound());
 		RemoteQueueRevisionState preComState = (RemoteQueueRevisionState)baseline;
 		// System.out.println("DEBUG: preComState: "+ preComState.getBuildNow());
-		preComState.setZipFilesQueued(filesFound());
-		if (preComState.isZipFilesQueued()){
+		preComState.setWorkspaceUpdated(filesFound());
+		if (preComState.isWorkspaceUpdated()){
 			// preComState.setBuildNow(false);
 			System.out.println("DEBUG: filesFound: " + filesFound());			
-			FilePath changeZip = changeZip();
+			changeZip = changeZip();
 			System.out.println("DEBUG: changeZip name: " + changeZip.getName());
 			//changeZip.copyTo();
 			return BUILD_NOW;
@@ -163,9 +165,12 @@ public class RemoteQueueSCM extends SCM {
 	//    for (int i = 0; i < files.length; i++) {
 	//      System.out.println("DEBUG: files: " + files[i]);
 	//    }
-	    FilePath changeZip = new FilePath(new File(files[0]));
+	    
+	  //  FilePath queueDir = new FilePath(new File(directory));
+	   // changeZip = new FilePath(new File(files[0]));
+	    FilePath queueDir = new FilePath(new File(directory));
 		
-		return changeZip;
+		return queueDir.child(files[0]);
 	}
 	
 	@Extension
