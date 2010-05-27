@@ -83,13 +83,21 @@ public class RemoteQueueSCM extends SCM {
         FilePath path = build.getWorkspace();
         FilePath targetZip = new FilePath(build.getWorkspace(), changeZip.getName());
         try{
+        	
             changeZip.copyTo(targetZip);
             changeZip.delete();
+            targetZip.unzip(build.getWorkspace());
         	
         } catch (IOException ie){
-        	System.out.println("IO problem moving the zip to the workspace.");
-        	ie.printStackTrace();
+        	System.out.println("IO problem moving or unzipping to the workspace.");
+        	//ie.printStackTrace();
+        	throw (ie);
+        } catch (InterruptedException ie){
+        	System.out.println("IO problem moving or unzipping to the workspace.");
+        	throw (ie);
         }
+        
+        
         
 		return true;
 	}
