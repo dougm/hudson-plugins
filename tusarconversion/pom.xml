@@ -38,7 +38,7 @@
     <version>0.1-SNAPSHOT</version>
     <packaging>hpi</packaging>
     <name>TUSAR Conversion Library</name>
-    <url>http://wiki.hudson-ci.org/display/HUDSON/XML+Conversion+Library</url>
+    <url>http://wiki.hudson-ci.org/display/TUSAR</url>
 
     <licenses>
         <license>
