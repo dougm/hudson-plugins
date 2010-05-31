@@ -14,6 +14,11 @@ import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.BuildListener;
 import hudson.model.TaskListener;
+import hudson.plugins.perforce.PerforceChangeLogParser;
+import hudson.plugins.perforce.PerforcePasswordEncryptor;
+import hudson.plugins.perforce.PerforceRepositoryBrowser;
+import hudson.plugins.perforce.PerforceSCM;
+import hudson.plugins.perforce.PerforceTagAction;
 import hudson.scm.ChangeLogParser;
 import hudson.scm.PollingResult;
 import hudson.scm.SCM;
@@ -30,6 +35,35 @@ import java.util.Map;
 
 public class RemoteQueueSCM extends SCM {
 	
+
+	public final String p4User;
+	public final String p4Passwd;
+	public final String p4Port;
+	public final String p4Client;
+	public final String projectPath;
+	public final String projectOptions;
+	public final String p4Label;
+	public final String p4Counter;
+	
+	public final String lineEndValue;
+	public final String p4Charset;
+	public final String p4CommandCharset;
+	public final boolean updateCounterValue;
+	public final boolean forceSync;
+	public final boolean alwaysForceSync;
+	public final boolean updateView;
+	public final boolean disableAutoSync;
+	public final boolean wipeBeforeBuild;
+	public final boolean dontUpdateClient;
+	public final boolean exposeP4Passwd;
+    public final String slaveClientNameFormat;
+    public final int firstChange;
+    public final PerforceRepositoryBrowser browser;	
+
+    public final String p4Exe;
+    public final String p4SysDrive;
+    public final String p4SysRoot;
+    
 	/**
 	 * The base directory to use when locating files.  The queue.
 	 */
@@ -37,6 +71,7 @@ public class RemoteQueueSCM extends SCM {
 	public final String directory;
 	
 	// private String timerSpec;
+	
 	
 	/**
 	 * Files to locate under the base directory.
@@ -49,16 +84,65 @@ public class RemoteQueueSCM extends SCM {
 	private FilePath changeZip;
 
     @DataBoundConstructor
-	public RemoteQueueSCM(String directory){
+	public RemoteQueueSCM(String p4User, 
+			String p4Passwd, 
+			String p4Client,
+			String p4Port,
+			String projectPath,
+			String projectOptions,
+			String p4Exe,
+			String p4SysRoot,
+			String p4SysDrive,
+			String p4Label,
+			String p4Counter,
+			String lineEndValue,
+			String p4Charset,
+			String p4CommandCharset,
+            boolean updateCounterValue,
+            boolean forceSync,
+            boolean alwaysForceSync,
+            boolean updateView,
+            boolean disableAutoSync,
+            boolean wipeBeforeBuild,
+            boolean dontUpdateClient,
+            boolean exposeP4Passwd,
+            String slaveClientNameFormat,
+            int firstChange,
+            PerforceRepositoryBrowser browser,			
+			String directory){
 		// this.timerSpec = timerSpec;
+    	
+    	this.p4User = p4User.trim();
+    	this.p4Passwd = p4Passwd.trim();
+    	this.p4Port = p4Port.trim();
+    	this.p4Client = p4Client.trim();
+    	this.projectPath = projectPath.trim();
+    	this.projectOptions = projectOptions.trim();
+    	this.p4Label = p4Label.trim();
+    	this.p4Counter = p4Counter.trim();
+    	
+    	this.lineEndValue = lineEndValue.trim();
+    	this.p4Charset = p4Charset.trim();
+    	this.p4CommandCharset = p4CommandCharset.trim();
+    	this.updateCounterValue = updateCounterValue;
+    	this.forceSync = forceSync;
+    	this.alwaysForceSync = alwaysForceSync;
+    	this.updateView = updateView;
+    	this.disableAutoSync = disableAutoSync;
+    	this.wipeBeforeBuild = wipeBeforeBuild;
+    	this.dontUpdateClient = dontUpdateClient;
+    	this.exposeP4Passwd = exposeP4Passwd;
+    	this.slaveClientNameFormat = slaveClientNameFormat.trim();
+    	this.firstChange = firstChange;
+    	this.browser = browser ;	
+
+    	this.p4Exe = p4Exe.trim();
+    	this.p4SysDrive = p4SysDrive.trim();
+    	this.p4SysRoot = p4SysRoot.trim();
+         	
 		this.directory = directory.trim();
     }
     
-    @Override
-    public void buildEnvVars(AbstractBuild<?,?> build, Map<String, String> env){
-        super.buildEnvVars(build, env);
-        env.put("directory", directory);
-    }
 
 	@Override
 	public SCMRevisionState calcRevisionsFromBuild(AbstractBuild<?, ?> arg0,
@@ -70,14 +154,54 @@ public class RemoteQueueSCM extends SCM {
 		preComState.setWorkspaceUpdated(filesFound());
 		return preComState;
 	}
-
+	
 	@Override
-	public boolean checkout(AbstractBuild<?, ?> build, Launcher launcher,
-			FilePath zipFilePath, BuildListener listener, File zipFileLog) throws IOException,
+	public boolean checkout(AbstractBuild build, Launcher launcher,
+			FilePath filePath, BuildListener listener, File zipFileLog) throws IOException,
 			InterruptedException {
 		// TODO Auto-generated method stub
+		
+		
+		PerforceSCM perforceScm = new PerforceSCM(
+                p4User,
+                p4Passwd,
+                p4Client,
+                p4Port,
+                projectPath,
+                projectOptions,
+                p4Exe,
+                p4SysRoot,
+                p4SysDrive,
+                p4Label,
+                p4Counter,
+                lineEndValue,
+                p4Charset,
+                p4CommandCharset,
+                updateCounterValue,
+                forceSync,
+                alwaysForceSync,
+                updateView,
+                disableAutoSync,
+                wipeBeforeBuild,
+                dontUpdateClient,
+                exposeP4Passwd,
+                slaveClientNameFormat,
+                firstChange,
+                browser/*,
+                String viewMask,
+                boolean useViewMaskForPolling,
+                boolean useViewMaskForSyncing*/			
+				
+		);
+		
+		perforceScm.setWipeBeforeBuild(true);
+		// set up the workspace
+		perforceScm.checkout(build, launcher, filePath, listener, zipFileLog);
+
+	//	super.checkout(build, launcher, filePath, listener, zipFileLog);
         PrintStream log = listener.getLogger();
         ziplogFilename = zipFileLog.getAbsolutePath();
+		// boolean result = super.checkout(build, launcher, filePath, listener, zipFileLog);
         
         // copy and unzip the file
         FilePath path = build.getWorkspace();
@@ -95,9 +219,7 @@ public class RemoteQueueSCM extends SCM {
         } catch (InterruptedException ie){
         	System.out.println("IO problem moving or unzipping to the workspace.");
         	throw (ie);
-        }
-        
-        
+        }  
         
 		return true;
 	}
@@ -108,7 +230,7 @@ public class RemoteQueueSCM extends SCM {
 			TaskListener taskListener, SCMRevisionState baseline) throws IOException,
 			InterruptedException {
 		RemoteQueueRevisionState preComState = (RemoteQueueRevisionState)baseline;
-		// System.out.println("DEBUG: preComState: "+ preComState.getBuildNow());
+
 		preComState.setWorkspaceUpdated(filesFound());
 		if (preComState.isWorkspaceUpdated()){
 			// preComState.setBuildNow(false);
@@ -120,9 +242,8 @@ public class RemoteQueueSCM extends SCM {
 
 	@Override
 	public ChangeLogParser createChangeLogParser() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		return new PerforceChangeLogParser();
+	} 
 	
 	/**
 	 * Does remote queue directory exist?
@@ -167,10 +288,10 @@ public class RemoteQueueSCM extends SCM {
 	}
 	
 	@Extension
-    public static final class PreCommitSCMDescriptor extends SCMDescriptor<RemoteQueueSCM> {
+    public static final class RemoteQueueSCMDescriptor extends SCMDescriptor<RemoteQueueSCM> {
         private String tfExecutable;
 
-        public PreCommitSCMDescriptor() {
+        public RemoteQueueSCMDescriptor() {
             super(RemoteQueueSCM.class, null);
             load();
         }
