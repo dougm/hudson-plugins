@@ -3,7 +3,8 @@
     <f:entry title="Health Reports">
         <f:repeatable var="targets" varStatus="instStatus" items="${instance.targets}">
             <bh:row name="javancss.targets" value="${targets}" metrics="${descriptor.metrics}" firstRow="false"
-                    healthyDescription="hi" unhealthyDescription="ho"/>
+                    healthyDescription="${%healthy}"
+                    unhealthyDescription="${%unhealthy}"/>
         </f:repeatable>
     </f:entry>
 </j:jelly>
