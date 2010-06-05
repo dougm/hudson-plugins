@@ -126,8 +126,9 @@
                   <xsl:value-of select="FailureType" />
                </xsl:attribute>
 
-               <xsl:value-of select="Message" />
-<xsl:text>File:</xsl:text><xsl:value-of select="Location/File" />
+<xsl:value-of select="normalize-space(Message)" />
+<xsl:text>
+File:</xsl:text><xsl:value-of select="Location/File" />
 <xsl:text>
 Line:</xsl:text><xsl:value-of select="Location/Line" />
                </error>
@@ -143,8 +144,9 @@ Line:</xsl:text><xsl:value-of select="Location/Line" />
                   <xsl:value-of select="FailureType" />
                </xsl:attribute>
 
-               <xsl:value-of select="Message" />
-<xsl:text>File:</xsl:text><xsl:value-of select="Location/File" />
+<xsl:value-of select="normalize-space(Message)" />
+<xsl:text>
+File:</xsl:text><xsl:value-of select="Location/File" />
 <xsl:text>
 Line:</xsl:text><xsl:value-of select="Location/Line" />
                </failure>
