@@ -1,4 +1,4 @@
-<test-results name='IEUnit Tests' total='6' failures='0' not-run='0' date='6/12/2007' time='2:46 PM'>
+﻿<test-results name='IEUnit Tests' total='6' failures='0' not-run='0' date='6/12/2007' time='2:46 PM'>
 	<test-suite name='AdministrationPasswordTest' success='true' time='35.396'>
 		<results>
 			<test-case name='testChangePasswordFailEmptyForm' executed='true' success='true' time='5.065'></test-case>

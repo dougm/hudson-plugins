@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <testsuites>
    <testsuite name="" tests="8" time="00:00:00.823" failures="7" errors="1" skipped="0"/>
    <testsuite name="TRealTestOptionModem" tests="6" time="00:00:00.814" failures="6" errors="0" skipped="0">

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <test-results name="/home/erik/coding/test/nunittests/Tests.dll" total="4" failures="1" not-run="0" date="2007-07-27" time="11:18:43">
   <environment nunit-version="2.2.8.0" clr-version="2.0.50727.42" os-version="Unix 2.6.18.4" platform="Unix" cwd="/home/erik/coding/test/nunittests" machine-name="akira.ramfelt.se" user="erik" user-domain="akira.ramfelt.se" />
   <culture-info current-culture="sv-SE" current-uiculture="sv-SE" />

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <TestRun id="930638c2-1646-4d97-ad3d-2b49651e7472" name="Koiti@KOU 2009-01-11 16:22:44" runUser="KOU\Koiti" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006">
   <TestRunConfiguration name="Local Test Run" id="049b43ad-25f0-49df-9c33-bd7842bc7f63">
     <Description>This is a default test run configuration for a local test run.</Description>

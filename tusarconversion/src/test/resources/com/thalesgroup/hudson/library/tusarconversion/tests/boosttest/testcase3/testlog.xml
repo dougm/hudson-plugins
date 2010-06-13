@@ -1,4 +1,4 @@
-<TestLog>
+﻿<TestLog>
    <TestSuite name="Master Test Suite">
       <TestSuite name="test_suite">
          <TestCase name="test_1">

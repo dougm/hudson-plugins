@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
 	<testsuite failures="0" time="0.289" errors="0" tests="3" skipped="0" name="UnitTests.MainClassTest">
 		<testcase time="0.146" name="TestPropertyValue" classname="UnitTests.MainClassTest"/>

@@ -1,4 +1,4 @@
-<TestLog>
+﻿<TestLog>
    <TestSuite name="MyTest">
       <TestCase name="MyTestCase">
          <Info file="test.cpp" line="14">check x != 0.0f passed</Info>

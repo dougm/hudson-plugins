@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE MyTest
+﻿#define BOOST_TEST_MODULE MyTest
 #include <boost/test/included/unit_test.hpp>
 
 using namespace boost::unit_test;

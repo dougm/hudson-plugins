@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><testsuite failures="0" tests="1" time="0" name="hello">
+﻿<?xml version="1.0" encoding="UTF-8"?><testsuite failures="0" tests="1" time="0" name="hello">
 <properties>
 <property value="3" name="Unverified Outcomes"/>
 <property value="0" name="Unit Testing Problems"/>

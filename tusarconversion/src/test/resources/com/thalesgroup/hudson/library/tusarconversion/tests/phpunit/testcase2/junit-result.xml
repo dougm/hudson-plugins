@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-16"?><testsuites><testsuite name="DataTest::testAdd" tests="4" assertions="4" failures="1" errors="0" time="0.016757">
+﻿<?xml version="1.0" encoding="UTF-16"?><testsuites><testsuite name="DataTest::testAdd" tests="4" assertions="4" failures="1" errors="0" time="0.016757">
 <testcase name="testAdd with data set #0" assertions="1" time="0.003837" />
 <testcase name="testAdd with data set #1" assertions="1" time="0.003892" />
 <testcase name="testAdd with data set #2" assertions="1" time="0.003831" />
