@@ -32,75 +32,66 @@ import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Notifier;
 import hudson.tasks.Publisher;
-import net.sf.json.JSONObject;
-import org.kohsuke.stapler.StaplerRequest;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class CopyArchiver extends Notifier implements Serializable {
 
+    @SuppressWarnings("unused")
     private String sharedDirectoryPath;
 
+    @SuppressWarnings("unused")
     private boolean useTimestamp;
 
+    @SuppressWarnings("unused")
     private String datePattern;
 
+    @SuppressWarnings("unused")
     private boolean flatten;
 
     private List<ArchivedJobEntry> archivedJobList = new ArrayList<ArchivedJobEntry>();
 
+    @SuppressWarnings("unused")
     public String getSharedDirectoryPath() {
         return sharedDirectoryPath;
     }
 
-    public void setSharedDirectoryPath(String sharedDirectoryPath) {
-        this.sharedDirectoryPath = sharedDirectoryPath;
-    }
-
+    @SuppressWarnings("unused")
     public boolean isUseTimestamp() {
         return useTimestamp;
     }
 
-    public void setUseTimestamp(boolean useTimestamp) {
-        this.useTimestamp = useTimestamp;
-    }
-
+    @SuppressWarnings("unused")
     public String getDatePattern() {
         return datePattern;
     }
 
-    public void setDatePattern(String datePattern) {
-        this.datePattern = datePattern;
-    }
-
+    @SuppressWarnings("unused")
     public boolean isFlatten() {
         return flatten;
     }
 
-    public void setFlatten(boolean flatten) {
-        this.flatten = flatten;
-    }
-
+    @SuppressWarnings("unused")
     public List<ArchivedJobEntry> getArchivedJobList() {
         return archivedJobList;
-    }
-
-    public void setArchivedJobList(List<ArchivedJobEntry> archivedJobList) {
-        this.archivedJobList = archivedJobList;
     }
 
     public BuildStepMonitor getRequiredMonitorService() {
         return BuildStepMonitor.NONE;
     }
 
+    @SuppressWarnings("unused")
     public static final class CopyArchiverDescriptor extends BuildStepDescriptor<Publisher> {
 
         //CopyOnWriteList
+        @SuppressWarnings("unused")
         private List<AbstractProject> jobs;
 
+        @SuppressWarnings("unused")
         public CopyArchiverDescriptor() {
             super(CopyArchiverPublisher.class);
             load();
@@ -112,16 +103,6 @@ public class CopyArchiver extends Notifier implements Serializable {
         }
 
         @Override
-        public Publisher newInstance(StaplerRequest req, JSONObject formData) throws FormException {
-            CopyArchiverPublisher pub = new CopyArchiverPublisher();
-            req.bindParameters(pub, "copyarchiver.");
-            List<ArchivedJobEntry> archivedJobEntries = req.bindParametersToList(ArchivedJobEntry.class, "copyarchiver.entry.");
-            pub.getArchivedJobList().addAll(archivedJobEntries);
-            return pub;
-        }
-
-
-        @Override
         public String getHelpFile() {
             return "/plugin/copyarchiver/help.html";
         }
@@ -131,6 +112,7 @@ public class CopyArchiver extends Notifier implements Serializable {
             return true;
         }
 
+        @SuppressWarnings("unused")
         public List<AbstractProject> getJobs() {
             return Hudson.getInstance().getItems(AbstractProject.class);
         }
@@ -148,7 +130,11 @@ public class CopyArchiver extends Notifier implements Serializable {
 
     private transient CopyArchiverPublisher copyArchiverPublisher;
 
-
+    /**
+     * Used for backward compatibility
+     *
+     * @return the new object, an instance of  CopyArchiverPublisher
+     */
     private Object readResolve() {
         copyArchiverPublisher = new CopyArchiverPublisher();
         copyArchiverPublisher.setSharedDirectoryPath(sharedDirectoryPath);
@@ -157,7 +143,6 @@ public class CopyArchiver extends Notifier implements Serializable {
         copyArchiverPublisher.setFlatten(flatten);
         copyArchiverPublisher.setDeleteShared(true);
         copyArchiverPublisher.setArchivedJobList(archivedJobList);
-
         return copyArchiverPublisher;
     }
 

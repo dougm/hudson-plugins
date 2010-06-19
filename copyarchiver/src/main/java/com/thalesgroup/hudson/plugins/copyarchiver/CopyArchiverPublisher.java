@@ -55,19 +55,27 @@ public class CopyArchiverPublisher extends Notifier implements Serializable {
 
     private String sharedDirectoryPath;
 
-    private boolean useTimestamp;
+    private transient boolean useTimestamp;
 
-    private String datePattern;
+    private transient String datePattern;
 
     private boolean flatten;
 
     private boolean deleteShared;
+
+    private transient boolean usePreviousVersion043WithTimestamp;
+
 
     private List<ArchivedJobEntry> archivedJobList = new ArrayList<ArchivedJobEntry>();
 
     @SuppressWarnings("unused")
     public String getSharedDirectoryPath() {
         return sharedDirectoryPath;
+    }
+
+    @SuppressWarnings("unused")
+    public boolean isUsePreviousVersion043WithTimestamp() {
+        return usePreviousVersion043WithTimestamp;
     }
 
     public void setSharedDirectoryPath(String sharedDirectoryPath) {
@@ -120,11 +128,13 @@ public class CopyArchiverPublisher extends Notifier implements Serializable {
 
 
     @Extension
+    @SuppressWarnings("unused")
     public static final class CopyArchiverDescriptor extends BuildStepDescriptor<Publisher> {
 
         //CopyOnWriteList
         private List<AbstractProject> jobs;
 
+        @SuppressWarnings("unused")
         public CopyArchiverDescriptor() {
             super(CopyArchiverPublisher.class);
             load();
@@ -160,6 +170,7 @@ public class CopyArchiverPublisher extends Notifier implements Serializable {
             return Hudson.getInstance().getItems(AbstractProject.class);
         }
 
+        @SuppressWarnings("unused")
         public FormValidation doDateTimePatternCheck(@QueryParameter("value") String pattern) {
             if (!Hudson.getInstance().hasPermission(Hudson.ADMINISTER)) return FormValidation.ok();
             if (pattern == null || pattern.trim().length() == 0) {
@@ -190,6 +201,10 @@ public class CopyArchiverPublisher extends Notifier implements Serializable {
 
             try {
                 if (useTimestamp) {
+                    CopyArchiverLogger.log(listener, "[WARNING] - You have installed a new version of te copyarchiver Hudson instance");
+                    CopyArchiverLogger.log(listener, "[WARNING] - In this new version, the usuage of timestamp has been removed.");
+                    CopyArchiverLogger.log(listener, "[WARNING] - You need to use the zentimestamp Hudson plugin.");
+
                     if (datePattern == null || datePattern.trim().length() == 0) {
                         build.setResult(Result.FAILURE);
                         throw new AbortException("The option 'Change the date format' is activated. You must provide a new date pattern.");
@@ -236,12 +251,13 @@ public class CopyArchiverPublisher extends Notifier implements Serializable {
                     return false;
                 }
 
-                FilePathArchiver lastSuccessfulDirFilePathArchiver = null;
+
                 int numCopied = 0;
 
                 for (ArchivedJobEntry archivedJobEntry : archivedJobList) {
                     AbstractProject selectedProject = (AbstractProject) Hudson.getInstance().getItem(archivedJobEntry.jobName);
 
+                    FilePathArchiver lastSuccessfulDirFilePathArchiver;
                     if (isSameProject(project, selectedProject)) {
                         lastSuccessfulDirFilePathArchiver = new FilePathArchiver(build.getWorkspace());
                         //Copy
@@ -319,9 +335,8 @@ public class CopyArchiverPublisher extends Notifier implements Serializable {
 
     }
 
-
     private String filterField(AbstractBuild<?, ?> build, BuildListener listener, String fieldText) throws InterruptedException, IOException {
-        String str = null;
+
 
         Map<String, String> vars = new HashMap<String, String>();
         Set<Map.Entry<String, String>> set = build.getEnvironment(listener).entrySet();
@@ -329,12 +344,15 @@ public class CopyArchiverPublisher extends Notifier implements Serializable {
             vars.put(entry.getKey(), entry.getValue());
         }
 
-        if (useTimestamp && datePattern != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat(datePattern);
-            final String newBuildIdStr = sdf.format(build.getTimestamp().getTime());
-            vars.put("BUILD_ID", newBuildIdStr);
+        // Add behaviour for the build timestanp (BUILD_ID) only for the previous versions of the copyarchiver plugin (<= 0.4.3)
+        if (usePreviousVersion043WithTimestamp) {
+            if (useTimestamp && datePattern != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat(datePattern);
+                final String newBuildIdStr = sdf.format(build.getTimestamp().getTime());
+                vars.put("BUILD_ID", newBuildIdStr);
+            }
         }
-        str = Util.replaceMacro(fieldText, vars);
+        String str = Util.replaceMacro(fieldText, vars);
         str = Util.replaceMacro(str, build.getBuildVariables());
         return str;
     }
@@ -342,5 +360,20 @@ public class CopyArchiverPublisher extends Notifier implements Serializable {
     public BuildStepMonitor getRequiredMonitorService() {
         return BuildStepMonitor.NONE;
     }
+
+    /**
+     * Call at Hudsion startup for backward compatibility
+     *
+     * @return the same instance with changes
+     */
+    @SuppressWarnings("unused")
+    public Object readResolve() {
+        //If the config.xml has the field useTimestamp an datePatterm, it's a previous version of the plugin
+        if (this.useTimestamp && this.datePattern != null) {
+            this.usePreviousVersion043WithTimestamp = true;
+        }
+        return this;
+    }
+
 }
 

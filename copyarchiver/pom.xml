@@ -4,14 +4,14 @@
     <parent>
         <groupId>org.jvnet.hudson.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>1.349</version>
+        <version>1.355</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>copyarchiver</artifactId>
     <packaging>hpi</packaging>
     <name>Hudson Copy Archiver Plug-in</name>
-    <version>0.4.4-SNAPSHOT</version>
+    <version>0.5-SNAPSHOT</version>
     <url>http://wiki.hudson-ci.org/display/HUDSON/CopyArchiver+Plugin</url>
 
     <licenses>
@@ -28,6 +28,7 @@
             <email>gbois@dev.java.net</email>
             <timezone>+1</timezone>
             <roles>
+                <role>Project Owner</role>
                 <role>Project Lead Developer</role>
             </roles>
         </developer>

@@ -77,7 +77,9 @@
 		<label class="attach-previous">Flatten</label>
 	</f:entry>	  
 	  
-	  <f:entry>
+    <j:if test="${instance != null}">
+	   <j:if test="${instance.isUsePreviousVersion043WithTimestamp()}">
+	      <f:entry>
 			<table style="width:100%">
 		  		<f:optionalBlock 
 		              name="copyarchiver.useTimestamp" 
@@ -90,7 +92,10 @@
 		        	</f:entry>        		        
 		  		</f:optionalBlock>
 		  	 </table>		  
-	  </f:entry>
+	      </f:entry>
+	   </j:if>
+    </j:if>
+
  </f:section>
   
        	 
