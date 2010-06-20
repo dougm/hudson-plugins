@@ -37,6 +37,7 @@ import hudson.tasks.Notifier;
 import hudson.tasks.Publisher;
 import hudson.util.FormValidation;
 import net.sf.json.JSONObject;
+import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 
@@ -65,8 +66,19 @@ public class CopyArchiverPublisher extends Notifier implements Serializable {
 
     private transient boolean usePreviousVersion043WithTimestamp;
 
-
     private List<ArchivedJobEntry> archivedJobList = new ArrayList<ArchivedJobEntry>();
+
+    public CopyArchiverPublisher() {
+    }
+
+    @DataBoundConstructor
+    public CopyArchiverPublisher(String sharedDirectoryPath, String datePattern, boolean flatten, boolean deleteShared, List<ArchivedJobEntry> archivedJobList) {
+        this.sharedDirectoryPath = sharedDirectoryPath;
+        this.datePattern = datePattern;
+        this.flatten = flatten;
+        this.deleteShared = deleteShared;
+        this.archivedJobList = archivedJobList;
+    }
 
     @SuppressWarnings("unused")
     public String getSharedDirectoryPath() {
@@ -148,7 +160,7 @@ public class CopyArchiverPublisher extends Notifier implements Serializable {
         @Override
         public Publisher newInstance(StaplerRequest req, JSONObject formData) throws FormException {
             CopyArchiverPublisher pub = new CopyArchiverPublisher();
-            req.bindParameters(pub, "copyarchiver.");
+            req.bindJSON(pub, formData);
             List<ArchivedJobEntry> archivedJobEntries = req.bindParametersToList(ArchivedJobEntry.class, "copyarchiver.entry.");
             pub.getArchivedJobList().addAll(archivedJobEntries);
             return pub;
@@ -255,13 +267,13 @@ public class CopyArchiverPublisher extends Notifier implements Serializable {
                 int numCopied = 0;
 
                 for (ArchivedJobEntry archivedJobEntry : archivedJobList) {
-                    AbstractProject selectedProject = (AbstractProject) Hudson.getInstance().getItem(archivedJobEntry.jobName);
+                    AbstractProject selectedProject = (AbstractProject) Hudson.getInstance().getItem(archivedJobEntry.getJobName());
 
                     FilePathArchiver lastSuccessfulDirFilePathArchiver;
                     if (isSameProject(project, selectedProject)) {
                         lastSuccessfulDirFilePathArchiver = new FilePathArchiver(build.getWorkspace());
                         //Copy
-                        numCopied += lastSuccessfulDirFilePathArchiver.copyRecursiveTo(flatten, filterField(build, listener, archivedJobEntry.pattern), filterField(build, listener, archivedJobEntry.excludes), destDirFilePath);
+                        numCopied += lastSuccessfulDirFilePathArchiver.copyRecursiveTo(flatten, filterField(build, listener, archivedJobEntry.getPattern()), filterField(build, listener, archivedJobEntry.getExcludes()), destDirFilePath);
 
                     } else {
                         File lastSuccessfulDir;
@@ -277,7 +289,7 @@ public class CopyArchiverPublisher extends Notifier implements Serializable {
                                 lastSuccessfulDir = run.getArtifactsDir();
                                 lastSuccessfulDirFilePathArchiver = new FilePathArchiver(new FilePath(launcher.getChannel(), lastSuccessfulDir.getAbsolutePath()));
                                 //Copy
-                                numCopied += lastSuccessfulDirFilePathArchiver.copyRecursiveTo(flatten, filterField(build, listener, archivedJobEntry.pattern), filterField(build, listener, archivedJobEntry.excludes), destDirFilePath);
+                                numCopied += lastSuccessfulDirFilePathArchiver.copyRecursiveTo(flatten, filterField(build, listener, archivedJobEntry.getPattern()), filterField(build, listener, archivedJobEntry.getExcludes()), destDirFilePath);
                             }
                             //lastSuccessfulDir = matrixBuild.getArtifactsDir();
 
@@ -291,7 +303,7 @@ public class CopyArchiverPublisher extends Notifier implements Serializable {
                             lastSuccessfulDir = run.getArtifactsDir();
                             lastSuccessfulDirFilePathArchiver = new FilePathArchiver(new FilePath(launcher.getChannel(), lastSuccessfulDir.getAbsolutePath()));
                             //Copy
-                            numCopied += lastSuccessfulDirFilePathArchiver.copyRecursiveTo(flatten, filterField(build, listener, archivedJobEntry.pattern), filterField(build, listener, archivedJobEntry.excludes), destDirFilePath);
+                            numCopied += lastSuccessfulDirFilePathArchiver.copyRecursiveTo(flatten, filterField(build, listener, archivedJobEntry.getPattern()), filterField(build, listener, archivedJobEntry.getExcludes()), destDirFilePath);
                         }
 
                     }

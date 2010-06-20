@@ -23,6 +23,8 @@
 
 package com.thalesgroup.hudson.plugins.copyarchiver;
 
+import org.kohsuke.stapler.DataBoundConstructor;
+
 import java.io.Serializable;
 
 public class ArchivedJobEntry implements Serializable {
@@ -32,16 +34,38 @@ public class ArchivedJobEntry implements Serializable {
     /**
      * The job name
      */
-    public String jobName;
+    private String jobName;
 
     /**
      * Pattern to filtering the archived artifact to copy
      */
-    public String pattern;
+    private String pattern;
 
     /**
      * Pattern for excluding some archived artifact to copy
      */
-    public String excludes;
+    private String excludes;
+
+    @DataBoundConstructor
+    public ArchivedJobEntry(String jobName, String pattern, String excludes) {
+        this.jobName = jobName;
+        this.pattern = pattern;
+        this.excludes = excludes;
+    }
+
+    @SuppressWarnings("unused")
+    public String getJobName() {
+        return jobName;
+    }
+
+    @SuppressWarnings("unused")
+    public String getPattern() {
+        return pattern;
+    }
+
+    @SuppressWarnings("unused")
+    public String getExcludes() {
+        return excludes;
+    }
 
 }

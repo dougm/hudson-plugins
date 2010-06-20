@@ -23,80 +23,80 @@
 *******************************************************************************/
 -->
 
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
+         xmlns:t="/lib/hudson" xmlns:f="/lib/form">
 
-  <f:entry title="Jobs">
-  
-    <f:repeatable var="e" items="${instance.archivedJobList}">
-      <table width="100%">
 
-	   <f:entry title="Job to aggregate" help="/plugin/copyarchiver/CopyArchiver/jobName.html">
-	   
-	    <select class="setting-input" name="copyarchiver.entry.jobName">
-	      <j:forEach var="inst" items="${descriptor.jobs}">
-	        <f:option selected="${inst.name==e.jobName}">${inst.name}</f:option>
-	      </j:forEach>
-	    </select>
-	    
-	   </f:entry>
+    <f:entry title="${%Jobs}">
 
-  	   <f:entry title="Artifacts to copy" help="/plugin/copyarchiver/CopyArchiver/pattern.html">
-    	<f:textbox name="copyarchiver.entry.pattern" value="${e.pattern}" />
-  	   </f:entry>
-  	   
-  	   <f:advanced>
-	  	   <f:entry title="Excludes" help="/plugin/copyarchiver/CopyArchiver/excludes.html">
-	    		<f:textbox name="copyarchiver.entry.excludes" value="${e.excludes}" />
-	  	   </f:entry>
-	   </f:advanced>
+        <f:repeatable var="e" items="${instance.archivedJobList}">
+            <table width="100%">
 
-        <f:entry title="">
-          <div align="right">
-            <f:repeatableDeleteButton />
-          </div>
+                <f:entry title="Job to aggregate" field="jobName">
+
+                    <select class="setting-input" name="copyarchiver.entry.jobName">
+                        <j:forEach var="inst" items="${descriptor.jobs}">
+                            <f:option selected="${inst.name==e.jobName}">${inst.name}</f:option>
+                        </j:forEach>
+                    </select>
+
+                </f:entry>
+
+                <f:entry field="pattern" title="Artifacts to copy">
+                    <f:textbox name="copyarchiver.entry.pattern" value="${e.pattern}"/>
+                </f:entry>
+
+                <f:advanced>
+                    <f:entry field="excludes" title="Excludes">
+                        <f:textbox name="copyarchiver.entry.excludes" value="${e.excludes}"/>
+                    </f:entry>
+                </f:advanced>
+
+                <f:entry title="">
+                    <div align="right">
+                        <f:repeatableDeleteButton/>
+                    </div>
+                </f:entry>
+
+            </table>
+        </f:repeatable>
+    </f:entry>
+
+
+    <f:section>
+        <f:entry field="sharedDirectoryPath" title="Shared directory">
+            <f:textbox/>
         </f:entry>
 
-      </table>
-   </f:repeatable>  
-  </f:entry>    
+        <f:entry field="deleteShared">
+            <f:checkbox/>
+            <label class="attach-previous">Delete the shared directory and its content</label>
+        </f:entry>
 
 
-  <f:section>
-	  <f:entry title="Shared directory" help="/plugin/copyarchiver/CopyArchiver/sharedDirectory.html">
-	    <f:textbox name="copyarchiver.sharedDirectoryPath" value="${instance.sharedDirectoryPath}" />
-	  </f:entry>
+        <f:entry field="flatten">
+            <f:checkbox/>
+            <label class="attach-previous">Flatten</label>
+        </f:entry>
 
-	 <f:entry help="/plugin/copyarchiver/CopyArchiver/deleteSharedDirectory.html">
-		<f:checkbox name="copyarchiver.deleteShared" checked="${h.defaultToTrue(instance.deleteShared)}" />
-		<label class="attach-previous">Delete the shared directory and its content</label>
-	</f:entry>	  
+        <j:if test="${instance != null}">
+            <j:if test="${instance.isUsePreviousVersion043WithTimestamp()}">
+                <f:entry>
+                    <table style="width:100%">
+                        <f:optionalBlock
+                                field="useTimestamp"
+                                title="Change the date format">
+                            <f:entry title="Date format" field="datePattern">
+                                <f:textbox
+                                        checkUrl="'${rootURL}/publisher/CopyArchiverPublisher/dateTimePatternCheck?value='+escape(this.value)"/>
+                            </f:entry>
+                        </f:optionalBlock>
+                    </table>
+                </f:entry>
+            </j:if>
+        </j:if>
+
+    </f:section>
 
 
-	 <f:entry help="/plugin/copyarchiver/CopyArchiver/flatten.html">
-		<f:checkbox name="copyarchiver.flatten" checked="${instance.flatten}" />
-		<label class="attach-previous">Flatten</label>
-	</f:entry>	  
-	  
-    <j:if test="${instance != null}">
-	   <j:if test="${instance.isUsePreviousVersion043WithTimestamp()}">
-	      <f:entry>
-			<table style="width:100%">
-		  		<f:optionalBlock 
-		              name="copyarchiver.useTimestamp" 
-		              title="Change the date format" 
-		              checked="${instance.useTimestamp==true}"
-		              help="/plugin/copyarchiver/CopyArchiver/changeDateFormat.html">
-		        	<f:entry title="Date format">
-		 				<f:textbox name="copyarchiver.datePattern" value="${instance.datePattern}" 
-		 				checkUrl="'${rootURL}/publisher/CopyArchiverPublisher/dateTimePatternCheck?value='+escape(this.value)"/>
-		        	</f:entry>        		        
-		  		</f:optionalBlock>
-		  	 </table>		  
-	      </f:entry>
-	   </j:if>
-    </j:if>
-
- </f:section>
-  
-       	 
 </j:jelly>

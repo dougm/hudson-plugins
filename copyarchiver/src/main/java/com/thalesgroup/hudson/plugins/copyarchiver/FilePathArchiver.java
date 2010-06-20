@@ -32,7 +32,6 @@ import hudson.remoting.Future;
 import hudson.remoting.Pipe;
 import hudson.remoting.VirtualChannel;
 import hudson.util.IOException2;
-import static hudson.util.jna.GNUCLibrary.LIBC;
 import org.apache.commons.io.IOUtils;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
@@ -46,6 +45,8 @@ import java.io.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import static hudson.util.jna.GNUCLibrary.LIBC;
 
 public class FilePathArchiver implements Serializable {
 
