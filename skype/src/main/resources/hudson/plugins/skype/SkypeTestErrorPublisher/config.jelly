@@ -17,7 +17,7 @@
 	</f:entry>
 	<f:entry
 		title="Test report XMLs"
-		description="&lt;a href='http://ant.apache.org/manual/CoreTypes/fileset.html'>Fileset 'includes'&lt;/a>"
+		description="&lt;a href='http://ant.apache.org/manual/Types/fileset.html'>Fileset 'includes'&lt;/a>"
 		>
 		<j:set var="testFilePattern" value="${instance.testFilePattern}"/>
 		<j:if test="${instance.testFilePattern== null}">
