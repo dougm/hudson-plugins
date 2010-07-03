@@ -26,9 +26,12 @@ package com.thalesgroup.hudson.plugins.jobrevision;
 import hudson.EnvVars;
 import hudson.model.AbstractBuild;
 import hudson.model.EnvironmentContributingAction;
+import org.kohsuke.stapler.StaplerProxy;
 
 
-public class JobRevisionEnvironmentAction implements EnvironmentContributingAction {
+public class JobRevisionEnvironmentAction implements EnvironmentContributingAction, StaplerProxy {
+
+    public static String URL_NAME = "revisionResult";
 
     public static String VAR_JOB_REVISION_NAME = "JOB_REVISION";
 
@@ -47,11 +50,14 @@ public class JobRevisionEnvironmentAction implements EnvironmentContributingActi
     }
 
     public String getIconFileName() {
-        return null;
+        return "document-properties.gif";
     }
 
     public String getUrlName() {
-        return "help.html";
+        return URL_NAME;
     }
 
+    public Object getTarget() {
+        return new RevisionResult(revision);
+    }
 }

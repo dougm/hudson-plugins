@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 Thales Corporate Services SAS                             *
+ * Copyright (c) 2010 Thales Corporate Services SAS                             *
  * Author : Gregory Boissinot                                                   *
  *                                                                              *
  * Permission is hereby granted, free of charge, to any person obtaining a copy *
@@ -23,64 +23,34 @@
 
 package com.thalesgroup.hudson.plugins.jobrevision;
 
-import hudson.Extension;
-import hudson.Launcher;
-import hudson.model.*;
+import hudson.model.Api;
+import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerResponse;
 import org.kohsuke.stapler.export.Exported;
 import org.kohsuke.stapler.export.ExportedBean;
 
 import java.io.IOException;
-
+import java.io.Serializable;
 
 @ExportedBean
-public class JobRevision extends JobProperty<AbstractProject<?, ?>> {
+public class RevisionResult implements Serializable {
+
+    private static final String REVISION_DESC = "The job revision";
+
 
     private String revision;
 
-    public DescriptorImpl getDescriptor() {
-        return DESCRIPTOR;
-    }
+    private String description;
 
-    public JobRevision(String revision) {
+    public RevisionResult(String revision) {
         this.revision = revision;
+        this.description = REVISION_DESC;
     }
 
-    @Extension
-    public static final DescriptorImpl DESCRIPTOR = new DescriptorImpl();
-
-    public static final class DescriptorImpl extends JobPropertyDescriptor {
-        public DescriptorImpl() {
-            super(JobRevision.class);
-            load();
-        }
-
-        public boolean isApplicable(Class<? extends Job> jobType) {
-            return AbstractProject.class.isAssignableFrom(jobType);
-        }
-
-        public String getDisplayName() {
-            return Messages.plugin_DisplayName();
-        }
-
-        public JobRevision newInstance(org.kohsuke.stapler.StaplerRequest req, net.sf.json.JSONObject jsonObject) throws Descriptor.FormException {
-            String revision = jsonObject.getString("revision");
-            if ((revision != null) && (revision.trim().length() != 0))
-                return new JobRevision(revision);
-            else
-                return null;
-        }
-    }
-
-
-    @Override
-    public boolean prebuild(hudson.model.AbstractBuild<?, ?> abstractBuild, hudson.model.BuildListener buildListener) {
-        abstractBuild.addAction(new JobRevisionEnvironmentAction(revision));
-        return true;
-    }
-
-    @Override
-    public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
-        return true;
+    @SuppressWarnings("unused")
+    public Object getDynamic(final String link, final StaplerRequest request, final StaplerResponse response) throws IOException {
+        response.sendRedirect2("index");
+        return null;
     }
 
     @SuppressWarnings("unused")
@@ -89,5 +59,20 @@ public class JobRevision extends JobProperty<AbstractProject<?, ?>> {
         return revision;
     }
 
+    @SuppressWarnings("unused")
+    @Exported
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Gets the remote API for the build result.
+     *
+     * @return the remote API
+     */
+     @SuppressWarnings("unused")
+    public Api getApi() {
+        return new Api(this);
+    }
 
 }

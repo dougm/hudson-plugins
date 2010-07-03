@@ -49,15 +49,6 @@ public class JobRevisionIntegrationTest extends HudsonTestCase {
         assertBuildStatus(Result.SUCCESS, build);
         //The environment variable JOB_REVISION must be set with the right value
         assertEquals(confRevision, envVars.get(JobRevisionEnvironmentAction.VAR_JOB_REVISION_NAME));
-        //A ParametersAction must be set with the right values
-        ParametersAction parametersAction = build.getAction(ParametersAction.class);
-        List<ParameterValue> paramters = parametersAction.getParameters();
-        assertEquals("Only one  paramter must be set", 1, paramters.size());
-        ParameterValue parameterRevision = paramters.get(0);
-        assertTrue("The parameter must be a StringParameter", parameterRevision instanceof StringParameterValue);
-        StringParameterValue stringParameterValue = (StringParameterValue) parameterRevision;
-        assertEquals("The parameter must have the right name", JobRevisionEnvironmentAction.VAR_JOB_REVISION_NAME, stringParameterValue.getName());
-        assertEquals("The parameter must have the right value", confRevision, stringParameterValue.value);
     }
 
 }
