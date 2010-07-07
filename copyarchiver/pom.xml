@@ -11,7 +11,7 @@
     <artifactId>copyarchiver</artifactId>
     <packaging>hpi</packaging>
     <name>Hudson Copy Archiver Plug-in</name>
-    <version>0.6-SNAPSHOT</version>
+    <version>0.5.1-SNAPSHOT</version>
     <url>http://wiki.hudson-ci.org/display/HUDSON/CopyArchiver+Plugin</url>
 
     <licenses>
@@ -42,6 +42,25 @@
     </dependencies>
 
     <build>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
             <plugin>
                 <groupId>org.jvnet.hudson.tools</groupId>
@@ -52,4 +71,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
