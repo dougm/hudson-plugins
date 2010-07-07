@@ -1,35 +1,57 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
- 
-  <parent>
-    <groupId>org.jvnet.hudson.plugins</groupId>
-    <artifactId>plugin</artifactId>
-    <version>1.342</version>
-    <relativePath>../pom.xml</relativePath>
-  </parent>
-  
-  <artifactId>scons</artifactId>
-  <version>0.3-SNAPSHOT</version>
-  <packaging>hpi</packaging>
-  <name>Hudson SCons plugin</name>
-  <url>http://wiki.hudson-ci.org/display/HUDSON/SCons+Plugin</url>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <licenses>
-	<license>
-		<name>MIT license</name>
-		<comments>All source code is under the MIT license.</comments>
-	</license>
-   </licenses>
+    <parent>
+        <groupId>org.jvnet.hudson.plugins</groupId>
+        <artifactId>plugin</artifactId>
+        <version>1.355</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 
-   <developers>
-      <developer>
-         <id>gbois</id>
-         <name>Gregory Boissinot</name>
-         <email>gbois@dev.java.net</email>
-         <timezone>+1</timezone>
-         <roles>
-             <role>Project Owner</role>
-         </roles>
-      </developer>
-   </developers>
+    <artifactId>scons</artifactId>
+    <version>0.2.1-SNAPSHOT</version>
+    <packaging>hpi</packaging>
+    <name>Hudson SCons plugin</name>
+    <url>http://wiki.hudson-ci.org/display/HUDSON/SCons+Plugin</url>
+
+    <licenses>
+        <license>
+            <name>MIT license</name>
+            <comments>All source code is under the MIT license.</comments>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>gbois</id>
+            <name>Gregory Boissinot</name>
+            <email>gbois@dev.java.net</email>
+            <timezone>+1</timezone>
+            <roles>
+                <role>Project Owner</role>
+            </roles>
+        </developer>
+    </developers>
+    <build>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
 </project>
