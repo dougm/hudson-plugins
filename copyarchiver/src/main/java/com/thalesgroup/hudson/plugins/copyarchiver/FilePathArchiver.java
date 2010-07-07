@@ -164,6 +164,17 @@ public class FilePathArchiver implements Serializable {
      *
      * @return number of files/directories that are written.
      */
+
+
+    /**
+     *
+     * @param baseDir the base directory
+     * @param fileMask the mask file
+     * @param excludes the excludes pattern
+     * @param out the output stream
+     * @return  the number of files
+     * @throws IOException the IOException
+     */
     private Integer writeToTar(File baseDir, String fileMask, String excludes, OutputStream out) throws IOException {
         FileSet fs = Util.createFileSet(baseDir, fileMask, excludes);
 
@@ -207,11 +218,6 @@ public class FilePathArchiver implements Serializable {
         return files.length;
     }
 
-    private static void readFromTar(String name, File baseDir, InputStream in) throws IOException {
-        readFromTar(false, name, baseDir, in);
-    }
-
-
     private static String getFileNameWithoutLeadingDirectory(String name) {
 
 
@@ -228,6 +234,16 @@ public class FilePathArchiver implements Serializable {
     /**
      * Reads from a tar stream and stores obtained files to the base dir.
      */
+
+    /**
+     * Reads from a tar stream and stores obtained files to the base dir.
+     * @param isFlatten true if flatten
+     * @param name the name
+     * @param baseDir the base directory
+     * @param in the inputstream
+     * @throws IOException the IOException
+     */
+    @SuppressWarnings("unchecked")
     private static void readFromTar(boolean isFlatten, String name, File baseDir, InputStream in) throws IOException {
         TarInputStream t = new TarInputStream(in);
         try {
@@ -256,7 +272,7 @@ public class FilePathArchiver implements Serializable {
                     }
                     f.setLastModified(te.getModTime().getTime());
                     int mode = te.getMode() & 0777;
-                    if (mode != 0 && !Hudson.isWindows()) // be defensive
+                    if (mode != 0 && !Functions.isWindows()) // be defensive
                         try {
                             LIBC.chmod(f.getPath(), mode);
                         } catch (NoClassDefFoundError e) {
