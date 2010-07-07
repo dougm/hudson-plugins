@@ -47,13 +47,12 @@ public abstract class SConsBuilderDescriptor extends BuildStepDescriptor<Builder
     }
 
 
+    @SuppressWarnings("unused")
     public SConsInstallation.DescriptorImpl getToolDescriptor() {
         return ToolInstallation.all().get(SConsInstallation.DescriptorImpl.class);
     }
 
-    /**
-     * Checks for fields
-     */
+    @SuppressWarnings("unused")
     public FormValidation doCheckService(@QueryParameter String value) {
         return FormValidation.ok();
     }

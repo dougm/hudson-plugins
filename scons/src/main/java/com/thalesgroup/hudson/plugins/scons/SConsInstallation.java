@@ -104,9 +104,7 @@ public final class SConsInstallation extends ToolInstallation implements NodeSpe
             save();
         }
 
-        /**
-         * Checks if the installation folder is valid.
-         */
+        @SuppressWarnings("unused")
         public FormValidation doCheckHome(@QueryParameter File value) {
 
             if (!Hudson.getInstance().hasPermission(Hudson.ADMINISTER))

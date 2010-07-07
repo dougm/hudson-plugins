@@ -35,7 +35,6 @@ import java.io.IOException;
 
 public abstract class SConsAbstractBuilder extends Builder {
 
-
     private final String sconsName;
 
     private final String options;

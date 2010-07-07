@@ -31,7 +31,6 @@ import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
 import hudson.tasks.Builder;
 import hudson.util.ArgumentListBuilder;
-import hudson.util.VariableResolver;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
@@ -52,7 +51,7 @@ public class SConsBuilderScriptFile extends SConsAbstractBuilder {
         this.sconsscript = sconsscript;
     }
 
-    
+
     public SConsInstallation getSconsInstallation() {
         for (SConsInstallation installation : DESCRIPTOR.getInstallations()) {
             if (getSconsName() != null && installation.getName().equals(getSconsName())) {
@@ -68,7 +67,6 @@ public class SConsBuilderScriptFile extends SConsAbstractBuilder {
 
         ArgumentListBuilder args = new ArgumentListBuilder();
         EnvVars env = build.getEnvironment(listener);
-        VariableResolver<String> varResolver = build.getBuildVariableResolver();
 
         //Build the scons executable and fill in the args buffer
         if (buildSconsExecutable(launcher, listener, args, env)) return false;
@@ -144,6 +142,7 @@ public class SConsBuilderScriptFile extends SConsAbstractBuilder {
             load();
         }
 
+        @SuppressWarnings("unused")
         protected SConsBuilderScriptFileDescriptor(Class<? extends SConsBuilderScriptFile> clazz) {
             super(clazz);
         }

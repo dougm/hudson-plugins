@@ -35,6 +35,7 @@ import org.kohsuke.stapler.StaplerRequest;
 import java.io.IOException;
 
 
+@SuppressWarnings("unused")
 public class SConsBuilderCommand extends SConsAbstractBuilder {
 
 
@@ -133,6 +134,7 @@ public class SConsBuilderCommand extends SConsAbstractBuilder {
             load();
         }
 
+        @SuppressWarnings("unused")
         protected SConsBuilderCommandDescriptor(Class<? extends SConsBuilderScriptFile> clazz) {
             super(clazz);
         }
