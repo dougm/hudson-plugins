@@ -353,7 +353,6 @@
     <module>toolenv</module>
     <module>trac</module>
     <module>translation</module>
-    <module>tusarconversion</module>
     <module>twitter</module>
     <module>url-change-trigger</module>
     <module>URLSCM</module>
