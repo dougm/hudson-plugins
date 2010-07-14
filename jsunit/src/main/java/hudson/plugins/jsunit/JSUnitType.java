@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 Thales Corporate Services SAS                             *
+ * Copyright (c) 2009                          *
  * Author : Gregory Boissinot, Rick Oosterholt                                  *
  *                                                                              *
  * Permission is hereby granted, free of charge, to any person obtaining a copy *
@@ -23,42 +23,27 @@
 
 package hudson.plugins.jsunit;
 
+import com.thalesgroup.dtkit.metrics.hudson.api.descriptor.TestTypeDescriptor;
 import com.thalesgroup.hudson.plugins.xunit.types.XUnitType;
-import com.thalesgroup.hudson.plugins.xunit.types.XUnitTypeDescriptor;
-import hudson.Extension;
-import org.kohsuke.stapler.StaplerRequest;
-import net.sf.json.JSONObject;
 
 public class JSUnitType extends XUnitType {
 
-    private JSUnitType(String pattern) {
-        super(pattern);
+    public JSUnitType(String pattern, boolean faildedIfNotNew, boolean deleteJUnitFiles) {
+        super(pattern, faildedIfNotNew, deleteJUnitFiles);
     }
 
-    public String getXsl() {
-        return "jsunit-to-junit.xsl";
+    @Override
+    public TestTypeDescriptor<?> getDescriptor() {
+        return null;
     }
 
-	@Override
-    public XUnitTypeDescriptor<?> getDescriptor() {
-        return new JSUnitType.DescriptorImpl();
+    /**
+     * Call at Hudson startup for backward compatibility
+     *
+     * @return an new hudson object
+     */
+    public Object readResolve() {
+        return new JSUnitPluginType(this.getPattern(), this.isFaildedIfNotNew(), this.isDeleteJUnitFiles());
     }
 
-    @Extension
-    public static class DescriptorImpl extends XUnitTypeDescriptor<JSUnitType> {
-
-        public DescriptorImpl() {
-            super(JSUnitType.class);
-        }
-
-        @Override
-        public String getDisplayName() {
-            return "JSUnit";
-        }
-
-		@Override
-        public JSUnitType newInstance(StaplerRequest req, JSONObject formData) throws FormException {
-            return new JSUnitType(formData.getString("pattern"));
-        }
-    }
 }
