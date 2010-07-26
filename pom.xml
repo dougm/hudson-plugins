@@ -222,6 +222,7 @@
     <module>build-publisher</module>
     <module>bugzilla</module>
     <module>build-timeout</module>
+    <module>cccc</module>  
     <module>checkstyle</module>
     <module>changelog-history</module>
     <module>chucknorris</module>
@@ -233,7 +234,10 @@
     <module>cmvc</module>
     <module>codeplex</module>
     <module>cobertura</module>
+    <module>copyarchiver</module>  
     <module>copyartifact</module>
+    <module>cppcheck</module>  
+    <module>cpptest</module>
     <module>cppunit</module>
     <module>crap4j</module>
     <module>crowd</module>
@@ -245,6 +249,7 @@
     <module>doclinks</module>
     <module>downstream-buildview</module>
     <module>downstream-ext</module>
+    <module>doxygen</module>  
     <module>dry</module>
     <module>easyant</module>
     <module>ec2</module>
@@ -256,6 +261,7 @@
     <module>gallio</module>
     <module>gant</module>
     <module>gcal</module>
+    <module>gnat</module>
     <module>googleanalytics</module>
     <module>googlecode</module>
     <module>gradle</module>
@@ -282,6 +288,7 @@
     <module>jira</module>
     <module>jmx</module>
     <module>jobConfigHistory</module>
+    <module>jobrevision</module>
     <module>join</module>
     <module>jprt</module>
     <module>jsunit</module>
@@ -353,6 +360,7 @@
     <module>toolenv</module>
     <module>trac</module>
     <module>translation</module>
+    <module>tusarnotifier</module>
     <module>twitter</module>
     <module>url-change-trigger</module>
     <module>URLSCM</module>
@@ -368,6 +376,7 @@
     <module>wsclean</module>
     <module>xunit</module>
     <module>xvnc</module>
+    <module>zentimestamp</module>
   </modules>
 
   <repositories>
