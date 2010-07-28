@@ -22,8 +22,6 @@
      <dependency>
      	<groupId>org.jvnet.hudson.plugins</groupId>
      	<artifactId>instant-messaging</artifactId>
-        <version>${version.instant-messaging.plugin}</version>
-     	<scope>compile</scope>
      </dependency>
     <dependency>
       <groupId>pircbot</groupId>
