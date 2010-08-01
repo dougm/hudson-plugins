@@ -32,31 +32,38 @@ import java.util.logging.Logger;
 import com.schneide.crap4j.reader.ReportReader;
 import com.schneide.crap4j.reader.model.ICrapReport;
 import com.schneide.crap4j.reader.model.IMethodCrapData;
+import hudson.Extension;
+import hudson.matrix.MatrixProject;
+import hudson.model.FreeStyleProject;
 import hudson.tasks.Recorder;
+import net.sf.json.JSONObject;
+import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.StaplerRequest;
 
 public class Crap4JPublisher extends Recorder {
 
     /** Logger. */
     private static final Logger LOGGER = Logger.getLogger(Crap4JPublisher.class.getName());
 
+    @Extension
     public static final Crap4JPluginDescriptor DESCRIPTOR = new Crap4JPluginDescriptor();
 
-	private final String reportPattern;
-	private HealthBuilder healthBuilder;
+	private String reportPattern;
+	private String healthThreshold;
 
 	/**
 	 * @param reportPattern
-	 * @stapler-constructor
 	 */
+        @DataBoundConstructor
 	public Crap4JPublisher(String reportPattern,
 			String healthThreshold) {
 		super();
 		this.reportPattern = reportPattern;
-		this.healthBuilder = getHealthBuilderFor(healthThreshold);
+		this.healthThreshold = healthThreshold;
 	}
 
 	private HealthBuilder getHealthBuilderFor(String healthThreshold) {
-		if (null == healthThreshold) {
+		if ((null == healthThreshold) || (healthThreshold.isEmpty())) {
 			return DESCRIPTOR.getHealthBuilder();
 		}
 		try {
@@ -109,7 +116,7 @@ public class Crap4JPublisher extends Recorder {
         build.getActions().add(new Crap4JBuildAction(
         		build,
         		new CrapBuildResult(build, reportBean),
-        		this.healthBuilder));
+        		getHealthBuilderFor(this.healthThreshold)));
 		return true;
 	}
 
@@ -165,10 +172,66 @@ public class Crap4JPublisher extends Recorder {
 	}
 
 	public String getReportPattern() {
-		return this.reportPattern;
+            return this.reportPattern;
 	}
 
 	public String getHealthThreshold() {
-		return String.valueOf(this.healthBuilder.getThreshold());
+            return this.healthThreshold;
 	}
+
+    public void setHealthThreshold(String healthThreshold) {
+        this.healthThreshold = healthThreshold;
+    }
+
+    public void setReportPattern(String reportPattern) {
+        this.reportPattern = reportPattern;
+    }
+
+    public static final class Crap4JPluginDescriptor extends BuildStepDescriptor<Publisher> {
+	public static final String ACTION_ICON_PATH = "/plugin/crap4j/icons/crap-32x32.png";
+
+	private HealthBuilder healthBuilder;
+
+	Crap4JPluginDescriptor() {
+            super(Crap4JPublisher.class);
+            this.healthBuilder = new HealthBuilder();
+	}
+
+	public HealthBuilder getHealthBuilder() {
+            return this.healthBuilder;
+	}
+
+	@Override
+	public String getDisplayName() {
+            return "Report Crap";
+	}
+
+	@Override
+	public Crap4JPublisher newInstance(StaplerRequest req, JSONObject object) throws FormException {
+            Crap4JPublisher instance = req.bindParameters(Crap4JPublisher.class, "crap4j.");
+            return instance;
+	}
+
+	@Override
+	public boolean configure(StaplerRequest req, JSONObject object) throws FormException {
+            try {
+        	double healthThreshold = Double.parseDouble(req.getParameter("crap4j.healthThreshold"));
+        	this.healthBuilder = new HealthBuilder(healthThreshold);
+            } catch (NumberFormatException e) {
+                throw new FormException("health threshold field must be a positive Double",
+                        "crap4j.healthThreshold");
+            } catch (IllegalArgumentException e) {
+                throw new FormException("health threshold field must be a positive Double",
+                        "crap4j.healthThreshold");
+            }
+            save();
+            return super.configure(req, object);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean isApplicable(Class<? extends AbstractProject> jobType) {
+            return (FreeStyleProject.class.isAssignableFrom(jobType) || MatrixProject.class.isAssignableFrom(jobType));
+	}
+    }
 }

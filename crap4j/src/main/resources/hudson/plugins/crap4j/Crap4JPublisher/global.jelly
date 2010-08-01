@@ -4,7 +4,7 @@
     <f:entry title="Health threshold (in percent)"
       description="The threshold of crappyness percentage when the build health reaches 0%"
       help="/plugin/crap4j/help-globalConfigHealthThreshold.html">
-      <f:textbox name="crap_publisher.health.threshold" value="${descriptor.getHealthBuilder().getThreshold()}" />
+      <f:textbox name="crap4j.healthThreshold" value="${descriptor.getHealthBuilder().getThreshold()}" />
     </f:entry>
   </f:section>
 </j:jelly>

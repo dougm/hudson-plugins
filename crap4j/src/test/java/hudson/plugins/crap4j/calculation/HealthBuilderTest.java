@@ -1,5 +1,7 @@
 package hudson.plugins.crap4j.calculation;
 
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import junit.framework.TestCase;
 
 public class HealthBuilderTest extends TestCase {
@@ -57,9 +59,15 @@ public class HealthBuilderTest extends TestCase {
 	}
 
 	public void testHealthSummary() throws Exception {
-		HealthBuilder builder = new HealthBuilder();
-		assertEquals("132 crappy methods (7.96%)", Messages.HealthBuilder_HealthSummary(132, 7.96d));
-		assertEquals("0 crappy methods (0%)", Messages.HealthBuilder_HealthSummary(0, 0.0d));
-		assertEquals("1 crappy methods (0.02%)", Messages.HealthBuilder_HealthSummary(1, 0.02d));
+            HealthBuilder builder = new HealthBuilder();
+            Locale oldDefault = Locale.getDefault();
+            try {
+                Locale.setDefault(Locale.ENGLISH);
+                assertEquals("132 crappy methods (7.96%)", Messages.HealthBuilder_HealthSummary(132, 7.96d));
+                assertEquals("0 crappy methods (0%)", Messages.HealthBuilder_HealthSummary(0, 0.0d));
+                assertEquals("1 crappy methods (0.02%)", Messages.HealthBuilder_HealthSummary(1, 0.02d));
+            } finally {
+                Locale.setDefault(oldDefault);
+            }
 	}
 }

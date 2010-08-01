@@ -7,7 +7,7 @@
 	    description="The pattern(s) to look for crap xml reports. Use commas as separators."
 	    help="/plugin/crap4j/help-config-crapreport.html"
     >
-    	<f:textbox name="crap_reportPattern" value="${instance.reportPattern}"/>
+    	<f:textbox name="crap4j.reportPattern" value="${instance.reportPattern}"/>
     </f:entry>
     <f:advanced>
         <f:entry
@@ -15,7 +15,7 @@
             description="The threshold of crappyness percentage when the build health reaches 0%"
             help="/plugin/crap4j/help-instanceConfigHealthThreshold.html"
         >
-            <f:textbox name="crap_healthThreshold" value="${instance.healthThreshold}"/>
+            <f:textbox name="crap4j.healthThreshold" value="${instance.healthThreshold}"/>
         </f:entry>
     </f:advanced>
 </j:jelly>
