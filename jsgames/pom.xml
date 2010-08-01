@@ -9,7 +9,7 @@
 
     <groupId>org.jvnet.hudson.plugins</groupId>
     <artifactId>jsgames</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
     <name>JSGames Plugin</name>
     <description>Play some JavaScript games from the comfort of your Hudson instance.</description>
     <url>http://wiki.hudson-ci.org/display/HUDSON/JSGames+Plugin</url>
@@ -104,4 +104,10 @@
             </plugin>
         </plugins>
     </reporting>
+
+  <scm>
+    <connection>scm:svn:https://guest@svn.dev.java.net/svn/hudson/tags/jsgames-0.1</connection>
+    <developerConnection>scm:svn:https://svn.dev.java.net/svn/hudson/tags/jsgames-0.1</developerConnection>
+    <url>https://hudson.dev.java.net/source/browse/hudson/hudson/plugins/jsgames/tags/jsgames-0.1</url>
+  </scm>
 </project>
